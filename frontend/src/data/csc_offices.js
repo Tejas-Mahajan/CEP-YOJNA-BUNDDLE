@@ -1,0 +1,93 @@
+export const CSC_OFFICES = [
+  {
+    id: "csc_pune_01",
+    name: "Maha e-Seva Kendra — Shivaji Nagar CSC",
+    district: "Pune",
+    address: "Plot 14, Near Collector Office, Old District Court Road, Shivajinagar, Pune - 411005",
+    pincode: "411005",
+    officerName: "Sanjay Deshmukh",
+    contactPhone: "+91 98220 12345",
+    timing: "09:30 AM - 06:30 PM (Mon-Sat)",
+    servicesOffered: ["PM-KISAN e-KYC", "7/12 Online Extract", "Income Certificate Verification", "NSP Student Registration"],
+    lat: 18.5308,
+    lng: 73.8474
+  },
+  {
+    id: "csc_pune_02",
+    name: "Common Service Center — Hadapsar Digital Seva",
+    district: "Pune",
+    address: "Shop 4, Solapur Road, Near Gadital Bus Stand, Hadapsar, Pune - 411028",
+    pincode: "411028",
+    officerName: "Pravin Kadam",
+    contactPhone: "+91 98221 67890",
+    timing: "10:00 AM - 07:00 PM (Mon-Sat)",
+    servicesOffered: ["Crop Insurance (PMFBY)", "Aadhaar Linking", "Soil Health Card Data Entry"],
+    lat: 18.5089,
+    lng: 73.9259
+  },
+  {
+    id: "csc_mumbai_01",
+    name: "Aaple Sarkar Seva Kendra — Dadar West",
+    district: "Mumbai",
+    address: "Gr Floor, Municipal Market Building, Ranade Road, Dadar West, Mumbai - 400028",
+    pincode: "400028",
+    officerName: "Sunil Shinde",
+    contactPhone: "+91 98190 54321",
+    timing: "09:00 AM - 06:00 PM (Mon-Sat)",
+    servicesOffered: ["Post-Matric Scholarship Helpdesk", "Domicile Certificate Portal", "Aadhaar e-KYC"],
+    lat: 19.0178,
+    lng: 72.8478
+  },
+  {
+    id: "csc_nashik_01",
+    name: "District CSC Nodal Helpdesk — Nashik Rural",
+    district: "Nashik",
+    address: "Tehsil Office Campus, CBS Circle, College Road, Nashik - 422002",
+    pincode: "422002",
+    officerName: "Rameshwar Pawar",
+    contactPhone: "+91 94222 33445",
+    timing: "09:30 AM - 06:00 PM (Mon-Sat)",
+    servicesOffered: ["7/12 Land Record Mutation", "SMAM Agriculture Machinery Subsidy", "Kisan Credit Card Verification"],
+    lat: 19.9975,
+    lng: 73.7898
+  },
+  {
+    id: "csc_nagpur_01",
+    name: "Maha e-Seva Kendra — Civil Lines Nagpur",
+    district: "Nagpur",
+    address: "Opposite Zilla Parishad Building, Civil Lines, Nagpur - 440001",
+    pincode: "440001",
+    officerName: "Anita Kulkarni",
+    contactPhone: "+91 94231 88990",
+    timing: "10:00 AM - 06:30 PM (Mon-Sat)",
+    servicesOffered: ["PM-KUSUM Solar Pump Help", "Pragati Girl Student Scholarship", "Caste Validity Assistance"],
+    lat: 21.1458,
+    lng: 79.0882
+  },
+  {
+    id: "csc_sambhajinagar_01",
+    name: "Aaple Sarkar Seva Kendra — Kranti Chowk",
+    district: "Chhatrapati Sambhajinagar",
+    address: "Near Divisional Commissioner Office, Jalna Road, Kranti Chowk, Chhatrapati Sambhajinagar - 431001",
+    pincode: "431001",
+    officerName: "Vikram Rathod",
+    contactPhone: "+91 94227 11223",
+    timing: "09:30 AM - 06:30 PM (Mon-Sat)",
+    servicesOffered: ["PM-KISAN Registration", "Cotton/Soybean Subsidy Direct Transfer", "Ration Card Renewal"],
+    lat: 19.8762,
+    lng: 75.3433
+  },
+  {
+    id: "csc_kolhapur_01",
+    name: "Maha e-Seva Kendra — Tarabai Park Kolhapur",
+    district: "Kolhapur",
+    address: "Shop 12, Tarabai Park Commercial Complex, Kolhapur - 416003",
+    pincode: "416003",
+    officerName: "Dhananjay Patil",
+    contactPhone: "+91 98230 44556",
+    timing: "10:00 AM - 07:00 PM (Mon-Sat)",
+    servicesOffered: ["Sugarcane Farmer Subsidy", "College Fee Waiver Certificate", "Income Verification"],
+    lat: 16.7050,
+    lng: 74.2433
+  }
+];
