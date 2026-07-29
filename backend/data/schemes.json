@@ -5,12 +5,35 @@
     "shortName": "PM-KISAN",
     "domain": "agriculture",
     "rules": [
-      { "field": "domain", "operator": "IN", "value": ["agriculture", "both"] },
-      { "field": "annual_income", "operator": "<=", "value": 800000.0 },
-      { "field": "age", "operator": "BETWEEN", "value": [18, 75] },
-      { "field": "land_acres", "operator": "BETWEEN", "value": [0.01, 5.0] }
+      {
+        "field": "domain",
+        "operator": "IN",
+        "value": [
+          "agriculture",
+          "both"
+        ]
+      },
+      {
+        "field": "age",
+        "operator": "BETWEEN",
+        "value": [
+          18,
+          75
+        ]
+      },
+      {
+        "field": "land_acres",
+        "operator": ">=",
+        "value": 0.01
+      }
     ],
-    "category_target": ["General", "OBC", "SC", "ST", "EWS"],
+    "category_target": [
+      "General",
+      "OBC",
+      "SC",
+      "ST",
+      "EWS"
+    ],
     "benefit_amount": 6000.0,
     "benefit_type": "Direct Cash Transfer",
     "benefit_display": "₹6,000 / year paid in 3 equal installments of ₹2,000",
@@ -24,8 +47,8 @@
       "Income Certificate"
     ],
     "mutually_exclusive_with": [],
-    "description": "Financial support to all landholding farmer families across the country to enable them to take care of expenses related to agriculture and allied activities.",
-    "description_mr": "देशातील सर्व अल्प व अत्यल्प भूधारक शेतकरी कुटुंबांना शेती आणि संबंधित कामांसाठी वार्षिक ₹६,००० चे थेट अर्थसहाय्य.",
+    "description": "Financial support to all landholding farmer families across the country (except institutional landholders or high-income taxpayers) to enable them to take care of expenses related to agriculture and allied activities.",
+    "description_mr": "देशातील सर्व अल्प, अत्यल्प व बहुधारक शेतकरी कुटुंबांना (संस्थात्मक भूधारक व उच्च करदाते वगळून) शेती आणि संबंधित कामांसाठी वार्षिक ₹६,००० चे थेट अर्थसहाय्य.",
     "application_steps": [
       "Visit official PM-KISAN portal or nearest Common Service Centre (CSC).",
       "Submit land ownership documents (7/12 extract) and bank account details linked with Aadhaar.",
@@ -43,15 +66,42 @@
     "shortName": "PM Fasal Bima",
     "domain": "agriculture",
     "rules": [
-      { "field": "domain", "operator": "IN", "value": ["agriculture", "both"] },
-      { "field": "age", "operator": "BETWEEN", "value": [18, 80] },
-      { "field": "land_acres", "operator": "BETWEEN", "value": [0.1, 25.0] }
+      {
+        "field": "domain",
+        "operator": "IN",
+        "value": [
+          "agriculture",
+          "both"
+        ]
+      },
+      {
+        "field": "age",
+        "operator": "BETWEEN",
+        "value": [
+          18,
+          80
+        ]
+      },
+      {
+        "field": "land_acres",
+        "operator": "BETWEEN",
+        "value": [
+          0.1,
+          25.0
+        ]
+      }
     ],
-    "category_target": ["General", "OBC", "SC", "ST", "EWS"],
+    "category_target": [
+      "General",
+      "OBC",
+      "SC",
+      "ST",
+      "EWS"
+    ],
     "benefit_amount": 25000.0,
     "benefit_type": "Insurance Coverage",
-    "benefit_display": "Up to ₹25,000/acre crop loss insurance protection at low premium (1.5%-2%)",
-    "benefit_display_mr": "दर एकरी ₹२५,००० पर्यंत पीक विमा संरक्षण (१.५% ते २% हप्ता)",
+    "benefit_display": "Up to ₹25,000/acre crop loss insurance protection at low premium (1.5% Rabi, 2% Kharif, 5% Commercial/Horticultural)",
+    "benefit_display_mr": "दर एकरी ₹२५,००० पर्यंत पीक विमा संरक्षण (रब्बी १.५%, खरीप २%, व्यावसायिक/बागायती ५% विमा हप्ता)",
     "deadline_days": 8,
     "official_url": "https://pmfby.gov.in",
     "required_documents": [
@@ -61,17 +111,17 @@
       "Bank Passbook"
     ],
     "mutually_exclusive_with": [],
-    "description": "Comprehensive crop insurance cover against yield losses caused by non-preventable natural risks from pre-sowing to post-harvest.",
-    "description_mr": "नैसर्गिक आपत्तींमुळे होणाऱ्या पिकांच्या नुकसानीसाठी सर्वसमावेशक पीक विमा संरक्षण.",
+    "description": "Comprehensive crop insurance cover against yield losses caused by non-preventable natural risks from pre-sowing to post-harvest (Farmer premium share: 1.5% for Rabi, 2% for Kharif, and 5% for Annual Commercial/Horticultural crops).",
+    "description_mr": "नैसर्गिक आपत्तींमुळे होणाऱ्या पिकांच्या नुकसानीसाठी सर्वसमावेशक पीक विमा संरक्षण (शेतकरी हप्ता: रब्बी १.५%, खरीप २%, आणि वार्षिक व्यावसायिक/बागायती पिकांसाठी ५%).",
     "application_steps": [
       "Enroll online via National Crop Insurance Portal or at local bank branch.",
-      "Submit land holding record and crop sowing proof.",
-      "Pay nominal farmer premium share (1.5% for Rabi, 2% for Kharif)."
+      "Submit land holding record (7/12 extract) and crop sowing proof.",
+      "Pay nominal farmer premium share (1.5% for Rabi crops, 2% for Kharif crops, and 5% for Annual Commercial/Horticultural crops)."
     ],
     "application_steps_mr": [
       "राष्ट्रीय पीक विमा पोर्टलवर किंवा बँकेत नोंदणी करा.",
       "7/12 उतारा आणि पेरणी प्रमाणपत्र सादर करा.",
-      "शेतकरी हप्त्याची रक्कम जमा करा."
+      "शेतकरी हप्त्याची रक्कम जमा करा (रब्बी १.५%, खरीप २%, आणि व्यावसायिक/बागायती पिकांसाठी ५%)."
     ]
   },
   {
@@ -80,10 +130,30 @@
     "shortName": "Kisan Credit Card",
     "domain": "agriculture",
     "rules": [
-      { "field": "domain", "operator": "IN", "value": ["agriculture", "both"] },
-      { "field": "age", "operator": "BETWEEN", "value": [18, 75] }
+      {
+        "field": "domain",
+        "operator": "IN",
+        "value": [
+          "agriculture",
+          "both"
+        ]
+      },
+      {
+        "field": "age",
+        "operator": "BETWEEN",
+        "value": [
+          18,
+          75
+        ]
+      }
     ],
-    "category_target": ["General", "OBC", "SC", "ST", "EWS"],
+    "category_target": [
+      "General",
+      "OBC",
+      "SC",
+      "ST",
+      "EWS"
+    ],
     "benefit_amount": 40000.0,
     "benefit_type": "Credit Line",
     "benefit_display": "Low-interest agricultural loan up to ₹3,00,000 at effective 4% interest rate",
@@ -117,16 +187,47 @@
     "shortName": "PM-KUSUM Solar",
     "domain": "agriculture",
     "rules": [
-      { "field": "domain", "operator": "IN", "value": ["agriculture", "both"] },
-      { "field": "annual_income", "operator": "<=", "value": 1000000.0 },
-      { "field": "age", "operator": "BETWEEN", "value": [18, 75] },
-      { "field": "land_acres", "operator": "BETWEEN", "value": [0.5, 20.0] }
+      {
+        "field": "domain",
+        "operator": "IN",
+        "value": [
+          "agriculture",
+          "both"
+        ]
+      },
+      {
+        "field": "annual_income",
+        "operator": "<=",
+        "value": 1000000.0
+      },
+      {
+        "field": "age",
+        "operator": "BETWEEN",
+        "value": [
+          18,
+          75
+        ]
+      },
+      {
+        "field": "land_acres",
+        "operator": "BETWEEN",
+        "value": [
+          0.5,
+          20.0
+        ]
+      }
     ],
-    "category_target": ["General", "OBC", "SC", "ST", "EWS"],
+    "category_target": [
+      "General",
+      "OBC",
+      "SC",
+      "ST",
+      "EWS"
+    ],
     "benefit_amount": 75000.0,
     "benefit_type": "Subsidy",
-    "benefit_display": "60% subsidy (Central + State) on standalone off-grid solar water pumps",
-    "benefit_display_mr": "सोलर पंप बसवण्यासाठी ६०% शासकीय अनुदान",
+    "benefit_display": "Up to 90% total subsidy (30% Central + 30% State + 30% State top-up in states like Maharashtra) for standalone off-grid solar water pumps",
+    "benefit_display_mr": "ऑफ-ग्रिड सोलर पंप बसवण्यासाठी ९०% पर्यंत एकूण अनुदान (३०% केंद्र + ३०% राज्य + ३०% राज्य अतिरिक्त अनुदान)",
     "deadline_days": 20,
     "official_url": "https://pmkusum.mnre.gov.in",
     "required_documents": [
@@ -137,8 +238,8 @@
       "Income Certificate"
     ],
     "mutually_exclusive_with": [],
-    "description": "Helps farmers replace diesel pumps with solar-powered irrigation pumps with up to 60% direct subsidy.",
-    "description_mr": "डिझेल पंपांऐवजी सौर उर्जेवर चालणारे सिंचन पंप बसवण्यासाठी ६०% अनुदान.",
+    "description": "Helps farmers replace diesel pumps with solar-powered irrigation pumps with up to 90% total subsidy (30% Central + 30% State + 30% State top-up).",
+    "description_mr": "डिझेल पंपांऐवजी सौर उर्जेवर चालणारे सिंचन पंप बसवण्यासाठी ९०% पर्यंत एकूण शासकीय अनुदान (३०% केंद्र + ३०% राज्य + ३०% राज्य अतिरिक्त अनुदान).",
     "application_steps": [
       "Register on state renewable energy development agency portal.",
       "Upload land verification documents and water source details.",
@@ -156,11 +257,38 @@
     "shortName": "PM Krishi Sinchayee",
     "domain": "agriculture",
     "rules": [
-      { "field": "domain", "operator": "IN", "value": ["agriculture", "both"] },
-      { "field": "age", "operator": "BETWEEN", "value": [18, 80] },
-      { "field": "land_acres", "operator": "BETWEEN", "value": [0.2, 12.5] }
+      {
+        "field": "domain",
+        "operator": "IN",
+        "value": [
+          "agriculture",
+          "both"
+        ]
+      },
+      {
+        "field": "age",
+        "operator": "BETWEEN",
+        "value": [
+          18,
+          80
+        ]
+      },
+      {
+        "field": "land_acres",
+        "operator": "BETWEEN",
+        "value": [
+          0.2,
+          12.5
+        ]
+      }
     ],
-    "category_target": ["General", "OBC", "SC", "ST", "EWS"],
+    "category_target": [
+      "General",
+      "OBC",
+      "SC",
+      "ST",
+      "EWS"
+    ],
     "benefit_amount": 30000.0,
     "benefit_type": "Subsidy",
     "benefit_display": "55% subsidy for Small/Marginal Farmers & 45% for others on Drip/Sprinkler Systems",
@@ -193,10 +321,30 @@
     "shortName": "Soil Health Card",
     "domain": "agriculture",
     "rules": [
-      { "field": "domain", "operator": "IN", "value": ["agriculture", "both"] },
-      { "field": "age", "operator": "BETWEEN", "value": [18, 85] }
+      {
+        "field": "domain",
+        "operator": "IN",
+        "value": [
+          "agriculture",
+          "both"
+        ]
+      },
+      {
+        "field": "age",
+        "operator": "BETWEEN",
+        "value": [
+          18,
+          85
+        ]
+      }
     ],
-    "category_target": ["General", "OBC", "SC", "ST", "EWS"],
+    "category_target": [
+      "General",
+      "OBC",
+      "SC",
+      "ST",
+      "EWS"
+    ],
     "benefit_amount": 3000.0,
     "benefit_type": "Free Service / Soil Testing",
     "benefit_display": "Free soil sample testing & customized crop fertilizer prescription every 2 years",
@@ -227,11 +375,38 @@
     "shortName": "PKVY Organic Farming",
     "domain": "agriculture",
     "rules": [
-      { "field": "domain", "operator": "IN", "value": ["agriculture", "both"] },
-      { "field": "age", "operator": "BETWEEN", "value": [18, 75] },
-      { "field": "land_acres", "operator": "BETWEEN", "value": [0.5, 10.0] }
+      {
+        "field": "domain",
+        "operator": "IN",
+        "value": [
+          "agriculture",
+          "both"
+        ]
+      },
+      {
+        "field": "age",
+        "operator": "BETWEEN",
+        "value": [
+          18,
+          75
+        ]
+      },
+      {
+        "field": "land_acres",
+        "operator": "BETWEEN",
+        "value": [
+          0.5,
+          10.0
+        ]
+      }
     ],
-    "category_target": ["General", "OBC", "SC", "ST", "EWS"],
+    "category_target": [
+      "General",
+      "OBC",
+      "SC",
+      "ST",
+      "EWS"
+    ],
     "benefit_amount": 50000.0,
     "benefit_type": "Direct Cash Transfer & Inputs",
     "benefit_display": "₹50,000 / hectare support over 3 years for organic inputs & certification",
@@ -264,11 +439,38 @@
     "shortName": "SMAM Machinery",
     "domain": "agriculture",
     "rules": [
-      { "field": "domain", "operator": "IN", "value": ["agriculture", "both"] },
-      { "field": "age", "operator": "BETWEEN", "value": [18, 75] },
-      { "field": "land_acres", "operator": "BETWEEN", "value": [0.5, 25.0] }
+      {
+        "field": "domain",
+        "operator": "IN",
+        "value": [
+          "agriculture",
+          "both"
+        ]
+      },
+      {
+        "field": "age",
+        "operator": "BETWEEN",
+        "value": [
+          18,
+          75
+        ]
+      },
+      {
+        "field": "land_acres",
+        "operator": "BETWEEN",
+        "value": [
+          0.5,
+          25.0
+        ]
+      }
     ],
-    "category_target": ["General", "OBC", "SC", "ST", "EWS"],
+    "category_target": [
+      "General",
+      "OBC",
+      "SC",
+      "ST",
+      "EWS"
+    ],
     "benefit_amount": 45000.0,
     "benefit_type": "Subsidy",
     "benefit_display": "40% to 50% financial subsidy on tractors, rotavators, and harvesters",
@@ -302,13 +504,45 @@
     "shortName": "Post-Matric SC/ST",
     "domain": "education",
     "rules": [
-      { "field": "domain", "operator": "IN", "value": ["education", "both"] },
-      { "field": "annual_income", "operator": "<=", "value": 250000.0 },
-      { "field": "category", "operator": "IN", "value": ["SC", "ST"] },
-      { "field": "age", "operator": "BETWEEN", "value": [14, 30] },
-      { "field": "marks_percentage", "operator": ">=", "value": 35.0 }
+      {
+        "field": "domain",
+        "operator": "IN",
+        "value": [
+          "education",
+          "both"
+        ]
+      },
+      {
+        "field": "annual_income",
+        "operator": "<=",
+        "value": 250000.0
+      },
+      {
+        "field": "category",
+        "operator": "IN",
+        "value": [
+          "SC",
+          "ST"
+        ]
+      },
+      {
+        "field": "age",
+        "operator": "BETWEEN",
+        "value": [
+          14,
+          30
+        ]
+      },
+      {
+        "field": "marks_percentage",
+        "operator": ">=",
+        "value": 35.0
+      }
     ],
-    "category_target": ["SC", "ST"],
+    "category_target": [
+      "SC",
+      "ST"
+    ],
     "benefit_amount": 48000.0,
     "benefit_type": "Tuition Reimbursement & Allowance",
     "benefit_display": "100% tuition fee reimbursement + up to ₹13,500/yr maintenance allowance",
@@ -324,7 +558,11 @@
       "College Fee Receipt",
       "Bank Passbook"
     ],
-    "mutually_exclusive_with": ["POST_MATRIC_OBC", "TOP_CLASS_SC", "PM_YASASVI"],
+    "mutually_exclusive_with": [
+      "POST_MATRIC_OBC",
+      "TOP_CLASS_SC",
+      "PM_YASASVI"
+    ],
     "description": "Provides complete financial support to SC and ST students studying at post-matriculation stage.",
     "description_mr": "अनुसूचित जाती/जमातीच्या विद्यार्थ्यांसाठी १००% फी माफी आणि निर्वाह भत्ता.",
     "application_steps": [
@@ -344,13 +582,43 @@
     "shortName": "Post-Matric OBC",
     "domain": "education",
     "rules": [
-      { "field": "domain", "operator": "IN", "value": ["education", "both"] },
-      { "field": "annual_income", "operator": "<=", "value": 250000.0 },
-      { "field": "category", "operator": "IN", "value": ["OBC"] },
-      { "field": "age", "operator": "BETWEEN", "value": [14, 30] },
-      { "field": "marks_percentage", "operator": ">=", "value": 45.0 }
+      {
+        "field": "domain",
+        "operator": "IN",
+        "value": [
+          "education",
+          "both"
+        ]
+      },
+      {
+        "field": "annual_income",
+        "operator": "<=",
+        "value": 250000.0
+      },
+      {
+        "field": "category",
+        "operator": "IN",
+        "value": [
+          "OBC"
+        ]
+      },
+      {
+        "field": "age",
+        "operator": "BETWEEN",
+        "value": [
+          14,
+          30
+        ]
+      },
+      {
+        "field": "marks_percentage",
+        "operator": ">=",
+        "value": 45.0
+      }
     ],
-    "category_target": ["OBC"],
+    "category_target": [
+      "OBC"
+    ],
     "benefit_amount": 35000.0,
     "benefit_type": "Tuition Reimbursement & Allowance",
     "benefit_display": "Full compulsory fee reimbursement + maintenance allowance up to ₹10,000/yr",
@@ -367,7 +635,11 @@
       "College Fee Receipt",
       "Bank Passbook"
     ],
-    "mutually_exclusive_with": ["POST_MATRIC_SC_ST", "PM_YASASVI", "MH_TUITION_WAIVER"],
+    "mutually_exclusive_with": [
+      "POST_MATRIC_SC_ST",
+      "PM_YASASVI",
+      "MH_TUITION_WAIVER"
+    ],
     "description": "Assists backward class students in pursuing higher education courses by reimbursing tuition fees.",
     "description_mr": "इतर मागासवर्गीय (OBC) विद्यार्थ्यांसाठी शिक्षण शुल्क प्रतिपूर्ती योजना.",
     "application_steps": [
@@ -387,13 +659,49 @@
     "shortName": "AICTE Pragati Girls",
     "domain": "education",
     "rules": [
-      { "field": "domain", "operator": "IN", "value": ["education", "both"] },
-      { "field": "annual_income", "operator": "<=", "value": 800000.0 },
-      { "field": "age", "operator": "BETWEEN", "value": [16, 25] },
-      { "field": "marks_percentage", "operator": ">=", "value": 60.0 },
-      { "field": "course_level", "operator": "IN", "value": ["Diploma", "Undergraduate", "Engineering"] }
+      {
+        "field": "domain",
+        "operator": "IN",
+        "value": [
+          "education",
+          "both"
+        ]
+      },
+      {
+        "field": "annual_income",
+        "operator": "<=",
+        "value": 800000.0
+      },
+      {
+        "field": "age",
+        "operator": "BETWEEN",
+        "value": [
+          16,
+          25
+        ]
+      },
+      {
+        "field": "marks_percentage",
+        "operator": ">=",
+        "value": 60.0
+      },
+      {
+        "field": "course_level",
+        "operator": "IN",
+        "value": [
+          "Diploma",
+          "Undergraduate",
+          "Engineering"
+        ]
+      }
     ],
-    "category_target": ["General", "OBC", "SC", "ST", "EWS"],
+    "category_target": [
+      "General",
+      "OBC",
+      "SC",
+      "ST",
+      "EWS"
+    ],
     "benefit_amount": 50000.0,
     "benefit_type": "Direct Cash Grant",
     "benefit_display": "₹50,000 / year for all years of study towards tuition, books & equipment",
@@ -429,13 +737,45 @@
     "shortName": "PM YASASVI",
     "domain": "education",
     "rules": [
-      { "field": "domain", "operator": "IN", "value": ["education", "both"] },
-      { "field": "annual_income", "operator": "<=", "value": 250000.0 },
-      { "field": "category", "operator": "IN", "value": ["OBC", "EWS"] },
-      { "field": "age", "operator": "BETWEEN", "value": [13, 22] },
-      { "field": "marks_percentage", "operator": ">=", "value": 60.0 }
+      {
+        "field": "domain",
+        "operator": "IN",
+        "value": [
+          "education",
+          "both"
+        ]
+      },
+      {
+        "field": "annual_income",
+        "operator": "<=",
+        "value": 250000.0
+      },
+      {
+        "field": "category",
+        "operator": "IN",
+        "value": [
+          "OBC",
+          "EWS"
+        ]
+      },
+      {
+        "field": "age",
+        "operator": "BETWEEN",
+        "value": [
+          13,
+          22
+        ]
+      },
+      {
+        "field": "marks_percentage",
+        "operator": ">=",
+        "value": 60.0
+      }
     ],
-    "category_target": ["OBC", "EWS"],
+    "category_target": [
+      "OBC",
+      "EWS"
+    ],
     "benefit_amount": 75000.0,
     "benefit_type": "Direct Cash Grant",
     "benefit_display": "₹75,000/yr (Class 9-10) to ₹1,25,000/yr (Class 11-12 & Higher)",
@@ -450,7 +790,10 @@
       "Bank Passbook",
       "Domicile Certificate"
     ],
-    "mutually_exclusive_with": ["POST_MATRIC_OBC", "POST_MATRIC_SC_ST"],
+    "mutually_exclusive_with": [
+      "POST_MATRIC_OBC",
+      "POST_MATRIC_SC_ST"
+    ],
     "description": "Top-class education scholarship for meritorious students belonging to OBC, EBC, and DNT categories.",
     "description_mr": "ओबीसी व ईडब्ल्यूएस प्रवर्गातील तेजस्वी विद्यार्थ्यांसाठी उच्च दर्जाचे शिष्यवृत्ती प्रोत्साहन.",
     "application_steps": [
@@ -470,14 +813,53 @@
     "shortName": "Top Class SC Scholarship",
     "domain": "education",
     "rules": [
-      { "field": "domain", "operator": "IN", "value": ["education", "both"] },
-      { "field": "annual_income", "operator": "<=", "value": 800000.0 },
-      { "field": "category", "operator": "IN", "value": ["SC"] },
-      { "field": "age", "operator": "BETWEEN", "value": [16, 28] },
-      { "field": "marks_percentage", "operator": ">=", "value": 70.0 },
-      { "field": "course_level", "operator": "IN", "value": ["Undergraduate", "Postgraduate", "Engineering", "Medical"] }
+      {
+        "field": "domain",
+        "operator": "IN",
+        "value": [
+          "education",
+          "both"
+        ]
+      },
+      {
+        "field": "annual_income",
+        "operator": "<=",
+        "value": 800000.0
+      },
+      {
+        "field": "category",
+        "operator": "IN",
+        "value": [
+          "SC"
+        ]
+      },
+      {
+        "field": "age",
+        "operator": "BETWEEN",
+        "value": [
+          16,
+          28
+        ]
+      },
+      {
+        "field": "marks_percentage",
+        "operator": ">=",
+        "value": 70.0
+      },
+      {
+        "field": "course_level",
+        "operator": "IN",
+        "value": [
+          "Undergraduate",
+          "Postgraduate",
+          "Engineering",
+          "Medical"
+        ]
+      }
     ],
-    "category_target": ["SC"],
+    "category_target": [
+      "SC"
+    ],
     "benefit_amount": 200000.0,
     "benefit_type": "Full Tuition & One-time Computer Grant",
     "benefit_display": "Full tuition fee (up to ₹2.00 L) + ₹45,000 one-time laptop grant + ₹3,000/mo allowance",
@@ -493,7 +875,9 @@
       "College Fee Receipt",
       "Bank Passbook"
     ],
-    "mutually_exclusive_with": ["POST_MATRIC_SC_ST"],
+    "mutually_exclusive_with": [
+      "POST_MATRIC_SC_ST"
+    ],
     "description": "Recognizes and promotes quality education amongst SC students pursuing studies in notified top institutions.",
     "description_mr": "नामांकित संस्थांमधील एससी विद्यार्थ्यांसाठी पूर्ण फी आणि संगणक खरेदी अनुदान.",
     "application_steps": [
@@ -513,13 +897,47 @@
     "shortName": "NMMS Merit Scholarship",
     "domain": "education",
     "rules": [
-      { "field": "domain", "operator": "IN", "value": ["education", "both"] },
-      { "field": "annual_income", "operator": "<=", "value": 350000.0 },
-      { "field": "age", "operator": "BETWEEN", "value": [12, 18] },
-      { "field": "marks_percentage", "operator": ">=", "value": 55.0 },
-      { "field": "course_level", "operator": "IN", "value": ["High School"] }
+      {
+        "field": "domain",
+        "operator": "IN",
+        "value": [
+          "education",
+          "both"
+        ]
+      },
+      {
+        "field": "annual_income",
+        "operator": "<=",
+        "value": 350000.0
+      },
+      {
+        "field": "age",
+        "operator": "BETWEEN",
+        "value": [
+          12,
+          18
+        ]
+      },
+      {
+        "field": "marks_percentage",
+        "operator": ">=",
+        "value": 55.0
+      },
+      {
+        "field": "course_level",
+        "operator": "IN",
+        "value": [
+          "High School"
+        ]
+      }
     ],
-    "category_target": ["General", "OBC", "SC", "ST", "EWS"],
+    "category_target": [
+      "General",
+      "OBC",
+      "SC",
+      "ST",
+      "EWS"
+    ],
     "benefit_amount": 12000.0,
     "benefit_type": "Direct Cash Grant",
     "benefit_display": "₹12,000 / year (₹1,000 per month) from Class 9 to Class 12",
@@ -553,13 +971,50 @@
     "shortName": "PM-USP College Scholarship",
     "domain": "education",
     "rules": [
-      { "field": "domain", "operator": "IN", "value": ["education", "both"] },
-      { "field": "annual_income", "operator": "<=", "value": 450000.0 },
-      { "field": "age", "operator": "BETWEEN", "value": [17, 26] },
-      { "field": "marks_percentage", "operator": ">=", "value": 80.0 },
-      { "field": "course_level", "operator": "IN", "value": ["Undergraduate", "Postgraduate", "Engineering", "Medical"] }
+      {
+        "field": "domain",
+        "operator": "IN",
+        "value": [
+          "education",
+          "both"
+        ]
+      },
+      {
+        "field": "annual_income",
+        "operator": "<=",
+        "value": 450000.0
+      },
+      {
+        "field": "age",
+        "operator": "BETWEEN",
+        "value": [
+          17,
+          26
+        ]
+      },
+      {
+        "field": "marks_percentage",
+        "operator": ">=",
+        "value": 80.0
+      },
+      {
+        "field": "course_level",
+        "operator": "IN",
+        "value": [
+          "Undergraduate",
+          "Postgraduate",
+          "Engineering",
+          "Medical"
+        ]
+      }
     ],
-    "category_target": ["General", "OBC", "SC", "ST", "EWS"],
+    "category_target": [
+      "General",
+      "OBC",
+      "SC",
+      "ST",
+      "EWS"
+    ],
     "benefit_amount": 20000.0,
     "benefit_type": "Direct Cash Grant",
     "benefit_display": "₹12,000/yr for Graduation (1st 3 yrs) and ₹20,000/yr for Post-Graduation",
@@ -594,19 +1049,69 @@
     "shortName": "MH Tuition Fee Waiver",
     "domain": "education",
     "rules": [
-      { "field": "domain", "operator": "IN", "value": ["education", "both"] },
-      { "field": "annual_income", "operator": "<=", "value": 800000.0 },
-      { "field": "state", "operator": "IN", "value": ["Maharashtra", "Pan-India / All"] },
-      { "field": "category", "operator": "IN", "value": ["General", "OBC", "EWS"] },
-      { "field": "age", "operator": "BETWEEN", "value": [16, 28] },
-      { "field": "marks_percentage", "operator": ">=", "value": 50.0 },
-      { "field": "course_level", "operator": "IN", "value": ["Diploma", "Undergraduate", "Postgraduate", "Engineering", "Medical"] }
+      {
+        "field": "domain",
+        "operator": "IN",
+        "value": [
+          "education",
+          "both"
+        ]
+      },
+      {
+        "field": "annual_income",
+        "operator": "<=",
+        "value": 800000.0
+      },
+      {
+        "field": "state",
+        "operator": "IN",
+        "value": [
+          "Maharashtra"
+        ]
+      },
+      {
+        "field": "category",
+        "operator": "IN",
+        "value": [
+          "General",
+          "OBC",
+          "EWS"
+        ]
+      },
+      {
+        "field": "age",
+        "operator": "BETWEEN",
+        "value": [
+          16,
+          28
+        ]
+      },
+      {
+        "field": "marks_percentage",
+        "operator": ">=",
+        "value": 50.0
+      },
+      {
+        "field": "course_level",
+        "operator": "IN",
+        "value": [
+          "Diploma",
+          "Undergraduate",
+          "Postgraduate",
+          "Engineering",
+          "Medical"
+        ]
+      }
     ],
-    "category_target": ["General", "OBC", "EWS"],
+    "category_target": [
+      "General",
+      "OBC",
+      "EWS"
+    ],
     "benefit_amount": 60000.0,
     "benefit_type": "Tuition Fee Waiver",
-    "benefit_display": "50% tuition fee reimbursement for professional courses in Maharashtra",
-    "benefit_display_mr": "महाराष्ट्रातील व्यावसायिक कोर्सेससाठी ५०% शिक्षण शुल्क प्रतिपूर्ती",
+    "benefit_display": "50% tuition fee reimbursement for EBC/OBC male students and 100% tuition fee waiver for eligible female students",
+    "benefit_display_mr": "ईबीसी/ओबीसी मुलांसाठी ५०% शिक्षण शुल्क प्रतिपूर्ती आणि पात्र विद्यार्थिनींसाठी १००% मोफत शिक्षण (पूर्ण शुल्क माफी)",
     "deadline_days": 9,
     "official_url": "https://mahadbt.maharashtra.gov.in",
     "required_documents": [
@@ -618,9 +1123,11 @@
       "College Fee Receipt",
       "Bank Passbook"
     ],
-    "mutually_exclusive_with": ["POST_MATRIC_OBC"],
-    "description": "Maharashtra state scheme providing 50% tuition & exam fee concession to economically backward students.",
-    "description_mr": "राजर्षी छत्रपती शाहू महाराज शिक्षण शुल्क शिष्यवृत्ती योजना (५०% फी माफी).",
+    "mutually_exclusive_with": [
+      "POST_MATRIC_OBC"
+    ],
+    "description": "Maharashtra state scheme providing 50% tuition fee reimbursement for EBC/OBC male students and 100% tuition fee waiver for eligible female students in higher education.",
+    "description_mr": "महाराष्ट्रातील ईबीसी/ओबीसी मुलांसाठी ५०% शिक्षण शुल्क प्रतिपूर्ती आणि पात्र विद्यार्थिनींसाठी १००% मोफत शिक्षण (पूर्ण शुल्क माफी) देणारी योजना.",
     "application_steps": [
       "Register on MahaDBT portal.",
       "Upload Maharashtra domicile certificate and income certificate issued by Tehsildar.",
@@ -638,13 +1145,49 @@
     "shortName": "AICTE Saksham",
     "domain": "education",
     "rules": [
-      { "field": "domain", "operator": "IN", "value": ["education", "both"] },
-      { "field": "annual_income", "operator": "<=", "value": 800000.0 },
-      { "field": "age", "operator": "BETWEEN", "value": [16, 30] },
-      { "field": "marks_percentage", "operator": ">=", "value": 50.0 },
-      { "field": "course_level", "operator": "IN", "value": ["Diploma", "Undergraduate", "Engineering"] }
+      {
+        "field": "domain",
+        "operator": "IN",
+        "value": [
+          "education",
+          "both"
+        ]
+      },
+      {
+        "field": "annual_income",
+        "operator": "<=",
+        "value": 800000.0
+      },
+      {
+        "field": "age",
+        "operator": "BETWEEN",
+        "value": [
+          16,
+          30
+        ]
+      },
+      {
+        "field": "marks_percentage",
+        "operator": ">=",
+        "value": 50.0
+      },
+      {
+        "field": "course_level",
+        "operator": "IN",
+        "value": [
+          "Diploma",
+          "Undergraduate",
+          "Engineering"
+        ]
+      }
     ],
-    "category_target": ["General", "OBC", "SC", "ST", "EWS"],
+    "category_target": [
+      "General",
+      "OBC",
+      "SC",
+      "ST",
+      "EWS"
+    ],
     "benefit_amount": 50000.0,
     "benefit_type": "Direct Cash Grant",
     "benefit_display": "₹50,000 / year towards tuition fees and assistive technical devices",
@@ -679,12 +1222,40 @@
     "shortName": "Vidyasaarathi Grant",
     "domain": "education",
     "rules": [
-      { "field": "domain", "operator": "IN", "value": ["education", "both"] },
-      { "field": "annual_income", "operator": "<=", "value": 500000.0 },
-      { "field": "age", "operator": "BETWEEN", "value": [15, 26] },
-      { "field": "marks_percentage", "operator": ">=", "value": 60.0 }
+      {
+        "field": "domain",
+        "operator": "IN",
+        "value": [
+          "education",
+          "both"
+        ]
+      },
+      {
+        "field": "annual_income",
+        "operator": "<=",
+        "value": 500000.0
+      },
+      {
+        "field": "age",
+        "operator": "BETWEEN",
+        "value": [
+          15,
+          26
+        ]
+      },
+      {
+        "field": "marks_percentage",
+        "operator": ">=",
+        "value": 60.0
+      }
     ],
-    "category_target": ["General", "OBC", "SC", "ST", "EWS"],
+    "category_target": [
+      "General",
+      "OBC",
+      "SC",
+      "ST",
+      "EWS"
+    ],
     "benefit_amount": 30000.0,
     "benefit_type": "CSR Grant",
     "benefit_display": "₹10,000 to ₹40,000 direct tuition assistance funded by NSDL CSR",
