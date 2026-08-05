@@ -3,16 +3,7 @@
     "id": "PM_KISAN",
     "name": "Pradhan Mantri Kisan Samman Nidhi (PM-KISAN)",
     "shortName": "PM-KISAN",
-    "domain": "agriculture",
     "rules": [
-      {
-        "field": "domain",
-        "operator": "IN",
-        "value": [
-          "agriculture",
-          "both"
-        ]
-      },
       {
         "field": "age",
         "operator": "BETWEEN",
@@ -64,30 +55,13 @@
     "id": "PMFBY",
     "name": "Pradhan Mantri Fasal Bima Yojana (PMFBY)",
     "shortName": "PM Fasal Bima",
-    "domain": "agriculture",
     "rules": [
-      {
-        "field": "domain",
-        "operator": "IN",
-        "value": [
-          "agriculture",
-          "both"
-        ]
-      },
       {
         "field": "age",
         "operator": "BETWEEN",
         "value": [
           18,
           80
-        ]
-      },
-      {
-        "field": "land_acres",
-        "operator": "BETWEEN",
-        "value": [
-          0.1,
-          25.0
         ]
       }
     ],
@@ -112,7 +86,7 @@
     ],
     "mutually_exclusive_with": [],
     "description": "Comprehensive crop insurance cover against yield losses caused by non-preventable natural risks from pre-sowing to post-harvest (Farmer premium share: 1.5% for Rabi, 2% for Kharif, and 5% for Annual Commercial/Horticultural crops).",
-    "description_mr": "नैसर्गिक आपत्तींमुळे होणाऱ्या पिकांच्या नुकसानीसाठी सर्वसमावेशक पीक विमा संरक्षण (शेतकरी हप्ता: रब्बी १.५%, खरीप २%, आणि वार्षिक व्यावसायिक/बागायती पिकांसाठी ५%).",
+    "description_mr": "नैसर्गिक आपत्तींमुळे होणाऱ्या पिकांच्या नुकसानीसाठी सर्वसमावेशक पीक विमा संरक्षण (शेतकरी हप्ता: रब्बी १.५%, खरीप २%, आणि व्यावसायिक/बागायती पिकांसाठी ५%).",
     "application_steps": [
       "Enroll online via National Crop Insurance Portal or at local bank branch.",
       "Submit land holding record (7/12 extract) and crop sowing proof.",
@@ -128,16 +102,7 @@
     "id": "KCC",
     "name": "Kisan Credit Card (KCC) Concessional Loan",
     "shortName": "Kisan Credit Card",
-    "domain": "agriculture",
     "rules": [
-      {
-        "field": "domain",
-        "operator": "IN",
-        "value": [
-          "agriculture",
-          "both"
-        ]
-      },
       {
         "field": "age",
         "operator": "BETWEEN",
@@ -185,21 +150,7 @@
     "id": "PM_KUSUM",
     "name": "PM-KUSUM Solar Pump Subsidy Scheme",
     "shortName": "PM-KUSUM Solar",
-    "domain": "agriculture",
     "rules": [
-      {
-        "field": "domain",
-        "operator": "IN",
-        "value": [
-          "agriculture",
-          "both"
-        ]
-      },
-      {
-        "field": "annual_income",
-        "operator": "<=",
-        "value": 1000000.0
-      },
       {
         "field": "age",
         "operator": "BETWEEN",
@@ -213,7 +164,7 @@
         "operator": "BETWEEN",
         "value": [
           0.5,
-          20.0
+          50.0
         ]
       }
     ],
@@ -255,16 +206,7 @@
     "id": "PMKSY",
     "name": "Pradhan Mantri Krishi Sinchayee Yojana (Per Drop More Crop)",
     "shortName": "PM Krishi Sinchayee",
-    "domain": "agriculture",
     "rules": [
-      {
-        "field": "domain",
-        "operator": "IN",
-        "value": [
-          "agriculture",
-          "both"
-        ]
-      },
       {
         "field": "age",
         "operator": "BETWEEN",
@@ -319,25 +261,7 @@
     "id": "SOIL_HEALTH",
     "name": "Soil Health Card Scheme",
     "shortName": "Soil Health Card",
-    "domain": "agriculture",
-    "rules": [
-      {
-        "field": "domain",
-        "operator": "IN",
-        "value": [
-          "agriculture",
-          "both"
-        ]
-      },
-      {
-        "field": "age",
-        "operator": "BETWEEN",
-        "value": [
-          18,
-          85
-        ]
-      }
-    ],
+    "rules": [],
     "category_target": [
       "General",
       "OBC",
@@ -373,16 +297,7 @@
     "id": "PKVY",
     "name": "Paramparagat Krishi Vikas Yojana (PKVY Organic Support)",
     "shortName": "PKVY Organic Farming",
-    "domain": "agriculture",
     "rules": [
-      {
-        "field": "domain",
-        "operator": "IN",
-        "value": [
-          "agriculture",
-          "both"
-        ]
-      },
       {
         "field": "age",
         "operator": "BETWEEN",
@@ -396,7 +311,7 @@
         "operator": "BETWEEN",
         "value": [
           0.5,
-          10.0
+          5.0
         ]
       }
     ],
@@ -437,16 +352,7 @@
     "id": "SMAM",
     "name": "Sub-Mission on Agricultural Mechanization (SMAM Equipment Subsidy)",
     "shortName": "SMAM Machinery",
-    "domain": "agriculture",
     "rules": [
-      {
-        "field": "domain",
-        "operator": "IN",
-        "value": [
-          "agriculture",
-          "both"
-        ]
-      },
       {
         "field": "age",
         "operator": "BETWEEN",
@@ -496,791 +402,6 @@
       "कृषी यांत्रिकीकरण महाडीबीटी पोर्टलवर नोंदणी करा.",
       "यंत्र व अधिकृत विक्रेता निवडा.",
       "यंत्र तपासणीनंतर अनुदान बँक खात्यात जमा."
-    ]
-  },
-  {
-    "id": "POST_MATRIC_SC_ST",
-    "name": "Post-Matric Scholarship for SC/ST Students",
-    "shortName": "Post-Matric SC/ST",
-    "domain": "education",
-    "rules": [
-      {
-        "field": "domain",
-        "operator": "IN",
-        "value": [
-          "education",
-          "both"
-        ]
-      },
-      {
-        "field": "annual_income",
-        "operator": "<=",
-        "value": 250000.0
-      },
-      {
-        "field": "category",
-        "operator": "IN",
-        "value": [
-          "SC",
-          "ST"
-        ]
-      },
-      {
-        "field": "age",
-        "operator": "BETWEEN",
-        "value": [
-          14,
-          30
-        ]
-      },
-      {
-        "field": "marks_percentage",
-        "operator": ">=",
-        "value": 35.0
-      }
-    ],
-    "category_target": [
-      "SC",
-      "ST"
-    ],
-    "benefit_amount": 48000.0,
-    "benefit_type": "Tuition Reimbursement & Allowance",
-    "benefit_display": "100% tuition fee reimbursement + up to ₹13,500/yr maintenance allowance",
-    "benefit_display_mr": "१००% शिक्षण शुल्क प्रतिपूर्ती + ₹१३,५०० वार्षिक निर्वाह भत्ता",
-    "deadline_days": 10,
-    "official_url": "https://scholarships.gov.in",
-    "required_documents": [
-      "Aadhaar Card",
-      "Caste Certificate",
-      "Income Certificate",
-      "Domicile Certificate",
-      "Mark Sheet (10th/12th)",
-      "College Fee Receipt",
-      "Bank Passbook"
-    ],
-    "mutually_exclusive_with": [
-      "POST_MATRIC_OBC",
-      "TOP_CLASS_SC",
-      "PM_YASASVI"
-    ],
-    "description": "Provides complete financial support to SC and ST students studying at post-matriculation stage.",
-    "description_mr": "अनुसूचित जाती/जमातीच्या विद्यार्थ्यांसाठी १००% फी माफी आणि निर्वाह भत्ता.",
-    "application_steps": [
-      "Register on National Scholarship Portal (NSP) or MahaDBT.",
-      "Upload verified caste certificate and income certificate.",
-      "Institute verifies application; funds credited via APBS."
-    ],
-    "application_steps_mr": [
-      "महाडीबीटी किंवा एनएसपी पोर्टलवर नोंदणी करा.",
-      "जातीचा दाखला व उत्पन्न दाखला अपलोड करा.",
-      "महाविद्यालयाकडून पडताळणीनंतर स्कॉलरशिप जमा."
-    ]
-  },
-  {
-    "id": "POST_MATRIC_OBC",
-    "name": "Post-Matric Scholarship for OBC Students",
-    "shortName": "Post-Matric OBC",
-    "domain": "education",
-    "rules": [
-      {
-        "field": "domain",
-        "operator": "IN",
-        "value": [
-          "education",
-          "both"
-        ]
-      },
-      {
-        "field": "annual_income",
-        "operator": "<=",
-        "value": 250000.0
-      },
-      {
-        "field": "category",
-        "operator": "IN",
-        "value": [
-          "OBC"
-        ]
-      },
-      {
-        "field": "age",
-        "operator": "BETWEEN",
-        "value": [
-          14,
-          30
-        ]
-      },
-      {
-        "field": "marks_percentage",
-        "operator": ">=",
-        "value": 45.0
-      }
-    ],
-    "category_target": [
-      "OBC"
-    ],
-    "benefit_amount": 35000.0,
-    "benefit_type": "Tuition Reimbursement & Allowance",
-    "benefit_display": "Full compulsory fee reimbursement + maintenance allowance up to ₹10,000/yr",
-    "benefit_display_mr": "शिक्षण शुल्क माफी + ₹१०,००० निर्वाह भत्ता",
-    "deadline_days": 14,
-    "official_url": "https://scholarships.gov.in",
-    "required_documents": [
-      "Aadhaar Card",
-      "Caste Certificate",
-      "Income Certificate",
-      "Non-Creamy Layer Certificate",
-      "Domicile Certificate",
-      "Mark Sheet (10th/12th)",
-      "College Fee Receipt",
-      "Bank Passbook"
-    ],
-    "mutually_exclusive_with": [
-      "POST_MATRIC_SC_ST",
-      "PM_YASASVI",
-      "MH_TUITION_WAIVER"
-    ],
-    "description": "Assists backward class students in pursuing higher education courses by reimbursing tuition fees.",
-    "description_mr": "इतर मागासवर्गीय (OBC) विद्यार्थ्यांसाठी शिक्षण शुल्क प्रतिपूर्ती योजना.",
-    "application_steps": [
-      "Apply through state e-scholarship portal.",
-      "Submit non-creamy layer and income certificates.",
-      "Direct benefit transfer to student's bank account."
-    ],
-    "application_steps_mr": [
-      "राज्य शिष्यवृत्ती पोर्टलवर अर्ज करा.",
-      "नॉन-क्रिमीलेअर आणि उत्पन्न दाखला सादर करा.",
-      "निधी बँक खात्यात जमा."
-    ]
-  },
-  {
-    "id": "PRAGATI_GIRLS",
-    "name": "AICTE Pragati Scholarship for Girl Students",
-    "shortName": "AICTE Pragati Girls",
-    "domain": "education",
-    "rules": [
-      {
-        "field": "domain",
-        "operator": "IN",
-        "value": [
-          "education",
-          "both"
-        ]
-      },
-      {
-        "field": "annual_income",
-        "operator": "<=",
-        "value": 800000.0
-      },
-      {
-        "field": "age",
-        "operator": "BETWEEN",
-        "value": [
-          16,
-          25
-        ]
-      },
-      {
-        "field": "marks_percentage",
-        "operator": ">=",
-        "value": 60.0
-      },
-      {
-        "field": "course_level",
-        "operator": "IN",
-        "value": [
-          "Diploma",
-          "Undergraduate",
-          "Engineering"
-        ]
-      }
-    ],
-    "category_target": [
-      "General",
-      "OBC",
-      "SC",
-      "ST",
-      "EWS"
-    ],
-    "benefit_amount": 50000.0,
-    "benefit_type": "Direct Cash Grant",
-    "benefit_display": "₹50,000 / year for all years of study towards tuition, books & equipment",
-    "benefit_display_mr": "तांत्रिक शिक्षणासाठी विद्यार्थिनींना दरवर्षी ₹५०,००० चे अनुदान",
-    "deadline_days": 7,
-    "official_url": "https://aicte-india.org/schemes/students-development-schemes/Pragati",
-    "required_documents": [
-      "Aadhaar Card",
-      "Income Certificate",
-      "Mark Sheet (10th/12th)",
-      "College Admission Letter",
-      "College Fee Receipt",
-      "Bank Passbook",
-      "Bonafide Student Certificate"
-    ],
-    "mutually_exclusive_with": [],
-    "description": "Encourages girl students to pursue technical and engineering education at AICTE approved institutions.",
-    "description_mr": "एआयसीटीई मान्यताप्राप्त संस्थांमधील विद्यार्थिनींसाठी तांत्रिक शिक्षण प्रोत्साहन अनुदान.",
-    "application_steps": [
-      "Apply through National Scholarship Portal (NSP).",
-      "Submit 10th/12th marksheets showing 60%+ marks and family income certificate.",
-      "NSP verifies with college node officer and approves ₹50,000 annual grant."
-    ],
-    "application_steps_mr": [
-      "नॅशनल स्कॉलरशिप पोर्टल (NSP) वर अर्ज करा.",
-      "६०%+ गुणांची गुणपत्रिका व उत्पन्न दाखला जोडा.",
-      "कॉलेज पडताळणीनंतर ₹५०,००० वार्षिक अनुदान मंजूर."
-    ]
-  },
-  {
-    "id": "PM_YASASVI",
-    "name": "PM Young Achievers Scholarship Award Scheme for Vibrant India (PM YASASVI)",
-    "shortName": "PM YASASVI",
-    "domain": "education",
-    "rules": [
-      {
-        "field": "domain",
-        "operator": "IN",
-        "value": [
-          "education",
-          "both"
-        ]
-      },
-      {
-        "field": "annual_income",
-        "operator": "<=",
-        "value": 250000.0
-      },
-      {
-        "field": "category",
-        "operator": "IN",
-        "value": [
-          "OBC",
-          "EWS"
-        ]
-      },
-      {
-        "field": "age",
-        "operator": "BETWEEN",
-        "value": [
-          13,
-          22
-        ]
-      },
-      {
-        "field": "marks_percentage",
-        "operator": ">=",
-        "value": 60.0
-      }
-    ],
-    "category_target": [
-      "OBC",
-      "EWS"
-    ],
-    "benefit_amount": 75000.0,
-    "benefit_type": "Direct Cash Grant",
-    "benefit_display": "₹75,000/yr (Class 9-10) to ₹1,25,000/yr (Class 11-12 & Higher)",
-    "benefit_display_mr": "₹७५,००० ते ₹१,२५,००० पर्यंत वार्षिक गुणवत्ता शिष्यवृत्ती",
-    "deadline_days": 18,
-    "official_url": "https://yet.nta.ac.in",
-    "required_documents": [
-      "Aadhaar Card",
-      "Caste Certificate",
-      "Income Certificate",
-      "Mark Sheet (10th/12th)",
-      "Bank Passbook",
-      "Domicile Certificate"
-    ],
-    "mutually_exclusive_with": [
-      "POST_MATRIC_OBC",
-      "POST_MATRIC_SC_ST"
-    ],
-    "description": "Top-class education scholarship for meritorious students belonging to OBC, EBC, and DNT categories.",
-    "description_mr": "ओबीसी व ईडब्ल्यूएस प्रवर्गातील तेजस्वी विद्यार्थ्यांसाठी उच्च दर्जाचे शिष्यवृत्ती प्रोत्साहन.",
-    "application_steps": [
-      "Appear for YASASVI Entrance Test conducted by NTA or apply via NSP merit list.",
-      "Submit school admission proof and family income proof below ₹2.5 Lakhs.",
-      "Scholarship disbursed directly to candidate bank account."
-    ],
-    "application_steps_mr": [
-      "एनटीए द्वारे आयोजित यशस्वी प्रवेश परीक्षा द्या किंवा NSP वर अर्ज करा.",
-      "प्रवेश पुरावा व उत्पन्न दाखला जोडा.",
-      "शिष्यवृत्ती थेट खात्यात जमा."
-    ]
-  },
-  {
-    "id": "TOP_CLASS_SC",
-    "name": "Central Sector Top Class Education Scheme for SC Students",
-    "shortName": "Top Class SC Scholarship",
-    "domain": "education",
-    "rules": [
-      {
-        "field": "domain",
-        "operator": "IN",
-        "value": [
-          "education",
-          "both"
-        ]
-      },
-      {
-        "field": "annual_income",
-        "operator": "<=",
-        "value": 800000.0
-      },
-      {
-        "field": "category",
-        "operator": "IN",
-        "value": [
-          "SC"
-        ]
-      },
-      {
-        "field": "age",
-        "operator": "BETWEEN",
-        "value": [
-          16,
-          28
-        ]
-      },
-      {
-        "field": "marks_percentage",
-        "operator": ">=",
-        "value": 70.0
-      },
-      {
-        "field": "course_level",
-        "operator": "IN",
-        "value": [
-          "Undergraduate",
-          "Postgraduate",
-          "Engineering",
-          "Medical"
-        ]
-      }
-    ],
-    "category_target": [
-      "SC"
-    ],
-    "benefit_amount": 200000.0,
-    "benefit_type": "Full Tuition & One-time Computer Grant",
-    "benefit_display": "Full tuition fee (up to ₹2.00 L) + ₹45,000 one-time laptop grant + ₹3,000/mo allowance",
-    "benefit_display_mr": "पूर्ण शिक्षण शुल्क (₹२ लाखांपर्यंत) + ₹४५,००० लॅपटॉप अनुदान",
-    "deadline_days": 5,
-    "official_url": "https://socialjustice.gov.in",
-    "required_documents": [
-      "Aadhaar Card",
-      "Caste Certificate",
-      "Income Certificate",
-      "Mark Sheet (10th/12th)",
-      "College Admission Letter",
-      "College Fee Receipt",
-      "Bank Passbook"
-    ],
-    "mutually_exclusive_with": [
-      "POST_MATRIC_SC_ST"
-    ],
-    "description": "Recognizes and promotes quality education amongst SC students pursuing studies in notified top institutions.",
-    "description_mr": "नामांकित संस्थांमधील एससी विद्यार्थ्यांसाठी पूर्ण फी आणि संगणक खरेदी अनुदान.",
-    "application_steps": [
-      "Secure admission in notified Top Class institute.",
-      "Apply through National Scholarship Portal.",
-      "Direct tuition fee payment to institution and computer allowance to student."
-    ],
-    "application_steps_mr": [
-      "प्रीमियर संस्थेत प्रवेश निश्चित करा.",
-      "नॅशनल स्कॉलरशिप पोर्टलवर अर्ज करा.",
-      "संस्थेला फी व विद्यार्थ्याला संगणक भत्ता मिळतो."
-    ]
-  },
-  {
-    "id": "NMMS",
-    "name": "National Means-cum-Merit Scholarship Scheme (NMMS)",
-    "shortName": "NMMS Merit Scholarship",
-    "domain": "education",
-    "rules": [
-      {
-        "field": "domain",
-        "operator": "IN",
-        "value": [
-          "education",
-          "both"
-        ]
-      },
-      {
-        "field": "annual_income",
-        "operator": "<=",
-        "value": 350000.0
-      },
-      {
-        "field": "age",
-        "operator": "BETWEEN",
-        "value": [
-          12,
-          18
-        ]
-      },
-      {
-        "field": "marks_percentage",
-        "operator": ">=",
-        "value": 55.0
-      },
-      {
-        "field": "course_level",
-        "operator": "IN",
-        "value": [
-          "High School"
-        ]
-      }
-    ],
-    "category_target": [
-      "General",
-      "OBC",
-      "SC",
-      "ST",
-      "EWS"
-    ],
-    "benefit_amount": 12000.0,
-    "benefit_type": "Direct Cash Grant",
-    "benefit_display": "₹12,000 / year (₹1,000 per month) from Class 9 to Class 12",
-    "benefit_display_mr": "इयत्ता ९ वी ते १२ वी दरम्यान दरवर्षी ₹१२,००० (₹१,००० महिना)",
-    "deadline_days": 25,
-    "official_url": "https://scholarships.gov.in",
-    "required_documents": [
-      "Aadhaar Card",
-      "Income Certificate",
-      "Mark Sheet (10th/12th)",
-      "Bank Passbook",
-      "School Certificate"
-    ],
-    "mutually_exclusive_with": [],
-    "description": "Awards scholarships to meritorious students of economically weaker sections to encourage secondary education.",
-    "description_mr": "८ वी उत्तीर्ण गुणवंत विद्यार्थ्यांना माध्यमिक शिक्षणासाठी दरमहा ₹१,००० अर्थसहाय्य.",
-    "application_steps": [
-      "Pass State level NMMS selection test in Class 8.",
-      "Register on NSP after passing test.",
-      "Receive ₹1,000 monthly credit in bank account through Class 9 to 12."
-    ],
-    "application_steps_mr": [
-      "इयत्ता ८ वी मध्ये एनएमएमएस परीक्षा उत्तीर्ण व्हा.",
-      "NSP पोर्टलवर नोंदणी करा.",
-      "दरमहा ₹१,००० बँक खात्यात जमा."
-    ]
-  },
-  {
-    "id": "PM_USP",
-    "name": "Pradhan Mantri Uchchatar Shiksha Protsahan (PM-USP Central Sector)",
-    "shortName": "PM-USP College Scholarship",
-    "domain": "education",
-    "rules": [
-      {
-        "field": "domain",
-        "operator": "IN",
-        "value": [
-          "education",
-          "both"
-        ]
-      },
-      {
-        "field": "annual_income",
-        "operator": "<=",
-        "value": 450000.0
-      },
-      {
-        "field": "age",
-        "operator": "BETWEEN",
-        "value": [
-          17,
-          26
-        ]
-      },
-      {
-        "field": "marks_percentage",
-        "operator": ">=",
-        "value": 80.0
-      },
-      {
-        "field": "course_level",
-        "operator": "IN",
-        "value": [
-          "Undergraduate",
-          "Postgraduate",
-          "Engineering",
-          "Medical"
-        ]
-      }
-    ],
-    "category_target": [
-      "General",
-      "OBC",
-      "SC",
-      "ST",
-      "EWS"
-    ],
-    "benefit_amount": 20000.0,
-    "benefit_type": "Direct Cash Grant",
-    "benefit_display": "₹12,000/yr for Graduation (1st 3 yrs) and ₹20,000/yr for Post-Graduation",
-    "benefit_display_mr": "पदवीसाठी ₹१२,०००/वर्ष आणि पदव्युत्तरसाठी ₹२०,०००/वर्ष",
-    "deadline_days": 11,
-    "official_url": "https://scholarships.gov.in",
-    "required_documents": [
-      "Aadhaar Card",
-      "Income Certificate",
-      "Mark Sheet (10th/12th)",
-      "College Admission Letter",
-      "Bank Passbook",
-      "Domicile Certificate"
-    ],
-    "mutually_exclusive_with": [],
-    "description": "Financial assistance to top 80th percentile students of Class 12 board exams pursuing regular university courses.",
-    "description_mr": "१२ वी बोर्ड परीक्षेत सर्वोच्च गुण मिळवणाऱ्या विद्यार्थ्यांसाठी शिष्यवृत्ती.",
-    "application_steps": [
-      "Check if 12th board score is in top 20th percentile cut-off.",
-      "Submit application on NSP with 12th marksheet and bank account detail.",
-      "Renew scholarship annually based on maintaining 50%+ college marks."
-    ],
-    "application_steps_mr": [
-      "१२ वी बोर्ड कट-ऑफमध्ये नाव तपासा.",
-      "NSP पोर्टलवर अर्ज सादर करा.",
-      "दरवर्षी नूतनीकरण करा."
-    ]
-  },
-  {
-    "id": "MH_TUITION_WAIVER",
-    "name": "Rajarshi Chhatrapati Shahu Maharaj Tuition Fee Scheme (State Specific)",
-    "shortName": "MH Tuition Fee Waiver",
-    "domain": "education",
-    "rules": [
-      {
-        "field": "domain",
-        "operator": "IN",
-        "value": [
-          "education",
-          "both"
-        ]
-      },
-      {
-        "field": "annual_income",
-        "operator": "<=",
-        "value": 800000.0
-      },
-      {
-        "field": "state",
-        "operator": "IN",
-        "value": [
-          "Maharashtra"
-        ]
-      },
-      {
-        "field": "category",
-        "operator": "IN",
-        "value": [
-          "General",
-          "OBC",
-          "EWS"
-        ]
-      },
-      {
-        "field": "age",
-        "operator": "BETWEEN",
-        "value": [
-          16,
-          28
-        ]
-      },
-      {
-        "field": "marks_percentage",
-        "operator": ">=",
-        "value": 50.0
-      },
-      {
-        "field": "course_level",
-        "operator": "IN",
-        "value": [
-          "Diploma",
-          "Undergraduate",
-          "Postgraduate",
-          "Engineering",
-          "Medical"
-        ]
-      }
-    ],
-    "category_target": [
-      "General",
-      "OBC",
-      "EWS"
-    ],
-    "benefit_amount": 60000.0,
-    "benefit_type": "Tuition Fee Waiver",
-    "benefit_display": "50% tuition fee reimbursement for EBC/OBC male students and 100% tuition fee waiver for eligible female students",
-    "benefit_display_mr": "ईबीसी/ओबीसी मुलांसाठी ५०% शिक्षण शुल्क प्रतिपूर्ती आणि पात्र विद्यार्थिनींसाठी १००% मोफत शिक्षण (पूर्ण शुल्क माफी)",
-    "deadline_days": 9,
-    "official_url": "https://mahadbt.maharashtra.gov.in",
-    "required_documents": [
-      "Aadhaar Card",
-      "Income Certificate",
-      "Domicile Certificate",
-      "CAP Allotment Letter",
-      "Mark Sheet (10th/12th)",
-      "College Fee Receipt",
-      "Bank Passbook"
-    ],
-    "mutually_exclusive_with": [
-      "POST_MATRIC_OBC"
-    ],
-    "description": "Maharashtra state scheme providing 50% tuition fee reimbursement for EBC/OBC male students and 100% tuition fee waiver for eligible female students in higher education.",
-    "description_mr": "महाराष्ट्रातील ईबीसी/ओबीसी मुलांसाठी ५०% शिक्षण शुल्क प्रतिपूर्ती आणि पात्र विद्यार्थिनींसाठी १००% मोफत शिक्षण (पूर्ण शुल्क माफी) देणारी योजना.",
-    "application_steps": [
-      "Register on MahaDBT portal.",
-      "Upload Maharashtra domicile certificate and income certificate issued by Tehsildar.",
-      "Fee concession credited directly to college bank account."
-    ],
-    "application_steps_mr": [
-      "महाडीबीटी पोर्टलवर नोंदणी करा.",
-      "तहसीलदार उत्पन्नाचा दाखला व अधिवास दाखला (डोमिसाईल) जोडा.",
-      "५०% शुल्क माफी महाविद्यालयाच्या खात्यात वर्ग."
-    ]
-  },
-  {
-    "id": "SAKSHAM_DISABLED",
-    "name": "AICTE Saksham Scholarship for Differently Abled Students",
-    "shortName": "AICTE Saksham",
-    "domain": "education",
-    "rules": [
-      {
-        "field": "domain",
-        "operator": "IN",
-        "value": [
-          "education",
-          "both"
-        ]
-      },
-      {
-        "field": "annual_income",
-        "operator": "<=",
-        "value": 800000.0
-      },
-      {
-        "field": "age",
-        "operator": "BETWEEN",
-        "value": [
-          16,
-          30
-        ]
-      },
-      {
-        "field": "marks_percentage",
-        "operator": ">=",
-        "value": 50.0
-      },
-      {
-        "field": "course_level",
-        "operator": "IN",
-        "value": [
-          "Diploma",
-          "Undergraduate",
-          "Engineering"
-        ]
-      }
-    ],
-    "category_target": [
-      "General",
-      "OBC",
-      "SC",
-      "ST",
-      "EWS"
-    ],
-    "benefit_amount": 50000.0,
-    "benefit_type": "Direct Cash Grant",
-    "benefit_display": "₹50,000 / year towards tuition fees and assistive technical devices",
-    "benefit_display_mr": "विशेष सक्षम विद्यार्थ्यांसाठी दरवर्षी ₹५०,००० अनुदान",
-    "deadline_days": 22,
-    "official_url": "https://aicte-india.org",
-    "required_documents": [
-      "Aadhaar Card",
-      "Disability Certificate (40%+)",
-      "Income Certificate",
-      "Mark Sheet (10th/12th)",
-      "College Fee Receipt",
-      "Bank Passbook"
-    ],
-    "mutually_exclusive_with": [],
-    "description": "Specially designed to support specially-abled students pursuing technical degree/diploma.",
-    "description_mr": "दिव्यांग विद्यार्थ्यांसाठी तांत्रिक शिक्षणासाठी विशेष शिष्यवृत्ती सहाय्य.",
-    "application_steps": [
-      "Apply through National Scholarship Portal.",
-      "Attach disability certificate issued by medical board.",
-      "Grant credited directly to student account annually."
-    ],
-    "application_steps_mr": [
-      "NSP पोर्टलवर नोंदणी करा.",
-      "वैद्यकीय मंडळाचे दिव्यांग प्रमाणपत्र जोडा.",
-      "निधी थेट बँक खात्यात जमा."
-    ]
-  },
-  {
-    "id": "VIDYASAARATHI",
-    "name": "Vidyasaarathi Corporate CSR Education Grant",
-    "shortName": "Vidyasaarathi Grant",
-    "domain": "education",
-    "rules": [
-      {
-        "field": "domain",
-        "operator": "IN",
-        "value": [
-          "education",
-          "both"
-        ]
-      },
-      {
-        "field": "annual_income",
-        "operator": "<=",
-        "value": 500000.0
-      },
-      {
-        "field": "age",
-        "operator": "BETWEEN",
-        "value": [
-          15,
-          26
-        ]
-      },
-      {
-        "field": "marks_percentage",
-        "operator": ">=",
-        "value": 60.0
-      }
-    ],
-    "category_target": [
-      "General",
-      "OBC",
-      "SC",
-      "ST",
-      "EWS"
-    ],
-    "benefit_amount": 30000.0,
-    "benefit_type": "CSR Grant",
-    "benefit_display": "₹10,000 to ₹40,000 direct tuition assistance funded by NSDL CSR",
-    "benefit_display_mr": "एनएसडीएल सीएसआर द्वारे ₹१०,००० ते ₹४०,००० ची थेट फी मदत",
-    "deadline_days": 16,
-    "official_url": "https://www.vidyasaarathi.co.in",
-    "required_documents": [
-      "Aadhaar Card",
-      "Income Certificate",
-      "Mark Sheet (10th/12th)",
-      "College Fee Receipt",
-      "Bank Passbook"
-    ],
-    "mutually_exclusive_with": [],
-    "description": "Skill and education grant managed by NSDL e-Governance for students belonging to low income families.",
-    "description_mr": "कमी उत्पन्नाच्या कुटुंबातील विद्यार्थ्यांसाठी कॉर्पोरेट सीएसआर अनुदान.",
-    "application_steps": [
-      "Create profile on Vidyasaarathi portal.",
-      "Browse available corporate scheme matches and apply.",
-      "Verification by NSDL team followed by direct fund release."
-    ],
-    "application_steps_mr": [
-      "विद्यासारथी पोर्टलवर प्रोफाईल तयार करा.",
-      "उपलब्ध सीएसआर योजनेवर अर्ज करा.",
-      "एनएसडीएल पडताळणीनंतर थेट मदत."
     ]
   }
 ]

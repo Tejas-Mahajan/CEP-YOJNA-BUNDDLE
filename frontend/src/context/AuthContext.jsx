@@ -14,46 +14,17 @@ export const DEMO_USERS = {
     role: "Farmer",
     savedSchemes: ["PM_KISAN", "PMFBY"],
     profileAttributes: {
-      domain: "agriculture",
       annual_income: 180000,
       category: "OBC",
       state: "Maharashtra",
       age: 42,
       land_acres: 3.5,
       occupation: "Farmer",
-      course_level: "Undergraduate",
-      marks_percentage: 60,
       owned_documents: [
         "Aadhaar Card",
         "7/12 Land Record Extract",
         "Bank Passbook",
         "Ration Card"
-      ]
-    }
-  },
-  student: {
-    id: "user_student_202",
-    name: "Priya Sharma",
-    identifier: "priya.sharma@example.com",
-    authMethod: "email",
-    role: "Student",
-    savedSchemes: ["PRAGATI_GIRLS", "POST_MATRIC_SCHOLARSHIP"],
-    profileAttributes: {
-      domain: "education",
-      annual_income: 240000,
-      category: "General",
-      state: "Maharashtra",
-      age: 20,
-      land_acres: 0,
-      occupation: "Student",
-      course_level: "Undergraduate",
-      marks_percentage: 84.5,
-      owned_documents: [
-        "Aadhaar Card",
-        "Income Certificate",
-        "Mark Sheet (10th/12th)",
-        "College Fee Receipt",
-        "Domicile Certificate"
       ]
     }
   }
@@ -128,17 +99,14 @@ export const AuthProvider = ({ children }) => {
         name: mockName.charAt(0).toUpperCase() + mockName.slice(1),
         identifier: identifier,
         authMethod: method || (isEmail ? 'email' : 'phone'),
-        role: isEmail ? 'Student' : 'Farmer',
+        role: 'Farmer',
         profileAttributes: prevAttributes || {
-          domain: 'both',
           annual_income: 200000,
           category: 'General',
           state: 'Maharashtra',
           age: 28,
           land_acres: 2.0,
           occupation: 'Farmer',
-          course_level: 'Undergraduate',
-          marks_percentage: 75.0,
           owned_documents: ['Aadhaar Card', 'Bank Passbook']
         }
       };
@@ -166,18 +134,15 @@ export const AuthProvider = ({ children }) => {
       name: name.trim(),
       identifier: identifier.trim(),
       authMethod: method || (identifier.includes('@') ? 'email' : 'phone'),
-      role: role || 'Farmer',
+      role: 'Farmer',
       savedSchemes: [],
       profileAttributes: profileAttributes || {
-        domain: role === 'Student' ? 'education' : 'agriculture',
         annual_income: 150000,
         category: 'General',
         state: 'Maharashtra',
         age: 25,
-        land_acres: role === 'Student' ? 0 : 2.5,
-        occupation: role || 'Farmer',
-        course_level: 'Undergraduate',
-        marks_percentage: 70,
+        land_acres: 2.5,
+        occupation: 'Farmer',
         owned_documents: ['Aadhaar Card', 'Bank Passbook']
       }
     };

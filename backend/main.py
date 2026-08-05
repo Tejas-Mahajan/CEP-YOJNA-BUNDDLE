@@ -18,7 +18,7 @@ from services.data_cleaner import sanitize_scheme_object
 
 app = FastAPI(
     title="YojanaBundle API",
-    description="Smart Eligibility & Scheme Bundling Planner for Farmers and Students",
+    description="Smart Eligibility & Scheme Bundling Planner for Farmers",
     version="2.1.0"
 )
 
@@ -103,24 +103,21 @@ def auth_login(req: LoginRequest):
     
     is_email = "@" in req.identifier
     user_name = req.identifier.split("@")[0].capitalize() if is_email else f"User {req.identifier[-4:]}"
-    role = "Student" if is_email else "Farmer"
+    role = "Farmer"
 
     user_data = {
         "id": f"usr_{int(time.time())}",
         "name": user_name,
         "identifier": req.identifier,
         "role": role,
-        "savedSchemes": ["PM_KISAN"] if role == "Farmer" else ["PRAGATI_GIRLS"],
+        "savedSchemes": ["PM_KISAN"],
         "profileAttributes": {
-            "domain": "agriculture" if role == "Farmer" else "education",
             "annual_income": 180000,
             "category": "OBC",
             "state": "Maharashtra",
             "age": 35,
-            "land_acres": 3.0 if role == "Farmer" else 0.0,
+            "land_acres": 3.0,
             "occupation": role,
-            "course_level": "Undergraduate",
-            "marks_percentage": 78.0,
             "owned_documents": ["Aadhaar Card", "Bank Passbook"]
         }
     }
@@ -143,18 +140,15 @@ def auth_signup(req: SignupRequest):
         "id": f"usr_{int(time.time())}",
         "name": req.name,
         "identifier": req.identifier,
-        "role": req.role or "Farmer",
+        "role": "Farmer",
         "savedSchemes": [],
         "profileAttributes": req.profileAttributes or {
-            "domain": "agriculture" if req.role == "Farmer" else "education",
             "annual_income": 150000,
             "category": "General",
             "state": "Maharashtra",
             "age": 25,
             "land_acres": 2.5,
-            "occupation": req.role or "Farmer",
-            "course_level": "Undergraduate",
-            "marks_percentage": 70.0,
+            "occupation": "Farmer",
             "owned_documents": ["Aadhaar Card", "Bank Passbook"]
         }
     }
@@ -252,8 +246,7 @@ def record_feedback(fb: FeedbackRequest):
     new_entry = {
         "scheme_id": fb.scheme_id,
         "rating": fb.rating,
-        "comment": fb.comment,
-        "user_domain": fb.user_domain
+        "comment": fb.comment
     }
     feedback_entries.append(new_entry)
 

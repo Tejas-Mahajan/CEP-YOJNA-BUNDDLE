@@ -45,7 +45,7 @@ export default function ExportReport({ results, profile, onBack, lang }) {
           </div>
           <div className="text-right text-xs text-slate-500 font-medium">
             <div>Date Generated: {new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</div>
-            <div>Beneficiary Domain: <span className="font-bold uppercase">{profile.domain}</span></div>
+            <div>Beneficiary Sector: <span className="font-bold uppercase">AGRICULTURE & FARMING</span></div>
           </div>
         </div>
 

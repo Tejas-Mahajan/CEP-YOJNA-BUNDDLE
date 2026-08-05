@@ -28,7 +28,6 @@ export function ActionPlanSkeleton() {
 }
 
 export default function ActionPlan({ results, onOpenDetail, onOpenFeedback, onPrintReport, lang, isEvaluating, matrixDocFilter, onResetFilters }) {
-  const [filterDomain, setFilterDomain] = useState('all');
   const [filterTier, setFilterTier] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [expandedId, setExpandedId] = useState(null);
@@ -48,7 +47,6 @@ export default function ActionPlan({ results, onOpenDetail, onOpenFeedback, onPr
   const filteredRanked = (ranked_schemes || []).filter(r => {
     if (!r || !r.scheme) return false;
     const s = r.scheme;
-    const matchesDomain = filterDomain === 'all' || s.domain === filterDomain;
     const matchesTier = filterTier === 'all' || r.priority_tier === filterTier;
     const matchesQuery = searchQuery === '' || 
       (s.name && s.name.toLowerCase().includes(searchQuery.toLowerCase())) || 
@@ -57,7 +55,7 @@ export default function ActionPlan({ results, onOpenDetail, onOpenFeedback, onPr
     // Matrix document filter
     const matchesMatrixDoc = !matrixDocFilter || (s.required_documents && s.required_documents.includes(matrixDocFilter));
 
-    return matchesDomain && matchesTier && matchesQuery && matchesMatrixDoc;
+    return matchesTier && matchesQuery && matchesMatrixDoc;
   });
 
   const toggleExpand = (id) => {
@@ -129,15 +127,7 @@ export default function ActionPlan({ results, onOpenDetail, onOpenFeedback, onPr
             </div>
           )}
 
-          <select
-            value={filterDomain}
-            onChange={(e) => setFilterDomain(e.target.value)}
-            className="px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs font-semibold text-slate-800"
-          >
-            <option value="all">{lang === 'mr' ? "सर्व क्षेत्रे (Domains)" : "All Domains"}</option>
-            <option value="agriculture">{lang === 'mr' ? "कृषी योजना" : "Agriculture Schemes"}</option>
-            <option value="education">{lang === 'mr' ? "शिक्षण योजना" : "Education Schemes"}</option>
-          </select>
+
 
           <select
             value={filterTier}
@@ -207,18 +197,11 @@ export default function ActionPlan({ results, onOpenDetail, onOpenFeedback, onPr
                 <div className="text-2xs text-slate-500">Select key documents like <strong>Aadhaar Card</strong> or <strong>Income Certificate</strong>.</div>
               </div>
 
-              <div className="p-3 rounded-2xl bg-slate-50 border border-slate-200 text-xs text-slate-700 space-y-1">
-                <div className="font-bold text-slate-900 flex items-center space-x-1">
-                  <span>🌾 Domain Sector</span>
-                </div>
-                <div className="text-2xs text-slate-500">Switch domain selection to <strong>"Both Sectors"</strong> to see all options.</div>
-              </div>
             </div>
 
             <div className="pt-2">
               <button
                 onClick={() => {
-                  setFilterDomain('all');
                   setFilterTier('all');
                   setSearchQuery('');
                   if (onResetFilters) onResetFilters();
@@ -285,7 +268,7 @@ export default function ActionPlan({ results, onOpenDetail, onOpenFeedback, onPr
                         </span>
 
                         <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-slate-100 text-slate-700 uppercase">
-                          {s.domain}
+                          Agriculture
                         </span>
 
                         <span className="text-xs font-semibold text-slate-500">

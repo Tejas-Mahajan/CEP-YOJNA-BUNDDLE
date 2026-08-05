@@ -12,8 +12,8 @@ export default function SchemeModal({ scheme, onClose, allInsights = [] }) {
   const saved = isSchemeSaved(scheme.id);
   const reqDocs = scheme.documents_required || scheme.required_documents || [];
   const appSteps = scheme.application_steps || [];
-  const department = scheme.department || (scheme.domain === 'agriculture' ? 'Ministry of Agriculture & Farmers Welfare' : 'Ministry of Education & NSP');
-  const quotaType = scheme.quota_type || (scheme.domain === 'agriculture' ? 'Central Sector Scheme (100% Central Fund)' : 'Centrally Sponsored Scheme (60:40 State Ratio)');
+  const department = scheme.department || 'Ministry of Agriculture & Farmers Welfare';
+  const quotaType = scheme.quota_type || 'Central Sector Scheme (100% Central Fund)';
   
   // Calculate deadline date display
   const deadlineDays = scheme.deadline_days || 15;
@@ -66,7 +66,7 @@ export default function SchemeModal({ scheme, onClose, allInsights = [] }) {
 
             <div className="flex flex-wrap items-center gap-2 mb-2">
               <span className="px-3 py-0.5 rounded-full text-[11px] font-extrabold bg-emerald-500 text-slate-950 uppercase tracking-wide">
-                {scheme.domain}
+                Agriculture
               </span>
               <span className="px-3 py-0.5 rounded-full text-[11px] font-bold bg-white/15 text-emerald-200 border border-white/20">
                 <Building2 className="w-3 h-3 inline mr-1" /> {department}

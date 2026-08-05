@@ -2,15 +2,12 @@ from pydantic import BaseModel, Field
 from typing import List, Optional, Dict, Any
 
 class UserProfile(BaseModel):
-    domain: str = Field("both", description="'agriculture', 'education', or 'both'")
     annual_income: Optional[float] = Field(0.0, description="Annual family income in INR")
     category: Optional[str] = Field("General", description="General, OBC, SC, ST, EWS")
     state: Optional[str] = Field("All", description="User domicile state (e.g. Maharashtra, Pan-India / All)")
     age: Optional[int] = Field(25, description="Age in years")
     land_acres: Optional[float] = Field(0.0, description="Land holding size in acres")
-    occupation: Optional[str] = Field("Farmer", description="Farmer, Small Farmer, Marginal Farmer, Student, etc.")
-    course_level: Optional[str] = Field("Undergraduate", description="High School, Diploma, Undergraduate, Postgraduate, Engineering, Medical")
-    marks_percentage: Optional[float] = Field(60.0, description="Previous academic percentage")
+    occupation: Optional[str] = Field("Farmer", description="Farmer, Small Farmer, Marginal Farmer, etc.")
     owned_documents: Optional[List[str]] = Field(default_factory=list, description="List of documents user currently possesses")
 
 class RuleCondition(BaseModel):
@@ -22,7 +19,6 @@ class SchemeModel(BaseModel):
     id: str
     name: str
     shortName: str
-    domain: str
     department: Optional[str] = Field("Government of India", description="Ministry or Nodal Department")
     quota_type: Optional[str] = Field("Central Sector Scheme (100% Central)", description="Central vs State Funding Quota")
     rules: List[RuleCondition] = []
@@ -88,7 +84,6 @@ class FeedbackRequest(BaseModel):
     scheme_id: Optional[str] = None
     rating: str = Field(..., description="'up' or 'down'")
     comment: Optional[str] = ""
-    user_domain: Optional[str] = "both"
 
 class LoginRequest(BaseModel):
     identifier: str = Field(..., description="Email address or Phone number")
@@ -100,7 +95,7 @@ class SignupRequest(BaseModel):
     identifier: str = Field(..., description="Email address or Phone number")
     password: str = Field(..., description="Account password")
     method: Optional[str] = Field("phone", description="'phone' or 'email'")
-    role: Optional[str] = Field("Farmer", description="'Farmer', 'Student', or 'Both'")
+    role: Optional[str] = Field("Farmer", description="'Farmer'")
     profileAttributes: Optional[Dict[str, Any]] = None
 
 class AuthResponse(BaseModel):

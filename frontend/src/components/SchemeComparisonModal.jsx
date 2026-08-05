@@ -69,7 +69,7 @@ export default function SchemeComparisonModal({ scheme1, scheme2, onClose }) {
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
                     <span className="px-3 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-100 text-emerald-900 uppercase">
-                      {scheme1.domain}
+                      Agriculture
                     </span>
                     <span className="text-2xs font-bold text-slate-500">{scheme1.department || "Govt of India"}</span>
                   </div>
@@ -121,7 +121,7 @@ export default function SchemeComparisonModal({ scheme1, scheme2, onClose }) {
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
                     <span className="px-3 py-0.5 rounded-full text-[10px] font-extrabold bg-teal-100 text-teal-950 uppercase">
-                      {scheme2.domain}
+                      Agriculture
                     </span>
                     <span className="text-2xs font-bold text-slate-500">{scheme2.department || "Govt of India"}</span>
                   </div>

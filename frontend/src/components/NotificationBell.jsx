@@ -5,17 +5,17 @@ import { Bell, X, Sparkles, Clock, AlertTriangle, CheckCircle2, ChevronRight, Ex
 export default function NotificationBell({ onSelectScheme }) {
   const [isOpen, setIsOpen] = useState(false);
 
-  // Live 2026 Scheme Updates & Deadline Notifications
+  // Live 2026 Agriculture Scheme Updates & Deadline Notifications
   const notifications = [
     {
       id: "notif_1",
-      title: "🚨 Urgent Closing: AICTE Pragati Scholarship",
+      title: "🚨 Urgent Closing: PM-KUSUM Solar Pump Subsidy",
       category: "Deadline Alert",
-      message: "Application portal closes in less than 7 days (Aug 04, 2026). Complete NSP e-KYC submission now.",
+      message: "Solar pump application subsidy window closes in 15 days. Complete 7/12 extract submission now.",
       date: "Today",
       urgent: true,
-      schemeId: "PRAGATI_GIRLS",
-      badge: "7 Days Left"
+      schemeId: "PM_KUSUM",
+      badge: "15 Days Left"
     },
     {
       id: "notif_2",
@@ -39,13 +39,13 @@ export default function NotificationBell({ onSelectScheme }) {
     },
     {
       id: "notif_4",
-      title: "🎓 Post-Matric SC/ST Scholarship Window Open",
-      category: "Scholarship",
-      message: "100% Tuition fee waivers and monthly maintenance allowance applications open for 2026-27 academic year.",
+      title: "🚜 PM Fasal Bima Kharif Season Registration",
+      category: "Crop Insurance",
+      message: "Crop insurance portal open for Kharif 2026 season for small and marginal landholders.",
       date: "3 days ago",
       urgent: false,
-      schemeId: "POST_MATRIC_SC",
-      badge: "New Window"
+      schemeId: "PMFBY",
+      badge: "Kharif Window"
     }
   ];
 

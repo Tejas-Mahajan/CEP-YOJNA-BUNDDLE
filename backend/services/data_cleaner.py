@@ -60,7 +60,6 @@ def sanitize_scheme_object(scheme: Dict[str, Any]) -> Dict[str, Any]:
     cleaned["id"] = str(cleaned.get("id", "UNKNOWN"))
     cleaned["name"] = clean_text_field(cleaned.get("name", "Untitled Scheme"))
     cleaned["shortName"] = clean_text_field(cleaned.get("shortName", cleaned["name"]))
-    cleaned["domain"] = clean_text_field(cleaned.get("domain", "all")).lower()
     
     cleaned["description"] = clean_text_field(cleaned.get("description", ""))
     cleaned["description_mr"] = clean_text_field(cleaned.get("description_mr", cleaned["description"]))

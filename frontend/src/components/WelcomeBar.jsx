@@ -10,9 +10,7 @@ export default function WelcomeBar({ onSelectScheme, allSchemes = [] }) {
 
   if (!isAuthenticated || !user) return null;
 
-  const roleColor = user.role === 'Student' 
-    ? 'bg-indigo-100 text-indigo-800 border-indigo-300' 
-    : 'bg-emerald-100 text-emerald-800 border-emerald-300';
+  const roleColor = 'bg-emerald-100 text-emerald-800 border-emerald-300';
 
   const attrs = user.profileAttributes || {};
 

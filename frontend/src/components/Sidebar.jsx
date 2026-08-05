@@ -6,19 +6,30 @@ import { TRANSLATIONS } from '../data/translations';
 
 export default function Sidebar({ activeNav, setActiveNav, resultsCount, lang, onGoHome }) {
   const { savedSchemesCount } = useAuth();
+  const [totalSchemes, setTotalSchemes] = React.useState(8);
   const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
+
+  React.useEffect(() => {
+    const fetchCount = async () => {
+      try {
+        const res = await fetch('/api/schemes');
+        if (res.ok) {
+          const data = await res.json();
+          if (data.schemes) {
+            setTotalSchemes(data.schemes.length);
+          }
+        }
+      } catch (e) {
+        // Fallback default
+      }
+    };
+    fetchCount();
+  }, []);
 
   const navGroups = [
     {
       groupTitle: "PORTAL & DASHBOARD",
       items: [
-        {
-          id: 'home',
-          label: 'Home & Portal Hub',
-          subtitle: 'Landing zone & 2026 updates',
-          icon: Home,
-          action: onGoHome
-        },
         {
           id: 'matcher',
           label: 'Eligibility Engine',
@@ -54,9 +65,9 @@ export default function Sidebar({ activeNav, setActiveNav, resultsCount, lang, o
         {
           id: 'directory',
           label: 'All Schemes Directory',
-          subtitle: '20+ Schemes & Side-by-Side Compare',
+          subtitle: 'Agri Schemes & Side-by-Side Compare',
           icon: Search,
-          badge: 'All 18',
+          badge: `All ${totalSchemes}`,
           badgeColor: 'bg-slate-200 text-slate-800'
         },
         {

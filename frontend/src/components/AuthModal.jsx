@@ -15,7 +15,7 @@ export default function AuthModal({ isOpen, onClose, lang = 'en', setLang, onGue
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [name, setName] = useState('');
-  const [role, setRole] = useState('Farmer'); // 'Farmer', 'Student', 'Both'
+  const [role, setRole] = useState('Farmer');
 
   // Signup Profile Attributes
   const [income, setIncome] = useState(180000);
@@ -68,15 +68,13 @@ export default function AuthModal({ isOpen, onClose, lang = 'en', setLang, onGue
           identifier,
           password,
           method: authTab,
-          role,
+          role: 'Farmer',
           profileAttributes: {
-            domain: role === 'Student' ? 'education' : (role === 'Farmer' ? 'agriculture' : 'both'),
             annual_income: Number(income),
             land_acres: Number(landAcres),
             state: stateName,
             category: category,
-            course_level: courseLevel,
-            occupation: role,
+            occupation: 'Farmer',
             owned_documents: ['Aadhaar Card', 'Bank Passbook']
           }
         });
@@ -162,21 +160,14 @@ export default function AuthModal({ isOpen, onClose, lang = 'en', setLang, onGue
             </div>
 
             {/* Quick Demo Login Badges */}
-            <div className="mt-4 pt-3 border-t border-emerald-700/50 flex flex-wrap gap-2">
-              <span className="text-xs text-emerald-300 font-semibold self-center mr-1">Quick Demo Login:</span>
+            <div className="flex items-center space-x-2 pt-2">
+              <span className="text-2xs text-emerald-200 uppercase font-extrabold tracking-wider">Quick 1-Click Demo Login:</span>
               <button
                 type="button"
                 onClick={() => handleDemoLogin('farmer')}
                 className="px-3 py-1 rounded-full bg-emerald-700/80 hover:bg-emerald-600 border border-emerald-500/50 text-xs font-semibold text-white flex items-center space-x-1 transition-all"
               >
                 <span>🌾 Farmer (Ramesh)</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => handleDemoLogin('student')}
-                className="px-3 py-1 rounded-full bg-teal-700/80 hover:bg-teal-600 border border-teal-500/50 text-xs font-semibold text-white flex items-center space-x-1 transition-all"
-              >
-                <span>🎓 Student (Priya)</span>
               </button>
             </div>
           </div>
@@ -265,28 +256,7 @@ export default function AuthModal({ isOpen, onClose, lang = 'en', setLang, onGue
                 </div>
               )}
 
-              {/* Role Selection in Signup Mode */}
-              {authMode === 'signup' && (
-                <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">Primary Occupation / Profile</label>
-                  <div className="grid grid-cols-3 gap-2">
-                    {['Farmer', 'Student', 'Both'].map((r) => (
-                      <button
-                        key={r}
-                        type="button"
-                        onClick={() => setRole(r)}
-                        className={`py-2 rounded-xl text-xs font-bold border transition-all ${
-                          role === r
-                            ? 'bg-emerald-50 border-emerald-500 text-emerald-900 shadow-2xs'
-                            : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
-                        }`}
-                      >
-                        {r === 'Farmer' ? '🌾 Farmer' : r === 'Student' ? '🎓 Student' : '🤝 Both'}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
+
 
               {/* Phone Tab Inputs */}
               {authTab === 'phone' && (

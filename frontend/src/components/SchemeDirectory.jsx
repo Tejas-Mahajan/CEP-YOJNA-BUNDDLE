@@ -8,7 +8,6 @@ export default function SchemeDirectory({ onOpenDetail, onOpenCompare, lang }) {
   const [schemes, setSchemes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedDomain, setSelectedDomain] = useState('all');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [compareIds, setCompareIds] = useState([]);
 
@@ -39,7 +38,6 @@ export default function SchemeDirectory({ onOpenDetail, onOpenCompare, lang }) {
         id: "PM_KISAN",
         name: "Pradhan Mantri Kisan Samman Nidhi (PM-KISAN)",
         shortName: "PM-KISAN",
-        domain: "agriculture",
         department: "Ministry of Agriculture & Farmers Welfare",
         quota_type: "Central Sector Scheme (100% Central)",
         benefit_display: "₹6,000 / year in 3 installments",
@@ -50,30 +48,28 @@ export default function SchemeDirectory({ onOpenDetail, onOpenCompare, lang }) {
         description: "Financial support to all landholding farmer families across the country."
       },
       {
-        id: "PRAGATI_GIRLS",
-        name: "AICTE Pragati Scholarship Scheme for Girl Students",
-        shortName: "Pragati Girls Grant",
-        domain: "education",
-        department: "Ministry of Education / AICTE",
-        quota_type: "Centrally Sponsored (60:40 Ratio)",
-        benefit_display: "₹50,000 / year technical education grant",
-        benefit_amount: 50000,
-        deadline_days: 7,
-        required_documents: ["Aadhaar Card", "Income Certificate", "Mark Sheet (10th/12th)"],
-        official_url: "https://scholarships.gov.in",
-        description: "Direct financial grant for girls pursuing technical diploma or degree courses."
+        id: "PMFBY",
+        name: "Pradhan Mantri Fasal Bima Yojana (PMFBY)",
+        shortName: "PM Fasal Bima",
+        department: "Ministry of Agriculture & Farmers Welfare",
+        quota_type: "Central & State Sponsored (50:50)",
+        benefit_display: "Comprehensive Crop Insurance Support",
+        benefit_amount: 25000,
+        deadline_days: 20,
+        required_documents: ["Aadhaar Card", "7/12 Land Record Extract", "Bank Passbook"],
+        official_url: "https://pmfby.gov.in",
+        description: "Financial support to farmers suffering crop loss/damage arising out of unforeseen events."
       }
     ]);
   };
 
   const filteredSchemes = schemes.filter(s => {
-    const matchesDomain = selectedDomain === 'all' || s.domain === selectedDomain;
     const matchesCategory = selectedCategory === 'all' || (s.category_target && s.category_target.includes(selectedCategory));
     const matchesQuery = searchQuery === '' ||
       s.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       (s.shortName && s.shortName.toLowerCase().includes(searchQuery.toLowerCase())) ||
       (s.description && s.description.toLowerCase().includes(searchQuery.toLowerCase()));
-    return matchesDomain && matchesCategory && matchesQuery;
+    return matchesCategory && matchesQuery;
   });
 
   const handleSaveToggle = (schemeId, e) => {
@@ -109,7 +105,6 @@ export default function SchemeDirectory({ onOpenDetail, onOpenCompare, lang }) {
 
   const handleClearFilters = () => {
     setSearchQuery('');
-    setSelectedDomain('all');
     setSelectedCategory('all');
   };
 
@@ -121,12 +116,12 @@ export default function SchemeDirectory({ onOpenDetail, onOpenCompare, lang }) {
         <div className="absolute top-0 right-0 -mr-8 -mt-8 w-48 h-48 bg-emerald-500/20 rounded-full blur-2xl pointer-events-none" />
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10">
           <div>
-            <div className="flex items-center space-x-2 text-amber-400 font-bold text-xs uppercase tracking-wider mb-1">
-              <Sparkles className="w-4 h-4" /> Central & State Schemes Directory
+            <div className="flex items-center space-x-2 text-amber-400 font-semibold text-xs uppercase tracking-wider mb-1">
+              <Sparkles className="w-4 h-4" /> Agriculture & Farming Schemes Directory
             </div>
-            <h2 className="text-2xl font-black">All Welfare & Financial Grant Schemes ({schemes.length})</h2>
+            <h2 className="text-2xl font-black">All Agriculture Welfare & Grant Schemes ({schemes.length})</h2>
             <p className="text-xs text-emerald-200 mt-1 max-w-xl">
-              Browse, filter, and compare all government welfare schemes across agriculture, education, and social empowerment.
+              Browse, filter, and compare central and state government agricultural schemes, crop insurance, and solar pump subsidies.
             </p>
           </div>
 
@@ -161,27 +156,27 @@ export default function SchemeDirectory({ onOpenDetail, onOpenCompare, lang }) {
           <Search className="w-4 h-4 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
           <input
             type="text"
-            placeholder="Search scheme name, benefit or keywords..."
+            placeholder="Search agriculture scheme name, benefit or keywords..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full pl-10 pr-4 py-2.5 rounded-2xl border border-slate-200 focus:ring-2 focus:ring-emerald-500 text-sm font-semibold text-slate-900 bg-slate-50/50 outline-none"
           />
         </div>
 
-        {/* Domain Filter Buttons */}
+        {/* Category Filter Buttons */}
         <div className="flex flex-wrap items-center gap-2">
-          <span className="text-xs font-bold text-slate-500">Domain:</span>
-          {['all', 'agriculture', 'education'].map(d => (
+          <span className="text-xs font-bold text-slate-500">Category:</span>
+          {['all', 'General', 'OBC', 'SC', 'ST', 'EWS'].map(c => (
             <button
-              key={d}
-              onClick={() => setSelectedDomain(d)}
+              key={c}
+              onClick={() => setSelectedCategory(c)}
               className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all uppercase ${
-                selectedDomain === d
+                selectedCategory === c
                   ? 'bg-emerald-800 text-white shadow-sm'
                   : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
               }`}
             >
-              {d === 'all' ? 'All Sectors' : d}
+              {c}
             </button>
           ))}
         </div>
@@ -253,7 +248,7 @@ export default function SchemeDirectory({ onOpenDetail, onOpenCompare, lang }) {
                   <div className="flex items-start justify-between">
                     <div className="flex items-center space-x-1.5">
                       <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-100 text-emerald-900 uppercase">
-                        {s.domain}
+                        Agriculture
                       </span>
                       {isUrgent && (
                         <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-red-600 text-white animate-pulse flex items-center">

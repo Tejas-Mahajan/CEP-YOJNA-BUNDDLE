@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
-import LandingZone from './components/LandingZone';
 import ProfileForm from './components/ProfileForm';
 import SummaryCards from './components/SummaryCards';
 import OverlapSection from './components/OverlapSection';
@@ -27,7 +26,7 @@ function MainAppContent() {
   const [appFlowState, setAppFlowState] = useState('INTRO');
   const [isGuestMode, setIsGuestMode] = useState(false);
 
-  const [activeNav, setActiveNav] = useState('home'); // 'home', 'matcher', 'plan', 'vault', 'directory', 'csc', 'export'
+  const [activeNav, setActiveNav] = useState('matcher'); // 'matcher', 'plan', 'vault', 'directory', 'csc', 'export'
   const [lang, setLang] = useState('en'); // 'en', 'mr', 'hi'
   const [isEvaluating, setIsEvaluating] = useState(false);
   const [results, setResults] = useState(null);
@@ -110,16 +109,6 @@ function MainAppContent() {
     evaluateProfile(PRESET_PROFILES[0].data);
   };
 
-  const handleLandingHubSelect = (selectedDomain) => {
-    const updatedProfile = {
-      ...profile,
-      domain: selectedDomain
-    };
-    setProfile(updatedProfile);
-    setActiveNav('matcher');
-    evaluateProfile(updatedProfile);
-  };
-
   const handleFeedbackSubmit = async (feedbackPayload) => {
     try {
       await fetch('/api/feedback', {
@@ -134,19 +123,15 @@ function MainAppContent() {
 
   // Client side fallback evaluation
   const fallbackClientEvaluation = (p) => {
-    const isAgri = p.domain === 'agriculture' || p.domain === 'both';
-    const isEdu = p.domain === 'education' || p.domain === 'both';
-
     const mockRanked = [];
     const conflicts = [];
 
-    if (isAgri && (p.annual_income || 0) <= 800000) {
+    if ((p.annual_income || 0) <= 800000) {
       mockRanked.push({
         scheme: {
           id: "PM_KISAN",
           name: "Pradhan Mantri Kisan Samman Nidhi (PM-KISAN)",
           shortName: "PM-KISAN",
-          domain: "agriculture",
           department: "Ministry of Agriculture & Farmers Welfare",
           quota_type: "Central Sector Scheme (100% Central)",
           benefit_display: "₹6,000 / year in 3 installments",
@@ -167,33 +152,30 @@ function MainAppContent() {
         missing_documents: ["Income Certificate"].filter(d => !(p.owned_documents || []).includes(d)),
         is_mutually_exclusive_secondary: false
       });
-    }
 
-    if (isEdu && (p.marks_percentage || 0) >= 60) {
       mockRanked.push({
         scheme: {
-          id: "PRAGATI_GIRLS",
-          name: "AICTE Pragati Scholarship Scheme for Girl Students",
-          shortName: "Pragati Girls Grant",
-          domain: "education",
-          department: "Ministry of Education / AICTE",
-          quota_type: "Centrally Sponsored (60:40 Ratio)",
-          benefit_display: "₹50,000 / year technical education grant",
-          benefit_display_mr: "दरवर्षी ₹५०,००० तांत्रिक शिक्षण सहाय्य",
-          benefit_amount: 50000,
-          deadline_days: 7,
-          required_documents: ["Aadhaar Card", "Income Certificate", "Mark Sheet (10th/12th)", "College Fee Receipt"],
-          documents_required: ["Aadhaar Card", "Income Certificate", "Mark Sheet (10th/12th)", "College Fee Receipt"],
-          official_url: "https://scholarships.gov.in",
-          description: "Direct financial grant for girls pursuing technical diploma or degree courses.",
-          description_mr: "तांत्रिक शिक्षणासाठी मुलींना दरवर्षी ₹५०,००० चे प्रोत्साहन अनुदान.",
-          application_steps: ["Apply via NSP portal", "Upload 12th marksheet & income proof", "NSP institute approval"]
+          id: "PMFBY",
+          name: "Pradhan Mantri Fasal Bima Yojana (PMFBY)",
+          shortName: "PM Fasal Bima",
+          department: "Ministry of Agriculture & Farmers Welfare",
+          quota_type: "Central & State Sponsored (50:50)",
+          benefit_display: "Comprehensive Crop Insurance Support",
+          benefit_display_mr: "सर्वसमावेशक पीक विमा संरक्षण",
+          benefit_amount: 25000,
+          deadline_days: 20,
+          required_documents: ["Aadhaar Card", "7/12 Land Record Extract", "Bank Passbook"],
+          documents_required: ["Aadhaar Card", "7/12 Land Record Extract", "Bank Passbook"],
+          official_url: "https://pmfby.gov.in",
+          description: "Financial support to farmers suffering crop loss/damage arising out of unforeseen events.",
+          description_mr: "नैसर्गिक आपत्तीमुळे पिकांचे नुकसान झाल्यास नुकसान भरपाई.",
+          application_steps: ["Apply via PMFBY portal or CSC", "Submit Sowing Certificate", "Pay nominal premium"]
         },
-        composite_score: 88.0,
+        composite_score: 85.0,
         priority_tier: "High Priority",
         owned_documents_count: 3,
-        total_documents_count: 4,
-        missing_documents: ["College Fee Receipt"].filter(d => !(p.owned_documents || []).includes(d)),
+        total_documents_count: 3,
+        missing_documents: [],
         is_mutually_exclusive_secondary: false
       });
     }
@@ -204,7 +186,7 @@ function MainAppContent() {
       total_eligible_schemes: mockRanked.length,
       total_potential_benefit: totalBenefit,
       formatted_potential_benefit: `₹${totalBenefit.toLocaleString('en-IN')}`,
-      document_readiness_pct: 75.0,
+      document_readiness_pct: 80.0,
       ranked_schemes: mockRanked,
       ineligible_schemes: [],
       conflicts_detected: conflicts,
@@ -213,7 +195,7 @@ function MainAppContent() {
           document_name: "Aadhaar Identity Card",
           canonical_group: "Aadhaar Identity Card",
           unlocked_schemes_count: 4,
-          scheme_names: ["PM-KISAN", "PMFBY", "Pragati Girls", "Post-Matric"],
+          scheme_names: ["PM-KISAN", "PMFBY", "PM-KUSUM", "SMAM"],
           is_owned: (p.owned_documents || []).includes("Aadhaar Card"),
           efficiency_tag: "⚡ High Leverage (Key Master Document)"
         },
@@ -227,7 +209,7 @@ function MainAppContent() {
         }
       ],
       high_leverage_callouts: [
-        "🔥 Key Document Highlight: 'Aadhaar Identity Card' unlocks 4 schemes at once!",
+        "🔥 Key Document Highlight: 'Aadhaar Identity Card' unlocks 4 agriculture schemes at once!",
         "🔥 Key Document Highlight: 'Land Ownership Proof (7/12 Extract)' unlocks 3 agriculture schemes!"
       ],
       action_checklist: mockRanked.map((r, i) => ({
@@ -288,18 +270,18 @@ function MainAppContent() {
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col font-sans relative pb-24">
       
-      {/* Top Navigation Header (Cleaned layout: Logo | Language | Notifications | Profile) */}
+      {/* Top Navigation Header */}
       <Header
         lang={lang}
         setLang={setLang}
         onOpenMobileDrawer={() => setIsMobileDrawerOpen(true)}
-        onGoHome={() => setActiveNav('home')}
+        onGoHome={() => setActiveNav('matcher')}
       />
 
       {/* Personalized Welcome Bar (When Logged In) */}
       <WelcomeBar />
 
-      {/* Main 5-Tab Dashboard Layout */}
+      {/* Main Dashboard Layout */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
         
         {apiError && (
@@ -317,22 +299,12 @@ function MainAppContent() {
             setActiveNav={setActiveNav}
             resultsCount={resultsCount}
             lang={lang}
-            onGoHome={() => setActiveNav('home')}
+            onGoHome={() => setActiveNav('matcher')}
           />
 
           {/* Dashboard Main Content Panel */}
           <div className="flex-1 w-full min-w-0">
             
-            {/* HOME TAB: Portal Switcher Landing Zone */}
-            {activeNav === 'home' && (
-              <ErrorBoundary fallbackMessage="Unable to render Landing Portal Zone.">
-                <LandingZone
-                  onSelectDomain={handleLandingHubSelect}
-                  lang={lang}
-                />
-              </ErrorBoundary>
-            )}
-
             {/* TAB 1: Dashboard & Eligibility Matcher */}
             {activeNav === 'matcher' && (
               <div className="space-y-6">

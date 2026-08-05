@@ -47,9 +47,7 @@ def evaluate_rule_condition(profile_dict: Dict[str, Any], rule: Dict[str, Any]) 
         elif operator == "==":
             u_str = str(user_val).strip().lower()
             t_str = str(target_val).strip().lower()
-            if field == "domain" and (u_str == "both" or t_str == "both"):
-                satisfied = True
-            elif u_str != t_str:
+            if u_str != t_str:
                 satisfied = False
                 reason = f"Value of '{field}' ('{user_val}') does not match required value '{target_val}'."
         elif operator == "!=":
@@ -63,10 +61,7 @@ def evaluate_rule_condition(profile_dict: Dict[str, Any], rule: Dict[str, Any]) 
                 target_str_list = [str(x).strip().lower() for x in target_val]
                 user_val_str = str(user_val).strip().lower()
                 
-                # Domain 'both' or matching domain list
-                if field == "domain" and (user_val_str == "both" or "both" in target_str_list):
-                    satisfied = True
-                elif user_val_str not in target_str_list and "all" not in target_str_list and "pan-india / all" not in target_str_list:
+                if user_val_str not in target_str_list and "all" not in target_str_list and "pan-india / all" not in target_str_list:
                     satisfied = False
                     reason = f"Value of '{field}' ('{user_val}') not in allowed list ({', '.join(map(str, target_val))})."
             elif isinstance(user_val, list):
