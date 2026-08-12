@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Home, User, FileText, Sparkles, Menu, X, ChevronDown, Download, Check, Copy, AlertCircle, Info, MapPin, Eye, EyeOff } from 'lucide-react';
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import ProfileForm from './components/ProfileForm';
@@ -19,7 +20,6 @@ import FloatingSummaryBar from './components/FloatingSummaryBar';
 import MobileDrawer from './components/MobileDrawer';
 import ErrorBoundary from './components/ErrorBoundary';
 import { AuthProvider, useAuth } from './context/AuthContext';
-import { PRESET_PROFILES } from './data/presets';
 
 function MainAppContent() {
   // App Flow State Machine: 'INTRO' -> 'AUTH' -> 'WELCOME' -> 'DASHBOARD'
@@ -41,23 +41,41 @@ function MainAppContent() {
   // Matrix Filter State
   const [matrixDocFilter, setMatrixDocFilter] = useState(null);
 
-  const { user, isAuthenticated, isAuthModalOpen, setIsAuthModalOpen } = useAuth();
+  const BLANK_PROFILE = {
+    annual_income: 0,
+    category: 'General',
+    state: 'Maharashtra',
+    age: 25,
+    land_acres: 0,
+    occupation: 'Farmer',
+    owned_documents: []
+  };
 
-  // Initialize profile with Small Farmer preset
-  const [profile, setProfile] = useState(PRESET_PROFILES[0].data);
+  const { user, isAuthenticated, isAuthModalOpen, setIsAuthModalOpen, updateUserProfileAttributes } = useAuth();
+
+  const hasSavedProfile = Boolean(user && user.profileAttributes && Object.keys(user.profileAttributes).length > 0);
+  const isFirstTimeSetup = Boolean(isAuthenticated && !hasSavedProfile);
+
+  // Initialize profile with blank structure by default
+  const [profile, setProfile] = useState(BLANK_PROFILE);
 
   // Ref to track active evaluate debounce timer
   const debounceTimerRef = useRef(null);
 
   // Synchronize profile state when logged in user changes
   useEffect(() => {
-    if (user && user.profileAttributes) {
+    if (user && user.profileAttributes && Object.keys(user.profileAttributes).length > 0) {
       setProfile((prev) => ({
         ...prev,
         ...user.profileAttributes
       }));
+    } else if (user) {
+      // New user signup without saved attributes -> start blank & force matcher tab
+      setProfile(BLANK_PROFILE);
+      setActiveNav('matcher');
     }
   }, [user]);
+
 
   // Core profile evaluation function
   const evaluateProfile = async (profileData) => {
@@ -82,7 +100,7 @@ function MainAppContent() {
       }
     } catch (err) {
       console.warn("Backend API call failed, using client-side fallback engine...", err);
-      setApiError("Using local evaluation mode (Backend server disconnected)");
+      setApiError("Backend server disconnected");
       fallbackClientEvaluation(profileData);
     } finally {
       setIsEvaluating(false);
@@ -97,17 +115,24 @@ function MainAppContent() {
     };
   }, []);
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
     if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current);
+    if (isAuthenticated && updateUserProfileAttributes) {
+      const saveRes = await updateUserProfileAttributes(profile);
+      if (saveRes && !saveRes.success) {
+        console.error("Failed to save profile attributes to backend database:", saveRes.error);
+      }
+    }
     evaluateProfile(profile);
   };
 
   const handleReset = () => {
     if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current);
-    setProfile(PRESET_PROFILES[0].data);
-    evaluateProfile(PRESET_PROFILES[0].data);
+    setProfile(BLANK_PROFILE);
+    evaluateProfile(BLANK_PROFILE);
   };
+
 
   const handleFeedbackSubmit = async (feedbackPayload) => {
     try {
@@ -269,7 +294,7 @@ function MainAppContent() {
   // Render STEP 4: MAIN DASHBOARD & PORTAL LANDING ZONE
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col font-sans relative pb-24">
-      
+
       {/* Top Navigation Header */}
       <Header
         lang={lang}
@@ -283,16 +308,28 @@ function MainAppContent() {
 
       {/* Main Dashboard Layout */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        
+
         {apiError && (
-          <div className="mb-6 p-4 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 text-xs font-semibold flex items-center justify-between">
-            <span>⚠️ {apiError}</span>
-            <button onClick={() => evaluateProfile(profile)} className="underline hover:text-amber-950">Retry Connection</button>
+          <div className="mb-6 p-4 rounded-2xl bg-red-600 text-white shadow-xl border border-red-700 text-sm font-bold flex items-center justify-between animate-pulse">
+            <div className="flex items-center space-x-3">
+              <span className="text-xl">⚠️</span>
+              <div>
+                <div>Backend unreachable — showing offline demo data, not your real results.</div>
+                <div className="text-xs text-red-200 font-medium">Error details: {apiError}</div>
+              </div>
+            </div>
+            <button
+              onClick={() => evaluateProfile(profile)}
+              className="ml-4 px-4 py-2 bg-white text-red-700 hover:bg-red-50 rounded-xl text-xs font-extrabold shadow transition-all whitespace-nowrap"
+            >
+              Retry Connection
+            </button>
           </div>
         )}
 
+
         <div className="flex flex-col lg:flex-row gap-8 items-start">
-          
+
           {/* Dashboard Sidebar Navigation */}
           <Sidebar
             activeNav={activeNav}
@@ -300,14 +337,31 @@ function MainAppContent() {
             resultsCount={resultsCount}
             lang={lang}
             onGoHome={() => setActiveNav('matcher')}
+            isFirstTimeSetup={isFirstTimeSetup}
           />
 
           {/* Dashboard Main Content Panel */}
           <div className="flex-1 w-full min-w-0">
-            
+
             {/* TAB 1: Dashboard & Eligibility Matcher */}
             {activeNav === 'matcher' && (
               <div className="space-y-6">
+
+                {/* First-Time Setup Welcome Banner */}
+                {isFirstTimeSetup && (
+                  <div className="bg-gradient-to-r from-emerald-950 via-emerald-900 to-teal-950 text-white rounded-3xl p-6 shadow-xl border border-emerald-700/60 flex items-center space-x-4 animate-in fade-in duration-300">
+                    <div className="w-12 h-12 rounded-2xl bg-white/15 flex items-center justify-center text-emerald-300 flex-shrink-0 backdrop-blur-md">
+                      <Sparkles className="w-6 h-6 text-amber-300" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-extrabold text-white">👋 Welcome, {user?.name || 'Farmer'}! Let's find your scheme matches</h3>
+                      <p className="text-xs text-emerald-200 mt-1">
+                        Fill in your profile details below to see your personalized scheme action plan. All other portal sections will unlock immediately after submission.
+                      </p>
+                    </div>
+                  </div>
+                )}
+
                 <ErrorBoundary fallbackMessage="An error occurred inside the Profile Form component.">
                   <ProfileForm
                     profile={profile}
@@ -317,12 +371,6 @@ function MainAppContent() {
                     lang={lang}
                   />
                 </ErrorBoundary>
-
-                {results && (
-                  <ErrorBoundary fallbackMessage="Unable to render summary metrics cards.">
-                    <SummaryCards results={results} lang={lang} />
-                  </ErrorBoundary>
-                )}
               </div>
             )}
 
@@ -406,7 +454,7 @@ function MainAppContent() {
       </main>
 
       {/* Sticky Bottom Floating Smart Summary Bar */}
-      {results && activeNav !== 'home' && (
+      {results && activeNav !== 'home' && activeNav !== 'matcher' && (
         <FloatingSummaryBar
           results={results}
           onScrollToPlan={() => setActiveNav('plan')}
@@ -414,6 +462,7 @@ function MainAppContent() {
           lang={lang}
         />
       )}
+
 
       {/* Mobile Navigation Drawer */}
       <MobileDrawer
@@ -426,7 +475,9 @@ function MainAppContent() {
         lang={lang}
         setLang={setLang}
         onReset={handleReset}
+        isFirstTimeSetup={isFirstTimeSetup}
       />
+
 
       {/* Explicit Auth Modal Trigger when user clicks login from dashboard */}
       {isAuthModalOpen && (

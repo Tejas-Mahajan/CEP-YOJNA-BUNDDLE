@@ -1,15 +1,17 @@
 import json
 import os
-import base64
-import time
-import hmac
-import hashlib
-from typing import List, Dict, Any
-from fastapi import FastAPI, HTTPException, Request, Header
+import uuid
+from typing import List, Dict, Any, Optional
+from fastapi import FastAPI, HTTPException, Request, Depends, status
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from sqlalchemy.orm import Session
 
-from models import UserProfile, EvaluationResponse, FeedbackRequest, LoginRequest, SignupRequest, AuthResponse
+from models import UserProfile, EvaluationResponse, FeedbackRequest, LoginRequest, SignupRequest, AuthResponse, ProfileUpdateRequest
+from models_db import User
+from db import get_db, init_db
+from auth_utils import hash_password, verify_password, generate_jwt_token, decode_jwt_token
 from services.evaluator import evaluate_scheme_eligibility
 from services.conflicts import detect_scheme_conflicts
 from services.overlap import analyze_document_overlaps
@@ -21,6 +23,11 @@ app = FastAPI(
     description="Smart Eligibility & Scheme Bundling Planner for Farmers",
     version="2.1.0"
 )
+
+# Initialize Database tables on application startup
+@app.on_event("startup")
+def startup_event():
+    init_db()
 
 # Enable CORS for local React dev server ports
 app.add_middleware(
@@ -39,30 +46,59 @@ app.add_middleware(
 
 DATA_PATH = os.path.join(os.path.dirname(__file__), "data", "schemes.json")
 FEEDBACK_PATH = os.path.join(os.path.dirname(__file__), "feedback_log.json")
-USERS_DB_PATH = os.path.join(os.path.dirname(__file__), "users_db.json")
-JWT_SECRET = "yojana_bundle_secret_key_2026"
 
-def generate_jwt_token(payload: dict) -> str:
-    header = {"alg": "HS256", "typ": "JWT"}
-    header_b64 = base64.urlsafe_b64encode(json.dumps(header).encode()).decode().rstrip("=")
-    payload_b64 = base64.urlsafe_b64encode(json.dumps(payload).encode()).decode().rstrip("=")
-    signature_raw = f"{header_b64}.{payload_b64}".encode()
-    signature = base64.urlsafe_b64encode(
-        hmac.new(JWT_SECRET.encode(), signature_raw, hashlib.sha256).digest()
-    ).decode().rstrip("=")
-    return f"{header_b64}.{payload_b64}.{signature}"
+security = HTTPBearer(auto_error=False)
 
-def decode_jwt_token(token: str) -> dict:
+def get_current_user(
+    credentials: Optional[HTTPAuthorizationCredentials] = Depends(security),
+    db: Session = Depends(get_db)
+) -> User:
+    """
+    Reusable FastAPI dependency for extracting and verifying JWT Bearer tokens
+    and fetching the authenticated user from the SQLite database.
+    """
+    if not credentials or not credentials.credentials:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Missing or invalid Bearer token",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+    token = credentials.credentials
     try:
-        parts = token.split(".")
-        if len(parts) != 3:
-            raise ValueError("Invalid JWT format")
-        payload_b64 = parts[1]
-        padding = "=" * (4 - len(payload_b64) % 4)
-        payload_json = base64.urlsafe_b64decode(payload_b64 + padding).decode()
-        return json.loads(payload_json)
-    except Exception:
-        raise HTTPException(status_code=401, detail="Invalid authorization token")
+        payload = decode_jwt_token(token)
+    except ValueError as e:
+        err_msg = str(e)
+        if "expired" in err_msg.lower():
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Token has expired",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
+        else:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Invalid authorization token",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
+
+    user_id = payload.get("sub")
+    if not user_id:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid authorization token payload",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="User account not found",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+    return user
 
 # Global Exception Handler to catch any unhandled exceptions gracefully
 @app.exception_handler(Exception)
@@ -97,78 +133,101 @@ def get_all_schemes():
     return {"total": len(schemes), "schemes": schemes}
 
 @app.post("/api/auth/login", response_model=AuthResponse)
-def auth_login(req: LoginRequest):
-    if not req.identifier:
-        raise HTTPException(status_code=400, detail="Identifier (Email or Phone) is required")
-    
-    is_email = "@" in req.identifier
-    user_name = req.identifier.split("@")[0].capitalize() if is_email else f"User {req.identifier[-4:]}"
-    role = "Farmer"
+def auth_login(req: LoginRequest, db: Session = Depends(get_db)):
+    if not req.identifier or not req.password:
+        raise HTTPException(status_code=400, detail="Identifier and Password are required")
 
-    user_data = {
-        "id": f"usr_{int(time.time())}",
-        "name": user_name,
-        "identifier": req.identifier,
-        "role": role,
-        "savedSchemes": ["PM_KISAN"],
-        "profileAttributes": {
-            "annual_income": 180000,
-            "category": "OBC",
-            "state": "Maharashtra",
-            "age": 35,
-            "land_acres": 3.0,
-            "occupation": role,
-            "owned_documents": ["Aadhaar Card", "Bank Passbook"]
-        }
-    }
+    email = req.identifier.strip().lower()
 
-    token = generate_jwt_token({
-        "sub": user_data["id"],
-        "name": user_data["name"],
-        "role": user_data["role"],
-        "exp": int(time.time()) + 604800
-    })
+    user = db.query(User).filter(User.email == email).first()
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid email or password"
+        )
 
-    return AuthResponse(status="success", token=token, user=user_data)
+    if not verify_password(req.password, user.password_hash):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid email or password"
+        )
+
+    token = generate_jwt_token(
+        user_id=user.id,
+        email=user.email,
+        name=user.name,
+        role=user.role
+    )
+
+    return AuthResponse(status="success", token=token, user=user.to_dict())
 
 @app.post("/api/auth/signup", response_model=AuthResponse)
-def auth_signup(req: SignupRequest):
+def auth_signup(req: SignupRequest, db: Session = Depends(get_db)):
     if not req.name or not req.identifier:
         raise HTTPException(status_code=400, detail="Name and Identifier are required")
+    if not req.password:
+        raise HTTPException(status_code=400, detail="Password is required")
 
-    user_data = {
-        "id": f"usr_{int(time.time())}",
-        "name": req.name,
-        "identifier": req.identifier,
-        "role": "Farmer",
-        "savedSchemes": [],
-        "profileAttributes": req.profileAttributes or {
-            "annual_income": 150000,
-            "category": "General",
-            "state": "Maharashtra",
-            "age": 25,
-            "land_acres": 2.5,
-            "occupation": "Farmer",
-            "owned_documents": ["Aadhaar Card", "Bank Passbook"]
-        }
-    }
+    email = req.identifier.strip().lower()
 
-    token = generate_jwt_token({
-        "sub": user_data["id"],
-        "name": user_data["name"],
-        "role": user_data["role"],
-        "exp": int(time.time()) + 604800
-    })
+    existing_user = db.query(User).filter(User.email == email).first()
+    if existing_user:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail="Account with this email already exists"
+        )
 
-    return AuthResponse(status="success", token=token, user=user_data)
+    pwd_hash = hash_password(req.password)
+    user_id = f"usr_{uuid.uuid4().hex[:10]}"
+
+    new_user = User(
+        id=user_id,
+        name=req.name.strip(),
+        email=email,
+        password_hash=pwd_hash,
+        role=req.role or "Farmer"
+    )
+    new_user.profile_attributes = req.profileAttributes or {}
+
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
+
+    token = generate_jwt_token(
+        user_id=new_user.id,
+        email=new_user.email,
+        name=new_user.name,
+        role=new_user.role
+    )
+
+    return AuthResponse(status="success", token=token, user=new_user.to_dict())
 
 @app.get("/api/auth/me")
-def auth_me(authorization: str = Header(None)):
-    if not authorization or not authorization.startswith("Bearer "):
-        raise HTTPException(status_code=401, detail="Missing or invalid Bearer token")
-    token = authorization.split(" ")[1]
-    payload = decode_jwt_token(token)
-    return {"status": "success", "user": payload}
+def auth_me(current_user: User = Depends(get_current_user)):
+    return {"status": "success", "user": current_user.to_dict()}
+
+@app.patch("/api/auth/profile")
+def update_profile(
+    req: ProfileUpdateRequest,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """
+    Updates authenticated user's profile attributes in SQLite database.
+    """
+    existing_attributes = current_user.profile_attributes or {}
+    update_data = req.model_dump(exclude_unset=True) if hasattr(req, 'model_dump') else req.dict(exclude_unset=True)
+    
+    # Merge non-null updated fields
+    merged_attributes = {**existing_attributes, **update_data}
+    current_user.profile_attributes = merged_attributes
+
+    db.add(current_user)
+    db.commit()
+    db.refresh(current_user)
+
+    return {"status": "success", "user": current_user.to_dict()}
+
 
 @app.post("/api/evaluate", response_model=EvaluationResponse)
 def evaluate_profile(profile: UserProfile):

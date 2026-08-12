@@ -1,10 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Home, Compass, ClipboardList, FolderCheck, Search, MapPin, Sparkles, ChevronRight, Bookmark, Layers } from 'lucide-react';
+import { Home, Compass, ClipboardList, FolderCheck, Search, MapPin, Sparkles, ChevronRight, Bookmark, Layers, Lock } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { TRANSLATIONS } from '../data/translations';
 
-export default function Sidebar({ activeNav, setActiveNav, resultsCount, lang, onGoHome }) {
+export default function Sidebar({ activeNav, setActiveNav, resultsCount, lang, onGoHome, isFirstTimeSetup }) {
   const { savedSchemesCount } = useAuth();
   const [totalSchemes, setTotalSchemes] = React.useState(8);
   const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
@@ -97,52 +97,67 @@ export default function Sidebar({ activeNav, setActiveNav, resultsCount, lang, o
             {group.items.map((item) => {
               const Icon = item.icon;
               const isActive = activeNav === item.id;
+              const isLocked = isFirstTimeSetup && item.id !== 'matcher';
 
               return (
                 <motion.button
                   key={item.id}
-                  whileHover={{ x: 2 }}
-                  whileTap={{ scale: 0.98 }}
+                  whileHover={isLocked ? {} : { x: 2 }}
+                  whileTap={isLocked ? {} : { scale: 0.98 }}
+                  disabled={isLocked}
                   onClick={() => {
+                    if (isLocked) return;
                     if (item.action) {
                       item.action();
                     } else {
                       setActiveNav(item.id);
                     }
                   }}
+                  title={isLocked ? "Complete initial profile to unlock" : ""}
                   className={`w-full p-3 rounded-2xl text-left transition-all flex items-center justify-between group ${
-                    isActive
+                    isLocked
+                      ? 'opacity-50 cursor-not-allowed bg-slate-50 border border-slate-100 text-slate-400'
+                      : isActive
                       ? 'bg-gradient-to-r from-emerald-950 via-emerald-900 to-teal-950 text-white shadow-md shadow-emerald-950/20'
                       : 'bg-white hover:bg-slate-50 text-slate-700 border border-transparent hover:border-slate-200'
                   }`}
                 >
                   <div className="flex items-center space-x-3 min-w-0">
                     <div className={`w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 transition-colors ${
-                      isActive ? 'bg-emerald-500 text-slate-950 font-bold' : 'bg-slate-100 text-slate-600 group-hover:bg-emerald-100 group-hover:text-emerald-900'
+                      isLocked
+                        ? 'bg-slate-200 text-slate-400'
+                        : isActive
+                        ? 'bg-emerald-500 text-slate-950 font-bold'
+                        : 'bg-slate-100 text-slate-600 group-hover:bg-emerald-100 group-hover:text-emerald-900'
                     }`}>
-                      <Icon className="w-4 h-4" />
+                      {isLocked ? <Lock className="w-4 h-4 text-slate-400" /> : <Icon className="w-4 h-4" />}
                     </div>
 
                     <div className="min-w-0">
-                      <div className={`text-xs font-bold truncate ${isActive ? 'text-white' : 'text-slate-900'}`}>
+                      <div className={`text-xs font-bold truncate ${isLocked ? 'text-slate-400' : isActive ? 'text-white' : 'text-slate-900'}`}>
                         {item.label}
                       </div>
-                      <div className={`text-[10px] truncate ${isActive ? 'text-emerald-200' : 'text-slate-400'}`}>
-                        {item.subtitle}
+                      <div className={`text-[10px] truncate ${isLocked ? 'text-slate-400' : isActive ? 'text-emerald-200' : 'text-slate-400'}`}>
+                        {isLocked ? '🔒 Fill profile to unlock' : item.subtitle}
                       </div>
                     </div>
                   </div>
 
-                  {item.badge && (
+                  {isLocked ? (
+                    <span className="px-2 py-0.5 rounded-full text-[10px] font-extrabold ml-1 flex-shrink-0 bg-slate-200 text-slate-500 flex items-center space-x-1">
+                      <span>🔒 Locked</span>
+                    </span>
+                  ) : item.badge ? (
                     <span className={`px-2 py-0.5 rounded-full text-[10px] font-extrabold ml-1 flex-shrink-0 ${item.badgeColor || 'bg-emerald-100 text-emerald-900'}`}>
                       {item.badge}
                     </span>
-                  )}
+                  ) : null}
                 </motion.button>
               );
             })}
           </div>
         ))}
+
 
         {/* Saved Schemes Summary Box in Sidebar */}
         <div className="pt-3 border-t border-slate-100 px-3 py-2 rounded-2xl bg-amber-50/60 border-amber-200/60 flex items-center justify-between text-xs">

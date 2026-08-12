@@ -102,3 +102,13 @@ class AuthResponse(BaseModel):
     status: str = "success"
     token: str
     user: Dict[str, Any]
+
+class ProfileUpdateRequest(BaseModel):
+    annual_income: Optional[float] = Field(None, description="Annual family income in INR")
+    category: Optional[str] = Field(None, description="General, OBC, SC, ST, EWS")
+    state: Optional[str] = Field(None, description="User domicile state")
+    age: Optional[int] = Field(None, description="Age in years")
+    land_acres: Optional[float] = Field(None, description="Land holding size in acres")
+    occupation: Optional[str] = Field(None, description="Occupation")
+    owned_documents: Optional[List[str]] = Field(None, description="List of possessed documents")
+

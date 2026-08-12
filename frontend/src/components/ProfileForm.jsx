@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sprout, Sparkles, ArrowRight, ArrowLeft, Check, FileCheck, User, ShieldCheck, ChevronRight, AlertCircle } from 'lucide-react';
-import { PRESET_PROFILES, AVAILABLE_DOCUMENTS } from '../data/presets';
+import { AVAILABLE_DOCUMENTS } from '../data/presets';
 import { TRANSLATIONS } from '../data/translations';
 import { validateProfile } from '../utils/validation';
 
@@ -37,11 +38,6 @@ export default function ProfileForm({ profile, setProfile, onSubmit, isEvaluatin
     setProfile(prev => ({ ...prev, owned_documents: [] }));
   };
 
-  const loadPreset = (presetData) => {
-    setProfile({ ...presetData });
-    setValidationErrors({});
-  };
-
   const handleFormSubmitWithValidation = (e) => {
     e.preventDefault();
     const validation = validateProfile(profile);
@@ -59,40 +55,9 @@ export default function ProfileForm({ profile, setProfile, onSubmit, isEvaluatin
 
   return (
     <div className="max-w-5xl mx-auto space-y-8 py-4">
-      
-      {/* Preset Quick Fill Bar */}
-      <div className="bg-gradient-to-r from-emerald-950 via-emerald-900 to-teal-950 rounded-3xl p-6 text-white shadow-xl relative overflow-hidden border border-emerald-800/40">
-        <div className="absolute top-0 right-0 -mr-8 -mt-8 w-48 h-48 bg-emerald-500/20 rounded-full blur-2xl pointer-events-none" />
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10">
-          <div>
-            <div className="flex items-center space-x-2 text-amber-400 font-semibold text-xs uppercase tracking-wider mb-1">
-              <Sparkles className="w-4 h-4" /> {t.demoTesterTitle}
-            </div>
-            <h2 className="text-xl font-bold">{t.demoTesterTitle}</h2>
-            <p className="text-xs text-emerald-200">{t.demoTesterDesc}</p>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            {PRESET_PROFILES.map(p => (
-              <motion.button
-                key={p.id}
-                type="button"
-                whileHover={{ y: -2, scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                onClick={() => loadPreset(p.data)}
-                className="p-3 rounded-2xl bg-white/10 hover:bg-white/20 border border-white/10 text-left transition-all backdrop-blur-md flex items-center justify-between"
-              >
-                <div>
-                  <div className="text-xs font-bold text-white">{p.label}</div>
-                  <div className="text-[10px] text-emerald-200">{p.subtitle}</div>
-                </div>
-                <ChevronRight className="w-4 h-4 text-emerald-400" />
-              </motion.button>
-            ))}
-          </div>
-        </div>
-      </div>
 
       {/* Visual 1-2 Progress Stepper */}
+
       <div className="bg-white rounded-3xl border border-slate-200/80 shadow-md p-4 sm:p-6">
         <div className="grid grid-cols-2 gap-2 sm:gap-4 relative">
           {steps.map((step) => {
@@ -104,21 +69,19 @@ export default function ProfileForm({ profile, setProfile, onSubmit, isEvaluatin
                 key={step.number}
                 type="button"
                 onClick={() => setCurrentStep(step.number)}
-                className={`p-3 sm:p-4 rounded-2xl border text-left transition-all relative flex items-center space-x-3 ${
-                  isActive
+                className={`p-3 sm:p-4 rounded-2xl border text-left transition-all relative flex items-center space-x-3 ${isActive
                     ? 'bg-emerald-50/80 border-emerald-500 shadow-md ring-2 ring-emerald-500/20'
                     : isCompleted
-                    ? 'bg-slate-50 border-slate-300 hover:bg-slate-100'
-                    : 'bg-slate-50/40 border-slate-200 text-slate-400'
-                }`}
+                      ? 'bg-slate-50 border-slate-300 hover:bg-slate-100'
+                      : 'bg-slate-50/40 border-slate-200 text-slate-400'
+                  }`}
               >
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center font-extrabold text-xs flex-shrink-0 transition-colors ${
-                  isActive
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center font-extrabold text-xs flex-shrink-0 transition-colors ${isActive
                     ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/30'
                     : isCompleted
-                    ? 'bg-emerald-800 text-white'
-                    : 'bg-slate-200 text-slate-500'
-                }`}>
+                      ? 'bg-emerald-800 text-white'
+                      : 'bg-slate-200 text-slate-500'
+                  }`}>
                   {isCompleted ? <Check className="w-4 h-4" /> : step.number}
                 </div>
 
@@ -138,9 +101,9 @@ export default function ProfileForm({ profile, setProfile, onSubmit, isEvaluatin
 
       {/* Main Profile Form Card */}
       <form onSubmit={handleFormSubmitWithValidation} className="bg-white rounded-3xl border border-slate-200/80 shadow-xl p-6 sm:p-8 space-y-8">
-        
+
         <AnimatePresence mode="wait">
-          
+
           {/* STEP 1: Personal, Financial & Land Criteria */}
           {currentStep === 1 && (
             <motion.div
@@ -198,9 +161,8 @@ export default function ProfileForm({ profile, setProfile, onSubmit, isEvaluatin
                     max="100"
                     value={profile.age ?? 25}
                     onChange={(e) => handleInputChange('age', Number(e.target.value))}
-                    className={`w-full px-4 py-3 rounded-2xl border text-sm font-semibold text-slate-900 focus:ring-2 outline-none ${
-                      validationErrors.age ? 'border-red-400 bg-red-50/50 focus:ring-red-500' : 'border-slate-200 bg-slate-50/50 focus:ring-emerald-500'
-                    }`}
+                    className={`w-full px-4 py-3 rounded-2xl border text-sm font-semibold text-slate-900 focus:ring-2 outline-none ${validationErrors.age ? 'border-red-400 bg-red-50/50 focus:ring-red-500' : 'border-slate-200 bg-slate-50/50 focus:ring-emerald-500'
+                      }`}
                   />
                   {validationErrors.age && (
                     <div className="text-red-600 text-2xs font-bold mt-1 flex items-center">
@@ -315,11 +277,10 @@ export default function ProfileForm({ profile, setProfile, onSubmit, isEvaluatin
                       whileHover={{ scale: 1.01 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={() => toggleDocument(doc)}
-                      className={`p-3.5 rounded-2xl border text-left text-xs font-bold transition-all flex items-center justify-between ${
-                        isOwned
+                      className={`p-3.5 rounded-2xl border text-left text-xs font-bold transition-all flex items-center justify-between ${isOwned
                           ? 'bg-emerald-50 border-emerald-400 text-emerald-950 shadow-sm'
                           : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100'
-                      }`}
+                        }`}
                     >
                       <span className="flex items-center space-x-2">
                         <FileCheck className={`w-4 h-4 ${isOwned ? 'text-emerald-600' : 'text-slate-400'}`} />
@@ -344,32 +305,23 @@ export default function ProfileForm({ profile, setProfile, onSubmit, isEvaluatin
 
         {/* Step Navigation Controls */}
         <div className="flex items-center justify-between pt-6 border-t border-slate-200">
-          
+
           {currentStep > 1 ? (
             <button
               type="button"
-              onClick={() => setCurrentStep(prev => prev - 1)}
-              className="px-5 py-3 rounded-2xl border border-slate-200 hover:bg-slate-100 text-slate-700 font-bold text-xs flex items-center space-x-1.5 transition-all"
+              onClick={() => setCurrentStep(1)}
+              className="px-5 py-3 rounded-2xl border border-slate-200 hover:bg-slate-100 text-slate-700 font-bold text-xs flex items-center space-x-1.5 transition-all cursor-pointer"
             >
               <ArrowLeft className="w-4 h-4" />
               <span>Previous Step</span>
             </button>
           ) : <div />}
 
-          {currentStep < 2 ? (
-            <button
-              type="button"
-              onClick={() => setCurrentStep(prev => prev + 1)}
-              className="px-6 py-3 rounded-2xl bg-emerald-800 hover:bg-emerald-700 text-white font-bold text-xs shadow-md shadow-emerald-800/20 flex items-center space-x-1.5 transition-all"
-            >
-              <span>Next: Document Checklist</span>
-              <ChevronRight className="w-4 h-4" />
-            </button>
-          ) : (
+          {currentStep === 2 ? (
             <button
               type="submit"
               disabled={isEvaluating || Object.keys(validationErrors).length > 0}
-              className="px-8 py-3.5 rounded-2xl bg-gradient-to-r from-emerald-800 via-emerald-700 to-teal-700 hover:from-emerald-900 hover:to-teal-800 text-white font-black text-sm shadow-xl shadow-emerald-800/30 flex items-center space-x-2 transition-all transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-8 py-3.5 rounded-2xl bg-gradient-to-r from-emerald-800 via-emerald-700 to-teal-700 hover:from-emerald-900 hover:to-teal-800 text-white font-black text-sm shadow-xl shadow-emerald-800/30 flex items-center space-x-2 transition-all transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
             >
               {isEvaluating ? (
                 <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
@@ -380,9 +332,10 @@ export default function ProfileForm({ profile, setProfile, onSubmit, isEvaluatin
                 </>
               )}
             </button>
-          )}
+          ) : <div />}
 
         </div>
+
 
       </form>
     </div>

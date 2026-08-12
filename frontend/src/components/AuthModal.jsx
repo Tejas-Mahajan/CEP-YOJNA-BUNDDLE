@@ -17,13 +17,6 @@ export default function AuthModal({ isOpen, onClose, lang = 'en', setLang, onGue
   const [name, setName] = useState('');
   const [role, setRole] = useState('Farmer');
 
-  // Signup Profile Attributes
-  const [income, setIncome] = useState(180000);
-  const [landAcres, setLandAcres] = useState(2.5);
-  const [stateName, setStateName] = useState('Maharashtra');
-  const [category, setCategory] = useState('OBC');
-  const [courseLevel, setCourseLevel] = useState('Undergraduate');
-
   // OTP flow simulation for phone auth
   const [otpSent, setOtpSent] = useState(false);
   const [otpCode, setOtpCode] = useState('');
@@ -54,7 +47,11 @@ export default function AuthModal({ isOpen, onClose, lang = 'en', setLang, onGue
         if (!identifier) {
           throw new Error(`Please enter your ${authTab === 'phone' ? 'mobile number' : 'email address'}`);
         }
-        await login({ identifier, password, method: authTab });
+        const res = await login({ identifier, password, method: authTab });
+        if (!res.success) {
+          setErrorMsg(res.error || "Login failed");
+          return;
+        }
       } else {
         if (!name.trim()) {
           throw new Error("Please enter your Full Name");
@@ -63,21 +60,18 @@ export default function AuthModal({ isOpen, onClose, lang = 'en', setLang, onGue
         if (!identifier) {
           throw new Error(`Please enter your ${authTab === 'phone' ? 'mobile number' : 'email address'}`);
         }
-        await signup({
+        const res = await signup({
           name,
           identifier,
           password,
           method: authTab,
           role: 'Farmer',
-          profileAttributes: {
-            annual_income: Number(income),
-            land_acres: Number(landAcres),
-            state: stateName,
-            category: category,
-            occupation: 'Farmer',
-            owned_documents: ['Aadhaar Card', 'Bank Passbook']
-          }
+          profileAttributes: null
         });
+        if (!res.success) {
+          setErrorMsg(res.error || "Signup failed");
+          return;
+        }
       }
       onClose();
     } catch (err) {
@@ -87,9 +81,17 @@ export default function AuthModal({ isOpen, onClose, lang = 'en', setLang, onGue
     }
   };
 
-  const handleDemoLogin = (presetType) => {
-    login({ userPreset: presetType });
-    onClose();
+
+  const handleDemoLogin = async (presetType) => {
+    setErrorMsg('');
+    setIsSubmitting(true);
+    const res = await login({ userPreset: presetType });
+    setIsSubmitting(false);
+    if (res && res.success) {
+      onClose();
+    } else if (res && res.error) {
+      setErrorMsg(res.error);
+    }
   };
 
   const handleGuestClick = () => {

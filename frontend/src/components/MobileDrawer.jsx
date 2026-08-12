@@ -4,16 +4,23 @@ import { X, Sprout, GraduationCap, Layers, Languages, RefreshCw, LogIn, UserChec
 import { useAuth } from '../context/AuthContext';
 import { TRANSLATIONS } from '../data/translations';
 
-export default function MobileDrawer({ isOpen, onClose, activeTab, setActiveTab, profile, setProfile, lang, setLang, onReset }) {
+export default function MobileDrawer({ isOpen, onClose, activeTab, setActiveTab, profile, setProfile, lang, setLang, onReset, isFirstTimeSetup }) {
   const { user, isAuthenticated, setIsAuthModalOpen, savedSchemesCount } = useAuth();
   const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
 
   if (!isOpen) return null;
 
-
-
   const toggleLanguage = () => {
     setLang(prev => (prev === 'en' ? 'mr' : 'en'));
+  };
+
+  const handleTabClick = (tabId) => {
+    if (isFirstTimeSetup && tabId !== 'form') {
+      alert("Please complete your initial profile setup first!");
+      return;
+    }
+    setActiveTab(tabId);
+    onClose();
   };
 
   return (
@@ -89,7 +96,7 @@ export default function MobileDrawer({ isOpen, onClose, activeTab, setActiveTab,
             <div className="space-y-2">
               <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Navigation</label>
               <button
-                onClick={() => { setActiveTab('form'); onClose(); }}
+                onClick={() => handleTabClick('form')}
                 className={`w-full p-3 rounded-2xl font-bold text-xs flex items-center justify-between border transition-all ${
                   activeTab === 'form'
                     ? 'bg-emerald-50 border-emerald-300 text-emerald-900 shadow-2xs'
@@ -101,17 +108,21 @@ export default function MobileDrawer({ isOpen, onClose, activeTab, setActiveTab,
               </button>
 
               <button
-                onClick={() => { setActiveTab('results'); onClose(); }}
+                onClick={() => handleTabClick('results')}
+                disabled={isFirstTimeSetup}
                 className={`w-full p-3 rounded-2xl font-bold text-xs flex items-center justify-between border transition-all ${
-                  activeTab === 'results'
+                  isFirstTimeSetup
+                    ? 'opacity-50 cursor-not-allowed bg-slate-50 text-slate-400 border-slate-200'
+                    : activeTab === 'results'
                     ? 'bg-emerald-50 border-emerald-300 text-emerald-900 shadow-2xs'
                     : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
                 }`}
               >
-                <span>{t.actionDashboardTab}</span>
+                <span>{t.actionDashboardTab} {isFirstTimeSetup ? '(🔒 Locked)' : ''}</span>
                 <span className="w-2 h-2 rounded-full bg-emerald-600" />
               </button>
             </div>
+
 
             {/* Application Focus Banner */}
             <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-xs font-semibold text-emerald-950 flex items-center space-x-2">

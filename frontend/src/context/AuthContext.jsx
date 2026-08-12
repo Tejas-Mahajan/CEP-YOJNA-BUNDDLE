@@ -2,15 +2,14 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const AuthContext = createContext();
 
-const MOCK_JWT_SECRET = "yojana_bundle_jwt_secret_key_2026";
-
 // Demo user presets for 1-click test login
 export const DEMO_USERS = {
   farmer: {
     id: "user_farmer_101",
     name: "Ramesh Patil",
-    identifier: "9876543210",
-    authMethod: "phone",
+    identifier: "demo.farmer@example.com",
+    password: "FarmerPassword123!",
+    authMethod: "email",
     role: "Farmer",
     savedSchemes: ["PM_KISAN", "PMFBY"],
     profileAttributes: {
@@ -24,24 +23,10 @@ export const DEMO_USERS = {
         "Aadhaar Card",
         "7/12 Land Record Extract",
         "Bank Passbook",
-        "Ration Card"
+        "Income Certificate"
       ]
     }
   }
-};
-
-// Helper: Generate a simulated JWT token string (Base64 header.payload.signature)
-const generateMockJWT = (userData) => {
-  const header = btoa(JSON.stringify({ alg: "HS256", typ: "JWT" }));
-  const payload = btoa(JSON.stringify({
-    sub: userData.id,
-    name: userData.name,
-    role: userData.role,
-    exp: Math.floor(Date.now() / 1000) + (7 * 24 * 60 * 60), // 7 days expiry
-    iat: Math.floor(Date.now() / 1000)
-  }));
-  const signature = btoa(`${MOCK_JWT_SECRET}_${userData.id}`);
-  return `${header}.${payload}.${signature}`;
 };
 
 export const AuthProvider = ({ children }) => {
@@ -51,26 +36,53 @@ export const AuthProvider = ({ children }) => {
   const [savedSchemes, setSavedSchemes] = useState([]);
   const [isLoadingAuth, setIsLoadingAuth] = useState(true);
 
-  // Initialize auth state from LocalStorage on mount
+  // Logout handler
+  const logout = () => {
+    setUser(null);
+    setToken(null);
+    localStorage.removeItem('yojana_auth_token');
+    localStorage.removeItem('yojana_user_profile');
+  };
+
+  // Verify authentication token with backend on initial load
   useEffect(() => {
-    try {
-      const storedToken = localStorage.getItem('yojana_auth_token');
-      const storedUser = localStorage.getItem('yojana_user_profile');
-      const storedSavedSchemes = localStorage.getItem('yojana_saved_schemes');
+    const verifyInitialSession = async () => {
+      try {
+        const storedToken = localStorage.getItem('yojana_auth_token');
+        const storedSavedSchemes = localStorage.getItem('yojana_saved_schemes');
 
-      if (storedToken && storedUser) {
-        setUser(JSON.parse(storedUser));
-        setToken(storedToken);
-      }
+        if (storedSavedSchemes) {
+          try {
+            setSavedSchemes(JSON.parse(storedSavedSchemes));
+          } catch (e) {
+            console.error("Failed to parse stored saved schemes", e);
+          }
+        }
 
-      if (storedSavedSchemes) {
-        setSavedSchemes(JSON.parse(storedSavedSchemes));
+        if (storedToken) {
+          const res = await fetch('/api/auth/me', {
+            headers: {
+              'Authorization': `Bearer ${storedToken}`
+            }
+          });
+
+          if (res.ok) {
+            const data = await res.json();
+            setUser(data.user);
+            setToken(storedToken);
+          } else {
+            console.warn("Stored auth token is expired or invalid. Clearing session.");
+            logout();
+          }
+        }
+      } catch (err) {
+        console.error("Failed to verify authentication session with backend:", err);
+      } finally {
+        setIsLoadingAuth(false);
       }
-    } catch (err) {
-      console.error("Failed to restore session from LocalStorage", err);
-    } finally {
-      setIsLoadingAuth(false);
-    }
+    };
+
+    verifyInitialSession();
   }, []);
 
   // Sync saved schemes to LocalStorage
@@ -79,108 +91,144 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem('yojana_saved_schemes', JSON.stringify(newSavedList));
   };
 
-  // Login handler
-  const login = async ({ identifier, password, method, userPreset }) => {
-    let targetUser = null;
+  // Real backend Login handler
+  const login = async ({ identifier, password, userPreset }) => {
+    let loginIdentifier = identifier;
+    let loginPassword = password;
 
     if (userPreset && DEMO_USERS[userPreset]) {
-      targetUser = DEMO_USERS[userPreset];
-    } else {
-      // Create user record from login credentials
-      const isEmail = identifier.includes('@');
-      const mockName = isEmail ? identifier.split('@')[0].replace('.', ' ') : `User ${identifier.slice(-4)}`;
-      
-      // Try to load previous attributes or default
-      const storedUser = localStorage.getItem('yojana_user_profile');
-      const prevAttributes = storedUser ? JSON.parse(storedUser).profileAttributes : null;
+      loginIdentifier = DEMO_USERS[userPreset].identifier;
+      loginPassword = DEMO_USERS[userPreset].password;
+    }
 
-      targetUser = {
-        id: `usr_${Date.now()}`,
-        name: mockName.charAt(0).toUpperCase() + mockName.slice(1),
-        identifier: identifier,
-        authMethod: method || (isEmail ? 'email' : 'phone'),
-        role: 'Farmer',
-        profileAttributes: prevAttributes || {
-          annual_income: 200000,
-          category: 'General',
-          state: 'Maharashtra',
-          age: 28,
-          land_acres: 2.0,
-          occupation: 'Farmer',
-          owned_documents: ['Aadhaar Card', 'Bank Passbook']
+    if (!loginIdentifier || !loginPassword) {
+      return { success: false, error: "Email address/Identifier and Password are required" };
+    }
+
+    try {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          identifier: loginIdentifier,
+          password: loginPassword
+        })
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        const errorMsg = data.detail || data.message || `Login failed (Status ${res.status})`;
+        return { success: false, error: errorMsg };
+      }
+
+      const { token: newToken, user: userData } = data;
+
+      setUser(userData);
+      setToken(newToken);
+
+      localStorage.setItem('yojana_auth_token', newToken);
+      localStorage.setItem('yojana_user_profile', JSON.stringify(userData));
+      setIsAuthModalOpen(false);
+
+      return { success: true, user: userData, token: newToken };
+    } catch (err) {
+      console.error("Login API call failed:", err);
+      return { success: false, error: "Network error connecting to backend server" };
+    }
+  };
+
+  // Real backend Signup handler
+  const signup = async ({ name, identifier, password, role, profileAttributes }) => {
+    if (!name || !identifier || !password) {
+      return { success: false, error: "Full Name, Email/Identifier, and Password are required" };
+    }
+
+    try {
+      const res = await fetch('/api/auth/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: name.trim(),
+          identifier: identifier.trim(),
+          password: password,
+          role: role || 'Farmer',
+          profileAttributes: profileAttributes || null
+        })
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        const errorMsg = data.detail || data.message || `Signup failed (Status ${res.status})`;
+        return { success: false, error: errorMsg };
+      }
+
+      const { token: newToken, user: userData } = data;
+
+      setUser(userData);
+      setToken(newToken);
+      updateSavedSchemesState([]);
+
+      localStorage.setItem('yojana_auth_token', newToken);
+      localStorage.setItem('yojana_user_profile', JSON.stringify(userData));
+      setIsAuthModalOpen(false);
+
+      return { success: true, user: userData, token: newToken };
+    } catch (err) {
+      console.error("Signup API call failed:", err);
+      return { success: false, error: "Network error connecting to backend server" };
+    }
+  };
+
+  // Update user profile attributes on backend database and local state
+  const updateUserProfileAttributes = async (newAttributes) => {
+    if (!user) return { success: false, error: "User is not logged in" };
+
+    const authToken = token || localStorage.getItem('yojana_auth_token');
+
+    try {
+      if (authToken) {
+        const res = await fetch('/api/auth/profile', {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authToken}`
+          },
+          body: JSON.stringify(newAttributes)
+        });
+
+        if (!res.ok) {
+          const errData = await res.json().catch(() => ({}));
+          const errMsg = errData.detail || `Failed to persist profile to server (Status ${res.status})`;
+          console.error("Profile update error:", errMsg);
+          return { success: false, error: errMsg };
+        }
+
+        const data = await res.json();
+        if (data.user) {
+          setUser(data.user);
+          localStorage.setItem('yojana_user_profile', JSON.stringify(data.user));
+          return { success: true, user: data.user };
+        }
+      }
+
+      const updatedUser = {
+        ...user,
+        profileAttributes: {
+          ...(user.profileAttributes || {}),
+          ...newAttributes
         }
       };
+      setUser(updatedUser);
+      localStorage.setItem('yojana_user_profile', JSON.stringify(updatedUser));
+      return { success: true, user: updatedUser };
+    } catch (err) {
+      console.error("Failed to persist profile updates to backend server:", err);
+      return { success: false, error: "Network error saving profile attributes" };
     }
-
-    const newToken = generateMockJWT(targetUser);
-
-    setUser(targetUser);
-    setToken(newToken);
-    if (targetUser.savedSchemes) {
-      updateSavedSchemesState(targetUser.savedSchemes);
-    }
-
-    localStorage.setItem('yojana_auth_token', newToken);
-    localStorage.setItem('yojana_user_profile', JSON.stringify(targetUser));
-    setIsAuthModalOpen(false);
-
-    return { success: true, user: targetUser, token: newToken };
   };
 
-  // Signup handler
-  const signup = async ({ name, identifier, password, method, role, profileAttributes }) => {
-    const newUser = {
-      id: `usr_${Date.now()}`,
-      name: name.trim(),
-      identifier: identifier.trim(),
-      authMethod: method || (identifier.includes('@') ? 'email' : 'phone'),
-      role: 'Farmer',
-      savedSchemes: [],
-      profileAttributes: profileAttributes || {
-        annual_income: 150000,
-        category: 'General',
-        state: 'Maharashtra',
-        age: 25,
-        land_acres: 2.5,
-        occupation: 'Farmer',
-        owned_documents: ['Aadhaar Card', 'Bank Passbook']
-      }
-    };
-
-    const newToken = generateMockJWT(newUser);
-
-    setUser(newUser);
-    setToken(newToken);
-    updateSavedSchemesState([]);
-
-    localStorage.setItem('yojana_auth_token', newToken);
-    localStorage.setItem('yojana_user_profile', JSON.stringify(newUser));
-    setIsAuthModalOpen(false);
-
-    return { success: true, user: newUser, token: newToken };
-  };
-
-  // Update user profile attributes
-  const updateUserProfileAttributes = (newAttributes) => {
-    if (!user) return;
-    const updatedUser = {
-      ...user,
-      profileAttributes: {
-        ...user.profileAttributes,
-        ...newAttributes
-      }
-    };
-    setUser(updatedUser);
-    localStorage.setItem('yojana_user_profile', JSON.stringify(updatedUser));
-  };
-
-  // Logout handler
-  const logout = () => {
-    setUser(null);
-    setToken(null);
-    localStorage.removeItem('yojana_auth_token');
-    localStorage.removeItem('yojana_user_profile');
-  };
 
   // Toggle scheme saving
   const toggleSaveScheme = (schemeId) => {
