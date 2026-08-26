@@ -110,7 +110,7 @@ export const AuthProvider = ({ children }) => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          identifier: loginIdentifier,
+          identifier: loginIdentifier ? loginIdentifier.trim() : '',
           password: loginPassword
         })
       });

@@ -7,7 +7,7 @@ export default function AuthModal({ isOpen, onClose, lang = 'en', setLang, onGue
   const { login, signup } = useAuth();
 
   const [authMode, setAuthMode] = useState('login'); // 'login' or 'signup'
-  const [authTab, setAuthTab] = useState('phone'); // 'phone' or 'email'
+  const [authTab, setAuthTab] = useState('email'); // Default to working email+password flow
   
   // Form fields
   const [phone, setPhone] = useState('');
@@ -22,6 +22,19 @@ export default function AuthModal({ isOpen, onClose, lang = 'en', setLang, onGue
   const [otpCode, setOtpCode] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
+
+  // Helper to reset form inputs when switching between Login and Signup modes
+  const handleModeSwitch = (newMode) => {
+    setAuthMode(newMode);
+    setAuthTab('email');
+    setEmail('');
+    setPhone('');
+    setPassword('');
+    setName('');
+    setErrorMsg('');
+    setOtpSent(false);
+    setOtpCode('');
+  };
 
   if (!isOpen) return null;
 
@@ -179,7 +192,7 @@ export default function AuthModal({ isOpen, onClose, lang = 'en', setLang, onGue
             <div className="flex bg-slate-100 p-1 rounded-2xl border border-slate-200">
               <button
                 type="button"
-                onClick={() => { setAuthMode('login'); setErrorMsg(''); }}
+                onClick={() => handleModeSwitch('login')}
                 className={`flex-1 py-2.5 text-xs sm:text-sm font-bold rounded-xl transition-all ${
                   authMode === 'login'
                     ? 'bg-white text-emerald-950 shadow-sm'
@@ -190,7 +203,7 @@ export default function AuthModal({ isOpen, onClose, lang = 'en', setLang, onGue
               </button>
               <button
                 type="button"
-                onClick={() => { setAuthMode('signup'); setErrorMsg(''); }}
+                onClick={() => handleModeSwitch('signup')}
                 className={`flex-1 py-2.5 text-xs sm:text-sm font-bold rounded-xl transition-all ${
                   authMode === 'signup'
                     ? 'bg-white text-emerald-950 shadow-sm'
@@ -201,21 +214,8 @@ export default function AuthModal({ isOpen, onClose, lang = 'en', setLang, onGue
               </button>
             </div>
 
-            {/* Auth Tab Switcher: Phone Number / Email */}
+            {/* Auth Tab Switcher: Email + Password / Phone Number (Disabled) */}
             <div className="flex items-center space-x-4 border-b border-slate-200 pb-3">
-              <button
-                type="button"
-                onClick={() => { setAuthTab('phone'); setOtpSent(false); setErrorMsg(''); }}
-                className={`flex items-center space-x-2 text-xs sm:text-sm font-bold pb-1 transition-all border-b-2 ${
-                  authTab === 'phone'
-                    ? 'border-emerald-600 text-emerald-800'
-                    : 'border-transparent text-slate-400 hover:text-slate-700'
-                }`}
-              >
-                <Phone className="w-4 h-4" />
-                <span>Phone Number</span>
-              </button>
-
               <button
                 type="button"
                 onClick={() => { setAuthTab('email'); setErrorMsg(''); }}
@@ -227,6 +227,19 @@ export default function AuthModal({ isOpen, onClose, lang = 'en', setLang, onGue
               >
                 <Mail className="w-4 h-4" />
                 <span>Email + Password</span>
+              </button>
+
+              <button
+                type="button"
+                disabled
+                title="Phone authentication coming soon"
+                className="flex items-center space-x-1.5 text-xs sm:text-sm font-semibold pb-1 text-slate-300 cursor-not-allowed border-b-2 border-transparent"
+              >
+                <Phone className="w-4 h-4 text-slate-300" />
+                <span>Phone Number</span>
+                <span className="text-3xs bg-slate-100 text-slate-400 font-bold px-1.5 py-0.5 rounded-full border border-slate-200">
+                  Coming soon
+                </span>
               </button>
             </div>
 
