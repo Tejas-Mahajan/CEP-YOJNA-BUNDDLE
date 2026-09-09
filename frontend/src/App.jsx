@@ -21,6 +21,7 @@ import MobileDrawer from './components/MobileDrawer';
 import ErrorBoundary from './components/ErrorBoundary';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { formatDeadlineText } from './utils/validation';
+import { TRANSLATIONS, getSchemeName, getSchemeDescription, getSchemeBenefit } from './data/translations';
 
 function MainAppContent() {
   // App Flow State Machine: 'INTRO' -> 'AUTH' -> 'WELCOME' -> 'DASHBOARD'
@@ -29,6 +30,7 @@ function MainAppContent() {
 
   const [activeNav, setActiveNav] = useState('matcher'); // 'matcher', 'plan', 'vault', 'directory', 'csc', 'export'
   const [lang, setLang] = useState('en'); // 'en', 'mr', 'hi'
+  const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
   const [isEvaluating, setIsEvaluating] = useState(false);
   const [results, setResults] = useState(null);
   const [detailScheme, setDetailScheme] = useState(null);
@@ -324,7 +326,7 @@ function MainAppContent() {
       />
 
       {/* Personalized Welcome Bar (When Logged In) */}
-      <WelcomeBar />
+      <WelcomeBar lang={lang} />
 
       {/* Main Dashboard Layout */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -525,7 +527,7 @@ function MainAppContent() {
                         <div className="space-y-2">
                           <div className="flex items-start justify-between">
                             <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-100 text-emerald-900 uppercase">
-                              Agriculture
+                              {t.agricultureCategory || 'AGRICULTURE'}
                             </span>
                             <button
                               onClick={(e) => {
@@ -540,7 +542,7 @@ function MainAppContent() {
                           </div>
 
                           <h3 className="text-base font-extrabold text-slate-900 line-clamp-2 hover:text-emerald-700 transition-colors">
-                            {s.name}
+                            {getSchemeName(s, lang)}
                           </h3>
 
                           <div className="text-2xs text-slate-500 font-semibold flex items-center space-x-1">
@@ -549,15 +551,15 @@ function MainAppContent() {
                           </div>
 
                           <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed font-medium">
-                            {s.description}
+                            {getSchemeDescription(s, lang)}
                           </p>
                         </div>
 
                         <div className="pt-3 border-t border-slate-100 space-y-3">
                           <div className="flex items-center justify-between">
                             <div>
-                              <div className="text-[10px] text-slate-400 font-medium">Financial Benefit</div>
-                              <div className="text-sm font-black text-emerald-800">{s.benefit_display}</div>
+                              <div className="text-[10px] text-slate-400 font-medium">{t.totalBenefitLabel || 'Financial Benefit'}</div>
+                              <div className="text-sm font-black text-emerald-800">{getSchemeBenefit(s, lang)}</div>
                             </div>
 
                             <div className="text-right">
@@ -572,7 +574,7 @@ function MainAppContent() {
                             onClick={() => setDetailScheme(s)}
                             className="w-full py-2.5 rounded-xl bg-slate-900 hover:bg-emerald-800 text-white font-bold text-xs shadow-sm flex items-center justify-center space-x-1 transition-all"
                           >
-                            <span>View Deep-Dive Details</span>
+                            <span>{lang === 'mr' ? 'तपशील पहा' : lang === 'hi' ? 'विवरण देखें' : 'View Deep-Dive Details'}</span>
                             <ExternalLink className="w-3.5 h-3.5" />
                           </button>
                         </div>
@@ -631,6 +633,7 @@ function MainAppContent() {
           scheme={detailScheme}
           onClose={() => setDetailScheme(null)}
           allInsights={results ? results.document_insights : []}
+          lang={lang}
         />
       )}
 

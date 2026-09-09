@@ -44,7 +44,7 @@ export default function Header({ lang, setLang, onOpenMobileDrawer, onGoHome }) 
           <div className="flex items-center space-x-2 sm:space-x-3">
             
             {/* Notification Bell Center */}
-            <NotificationBell />
+            <NotificationBell lang={lang} />
 
             {/* Language Selector Dropdown (English 🇬🇧 / Marathi 🚩 / Hindi 🇮🇳) */}
             <div className="relative">

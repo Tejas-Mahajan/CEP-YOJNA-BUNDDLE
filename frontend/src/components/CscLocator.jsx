@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { MapPin, Phone, Clock, Search, ExternalLink, ShieldCheck, Sparkles, Navigation, UserCheck, CheckCircle2 } from 'lucide-react';
 import { CSC_OFFICES } from '../data/csc_offices';
-import { TRANSLATIONS } from '../data/translations';
+import { TRANSLATIONS, getLocalizedDistrict, getLocalizedCscService } from '../data/translations';
 
 export default function CscLocator({ lang }) {
   const [selectedDistrict, setSelectedDistrict] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
+  const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
 
   const districts = ['All', ...Array.from(new Set(CSC_OFFICES.map(c => c.district)))];
 
@@ -28,20 +29,20 @@ export default function CscLocator({ lang }) {
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10">
           <div>
             <div className="flex items-center space-x-2 text-amber-400 font-bold text-xs uppercase tracking-wider mb-1">
-              <MapPin className="w-4 h-4" /> Offline Assistance & Verification
+              <MapPin className="w-4 h-4" /> {t.cscBannerTag || 'Offline Assistance & Verification'}
             </div>
-            <h2 className="text-2xl font-black">CSC & Aaple Sarkar Seva Kendra Locator</h2>
+            <h2 className="text-2xl font-black">{t.cscBannerTitle || 'CSC & Aaple Sarkar Seva Kendra Locator'}</h2>
             <p className="text-xs text-emerald-200 mt-1 max-w-xl">
-              Locate authorized Common Service Centers (CSC) for physical document verification, e-KYC authentication, 7/12 extraction, and offline scheme submission.
+              {t.cscBannerSub || 'Locate authorized Common Service Centers (CSC) for physical document verification, e-KYC authentication, 7/12 extraction, and offline scheme submission.'}
             </p>
           </div>
 
           <div className="bg-white/10 backdrop-blur-md p-4 rounded-2xl border border-white/15 text-xs space-y-1">
             <div className="font-semibold text-amber-300 flex items-center space-x-1">
               <ShieldCheck className="w-4 h-4" />
-              <span>Government Verified Nodal Helpdesks</span>
+              <span>{t.cscNodalBadge || 'Government Verified Nodal Helpdesks'}</span>
             </div>
-            <div className="text-2xs text-emerald-100">Free guidance & official biometric e-KYC services</div>
+            <div className="text-2xs text-emerald-100">{t.cscNodalSub || 'Free guidance & official biometric e-KYC services'}</div>
           </div>
         </div>
       </div>
@@ -54,7 +55,7 @@ export default function CscLocator({ lang }) {
           <Search className="w-4 h-4 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
           <input
             type="text"
-            placeholder="Search by area, office name, or pincode (e.g. 411005)..."
+            placeholder={t.cscSearchPlaceholder || "Search by area, center name..."}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full pl-10 pr-4 py-2.5 rounded-2xl border border-slate-200 focus:ring-2 focus:ring-emerald-500 text-sm font-semibold text-slate-900 bg-slate-50/50 outline-none"
@@ -63,7 +64,7 @@ export default function CscLocator({ lang }) {
 
         {/* District Filter Chips */}
         <div className="flex items-center space-x-2 overflow-x-auto custom-scrollbar pb-1 md:pb-0">
-          <span className="text-xs font-bold text-slate-500 mr-1 flex-shrink-0">District:</span>
+          <span className="text-xs font-bold text-slate-500 mr-1 flex-shrink-0">{t.cscDistrictLabel || 'District:'}</span>
           {districts.map((dist) => (
             <button
               key={dist}
@@ -74,7 +75,7 @@ export default function CscLocator({ lang }) {
                   : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
               }`}
             >
-              {dist}
+              {getLocalizedDistrict(dist, lang)}
             </button>
           ))}
         </div>
@@ -86,8 +87,10 @@ export default function CscLocator({ lang }) {
         {filteredOffices.length === 0 ? (
           <div className="col-span-full bg-white rounded-3xl border border-slate-200 p-12 text-center text-slate-500 space-y-2">
             <MapPin className="w-10 h-10 text-slate-300 mx-auto" />
-            <div className="font-bold text-slate-700">No CSC centers found for "{searchQuery}"</div>
-            <div className="text-xs text-slate-400">Try changing district selection or clear search terms.</div>
+            <div className="font-bold text-slate-700">
+              {t.cscNoResultsTitle ? t.cscNoResultsTitle.replace('{query}', searchQuery) : `No CSC centers found for "${searchQuery}"`}
+            </div>
+            <div className="text-xs text-slate-400">{t.cscNoResultsSub || 'Try changing district selection or clear search terms.'}</div>
           </div>
         ) : (
           filteredOffices.map((office) => (
@@ -104,11 +107,11 @@ export default function CscLocator({ lang }) {
                     </div>
                     <div>
                       <h4 className="text-base font-extrabold text-slate-900">{office.name}</h4>
-                      <div className="text-2xs font-bold text-emerald-700">{office.district} District</div>
+                      <div className="text-2xs font-bold text-emerald-700">{getLocalizedDistrict(office.district, lang)} {t.cscDistrictSuffix || 'District'}</div>
                     </div>
                   </div>
                   <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-900 border border-emerald-300">
-                    Verified CSC
+                    {t.cscVerifiedBadge || 'Verified CSC'}
                   </span>
                 </div>
 
@@ -119,7 +122,7 @@ export default function CscLocator({ lang }) {
                 <div className="grid grid-cols-2 gap-2 text-xs">
                   <div className="flex items-center space-x-1.5 text-slate-700 font-semibold">
                     <UserCheck className="w-3.5 h-3.5 text-emerald-600" />
-                    <span>Nodal: <strong>{office.officerName}</strong></span>
+                    <span>{t.cscNodalLabel || 'Nodal:'} <strong>{office.officerName}</strong></span>
                   </div>
 
                   <div className="flex items-center space-x-1.5 text-slate-700 font-semibold">
@@ -130,11 +133,11 @@ export default function CscLocator({ lang }) {
 
                 {/* Services Pills */}
                 <div>
-                  <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Key Offline Services</div>
+                  <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">{t.cscServicesHeader || 'KEY OFFLINE SERVICES'}</div>
                   <div className="flex flex-wrap gap-1">
                     {office.servicesOffered.map((s, idx) => (
                       <span key={idx} className="px-2 py-0.5 rounded-lg bg-emerald-50 text-emerald-900 text-[10px] font-bold border border-emerald-200">
-                        ✓ {s}
+                        ✓ {getLocalizedCscService(s, lang)}
                       </span>
                     ))}
                   </div>
@@ -148,7 +151,7 @@ export default function CscLocator({ lang }) {
                   className="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold flex items-center space-x-1 transition-all"
                 >
                   <Phone className="w-3.5 h-3.5 text-emerald-700" />
-                  <span>Call Nodal</span>
+                  <span>{t.cscCallNodal || 'Call Nodal'}</span>
                 </a>
 
                 <a
@@ -157,7 +160,7 @@ export default function CscLocator({ lang }) {
                   rel="noopener noreferrer"
                   className="px-4 py-2 rounded-xl bg-emerald-800 hover:bg-emerald-700 text-white text-xs font-extrabold shadow-md shadow-emerald-800/20 flex items-center space-x-1.5 transition-all"
                 >
-                  <span>Directions on Google Maps</span>
+                  <span>{t.cscDirections || 'Directions on Google Maps'}</span>
                   <Navigation className="w-3.5 h-3.5" />
                 </a>
               </div>

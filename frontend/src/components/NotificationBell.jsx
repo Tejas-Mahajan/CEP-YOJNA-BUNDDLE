@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Bell, X, Sparkles, Clock, AlertTriangle, CheckCircle2, ChevronRight, ExternalLink, Calendar } from 'lucide-react';
+import { TRANSLATIONS, getLocalizedNotification } from '../data/translations';
 
-export default function NotificationBell({ onSelectScheme }) {
+export default function NotificationBell({ onSelectScheme, lang }) {
   const [isOpen, setIsOpen] = useState(false);
+  const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
 
   // Live 2026 Agriculture Scheme Updates & Deadline Notifications
-  const notifications = [
+  const rawNotifications = [
     {
       id: "notif_1",
       title: "🚨 Urgent Closing: PM-KUSUM Solar Pump Subsidy",
@@ -49,6 +51,7 @@ export default function NotificationBell({ onSelectScheme }) {
     }
   ];
 
+  const notifications = rawNotifications.map(n => getLocalizedNotification(n, lang));
   const unreadCount = notifications.filter(n => n.urgent).length;
 
   return (
@@ -92,7 +95,7 @@ export default function NotificationBell({ onSelectScheme }) {
               <div className="bg-gradient-to-r from-emerald-950 via-emerald-900 to-teal-950 p-4 text-white flex items-center justify-between">
                 <div className="flex items-center space-x-2">
                   <Bell className="w-4 h-4 text-amber-400" />
-                  <h4 className="text-sm font-bold">2026 Scheme News & Alerts</h4>
+                  <h4 className="text-sm font-bold">{t.notifDrawerTitle || '2026 Scheme News & Alerts'}</h4>
                 </div>
                 <button
                   onClick={() => setIsOpen(false)}
@@ -135,7 +138,7 @@ export default function NotificationBell({ onSelectScheme }) {
                     <div className="flex items-center justify-between text-[10px] text-slate-400 pt-1 font-semibold border-t border-slate-200/40">
                       <span>{n.date}</span>
                       <span className="text-emerald-700 font-bold hover:underline flex items-center">
-                        View Scheme <ChevronRight className="w-3 h-3 ml-0.5" />
+                        {t.notifViewScheme || 'View Scheme'} <ChevronRight className="w-3 h-3 ml-0.5" />
                       </span>
                     </div>
                   </div>
@@ -144,7 +147,7 @@ export default function NotificationBell({ onSelectScheme }) {
 
               {/* Footer */}
               <div className="p-3 bg-slate-50 border-t border-slate-200 text-center text-2xs text-slate-500 font-semibold">
-                Updated in real-time from National Portal Services
+                {t.notifFooterCredit || 'Updated in real-time from National Portal Services'}
               </div>
 
             </motion.div>

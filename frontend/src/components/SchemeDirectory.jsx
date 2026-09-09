@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Search, Filter, ExternalLink, Sparkles, Clock, FileText, Building2, CheckCircle2, Bookmark, RefreshCw, Lightbulb, Scale, AlertTriangle } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { formatDeadlineText } from '../utils/validation';
+import { TRANSLATIONS, getSchemeName, getSchemeDescription, getSchemeBenefit } from '../data/translations';
 
 export default function SchemeDirectory({ onOpenDetail, onOpenCompare, lang }) {
   const [schemes, setSchemes] = useState([]);
@@ -11,6 +12,7 @@ export default function SchemeDirectory({ onOpenDetail, onOpenCompare, lang }) {
   const [showOnlySaved, setShowOnlySaved] = useState(false);
   const [compareIds, setCompareIds] = useState([]);
 
+  const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
   const { savedSchemes, savedSchemesCount, isSchemeSaved, toggleSaveScheme } = useAuth();
 
   useEffect(() => {
@@ -170,7 +172,7 @@ export default function SchemeDirectory({ onOpenDetail, onOpenCompare, lang }) {
           }`}
         >
           <Bookmark className={`w-4 h-4 ${showOnlySaved ? 'fill-slate-950 text-slate-950' : 'text-amber-500 fill-amber-400'}`} />
-          <span>Saved Schemes</span>
+          <span>{t.savedSchemesNav || "Saved Schemes"}</span>
           <span className="px-2 py-0.5 rounded-full text-xs font-black bg-amber-500 text-slate-950">
             {savedSchemesCount}
           </span>
@@ -253,7 +255,7 @@ export default function SchemeDirectory({ onOpenDetail, onOpenCompare, lang }) {
                   <div className="flex items-start justify-between">
                     <div className="flex items-center space-x-1.5">
                       <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-100 text-emerald-900 uppercase">
-                        Agriculture
+                        {t.agricultureCategory || 'AGRICULTURE'}
                       </span>
                       {isUrgent && (
                         <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-red-600 text-white animate-pulse flex items-center">
@@ -281,7 +283,7 @@ export default function SchemeDirectory({ onOpenDetail, onOpenCompare, lang }) {
                       <button
                         onClick={(e) => handleSaveToggle(s.id, e)}
                         className="p-1.5 rounded-xl bg-slate-50 hover:bg-amber-50 text-slate-400 hover:text-amber-500 transition-colors"
-                        title={saved ? "Saved to Profile" : "Save Scheme"}
+                        title={saved ? (t.savedSchemeTitle || "Saved to Profile") : (t.saveSchemeTitle || "Save Scheme")}
                       >
                         <Bookmark className={`w-4 h-4 ${saved ? 'fill-amber-500 text-amber-500' : ''}`} />
                       </button>
@@ -289,7 +291,7 @@ export default function SchemeDirectory({ onOpenDetail, onOpenCompare, lang }) {
                   </div>
 
                   <h3 className="text-base font-extrabold text-slate-900 line-clamp-2 hover:text-emerald-700 transition-colors">
-                    {s.name}
+                    {getSchemeName(s, lang)}
                   </h3>
 
                   <div className="text-2xs text-slate-500 font-semibold flex items-center space-x-1">
@@ -298,7 +300,7 @@ export default function SchemeDirectory({ onOpenDetail, onOpenCompare, lang }) {
                   </div>
 
                   <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed font-medium">
-                    {s.description}
+                    {getSchemeDescription(s, lang)}
                   </p>
                 </div>
 
@@ -306,7 +308,7 @@ export default function SchemeDirectory({ onOpenDetail, onOpenCompare, lang }) {
                   <div className="flex items-center justify-between">
                     <div>
                       <div className="text-[10px] text-slate-400 font-medium">Financial Benefit</div>
-                      <div className="text-sm font-black text-emerald-800">{s.benefit_display}</div>
+                      <div className="text-sm font-black text-emerald-800">{getSchemeBenefit(s, lang)}</div>
                     </div>
 
                     <div className="text-right">

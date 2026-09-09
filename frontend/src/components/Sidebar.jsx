@@ -28,54 +28,54 @@ export default function Sidebar({ activeNav, setActiveNav, activeTab, setActiveT
 
   const navGroups = [
     {
-      groupTitle: "PORTAL & DASHBOARD",
+      groupTitle: t.navPortalDashboard || "PORTAL & DASHBOARD",
       items: [
         {
           id: 'matcher',
-          label: 'Eligibility Engine',
-          subtitle: 'Tailored profile form & calculation',
+          label: t.eligibilityEngine || 'Eligibility Engine',
+          subtitle: t.eligibilityEngineSub || 'Tailored profile form & calculation',
           icon: Compass,
           badge: null
         }
       ]
     },
     {
-      groupTitle: "ACTION PLAN & OPTIMIZATION",
+      groupTitle: t.navActionPlanOptimization || "ACTION PLAN & OPTIMIZATION",
       items: [
         {
           id: 'plan',
-          label: "'Apply First' Action Plan",
-          subtitle: 'Weighted priority checklist',
+          label: t.actionPlanNav || "'Apply First' Action Plan",
+          subtitle: t.actionPlanNavSub || 'Weighted priority checklist',
           icon: ClipboardList,
-          badge: resultsCount > 0 ? `${resultsCount} Matched` : null,
+          badge: resultsCount > 0 ? `${resultsCount} ${t.schemesMatchedUnit || 'Matched'}` : null,
           badgeColor: 'bg-emerald-600 text-white'
         },
         {
           id: 'vault',
-          label: 'Document Vault & Overlap',
-          subtitle: 'Reusable master document matrix',
+          label: t.documentVaultNav || 'Document Vault & Overlap',
+          subtitle: t.documentVaultNavSub || 'Reusable master document matrix',
           icon: FolderCheck,
           badge: null
         }
       ]
     },
     {
-      groupTitle: "DIRECTORY & ASSISTANCE",
+      groupTitle: t.navDirectoryAssistance || "DIRECTORY & ASSISTANCE",
       items: [
         {
           id: 'directory',
-          label: 'All Schemes Directory',
-          subtitle: 'Agri Schemes & Side-by-Side Compare',
+          label: t.allSchemesDirectoryNav || 'All Schemes Directory',
+          subtitle: t.allSchemesDirectoryNavSub || 'Agri Schemes & Side-by-Side Compare',
           icon: Search,
-          badge: `All ${totalSchemes}`,
+          badge: `${lang === 'mr' ? 'सर्व' : lang === 'hi' ? 'सभी' : 'All'} ${totalSchemes}`,
           badgeColor: 'bg-slate-200 text-slate-800'
         },
         {
           id: 'csc',
-          label: 'CSC / Offline Help Locator',
-          subtitle: 'Maha e-Seva helpdesks & map links',
+          label: t.cscLocatorNav || 'CSC / Offline Help Locator',
+          subtitle: t.cscLocatorNavSub || 'Maha e-Seva helpdesks & map links',
           icon: MapPin,
-          badge: 'Verified',
+          badge: lang === 'mr' ? 'प्रमाणित' : lang === 'hi' ? 'सत्यापित' : 'Verified',
           badgeColor: 'bg-amber-400 text-slate-950'
         }
       ]
@@ -113,7 +113,7 @@ export default function Sidebar({ activeNav, setActiveNav, activeTab, setActiveT
                       setActiveNav(item.id);
                     }
                   }}
-                  title={isLocked ? "Complete initial profile to unlock" : ""}
+                  title={isLocked ? (lang === 'mr' ? "अनलॉक करण्यासाठी आधी प्रोफाईल भरा" : lang === 'hi' ? "अनलॉक करने के लिए पहले प्रोफाइल भरें" : "Complete initial profile to unlock") : ""}
                   className={`w-full p-3 rounded-2xl text-left transition-all flex items-center justify-between group ${
                     isLocked
                       ? 'opacity-50 cursor-not-allowed bg-slate-50 border border-slate-100 text-slate-400'
@@ -138,14 +138,14 @@ export default function Sidebar({ activeNav, setActiveNav, activeTab, setActiveT
                         {item.label}
                       </div>
                       <div className={`text-[10px] truncate ${isLocked ? 'text-slate-400' : isActive ? 'text-emerald-200' : 'text-slate-400'}`}>
-                        {isLocked ? '🔒 Fill profile to unlock' : item.subtitle}
+                        {isLocked ? (lang === 'mr' ? '🔒 लॉक केलेले' : lang === 'hi' ? '🔒 लॉक है' : '🔒 Fill profile to unlock') : item.subtitle}
                       </div>
                     </div>
                   </div>
 
                   {isLocked ? (
                     <span className="px-2 py-0.5 rounded-full text-[10px] font-extrabold ml-1 flex-shrink-0 bg-slate-200 text-slate-500 flex items-center space-x-1">
-                      <span>🔒 Locked</span>
+                      <span>{lang === 'mr' ? '🔒 लॉक' : lang === 'hi' ? '🔒 लॉक' : '🔒 Locked'}</span>
                     </span>
                   ) : item.badge ? (
                     <span className={`px-2 py-0.5 rounded-full text-[10px] font-extrabold ml-1 flex-shrink-0 ${item.badgeColor || 'bg-emerald-100 text-emerald-900'}`}>
@@ -174,7 +174,7 @@ export default function Sidebar({ activeNav, setActiveNav, activeTab, setActiveT
         >
           <div className="flex items-center space-x-2 font-bold">
             <Bookmark className={`w-4 h-4 ${(activeTab === 'SAVED' || activeNav === 'SAVED') ? 'text-amber-300 fill-amber-400' : 'text-amber-500 fill-amber-400'}`} />
-            <span>Saved Schemes</span>
+            <span>{t.savedSchemesNav || "Saved Schemes"}</span>
           </div>
           <span className={`px-2.5 py-0.5 rounded-full text-xs font-black ${(activeTab === 'SAVED' || activeNav === 'SAVED') ? 'bg-emerald-500 text-slate-950' : 'bg-amber-400 text-slate-950'}`}>
             {savedSchemesCount}

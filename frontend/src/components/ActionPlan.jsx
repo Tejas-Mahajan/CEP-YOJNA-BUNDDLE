@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ExternalLink, Clock, FileCheck, AlertTriangle, ThumbsUp, ThumbsDown, Info, ChevronDown, ChevronUp, CheckCircle, Search, Sparkles, Bookmark, Filter, RefreshCw, Lightbulb } from 'lucide-react';
-import { TRANSLATIONS } from '../data/translations';
+import { TRANSLATIONS, getSchemeName, getPriorityTierLabel, getSchemeDescription, getSchemeBenefit } from '../data/translations';
 import { useAuth } from '../context/AuthContext';
 import { formatDeadlineText } from '../utils/validation';
 
@@ -222,8 +222,8 @@ export default function ActionPlan({ results, onOpenDetail, onOpenFeedback, onPr
             const isSecondary = item.is_mutually_exclusive_secondary;
             const saved = isSchemeSaved(s.id);
 
-            const benefitText = (lang === 'mr' && s.benefit_display_mr) ? s.benefit_display_mr : s.benefit_display;
-            const descText = (lang === 'mr' && s.description_mr) ? s.description_mr : s.description;
+            const benefitText = getSchemeBenefit(s, lang);
+            const descText = getSchemeDescription(s, lang);
 
             return (
               <div
@@ -236,12 +236,12 @@ export default function ActionPlan({ results, onOpenDetail, onOpenFeedback, onPr
                     : 'border-slate-200'
                 }`}
               >
-                {/* Main Row */}
-                <div className="p-6 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+                {/* Main Row Container */}
+                <div className="w-full box-border p-5 sm:px-6 sm:py-5 flex flex-col xl:flex-row xl:items-center justify-between gap-4 xl:gap-6 overflow-hidden">
                   
-                  {/* Left: Step number, Priority badge, Scheme title */}
-                  <div className="flex items-start space-x-4 flex-1">
-                    <div className={`w-10 h-10 rounded-2xl flex items-center justify-center font-extrabold text-base flex-shrink-0 ${
+                  {/* Section 1 (Left details, Width: ~40% on xl): Step number, Tags, Title & Subtitle */}
+                  <div className="w-full xl:w-[40%] xl:max-w-[40%] min-w-0 flex items-start space-x-3.5">
+                    <div className={`w-9 h-9 sm:w-10 sm:h-10 rounded-2xl flex items-center justify-center font-extrabold text-sm sm:text-base shrink-0 mt-0.5 ${
                       isSecondary
                         ? 'bg-amber-500 text-white'
                         : isHighPriority
@@ -253,9 +253,10 @@ export default function ActionPlan({ results, onOpenDetail, onOpenFeedback, onPr
                       #{index + 1}
                     </div>
 
-                    <div className="space-y-1.5 flex-1">
-                      <div className="flex flex-wrap items-center gap-2">
-                        <span className={`px-2.5 py-0.5 rounded-full text-[11px] font-extrabold tracking-wide uppercase ${
+                    <div className="space-y-1.5 min-w-0 flex-1">
+                      {/* Tags Row */}
+                      <div className="flex flex-wrap items-center gap-1.5">
+                        <span className={`px-2 py-0.5 rounded-full text-[10px] font-extrabold tracking-wide uppercase ${
                           isSecondary
                             ? 'bg-amber-100 text-amber-900 border border-amber-300'
                             : isHighPriority
@@ -264,43 +265,48 @@ export default function ActionPlan({ results, onOpenDetail, onOpenFeedback, onPr
                             ? 'bg-amber-100 text-amber-900 border border-amber-300'
                             : 'bg-slate-100 text-slate-700 border border-slate-300'
                         }`}>
-                          {isSecondary ? '⚠️ Mutually Exclusive Option' : item.priority_tier}
+                          {isSecondary ? (lang === 'mr' ? '⚠️ परस्पर अनन्य पर्याय' : lang === 'hi' ? '⚠️ परस्पर अनन्य विकल्प' : '⚠️ Mutually Exclusive Option') : getPriorityTierLabel(item.priority_tier, lang)}
                         </span>
 
-                        <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-slate-100 text-slate-700 uppercase">
-                          Agriculture
+                        <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-700 uppercase">
+                          {t.agricultureCategory || 'AGRICULTURE'}
                         </span>
 
-                        <span className="text-xs font-semibold text-slate-500">
-                          Score: <span className="text-emerald-800 font-extrabold">{item.composite_score}/100</span>
+                        <span className="text-[11px] font-semibold text-slate-500">
+                          {t.scoreLabel || 'Score:'} <span className="text-emerald-800 font-extrabold">{item.composite_score}/100</span>
                         </span>
                       </div>
 
+                      {/* Scheme Title */}
                       <h4
                         onClick={() => onOpenDetail(s)}
-                        className="text-lg font-bold text-slate-900 hover:text-emerald-700 cursor-pointer transition-colors"
+                        className="text-base sm:text-lg font-extrabold text-slate-900 hover:text-emerald-700 cursor-pointer transition-colors leading-[1.3] break-words"
                       >
-                        {s.name}
+                        {getSchemeName(s, lang)}
                       </h4>
 
-                      <p className="text-xs text-slate-600 line-clamp-2">{descText}</p>
+                      {/* Description Subtitle */}
+                      <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed font-normal">{descText}</p>
 
                       {isSecondary && (
-                        <div className="text-[11px] text-amber-800 font-bold bg-amber-100/80 px-2.5 py-1 rounded-lg border border-amber-200 inline-block">
+                        <div className="text-[11px] text-amber-800 font-bold bg-amber-100/80 px-2.5 py-1 rounded-lg border border-amber-200 inline-block mt-1">
                           ⚠️ {t.secondaryClaim}: {item.conflict_warning}
                         </div>
                       )}
                     </div>
                   </div>
 
-                  {/* Middle: Financial Benefit & Urgency Badge */}
-                  <div className="flex flex-wrap lg:flex-col items-start lg:items-end justify-between gap-2 border-t lg:border-t-0 border-slate-100 pt-4 lg:pt-0">
-                    <div className="text-right">
-                      <div className="text-xs text-slate-500 font-semibold">{t.totalBenefitLabel}</div>
-                      <div className="text-lg font-extrabold text-emerald-800">{benefitText}</div>
+                  {/* Section 2 (Middle benefit box, Width: ~34% on xl): Total Potential Benefit & Deadline */}
+                  <div className="w-full xl:w-[34%] min-w-0 px-0 xl:px-4 py-2 xl:py-0 border-t xl:border-t-0 border-slate-100 flex flex-col items-start xl:items-end justify-center overflow-hidden">
+                    <div className="text-left xl:text-right space-y-1 w-full">
+                      <div className="text-[11px] text-slate-400 font-bold uppercase tracking-wider">{t.totalBenefitLabel}</div>
+                      <div className="text-xs sm:text-sm font-extrabold text-emerald-800 leading-[1.4] line-clamp-2 break-words [overflow-wrap:anywhere]">
+                        {benefitText}
+                      </div>
                     </div>
 
-                    <div className="flex items-center space-x-2 text-xs font-semibold">
+                    {/* Deadline chip */}
+                    <div className="mt-2 flex items-center space-x-2 text-xs font-semibold">
                       <div className={`px-3 py-1 rounded-xl flex items-center space-x-1 ${
                         (s.deadline_days > 0 && s.deadline_days <= 10)
                           ? 'bg-red-50 text-red-700 border border-red-200 animate-pulse'
@@ -312,38 +318,40 @@ export default function ActionPlan({ results, onOpenDetail, onOpenFeedback, onPr
                     </div>
                   </div>
 
-                  {/* Right: Actions (Save Scheme, Apply Now, Expand) */}
-                  <div className="flex items-center space-x-2 border-t lg:border-t-0 border-slate-100 pt-4 lg:pt-0">
+                  {/* Section 3 (Right action buttons, Width: auto, shrink-0): Save, Apply Now, Chevron */}
+                  <div className="w-full xl:w-auto shrink-0 flex items-center justify-end gap-2 border-t xl:border-t-0 border-slate-100 pt-3 xl:pt-0">
                     
                     {/* Bookmark / Save Scheme Button */}
                     <button
                       onClick={() => handleSaveClick(s.id)}
-                      className={`p-2.5 rounded-xl border transition-all flex items-center space-x-1 ${
+                      className={`px-3 py-2.5 rounded-xl border transition-all flex items-center space-x-1.5 shrink-0 ${
                         saved
                           ? 'bg-amber-50 border-amber-300 text-amber-700 font-bold shadow-2xs'
                           : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100'
                       }`}
-                      title={saved ? "Saved to Profile Bundle" : "Save Scheme to Profile"}
+                      title={saved ? (t.savedSchemeTitle || "Saved to Profile Bundle") : (t.saveSchemeTitle || "Save Scheme to Profile")}
                     >
                       <Bookmark className={`w-4 h-4 ${saved ? 'fill-amber-500 text-amber-500' : ''}`} />
                       <span className="text-xs font-semibold hidden md:inline">
-                        {saved ? 'Saved' : 'Save'}
+                        {saved ? (t.savedBtn || 'Saved') : (t.saveBtn || 'Save')}
                       </span>
                     </button>
 
+                    {/* Apply Now Button */}
                     <a
                       href={s.official_url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="px-4 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs shadow-md shadow-emerald-700/20 transition-all flex items-center space-x-1"
+                      className="px-3.5 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs shadow-md shadow-emerald-700/20 transition-all flex items-center space-x-1.5 shrink-0 whitespace-nowrap"
                     >
                       <span>{t.applyNow}</span>
                       <ExternalLink className="w-3.5 h-3.5" />
                     </a>
 
+                    {/* Chevron Expand Toggle */}
                     <button
                       onClick={() => toggleExpand(s.id)}
-                      className="p-2.5 rounded-xl border border-slate-200 hover:bg-slate-100 transition-colors text-slate-600"
+                      className="p-2.5 rounded-xl border border-slate-200 hover:bg-slate-100 transition-colors text-slate-600 shrink-0"
                       title="View Details"
                     >
                       {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}

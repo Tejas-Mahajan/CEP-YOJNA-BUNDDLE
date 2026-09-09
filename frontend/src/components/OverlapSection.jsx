@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, CheckCircle2, AlertCircle, FileText, Zap, Layers, Filter, Check } from 'lucide-react';
-import { TRANSLATIONS } from '../data/translations';
+import { TRANSLATIONS, getLocalizedDocumentName, getLocalizedEfficiencyTag, getLocalizedSchemeTag } from '../data/translations';
 
 export default function OverlapSection({ insights, callouts, lang, onSelectDocumentFilter }) {
   const [activeDoc, setActiveDoc] = useState(null);
@@ -17,6 +17,26 @@ export default function OverlapSection({ insights, callouts, lang, onSelectDocum
     }
   };
 
+  const formatCalloutText = (c) => {
+    if (!c) return '';
+    if (lang === 'mr') {
+      if (c.includes('Aadhaar')) {
+        return "🔥 महत्त्वाचे कागदपत्र: 'आधार ओळखपत्र' एकाच वेळी ४ कृषी योजनांचे दरवाजे उघडते!";
+      }
+      if (c.includes('7/12') || c.includes('Land')) {
+        return "🔥 महत्त्वाचे कागदपत्र: 'जमीन मालकी पुरावा (७/१२ उतारा)' एकाच वेळी ३ कृषी योजनांचे दरवाजे उघडते!";
+      }
+    } else if (lang === 'hi') {
+      if (c.includes('Aadhaar')) {
+        return "🔥 प्रमुख दस्तावेज़: 'आधार पहचान पत्र' एक साथ 4 कृषि योजनाओं के लिए मान्य है!";
+      }
+      if (c.includes('7/12') || c.includes('Land')) {
+        return "🔥 प्रमुख दस्तावेज़: 'भूमि स्वामित्व प्रमाण (7/12 खतौनी/खसरा)' एक साथ 3 कृषि योजनाओं के लिए मान्य है!";
+      }
+    }
+    return c;
+  };
+
   return (
     <div className="bg-white rounded-3xl border border-slate-200/80 shadow-xl p-6 sm:p-8 space-y-6">
       
@@ -28,7 +48,7 @@ export default function OverlapSection({ insights, callouts, lang, onSelectDocum
           </div>
           <div>
             <h3 className="text-xl font-black text-slate-900">{t.overlapTitle}</h3>
-            <p className="text-xs text-slate-500">{t.overlapDesc} — Click any master document to highlight connected schemes.</p>
+            <p className="text-xs text-slate-500">{t.overlapDesc} — {t.overlapHint || "Click any master document to highlight connected schemes."}</p>
           </div>
         </div>
         
@@ -37,7 +57,7 @@ export default function OverlapSection({ insights, callouts, lang, onSelectDocum
             onClick={() => handleDocClick(null)}
             className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-900 border border-amber-300 hover:bg-amber-200 transition-all self-start sm:self-auto"
           >
-            <span>Reset Matrix Filter: <strong>{activeDoc}</strong></span>
+            <span>{t.resetMatrixFilter || "Reset Matrix Filter:"} <strong>{getLocalizedDocumentName(activeDoc, lang)}</strong></span>
             <span className="ml-1 text-amber-700 font-bold">✕</span>
           </button>
         )}
@@ -53,7 +73,7 @@ export default function OverlapSection({ insights, callouts, lang, onSelectDocum
               className="p-4 rounded-2xl bg-gradient-to-r from-amber-50/80 via-emerald-50/60 to-teal-50/60 border border-amber-200/80 flex items-start space-x-3 text-xs font-semibold text-slate-800 shadow-2xs"
             >
               <Sparkles className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
-              <span>{c}</span>
+              <span>{formatCalloutText(c)}</span>
             </motion.div>
           ))}
         </div>
@@ -86,7 +106,7 @@ export default function OverlapSection({ insights, callouts, lang, onSelectDocum
                   <div className="flex items-center space-x-2">
                     <FileText className={`w-4 h-4 ${isSelected ? 'text-amber-400' : item.is_owned ? 'text-emerald-600' : 'text-slate-500'}`} />
                     <span className={`font-extrabold text-sm ${isSelected ? 'text-white' : 'text-slate-900'}`}>
-                      {item.document_name}
+                      {getLocalizedDocumentName(item.document_name, lang)}
                     </span>
                   </div>
 
@@ -102,15 +122,15 @@ export default function OverlapSection({ insights, callouts, lang, onSelectDocum
                 </div>
 
                 <div className={`text-[11px] font-semibold mt-2 ${isSelected ? 'text-emerald-200' : 'text-slate-500'}`}>
-                  {item.efficiency_tag}
+                  {getLocalizedEfficiencyTag(item.efficiency_tag, lang)}
                 </div>
               </div>
 
               {/* Connected Schemes Count */}
               <div className={`pt-3 border-t flex items-center justify-between ${isSelected ? 'border-emerald-700/50' : 'border-slate-200/60'}`}>
-                <span className={`text-xs font-medium ${isSelected ? 'text-emerald-200' : 'text-slate-600'}`}>Unlocks Schemes:</span>
+                <span className={`text-xs font-medium ${isSelected ? 'text-emerald-200' : 'text-slate-600'}`}>{t.unlocksSchemesLabel || 'Unlocks Schemes:'}</span>
                 <span className={`px-2.5 py-1 rounded-xl font-black text-xs ${isSelected ? 'bg-amber-400 text-slate-950' : 'bg-white border border-slate-200 text-emerald-900 shadow-2xs'}`}>
-                  ⚡ {item.unlocked_schemes_count} Schemes
+                  ⚡ {t.schemesCountLabel ? t.schemesCountLabel.replace('{count}', item.unlocked_schemes_count) : `${item.unlocked_schemes_count} Schemes`}
                 </span>
               </div>
               
@@ -125,7 +145,7 @@ export default function OverlapSection({ insights, callouts, lang, onSelectDocum
                         : 'bg-white text-slate-700 border border-slate-200'
                     }`}
                   >
-                    {sName}
+                    {getLocalizedSchemeTag(sName, lang)}
                   </span>
                 ))}
               </div>

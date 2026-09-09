@@ -48,7 +48,7 @@ export default function SummaryCards({ results, lang }) {
         </div>
         <div className="mt-4">
           <div className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
-            {total_eligible_schemes} <span className="text-lg font-semibold text-slate-500">Schemes</span>
+            {total_eligible_schemes} <span className="text-lg font-semibold text-slate-500">{t.schemesUnit || 'Schemes'}</span>
           </div>
           <div className="flex items-center space-x-2 text-xs font-semibold mt-2">
             <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200">

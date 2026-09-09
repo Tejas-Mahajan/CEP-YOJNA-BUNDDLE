@@ -2,17 +2,21 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { UserCheck, Bookmark, ShieldCheck, LogOut, ChevronDown, CheckCircle, Sparkles, X, Heart, ExternalLink } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { TRANSLATIONS } from '../data/translations';
 
-export default function WelcomeBar({ onSelectScheme, allSchemes = [] }) {
+export default function WelcomeBar({ onSelectScheme, allSchemes = [], lang }) {
   const { user, logout, savedSchemes, savedSchemesCount, isAuthenticated } = useAuth();
   const [showSavedModal, setShowSavedModal] = useState(false);
   const [showProfileDrawer, setShowProfileDrawer] = useState(false);
+  const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
 
   if (!isAuthenticated || !user) return null;
 
   const roleColor = 'bg-emerald-100 text-emerald-800 border-emerald-300';
-
   const attrs = user.profileAttributes || {};
+
+  const roleText = lang === 'mr' ? (user.role === 'Farmer' ? 'शेतकरी' : user.role) : lang === 'hi' ? (user.role === 'Farmer' ? 'किसान' : user.role) : (user.role || 'Farmer');
+  const roleLabelPrefix = lang === 'mr' ? 'प्रोफाइल: ' : lang === 'hi' ? 'प्रोफ़ाइल: ' : 'Profile: ';
 
   return (
     <>
@@ -23,7 +27,7 @@ export default function WelcomeBar({ onSelectScheme, allSchemes = [] }) {
           <div className="flex items-center space-x-2 sm:space-x-3 flex-wrap">
             <span className="flex items-center space-x-1.5 font-bold text-white">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-              <span>Welcome back, <strong className="text-emerald-300">{user.name}</strong> 👋</span>
+              <span>{t.welcomeBack || 'Welcome back,'} <strong className="text-emerald-300">{user.name}</strong> 👋</span>
             </span>
 
             <span className="text-emerald-600 hidden sm:inline">|</span>
@@ -33,7 +37,7 @@ export default function WelcomeBar({ onSelectScheme, allSchemes = [] }) {
               onClick={() => setShowProfileDrawer(true)}
               className="inline-flex items-center space-x-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-800/80 hover:bg-emerald-700/90 text-emerald-100 border border-emerald-600/50 transition-all"
             >
-              <span>Profile: <strong>{user.role || 'Farmer'}</strong></span>
+              <span>{roleLabelPrefix}<strong>{roleText}</strong></span>
               <ChevronDown className="w-3 h-3 text-emerald-300" />
             </button>
 
@@ -45,7 +49,7 @@ export default function WelcomeBar({ onSelectScheme, allSchemes = [] }) {
               className="inline-flex items-center space-x-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-400/40 transition-all"
             >
               <Bookmark className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-              <span>Saved Schemes: <strong>{savedSchemesCount}</strong></span>
+              <span>{t.savedSchemesNav || 'Saved Schemes'}: <strong>{savedSchemesCount}</strong></span>
             </button>
           </div>
 
@@ -56,7 +60,7 @@ export default function WelcomeBar({ onSelectScheme, allSchemes = [] }) {
               className="text-slate-300 hover:text-white underline underline-offset-2 flex items-center space-x-1"
             >
               <UserCheck className="w-3.5 h-3.5 text-emerald-400" />
-              <span>Stored Attributes</span>
+              <span>{t.storedAttributes || 'Stored Attributes'}</span>
             </button>
 
             <button
@@ -64,7 +68,7 @@ export default function WelcomeBar({ onSelectScheme, allSchemes = [] }) {
               className="px-2.5 py-1 rounded-lg bg-red-900/40 hover:bg-red-800/60 text-red-200 border border-red-700/40 flex items-center space-x-1 transition-all"
             >
               <LogOut className="w-3.5 h-3.5" />
-              <span>Log Out</span>
+              <span>{t.logOut || 'Log Out'}</span>
             </button>
           </div>
 
@@ -91,7 +95,7 @@ export default function WelcomeBar({ onSelectScheme, allSchemes = [] }) {
               <div className="flex items-center justify-between border-b border-slate-100 pb-4 mb-4">
                 <div className="flex items-center space-x-2">
                   <Bookmark className="w-5 h-5 text-amber-500 fill-amber-400" />
-                  <h3 className="text-lg font-bold text-slate-900">Your Saved Schemes ({savedSchemesCount})</h3>
+                  <h3 className="text-lg font-bold text-slate-900">{t.savedSchemesNav || 'Saved Schemes'} ({savedSchemesCount})</h3>
                 </div>
                 <button
                   onClick={() => setShowSavedModal(false)}
@@ -148,7 +152,7 @@ export default function WelcomeBar({ onSelectScheme, allSchemes = [] }) {
               <div className="flex items-center justify-between border-b border-slate-100 pb-4 mb-4">
                 <div className="flex items-center space-x-2">
                   <UserCheck className="w-5 h-5 text-emerald-600" />
-                  <h3 className="text-lg font-bold text-slate-900">Stored Profile Attributes</h3>
+                  <h3 className="text-lg font-bold text-slate-900">{t.storedAttributes || 'Stored Profile Attributes'}</h3>
                 </div>
                 <button
                   onClick={() => setShowProfileDrawer(false)}
