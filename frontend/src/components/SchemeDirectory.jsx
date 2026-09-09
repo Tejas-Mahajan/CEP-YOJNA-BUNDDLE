@@ -8,10 +8,10 @@ export default function SchemeDirectory({ onOpenDetail, onOpenCompare, lang }) {
   const [schemes, setSchemes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [showOnlySaved, setShowOnlySaved] = useState(false);
   const [compareIds, setCompareIds] = useState([]);
 
-  const { isSchemeSaved, toggleSaveScheme, isAuthenticated, setIsAuthModalOpen } = useAuth();
+  const { savedSchemes, savedSchemesCount, isSchemeSaved, toggleSaveScheme } = useAuth();
 
   useEffect(() => {
     const fetchSchemes = async () => {
@@ -64,20 +64,17 @@ export default function SchemeDirectory({ onOpenDetail, onOpenCompare, lang }) {
   };
 
   const filteredSchemes = schemes.filter(s => {
-    const matchesCategory = selectedCategory === 'all' || (s.category_target && s.category_target.includes(selectedCategory));
+    const matchesSaved = !showOnlySaved || isSchemeSaved(s.id);
     const matchesQuery = searchQuery === '' ||
-      s.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (s.name && s.name.toLowerCase().includes(searchQuery.toLowerCase())) ||
       (s.shortName && s.shortName.toLowerCase().includes(searchQuery.toLowerCase())) ||
       (s.description && s.description.toLowerCase().includes(searchQuery.toLowerCase()));
-    return matchesCategory && matchesQuery;
+
+    return matchesSaved && matchesQuery;
   });
 
   const handleSaveToggle = (schemeId, e) => {
     e.stopPropagation();
-    if (!isAuthenticated) {
-      setIsAuthModalOpen(true);
-      return;
-    }
     toggleSaveScheme(schemeId);
   };
 
@@ -105,7 +102,7 @@ export default function SchemeDirectory({ onOpenDetail, onOpenCompare, lang }) {
 
   const handleClearFilters = () => {
     setSearchQuery('');
-    setSelectedCategory('all');
+    setShowOnlySaved(false);
   };
 
   return (
@@ -163,23 +160,21 @@ export default function SchemeDirectory({ onOpenDetail, onOpenCompare, lang }) {
           />
         </div>
 
-        {/* Category Filter Buttons */}
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="text-xs font-bold text-slate-500">Category:</span>
-          {['all', 'General', 'OBC', 'SC', 'ST', 'EWS'].map(c => (
-            <button
-              key={c}
-              onClick={() => setSelectedCategory(c)}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all uppercase ${
-                selectedCategory === c
-                  ? 'bg-emerald-800 text-white shadow-sm'
-                  : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-              }`}
-            >
-              {c}
-            </button>
-          ))}
-        </div>
+        {/* Saved Schemes Filter Pill */}
+        <button
+          onClick={() => setShowOnlySaved(!showOnlySaved)}
+          className={`px-4 py-2.5 rounded-2xl font-extrabold text-xs flex items-center space-x-2 transition-all border ${
+            showOnlySaved
+              ? 'bg-amber-400 text-slate-950 border-amber-500 shadow-md'
+              : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border-slate-200'
+          }`}
+        >
+          <Bookmark className={`w-4 h-4 ${showOnlySaved ? 'fill-slate-950 text-slate-950' : 'text-amber-500 fill-amber-400'}`} />
+          <span>Saved Schemes</span>
+          <span className="px-2 py-0.5 rounded-full text-xs font-black bg-amber-500 text-slate-950">
+            {savedSchemesCount}
+          </span>
+        </button>
 
       </div>
 
@@ -190,31 +185,41 @@ export default function SchemeDirectory({ onOpenDetail, onOpenCompare, lang }) {
           <div className="text-xs font-semibold">Loading Directory Schemes...</div>
         </div>
       ) : filteredSchemes.length === 0 ? (
-        /* Friendly Search No-Match Empty State */
+        /* Friendly Search No-Match / Empty Saved Schemes State */
         <div className="bg-white rounded-3xl border border-slate-200 p-8 sm:p-12 text-center space-y-6 shadow-md">
           <div className="w-16 h-16 rounded-3xl bg-amber-100 text-amber-700 flex items-center justify-center mx-auto border border-amber-300 shadow-sm">
-            <Lightbulb className="w-8 h-8" />
+            {showOnlySaved ? <Bookmark className="w-8 h-8 fill-amber-500 text-amber-600" /> : <Lightbulb className="w-8 h-8" />}
           </div>
 
           <div className="max-w-md mx-auto space-y-2">
-            <h4 className="text-xl font-bold text-slate-900">No Schemes Match "{searchQuery}"</h4>
+            <h4 className="text-xl font-bold text-slate-900">
+              {showOnlySaved && savedSchemesCount === 0
+                ? "No Saved Schemes Yet"
+                : searchQuery
+                ? `No Schemes Match "${searchQuery}"`
+                : "No Schemes Found"}
+            </h4>
             <p className="text-xs text-slate-500">
-              We couldn't find any scheme matching your current search terms or filter selection.
+              {showOnlySaved && savedSchemesCount === 0
+                ? "You haven't saved any schemes yet. Click the bookmark icon on any scheme card to add it to your saved list."
+                : "We couldn't find any scheme matching your current search terms or filter selection."}
             </p>
           </div>
 
-          <div className="max-w-md mx-auto flex flex-wrap gap-2 justify-center">
-            <span className="text-xs font-semibold text-slate-500 self-center">Try searching for:</span>
-            {['PM-KISAN', 'Scholarship', 'Solar Pump', 'Insurance', 'Grant'].map((term) => (
-              <button
-                key={term}
-                onClick={() => setSearchQuery(term)}
-                className="px-3 py-1 rounded-full bg-emerald-50 hover:bg-emerald-100 text-emerald-900 border border-emerald-200 text-xs font-bold transition-all"
-              >
-                {term}
-              </button>
-            ))}
-          </div>
+          {!showOnlySaved && (
+            <div className="max-w-md mx-auto flex flex-wrap gap-2 justify-center">
+              <span className="text-xs font-semibold text-slate-500 self-center">Try searching for:</span>
+              {['PM-KISAN', 'Scholarship', 'Solar Pump', 'Insurance', 'Grant'].map((term) => (
+                <button
+                  key={term}
+                  onClick={() => setSearchQuery(term)}
+                  className="px-3 py-1 rounded-full bg-emerald-50 hover:bg-emerald-100 text-emerald-900 border border-emerald-200 text-xs font-bold transition-all"
+                >
+                  {term}
+                </button>
+              ))}
+            </div>
+          )}
 
           <div className="pt-2">
             <button
@@ -222,7 +227,7 @@ export default function SchemeDirectory({ onOpenDetail, onOpenCompare, lang }) {
               className="px-6 py-2.5 rounded-2xl bg-emerald-800 hover:bg-emerald-700 text-white font-bold text-xs shadow-md shadow-emerald-800/20 inline-flex items-center space-x-2 transition-all"
             >
               <RefreshCw className="w-4 h-4" />
-              <span>Clear Search & Reset All Filters</span>
+              <span>{showOnlySaved ? "Show All Schemes" : "Clear Search & Reset All Filters"}</span>
             </button>
           </div>
         </div>

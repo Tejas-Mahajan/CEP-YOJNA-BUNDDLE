@@ -4,7 +4,7 @@ import { Home, Compass, ClipboardList, FolderCheck, Search, MapPin, Sparkles, Ch
 import { useAuth } from '../context/AuthContext';
 import { TRANSLATIONS } from '../data/translations';
 
-export default function Sidebar({ activeNav, setActiveNav, resultsCount, lang, onGoHome, isFirstTimeSetup }) {
+export default function Sidebar({ activeNav, setActiveNav, activeTab, setActiveTab, resultsCount, lang, onGoHome, isFirstTimeSetup }) {
   const { savedSchemesCount } = useAuth();
   const [totalSchemes, setTotalSchemes] = React.useState(8);
   const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
@@ -159,16 +159,27 @@ export default function Sidebar({ activeNav, setActiveNav, resultsCount, lang, o
         ))}
 
 
-        {/* Saved Schemes Summary Box in Sidebar */}
-        <div className="pt-3 border-t border-slate-100 px-3 py-2 rounded-2xl bg-amber-50/60 border-amber-200/60 flex items-center justify-between text-xs">
-          <div className="flex items-center space-x-1.5 font-bold text-amber-950">
-            <Bookmark className="w-4 h-4 text-amber-500 fill-amber-400" />
+        {/* Saved Schemes Summary Box / Interactive Button in Sidebar */}
+        <button
+          type="button"
+          onClick={() => {
+            if (setActiveTab) setActiveTab('SAVED');
+            if (setActiveNav) setActiveNav('SAVED');
+          }}
+          className={`w-full pt-3 px-3 py-2.5 rounded-2xl flex items-center justify-between text-xs transition-all cursor-pointer hover:bg-amber-100 border ${
+            (activeTab === 'SAVED' || activeNav === 'SAVED')
+              ? 'bg-gradient-to-r from-emerald-950 via-emerald-900 to-teal-950 text-white border-emerald-700 font-bold shadow-md shadow-emerald-950/20'
+              : 'bg-amber-50/60 border-amber-200/60 text-amber-950 font-bold'
+          }`}
+        >
+          <div className="flex items-center space-x-2 font-bold">
+            <Bookmark className={`w-4 h-4 ${(activeTab === 'SAVED' || activeNav === 'SAVED') ? 'text-amber-300 fill-amber-400' : 'text-amber-500 fill-amber-400'}`} />
             <span>Saved Schemes</span>
           </div>
-          <span className="px-2.5 py-0.5 rounded-full text-xs font-black bg-amber-400 text-slate-950">
+          <span className={`px-2.5 py-0.5 rounded-full text-xs font-black ${(activeTab === 'SAVED' || activeNav === 'SAVED') ? 'bg-emerald-500 text-slate-950' : 'bg-amber-400 text-slate-950'}`}>
             {savedSchemesCount}
           </span>
-        </div>
+        </button>
 
       </div>
 

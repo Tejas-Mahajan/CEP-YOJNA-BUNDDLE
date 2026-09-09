@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Home, User, FileText, Sparkles, Menu, X, ChevronDown, Download, Check, Copy, AlertCircle, Info, MapPin, Eye, EyeOff } from 'lucide-react';
+import { Home, User, FileText, Sparkles, Menu, X, ChevronDown, Download, Check, Copy, AlertCircle, Info, MapPin, Eye, EyeOff, Bookmark, Search, Building2, Clock, ExternalLink } from 'lucide-react';
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import ProfileForm from './components/ProfileForm';
@@ -20,6 +20,7 @@ import FloatingSummaryBar from './components/FloatingSummaryBar';
 import MobileDrawer from './components/MobileDrawer';
 import ErrorBoundary from './components/ErrorBoundary';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import { formatDeadlineText } from './utils/validation';
 
 function MainAppContent() {
   // App Flow State Machine: 'INTRO' -> 'AUTH' -> 'WELCOME' -> 'DASHBOARD'
@@ -51,7 +52,26 @@ function MainAppContent() {
     owned_documents: []
   };
 
-  const { user, isAuthenticated, isAuthModalOpen, setIsAuthModalOpen, updateUserProfileAttributes } = useAuth();
+  const { user, isAuthenticated, isAuthModalOpen, setIsAuthModalOpen, updateUserProfileAttributes, savedSchemes: savedSchemeIds, toggleSaveScheme } = useAuth();
+
+  const [schemes, setSchemes] = useState([]);
+
+  useEffect(() => {
+    const fetchSchemes = async () => {
+      try {
+        const res = await fetch('/api/schemes');
+        if (res.ok) {
+          const data = await res.json();
+          setSchemes(data.schemes || []);
+        }
+      } catch (err) {
+        console.warn("Failed to load schemes:", err);
+      }
+    };
+    fetchSchemes();
+  }, []);
+
+  const savedSchemes = schemes.filter(scheme => (savedSchemeIds || []).includes(scheme.id));
 
   const hasSavedProfile = Boolean(user && user.profileAttributes && Object.keys(user.profileAttributes).length > 0);
   const isFirstTimeSetup = Boolean(isAuthenticated && !hasSavedProfile);
@@ -334,6 +354,8 @@ function MainAppContent() {
           <Sidebar
             activeNav={activeNav}
             setActiveNav={setActiveNav}
+            activeTab={activeNav}
+            setActiveTab={setActiveNav}
             resultsCount={resultsCount}
             lang={lang}
             onGoHome={() => setActiveNav('matcher')}
@@ -445,6 +467,120 @@ function MainAppContent() {
                   lang={lang}
                 />
               </ErrorBoundary>
+            )}
+
+            {/* TAB 7: Saved Schemes View */}
+            {(activeNav === 'SAVED') && (
+              <div className="space-y-6 animate-in fade-in duration-300">
+                <div className="bg-gradient-to-r from-emerald-950 via-emerald-900 to-teal-950 rounded-3xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden border border-emerald-800/40">
+                  <div className="absolute top-0 right-0 -mr-8 -mt-8 w-48 h-48 bg-amber-500/20 rounded-full blur-2xl pointer-events-none" />
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative z-10">
+                    <div>
+                      <div className="flex items-center space-x-2 text-amber-400 font-semibold text-xs uppercase tracking-wider mb-1">
+                        <Bookmark className="w-4 h-4 fill-amber-400" /> Bookmarked Schemes Vault
+                      </div>
+                      <h2 className="text-2xl font-black">Your Saved Schemes ({savedSchemes.length})</h2>
+                      <p className="text-xs text-emerald-200 mt-1 max-w-xl">
+                        Quick access to your saved agriculture & welfare schemes. Compare benefits or view deep-dive details.
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => setActiveNav('directory')}
+                      className="px-4 py-2 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-extrabold text-xs shadow-md transition-all self-start sm:self-center cursor-pointer"
+                    >
+                      Explore All Schemes
+                    </button>
+                  </div>
+                </div>
+
+                {savedSchemes.length === 0 ? (
+                  <div className="bg-white rounded-3xl border border-slate-200 p-8 sm:p-12 text-center space-y-6 shadow-md">
+                    <div className="w-16 h-16 rounded-3xl bg-amber-100 text-amber-700 flex items-center justify-center mx-auto border border-amber-300 shadow-sm">
+                      <Bookmark className="w-8 h-8 fill-amber-500 text-amber-600" />
+                    </div>
+                    <div className="max-w-md mx-auto space-y-2">
+                      <h4 className="text-xl font-bold text-slate-900">No Saved Schemes Yet</h4>
+                      <p className="text-xs text-slate-500">
+                        You haven't saved any schemes yet. Click the bookmark icon on any scheme card in the Directory or Action Plan to add it here.
+                      </p>
+                    </div>
+                    <div>
+                      <button
+                        onClick={() => setActiveNav('directory')}
+                        className="px-6 py-2.5 rounded-2xl bg-emerald-800 hover:bg-emerald-700 text-white font-bold text-xs shadow-md shadow-emerald-800/20 inline-flex items-center space-x-2 transition-all cursor-pointer"
+                      >
+                        <Search className="w-4 h-4" />
+                        <span>Browse All Schemes</span>
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {savedSchemes.map((s) => (
+                      <div
+                        key={s.id}
+                        onClick={() => setDetailScheme(s)}
+                        className="bg-white rounded-3xl border border-slate-200/80 hover:border-emerald-300 shadow-md p-6 flex flex-col justify-between space-y-4 cursor-pointer transition-all"
+                      >
+                        <div className="space-y-2">
+                          <div className="flex items-start justify-between">
+                            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-100 text-emerald-900 uppercase">
+                              Agriculture
+                            </span>
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                toggleSaveScheme(s.id);
+                              }}
+                              className="p-1.5 rounded-xl bg-amber-50 text-amber-500 hover:bg-amber-100 transition-colors"
+                              title="Remove from Saved"
+                            >
+                              <Bookmark className="w-4 h-4 fill-amber-500 text-amber-500" />
+                            </button>
+                          </div>
+
+                          <h3 className="text-base font-extrabold text-slate-900 line-clamp-2 hover:text-emerald-700 transition-colors">
+                            {s.name}
+                          </h3>
+
+                          <div className="text-2xs text-slate-500 font-semibold flex items-center space-x-1">
+                            <Building2 className="w-3.5 h-3.5 text-emerald-600" />
+                            <span className="truncate">{s.department || "Government of India"}</span>
+                          </div>
+
+                          <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed font-medium">
+                            {s.description}
+                          </p>
+                        </div>
+
+                        <div className="pt-3 border-t border-slate-100 space-y-3">
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <div className="text-[10px] text-slate-400 font-medium">Financial Benefit</div>
+                              <div className="text-sm font-black text-emerald-800">{s.benefit_display}</div>
+                            </div>
+
+                            <div className="text-right">
+                              <div className="text-[10px] text-slate-400 font-medium">Window</div>
+                              <div className="text-xs font-bold text-amber-600 flex items-center justify-end">
+                                <Clock className="w-3 h-3 mr-1" /> {formatDeadlineText(s.deadline_days, lang)}
+                              </div>
+                            </div>
+                          </div>
+
+                          <button
+                            onClick={() => setDetailScheme(s)}
+                            className="w-full py-2.5 rounded-xl bg-slate-900 hover:bg-emerald-800 text-white font-bold text-xs shadow-sm flex items-center justify-center space-x-1 transition-all"
+                          >
+                            <span>View Deep-Dive Details</span>
+                            <ExternalLink className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
             )}
 
           </div>
