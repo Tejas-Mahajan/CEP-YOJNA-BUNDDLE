@@ -4,18 +4,23 @@ import { X, Sprout, GraduationCap, Layers, Languages, RefreshCw, LogIn, UserChec
 import { useAuth } from '../context/AuthContext';
 import { TRANSLATIONS } from '../data/translations';
 
-export default function MobileDrawer({ isOpen, onClose, activeTab, setActiveTab, profile, setProfile, lang, setLang, onReset }) {
+export default function MobileDrawer({ isOpen, onClose, activeTab, setActiveTab, profile, setProfile, lang, setLang, onReset, isFirstTimeSetup }) {
   const { user, isAuthenticated, setIsAuthModalOpen, savedSchemesCount } = useAuth();
   const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
 
   if (!isOpen) return null;
 
-  const handleDomainSelect = (domain) => {
-    setProfile(prev => ({ ...prev, domain }));
-  };
-
   const toggleLanguage = () => {
     setLang(prev => (prev === 'en' ? 'mr' : 'en'));
+  };
+
+  const handleTabClick = (tabId) => {
+    if (isFirstTimeSetup && tabId !== 'form') {
+      alert("Please complete your initial profile setup first!");
+      return;
+    }
+    setActiveTab(tabId);
+    onClose();
   };
 
   return (
@@ -91,7 +96,7 @@ export default function MobileDrawer({ isOpen, onClose, activeTab, setActiveTab,
             <div className="space-y-2">
               <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Navigation</label>
               <button
-                onClick={() => { setActiveTab('form'); onClose(); }}
+                onClick={() => handleTabClick('form')}
                 className={`w-full p-3 rounded-2xl font-bold text-xs flex items-center justify-between border transition-all ${
                   activeTab === 'form'
                     ? 'bg-emerald-50 border-emerald-300 text-emerald-900 shadow-2xs'
@@ -103,70 +108,26 @@ export default function MobileDrawer({ isOpen, onClose, activeTab, setActiveTab,
               </button>
 
               <button
-                onClick={() => { setActiveTab('results'); onClose(); }}
+                onClick={() => handleTabClick('results')}
+                disabled={isFirstTimeSetup}
                 className={`w-full p-3 rounded-2xl font-bold text-xs flex items-center justify-between border transition-all ${
-                  activeTab === 'results'
+                  isFirstTimeSetup
+                    ? 'opacity-50 cursor-not-allowed bg-slate-50 text-slate-400 border-slate-200'
+                    : activeTab === 'results'
                     ? 'bg-emerald-50 border-emerald-300 text-emerald-900 shadow-2xs'
                     : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
                 }`}
               >
-                <span>{t.actionDashboardTab}</span>
+                <span>{t.actionDashboardTab} {isFirstTimeSetup ? '(🔒 Locked)' : ''}</span>
                 <span className="w-2 h-2 rounded-full bg-emerald-600" />
               </button>
             </div>
 
-            {/* Sector / Domain Quick Switcher */}
-            <div className="space-y-2">
-              <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Quick Domain Switch</label>
-              <div className="grid grid-cols-1 gap-2">
-                <button
-                  type="button"
-                  onClick={() => handleDomainSelect('agriculture')}
-                  className={`p-3 rounded-2xl border text-xs font-bold flex items-center justify-between transition-all ${
-                    profile.domain === 'agriculture'
-                      ? 'bg-emerald-800 text-white border-emerald-700 shadow-md'
-                      : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
-                  }`}
-                >
-                  <span className="flex items-center space-x-2">
-                    <Sprout className="w-4 h-4 text-emerald-400" />
-                    <span>🌾 Agriculture Sector</span>
-                  </span>
-                  {profile.domain === 'agriculture' && <Sparkles className="w-3.5 h-3.5 text-amber-400" />}
-                </button>
 
-                <button
-                  type="button"
-                  onClick={() => handleDomainSelect('education')}
-                  className={`p-3 rounded-2xl border text-xs font-bold flex items-center justify-between transition-all ${
-                    profile.domain === 'education'
-                      ? 'bg-teal-800 text-white border-teal-700 shadow-md'
-                      : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
-                  }`}
-                >
-                  <span className="flex items-center space-x-2">
-                    <GraduationCap className="w-4 h-4 text-teal-300" />
-                    <span>🎓 Education Sector</span>
-                  </span>
-                  {profile.domain === 'education' && <Sparkles className="w-3.5 h-3.5 text-amber-400" />}
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => handleDomainSelect('both')}
-                  className={`p-3 rounded-2xl border text-xs font-bold flex items-center justify-between transition-all ${
-                    profile.domain === 'both'
-                      ? 'bg-slate-900 text-white border-slate-800 shadow-md'
-                      : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
-                  }`}
-                >
-                  <span className="flex items-center space-x-2">
-                    <Layers className="w-4 h-4 text-amber-400" />
-                    <span>🤝 Both Sectors</span>
-                  </span>
-                  {profile.domain === 'both' && <Sparkles className="w-3.5 h-3.5 text-amber-400" />}
-                </button>
-              </div>
+            {/* Application Focus Banner */}
+            <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-xs font-semibold text-emerald-950 flex items-center space-x-2">
+              <Sprout className="w-5 h-5 text-emerald-700 flex-shrink-0" />
+              <span>Agriculture & Farming Scheme Bundle Engine Active</span>
             </div>
 
           </div>

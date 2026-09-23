@@ -7,7 +7,7 @@ export default function AuthModal({ isOpen, onClose, lang = 'en', setLang, onGue
   const { login, signup } = useAuth();
 
   const [authMode, setAuthMode] = useState('login'); // 'login' or 'signup'
-  const [authTab, setAuthTab] = useState('phone'); // 'phone' or 'email'
+  const [authTab, setAuthTab] = useState('email'); // Default to working email+password flow
   
   // Form fields
   const [phone, setPhone] = useState('');
@@ -15,20 +15,26 @@ export default function AuthModal({ isOpen, onClose, lang = 'en', setLang, onGue
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [name, setName] = useState('');
-  const [role, setRole] = useState('Farmer'); // 'Farmer', 'Student', 'Both'
-
-  // Signup Profile Attributes
-  const [income, setIncome] = useState(180000);
-  const [landAcres, setLandAcres] = useState(2.5);
-  const [stateName, setStateName] = useState('Maharashtra');
-  const [category, setCategory] = useState('OBC');
-  const [courseLevel, setCourseLevel] = useState('Undergraduate');
+  const [role, setRole] = useState('Farmer');
 
   // OTP flow simulation for phone auth
   const [otpSent, setOtpSent] = useState(false);
   const [otpCode, setOtpCode] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
+
+  // Helper to reset form inputs when switching between Login and Signup modes
+  const handleModeSwitch = (newMode) => {
+    setAuthMode(newMode);
+    setAuthTab('email');
+    setEmail('');
+    setPhone('');
+    setPassword('');
+    setName('');
+    setErrorMsg('');
+    setOtpSent(false);
+    setOtpCode('');
+  };
 
   if (!isOpen) return null;
 
@@ -54,7 +60,11 @@ export default function AuthModal({ isOpen, onClose, lang = 'en', setLang, onGue
         if (!identifier) {
           throw new Error(`Please enter your ${authTab === 'phone' ? 'mobile number' : 'email address'}`);
         }
-        await login({ identifier, password, method: authTab });
+        const res = await login({ identifier, password, method: authTab });
+        if (!res.success) {
+          setErrorMsg(res.error || "Login failed");
+          return;
+        }
       } else {
         if (!name.trim()) {
           throw new Error("Please enter your Full Name");
@@ -63,23 +73,18 @@ export default function AuthModal({ isOpen, onClose, lang = 'en', setLang, onGue
         if (!identifier) {
           throw new Error(`Please enter your ${authTab === 'phone' ? 'mobile number' : 'email address'}`);
         }
-        await signup({
+        const res = await signup({
           name,
           identifier,
           password,
           method: authTab,
-          role,
-          profileAttributes: {
-            domain: role === 'Student' ? 'education' : (role === 'Farmer' ? 'agriculture' : 'both'),
-            annual_income: Number(income),
-            land_acres: Number(landAcres),
-            state: stateName,
-            category: category,
-            course_level: courseLevel,
-            occupation: role,
-            owned_documents: ['Aadhaar Card', 'Bank Passbook']
-          }
+          role: 'Farmer',
+          profileAttributes: null
         });
+        if (!res.success) {
+          setErrorMsg(res.error || "Signup failed");
+          return;
+        }
       }
       onClose();
     } catch (err) {
@@ -89,9 +94,17 @@ export default function AuthModal({ isOpen, onClose, lang = 'en', setLang, onGue
     }
   };
 
-  const handleDemoLogin = (presetType) => {
-    login({ userPreset: presetType });
-    onClose();
+
+  const handleDemoLogin = async (presetType) => {
+    setErrorMsg('');
+    setIsSubmitting(true);
+    const res = await login({ userPreset: presetType });
+    setIsSubmitting(false);
+    if (res && res.success) {
+      onClose();
+    } else if (res && res.error) {
+      setErrorMsg(res.error);
+    }
   };
 
   const handleGuestClick = () => {
@@ -162,21 +175,14 @@ export default function AuthModal({ isOpen, onClose, lang = 'en', setLang, onGue
             </div>
 
             {/* Quick Demo Login Badges */}
-            <div className="mt-4 pt-3 border-t border-emerald-700/50 flex flex-wrap gap-2">
-              <span className="text-xs text-emerald-300 font-semibold self-center mr-1">Quick Demo Login:</span>
+            <div className="flex items-center space-x-2 pt-2">
+              <span className="text-2xs text-emerald-200 uppercase font-extrabold tracking-wider">Quick 1-Click Demo Login:</span>
               <button
                 type="button"
                 onClick={() => handleDemoLogin('farmer')}
                 className="px-3 py-1 rounded-full bg-emerald-700/80 hover:bg-emerald-600 border border-emerald-500/50 text-xs font-semibold text-white flex items-center space-x-1 transition-all"
               >
                 <span>🌾 Farmer (Ramesh)</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => handleDemoLogin('student')}
-                className="px-3 py-1 rounded-full bg-teal-700/80 hover:bg-teal-600 border border-teal-500/50 text-xs font-semibold text-white flex items-center space-x-1 transition-all"
-              >
-                <span>🎓 Student (Priya)</span>
               </button>
             </div>
           </div>
@@ -186,7 +192,7 @@ export default function AuthModal({ isOpen, onClose, lang = 'en', setLang, onGue
             <div className="flex bg-slate-100 p-1 rounded-2xl border border-slate-200">
               <button
                 type="button"
-                onClick={() => { setAuthMode('login'); setErrorMsg(''); }}
+                onClick={() => handleModeSwitch('login')}
                 className={`flex-1 py-2.5 text-xs sm:text-sm font-bold rounded-xl transition-all ${
                   authMode === 'login'
                     ? 'bg-white text-emerald-950 shadow-sm'
@@ -197,7 +203,7 @@ export default function AuthModal({ isOpen, onClose, lang = 'en', setLang, onGue
               </button>
               <button
                 type="button"
-                onClick={() => { setAuthMode('signup'); setErrorMsg(''); }}
+                onClick={() => handleModeSwitch('signup')}
                 className={`flex-1 py-2.5 text-xs sm:text-sm font-bold rounded-xl transition-all ${
                   authMode === 'signup'
                     ? 'bg-white text-emerald-950 shadow-sm'
@@ -208,21 +214,8 @@ export default function AuthModal({ isOpen, onClose, lang = 'en', setLang, onGue
               </button>
             </div>
 
-            {/* Auth Tab Switcher: Phone Number / Email */}
+            {/* Auth Tab Switcher: Email + Password / Phone Number (Disabled) */}
             <div className="flex items-center space-x-4 border-b border-slate-200 pb-3">
-              <button
-                type="button"
-                onClick={() => { setAuthTab('phone'); setOtpSent(false); setErrorMsg(''); }}
-                className={`flex items-center space-x-2 text-xs sm:text-sm font-bold pb-1 transition-all border-b-2 ${
-                  authTab === 'phone'
-                    ? 'border-emerald-600 text-emerald-800'
-                    : 'border-transparent text-slate-400 hover:text-slate-700'
-                }`}
-              >
-                <Phone className="w-4 h-4" />
-                <span>Phone Number</span>
-              </button>
-
               <button
                 type="button"
                 onClick={() => { setAuthTab('email'); setErrorMsg(''); }}
@@ -234,6 +227,19 @@ export default function AuthModal({ isOpen, onClose, lang = 'en', setLang, onGue
               >
                 <Mail className="w-4 h-4" />
                 <span>Email + Password</span>
+              </button>
+
+              <button
+                type="button"
+                disabled
+                title="Phone authentication coming soon"
+                className="flex items-center space-x-1.5 text-xs sm:text-sm font-semibold pb-1 text-slate-300 cursor-not-allowed border-b-2 border-transparent"
+              >
+                <Phone className="w-4 h-4 text-slate-300" />
+                <span>Phone Number</span>
+                <span className="text-3xs bg-slate-100 text-slate-400 font-bold px-1.5 py-0.5 rounded-full border border-slate-200">
+                  Coming soon
+                </span>
               </button>
             </div>
 
@@ -265,28 +271,7 @@ export default function AuthModal({ isOpen, onClose, lang = 'en', setLang, onGue
                 </div>
               )}
 
-              {/* Role Selection in Signup Mode */}
-              {authMode === 'signup' && (
-                <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">Primary Occupation / Profile</label>
-                  <div className="grid grid-cols-3 gap-2">
-                    {['Farmer', 'Student', 'Both'].map((r) => (
-                      <button
-                        key={r}
-                        type="button"
-                        onClick={() => setRole(r)}
-                        className={`py-2 rounded-xl text-xs font-bold border transition-all ${
-                          role === r
-                            ? 'bg-emerald-50 border-emerald-500 text-emerald-900 shadow-2xs'
-                            : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
-                        }`}
-                      >
-                        {r === 'Farmer' ? '🌾 Farmer' : r === 'Student' ? '🎓 Student' : '🤝 Both'}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
+
 
               {/* Phone Tab Inputs */}
               {authTab === 'phone' && (

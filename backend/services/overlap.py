@@ -17,9 +17,7 @@ DOCUMENT_ALIAS_GRAPH = {
     
     "Caste Certificate": "Caste Certificate",
     "Domicile Certificate": "State Domicile Certificate",
-    "Bank Passbook": "Bank Account Passbook",
-    "Mark Sheet (10th/12th)": "Academic Mark Sheet (10th/12th)",
-    "College Fee Receipt": "College Admission & Fee Receipt"
+    "Bank Passbook": "Bank Account Passbook"
 }
 
 def get_canonical_name(doc_name: str) -> str:

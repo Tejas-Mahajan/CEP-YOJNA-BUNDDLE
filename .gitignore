@@ -46,6 +46,8 @@ pnpm-debug.log*
 .env.development.local
 .env.test.local
 .env.production.local
+*.db
+backend/data/*.db
 
 # IDE & Editor configurations
 .vscode/

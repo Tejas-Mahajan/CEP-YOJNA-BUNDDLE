@@ -8,7 +8,7 @@ export const CSC_OFFICES = [
     officerName: "Sanjay Deshmukh",
     contactPhone: "+91 98220 12345",
     timing: "09:30 AM - 06:30 PM (Mon-Sat)",
-    servicesOffered: ["PM-KISAN e-KYC", "7/12 Online Extract", "Income Certificate Verification", "NSP Student Registration"],
+    servicesOffered: ["PM-KISAN e-KYC", "7/12 Online Extract", "Income Certificate Verification", "Farmer Scheme Registration"],
     lat: 18.5308,
     lng: 73.8474
   },
@@ -34,7 +34,7 @@ export const CSC_OFFICES = [
     officerName: "Sunil Shinde",
     contactPhone: "+91 98190 54321",
     timing: "09:00 AM - 06:00 PM (Mon-Sat)",
-    servicesOffered: ["Post-Matric Scholarship Helpdesk", "Domicile Certificate Portal", "Aadhaar e-KYC"],
+    servicesOffered: ["Farmer Scheme Helpdesk", "Domicile Certificate Portal", "Aadhaar e-KYC"],
     lat: 19.0178,
     lng: 72.8478
   },
@@ -60,7 +60,7 @@ export const CSC_OFFICES = [
     officerName: "Anita Kulkarni",
     contactPhone: "+91 94231 88990",
     timing: "10:00 AM - 06:30 PM (Mon-Sat)",
-    servicesOffered: ["PM-KUSUM Solar Pump Help", "Pragati Girl Student Scholarship", "Caste Validity Assistance"],
+    servicesOffered: ["PM-KUSUM Solar Pump Help", "PMKSY Drip Irrigation Help", "Caste Validity Assistance"],
     lat: 21.1458,
     lng: 79.0882
   },
@@ -86,7 +86,7 @@ export const CSC_OFFICES = [
     officerName: "Dhananjay Patil",
     contactPhone: "+91 98230 44556",
     timing: "10:00 AM - 07:00 PM (Mon-Sat)",
-    servicesOffered: ["Sugarcane Farmer Subsidy", "College Fee Waiver Certificate", "Income Verification"],
+    servicesOffered: ["Sugarcane Farmer Subsidy", "Organic Farming Certification", "Income Verification"],
     lat: 16.7050,
     lng: 74.2433
   }

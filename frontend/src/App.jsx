@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Home, User, FileText, Sparkles, Menu, X, ChevronDown, Download, Check, Copy, AlertCircle, Info, MapPin, Eye, EyeOff, Bookmark, Search, Building2, Clock, ExternalLink } from 'lucide-react';
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
-import LandingZone from './components/LandingZone';
 import ProfileForm from './components/ProfileForm';
 import SummaryCards from './components/SummaryCards';
 import OverlapSection from './components/OverlapSection';
@@ -20,15 +20,17 @@ import FloatingSummaryBar from './components/FloatingSummaryBar';
 import MobileDrawer from './components/MobileDrawer';
 import ErrorBoundary from './components/ErrorBoundary';
 import { AuthProvider, useAuth } from './context/AuthContext';
-import { PRESET_PROFILES } from './data/presets';
+import { formatDeadlineText } from './utils/validation';
+import { TRANSLATIONS, getSchemeName, getSchemeDescription, getSchemeBenefit } from './data/translations';
 
 function MainAppContent() {
   // App Flow State Machine: 'INTRO' -> 'AUTH' -> 'WELCOME' -> 'DASHBOARD'
   const [appFlowState, setAppFlowState] = useState('INTRO');
   const [isGuestMode, setIsGuestMode] = useState(false);
 
-  const [activeNav, setActiveNav] = useState('home'); // 'home', 'matcher', 'plan', 'vault', 'directory', 'csc', 'export'
+  const [activeNav, setActiveNav] = useState('matcher'); // 'matcher', 'plan', 'vault', 'directory', 'csc', 'export'
   const [lang, setLang] = useState('en'); // 'en', 'mr', 'hi'
+  const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
   const [isEvaluating, setIsEvaluating] = useState(false);
   const [results, setResults] = useState(null);
   const [detailScheme, setDetailScheme] = useState(null);
@@ -42,23 +44,60 @@ function MainAppContent() {
   // Matrix Filter State
   const [matrixDocFilter, setMatrixDocFilter] = useState(null);
 
-  const { user, isAuthenticated, isAuthModalOpen, setIsAuthModalOpen } = useAuth();
+  const BLANK_PROFILE = {
+    annual_income: 0,
+    category: 'General',
+    state: 'Maharashtra',
+    age: 25,
+    land_acres: 0,
+    occupation: 'Farmer',
+    owned_documents: []
+  };
 
-  // Initialize profile with Small Farmer preset
-  const [profile, setProfile] = useState(PRESET_PROFILES[0].data);
+  const { user, isAuthenticated, isAuthModalOpen, setIsAuthModalOpen, updateUserProfileAttributes, savedSchemes: savedSchemeIds, toggleSaveScheme } = useAuth();
+
+  const [schemes, setSchemes] = useState([]);
+
+  useEffect(() => {
+    const fetchSchemes = async () => {
+      try {
+        const res = await fetch('/api/schemes');
+        if (res.ok) {
+          const data = await res.json();
+          setSchemes(data.schemes || []);
+        }
+      } catch (err) {
+        console.warn("Failed to load schemes:", err);
+      }
+    };
+    fetchSchemes();
+  }, []);
+
+  const savedSchemes = schemes.filter(scheme => (savedSchemeIds || []).includes(scheme.id));
+
+  const hasSavedProfile = Boolean(user && user.profileAttributes && Object.keys(user.profileAttributes).length > 0);
+  const isFirstTimeSetup = Boolean(isAuthenticated && !hasSavedProfile);
+
+  // Initialize profile with blank structure by default
+  const [profile, setProfile] = useState(BLANK_PROFILE);
 
   // Ref to track active evaluate debounce timer
   const debounceTimerRef = useRef(null);
 
   // Synchronize profile state when logged in user changes
   useEffect(() => {
-    if (user && user.profileAttributes) {
+    if (user && user.profileAttributes && Object.keys(user.profileAttributes).length > 0) {
       setProfile((prev) => ({
         ...prev,
         ...user.profileAttributes
       }));
+    } else if (user) {
+      // New user signup without saved attributes -> start blank & force matcher tab
+      setProfile(BLANK_PROFILE);
+      setActiveNav('matcher');
     }
   }, [user]);
+
 
   // Core profile evaluation function
   const evaluateProfile = async (profileData) => {
@@ -83,7 +122,7 @@ function MainAppContent() {
       }
     } catch (err) {
       console.warn("Backend API call failed, using client-side fallback engine...", err);
-      setApiError("Using local evaluation mode (Backend server disconnected)");
+      setApiError("Backend server disconnected");
       fallbackClientEvaluation(profileData);
     } finally {
       setIsEvaluating(false);
@@ -98,27 +137,24 @@ function MainAppContent() {
     };
   }, []);
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
     if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current);
+    if (isAuthenticated && updateUserProfileAttributes) {
+      const saveRes = await updateUserProfileAttributes(profile);
+      if (saveRes && !saveRes.success) {
+        console.error("Failed to save profile attributes to backend database:", saveRes.error);
+      }
+    }
     evaluateProfile(profile);
   };
 
   const handleReset = () => {
     if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current);
-    setProfile(PRESET_PROFILES[0].data);
-    evaluateProfile(PRESET_PROFILES[0].data);
+    setProfile(BLANK_PROFILE);
+    evaluateProfile(BLANK_PROFILE);
   };
 
-  const handleLandingHubSelect = (selectedDomain) => {
-    const updatedProfile = {
-      ...profile,
-      domain: selectedDomain
-    };
-    setProfile(updatedProfile);
-    setActiveNav('matcher');
-    evaluateProfile(updatedProfile);
-  };
 
   const handleFeedbackSubmit = async (feedbackPayload) => {
     try {
@@ -134,19 +170,15 @@ function MainAppContent() {
 
   // Client side fallback evaluation
   const fallbackClientEvaluation = (p) => {
-    const isAgri = p.domain === 'agriculture' || p.domain === 'both';
-    const isEdu = p.domain === 'education' || p.domain === 'both';
-
     const mockRanked = [];
     const conflicts = [];
 
-    if (isAgri && (p.annual_income || 0) <= 800000) {
+    if ((p.annual_income || 0) <= 800000) {
       mockRanked.push({
         scheme: {
           id: "PM_KISAN",
           name: "Pradhan Mantri Kisan Samman Nidhi (PM-KISAN)",
           shortName: "PM-KISAN",
-          domain: "agriculture",
           department: "Ministry of Agriculture & Farmers Welfare",
           quota_type: "Central Sector Scheme (100% Central)",
           benefit_display: "₹6,000 / year in 3 installments",
@@ -167,33 +199,30 @@ function MainAppContent() {
         missing_documents: ["Income Certificate"].filter(d => !(p.owned_documents || []).includes(d)),
         is_mutually_exclusive_secondary: false
       });
-    }
 
-    if (isEdu && (p.marks_percentage || 0) >= 60) {
       mockRanked.push({
         scheme: {
-          id: "PRAGATI_GIRLS",
-          name: "AICTE Pragati Scholarship Scheme for Girl Students",
-          shortName: "Pragati Girls Grant",
-          domain: "education",
-          department: "Ministry of Education / AICTE",
-          quota_type: "Centrally Sponsored (60:40 Ratio)",
-          benefit_display: "₹50,000 / year technical education grant",
-          benefit_display_mr: "दरवर्षी ₹५०,००० तांत्रिक शिक्षण सहाय्य",
-          benefit_amount: 50000,
-          deadline_days: 7,
-          required_documents: ["Aadhaar Card", "Income Certificate", "Mark Sheet (10th/12th)", "College Fee Receipt"],
-          documents_required: ["Aadhaar Card", "Income Certificate", "Mark Sheet (10th/12th)", "College Fee Receipt"],
-          official_url: "https://scholarships.gov.in",
-          description: "Direct financial grant for girls pursuing technical diploma or degree courses.",
-          description_mr: "तांत्रिक शिक्षणासाठी मुलींना दरवर्षी ₹५०,००० चे प्रोत्साहन अनुदान.",
-          application_steps: ["Apply via NSP portal", "Upload 12th marksheet & income proof", "NSP institute approval"]
+          id: "PMFBY",
+          name: "Pradhan Mantri Fasal Bima Yojana (PMFBY)",
+          shortName: "PM Fasal Bima",
+          department: "Ministry of Agriculture & Farmers Welfare",
+          quota_type: "Central & State Sponsored (50:50)",
+          benefit_display: "Comprehensive Crop Insurance Support",
+          benefit_display_mr: "सर्वसमावेशक पीक विमा संरक्षण",
+          benefit_amount: 25000,
+          deadline_days: 20,
+          required_documents: ["Aadhaar Card", "7/12 Land Record Extract", "Bank Passbook"],
+          documents_required: ["Aadhaar Card", "7/12 Land Record Extract", "Bank Passbook"],
+          official_url: "https://pmfby.gov.in",
+          description: "Financial support to farmers suffering crop loss/damage arising out of unforeseen events.",
+          description_mr: "नैसर्गिक आपत्तीमुळे पिकांचे नुकसान झाल्यास नुकसान भरपाई.",
+          application_steps: ["Apply via PMFBY portal or CSC", "Submit Sowing Certificate", "Pay nominal premium"]
         },
-        composite_score: 88.0,
+        composite_score: 85.0,
         priority_tier: "High Priority",
         owned_documents_count: 3,
-        total_documents_count: 4,
-        missing_documents: ["College Fee Receipt"].filter(d => !(p.owned_documents || []).includes(d)),
+        total_documents_count: 3,
+        missing_documents: [],
         is_mutually_exclusive_secondary: false
       });
     }
@@ -204,7 +233,7 @@ function MainAppContent() {
       total_eligible_schemes: mockRanked.length,
       total_potential_benefit: totalBenefit,
       formatted_potential_benefit: `₹${totalBenefit.toLocaleString('en-IN')}`,
-      document_readiness_pct: 75.0,
+      document_readiness_pct: 80.0,
       ranked_schemes: mockRanked,
       ineligible_schemes: [],
       conflicts_detected: conflicts,
@@ -213,7 +242,7 @@ function MainAppContent() {
           document_name: "Aadhaar Identity Card",
           canonical_group: "Aadhaar Identity Card",
           unlocked_schemes_count: 4,
-          scheme_names: ["PM-KISAN", "PMFBY", "Pragati Girls", "Post-Matric"],
+          scheme_names: ["PM-KISAN", "PMFBY", "PM-KUSUM", "SMAM"],
           is_owned: (p.owned_documents || []).includes("Aadhaar Card"),
           efficiency_tag: "⚡ High Leverage (Key Master Document)"
         },
@@ -227,7 +256,7 @@ function MainAppContent() {
         }
       ],
       high_leverage_callouts: [
-        "🔥 Key Document Highlight: 'Aadhaar Identity Card' unlocks 4 schemes at once!",
+        "🔥 Key Document Highlight: 'Aadhaar Identity Card' unlocks 4 agriculture schemes at once!",
         "🔥 Key Document Highlight: 'Land Ownership Proof (7/12 Extract)' unlocks 3 agriculture schemes!"
       ],
       action_checklist: mockRanked.map((r, i) => ({
@@ -287,55 +316,76 @@ function MainAppContent() {
   // Render STEP 4: MAIN DASHBOARD & PORTAL LANDING ZONE
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col font-sans relative pb-24">
-      
-      {/* Top Navigation Header (Cleaned layout: Logo | Language | Notifications | Profile) */}
+
+      {/* Top Navigation Header */}
       <Header
         lang={lang}
         setLang={setLang}
         onOpenMobileDrawer={() => setIsMobileDrawerOpen(true)}
-        onGoHome={() => setActiveNav('home')}
+        onGoHome={() => setActiveNav('matcher')}
       />
 
       {/* Personalized Welcome Bar (When Logged In) */}
-      <WelcomeBar />
+      <WelcomeBar lang={lang} />
 
-      {/* Main 5-Tab Dashboard Layout */}
+      {/* Main Dashboard Layout */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        
+
         {apiError && (
-          <div className="mb-6 p-4 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 text-xs font-semibold flex items-center justify-between">
-            <span>⚠️ {apiError}</span>
-            <button onClick={() => evaluateProfile(profile)} className="underline hover:text-amber-950">Retry Connection</button>
+          <div className="mb-6 p-4 rounded-2xl bg-red-600 text-white shadow-xl border border-red-700 text-sm font-bold flex items-center justify-between animate-pulse">
+            <div className="flex items-center space-x-3">
+              <span className="text-xl">⚠️</span>
+              <div>
+                <div>Backend unreachable — showing offline demo data, not your real results.</div>
+                <div className="text-xs text-red-200 font-medium">Error details: {apiError}</div>
+              </div>
+            </div>
+            <button
+              onClick={() => evaluateProfile(profile)}
+              className="ml-4 px-4 py-2 bg-white text-red-700 hover:bg-red-50 rounded-xl text-xs font-extrabold shadow transition-all whitespace-nowrap"
+            >
+              Retry Connection
+            </button>
           </div>
         )}
 
+
         <div className="flex flex-col lg:flex-row gap-8 items-start">
-          
+
           {/* Dashboard Sidebar Navigation */}
           <Sidebar
             activeNav={activeNav}
             setActiveNav={setActiveNav}
+            activeTab={activeNav}
+            setActiveTab={setActiveNav}
             resultsCount={resultsCount}
             lang={lang}
-            onGoHome={() => setActiveNav('home')}
+            onGoHome={() => setActiveNav('matcher')}
+            isFirstTimeSetup={isFirstTimeSetup}
           />
 
           {/* Dashboard Main Content Panel */}
           <div className="flex-1 w-full min-w-0">
-            
-            {/* HOME TAB: Portal Switcher Landing Zone */}
-            {activeNav === 'home' && (
-              <ErrorBoundary fallbackMessage="Unable to render Landing Portal Zone.">
-                <LandingZone
-                  onSelectDomain={handleLandingHubSelect}
-                  lang={lang}
-                />
-              </ErrorBoundary>
-            )}
 
             {/* TAB 1: Dashboard & Eligibility Matcher */}
             {activeNav === 'matcher' && (
               <div className="space-y-6">
+
+                {/* First-Time Setup Welcome Banner */}
+                {isFirstTimeSetup && (
+                  <div className="bg-gradient-to-r from-emerald-950 via-emerald-900 to-teal-950 text-white rounded-3xl p-6 shadow-xl border border-emerald-700/60 flex items-center space-x-4 animate-in fade-in duration-300">
+                    <div className="w-12 h-12 rounded-2xl bg-white/15 flex items-center justify-center text-emerald-300 flex-shrink-0 backdrop-blur-md">
+                      <Sparkles className="w-6 h-6 text-amber-300" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-extrabold text-white">👋 Welcome, {user?.name || 'Farmer'}! Let's find your scheme matches</h3>
+                      <p className="text-xs text-emerald-200 mt-1">
+                        Fill in your profile details below to see your personalized scheme action plan. All other portal sections will unlock immediately after submission.
+                      </p>
+                    </div>
+                  </div>
+                )}
+
                 <ErrorBoundary fallbackMessage="An error occurred inside the Profile Form component.">
                   <ProfileForm
                     profile={profile}
@@ -345,12 +395,6 @@ function MainAppContent() {
                     lang={lang}
                   />
                 </ErrorBoundary>
-
-                {results && (
-                  <ErrorBoundary fallbackMessage="Unable to render summary metrics cards.">
-                    <SummaryCards results={results} lang={lang} />
-                  </ErrorBoundary>
-                )}
               </div>
             )}
 
@@ -427,6 +471,120 @@ function MainAppContent() {
               </ErrorBoundary>
             )}
 
+            {/* TAB 7: Saved Schemes View */}
+            {(activeNav === 'SAVED') && (
+              <div className="space-y-6 animate-in fade-in duration-300">
+                <div className="bg-gradient-to-r from-emerald-950 via-emerald-900 to-teal-950 rounded-3xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden border border-emerald-800/40">
+                  <div className="absolute top-0 right-0 -mr-8 -mt-8 w-48 h-48 bg-amber-500/20 rounded-full blur-2xl pointer-events-none" />
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative z-10">
+                    <div>
+                      <div className="flex items-center space-x-2 text-amber-400 font-semibold text-xs uppercase tracking-wider mb-1">
+                        <Bookmark className="w-4 h-4 fill-amber-400" /> Bookmarked Schemes Vault
+                      </div>
+                      <h2 className="text-2xl font-black">Your Saved Schemes ({savedSchemes.length})</h2>
+                      <p className="text-xs text-emerald-200 mt-1 max-w-xl">
+                        Quick access to your saved agriculture & welfare schemes. Compare benefits or view deep-dive details.
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => setActiveNav('directory')}
+                      className="px-4 py-2 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-extrabold text-xs shadow-md transition-all self-start sm:self-center cursor-pointer"
+                    >
+                      Explore All Schemes
+                    </button>
+                  </div>
+                </div>
+
+                {savedSchemes.length === 0 ? (
+                  <div className="bg-white rounded-3xl border border-slate-200 p-8 sm:p-12 text-center space-y-6 shadow-md">
+                    <div className="w-16 h-16 rounded-3xl bg-amber-100 text-amber-700 flex items-center justify-center mx-auto border border-amber-300 shadow-sm">
+                      <Bookmark className="w-8 h-8 fill-amber-500 text-amber-600" />
+                    </div>
+                    <div className="max-w-md mx-auto space-y-2">
+                      <h4 className="text-xl font-bold text-slate-900">No Saved Schemes Yet</h4>
+                      <p className="text-xs text-slate-500">
+                        You haven't saved any schemes yet. Click the bookmark icon on any scheme card in the Directory or Action Plan to add it here.
+                      </p>
+                    </div>
+                    <div>
+                      <button
+                        onClick={() => setActiveNav('directory')}
+                        className="px-6 py-2.5 rounded-2xl bg-emerald-800 hover:bg-emerald-700 text-white font-bold text-xs shadow-md shadow-emerald-800/20 inline-flex items-center space-x-2 transition-all cursor-pointer"
+                      >
+                        <Search className="w-4 h-4" />
+                        <span>Browse All Schemes</span>
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {savedSchemes.map((s) => (
+                      <div
+                        key={s.id}
+                        onClick={() => setDetailScheme(s)}
+                        className="bg-white rounded-3xl border border-slate-200/80 hover:border-emerald-300 shadow-md p-6 flex flex-col justify-between space-y-4 cursor-pointer transition-all"
+                      >
+                        <div className="space-y-2">
+                          <div className="flex items-start justify-between">
+                            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-100 text-emerald-900 uppercase">
+                              {t.agricultureCategory || 'AGRICULTURE'}
+                            </span>
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                toggleSaveScheme(s.id);
+                              }}
+                              className="p-1.5 rounded-xl bg-amber-50 text-amber-500 hover:bg-amber-100 transition-colors"
+                              title="Remove from Saved"
+                            >
+                              <Bookmark className="w-4 h-4 fill-amber-500 text-amber-500" />
+                            </button>
+                          </div>
+
+                          <h3 className="text-base font-extrabold text-slate-900 line-clamp-2 hover:text-emerald-700 transition-colors">
+                            {getSchemeName(s, lang)}
+                          </h3>
+
+                          <div className="text-2xs text-slate-500 font-semibold flex items-center space-x-1">
+                            <Building2 className="w-3.5 h-3.5 text-emerald-600" />
+                            <span className="truncate">{s.department || "Government of India"}</span>
+                          </div>
+
+                          <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed font-medium">
+                            {getSchemeDescription(s, lang)}
+                          </p>
+                        </div>
+
+                        <div className="pt-3 border-t border-slate-100 space-y-3">
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <div className="text-[10px] text-slate-400 font-medium">{t.totalBenefitLabel || 'Financial Benefit'}</div>
+                              <div className="text-sm font-black text-emerald-800">{getSchemeBenefit(s, lang)}</div>
+                            </div>
+
+                            <div className="text-right">
+                              <div className="text-[10px] text-slate-400 font-medium">Window</div>
+                              <div className="text-xs font-bold text-amber-600 flex items-center justify-end">
+                                <Clock className="w-3 h-3 mr-1" /> {formatDeadlineText(s.deadline_days, lang)}
+                              </div>
+                            </div>
+                          </div>
+
+                          <button
+                            onClick={() => setDetailScheme(s)}
+                            className="w-full py-2.5 rounded-xl bg-slate-900 hover:bg-emerald-800 text-white font-bold text-xs shadow-sm flex items-center justify-center space-x-1 transition-all"
+                          >
+                            <span>{lang === 'mr' ? 'तपशील पहा' : lang === 'hi' ? 'विवरण देखें' : 'View Deep-Dive Details'}</span>
+                            <ExternalLink className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
           </div>
 
         </div>
@@ -434,7 +592,7 @@ function MainAppContent() {
       </main>
 
       {/* Sticky Bottom Floating Smart Summary Bar */}
-      {results && activeNav !== 'home' && (
+      {results && activeNav !== 'home' && activeNav !== 'matcher' && (
         <FloatingSummaryBar
           results={results}
           onScrollToPlan={() => setActiveNav('plan')}
@@ -442,6 +600,7 @@ function MainAppContent() {
           lang={lang}
         />
       )}
+
 
       {/* Mobile Navigation Drawer */}
       <MobileDrawer
@@ -454,7 +613,9 @@ function MainAppContent() {
         lang={lang}
         setLang={setLang}
         onReset={handleReset}
+        isFirstTimeSetup={isFirstTimeSetup}
       />
+
 
       {/* Explicit Auth Modal Trigger when user clicks login from dashboard */}
       {isAuthModalOpen && (
@@ -472,6 +633,7 @@ function MainAppContent() {
           scheme={detailScheme}
           onClose={() => setDetailScheme(null)}
           allInsights={results ? results.document_insights : []}
+          lang={lang}
         />
       )}
 

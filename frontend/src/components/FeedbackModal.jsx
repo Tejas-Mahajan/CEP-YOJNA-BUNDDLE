@@ -41,7 +41,7 @@ export default function FeedbackModal({ schemeId, defaultRating, onClose, onSubm
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
               <h3 className="text-xl font-extrabold text-slate-900">Feedback & Rating</h3>
-              <p className="text-xs text-slate-500 mt-1">Help us improve scheme bundling recommendations for farmers & students.</p>
+              <p className="text-xs text-slate-500 mt-1">Help us improve scheme bundling recommendations for farmers.</p>
             </div>
 
             <div className="flex items-center space-x-3">

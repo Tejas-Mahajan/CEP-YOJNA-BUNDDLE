@@ -39,13 +39,11 @@ def test_hardening():
 
     # 4. Test Incomplete/Null User Profile Payload
     null_profile = UserProfile(
-        domain="agriculture",
         annual_income=None,  # Null income
         category=None,
         state=None,
         age=None,
         land_acres=None,     # Null land acres
-        marks_percentage=None,
         owned_documents=None  # Null document array
     )
 

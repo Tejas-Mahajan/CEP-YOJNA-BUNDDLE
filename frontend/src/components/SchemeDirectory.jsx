@@ -3,16 +3,17 @@ import { motion } from 'framer-motion';
 import { Search, Filter, ExternalLink, Sparkles, Clock, FileText, Building2, CheckCircle2, Bookmark, RefreshCw, Lightbulb, Scale, AlertTriangle } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { formatDeadlineText } from '../utils/validation';
+import { TRANSLATIONS, getSchemeName, getSchemeDescription, getSchemeBenefit } from '../data/translations';
 
 export default function SchemeDirectory({ onOpenDetail, onOpenCompare, lang }) {
   const [schemes, setSchemes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedDomain, setSelectedDomain] = useState('all');
-  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [showOnlySaved, setShowOnlySaved] = useState(false);
   const [compareIds, setCompareIds] = useState([]);
 
-  const { isSchemeSaved, toggleSaveScheme, isAuthenticated, setIsAuthModalOpen } = useAuth();
+  const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
+  const { savedSchemes, savedSchemesCount, isSchemeSaved, toggleSaveScheme } = useAuth();
 
   useEffect(() => {
     const fetchSchemes = async () => {
@@ -39,7 +40,6 @@ export default function SchemeDirectory({ onOpenDetail, onOpenCompare, lang }) {
         id: "PM_KISAN",
         name: "Pradhan Mantri Kisan Samman Nidhi (PM-KISAN)",
         shortName: "PM-KISAN",
-        domain: "agriculture",
         department: "Ministry of Agriculture & Farmers Welfare",
         quota_type: "Central Sector Scheme (100% Central)",
         benefit_display: "₹6,000 / year in 3 installments",
@@ -50,38 +50,33 @@ export default function SchemeDirectory({ onOpenDetail, onOpenCompare, lang }) {
         description: "Financial support to all landholding farmer families across the country."
       },
       {
-        id: "PRAGATI_GIRLS",
-        name: "AICTE Pragati Scholarship Scheme for Girl Students",
-        shortName: "Pragati Girls Grant",
-        domain: "education",
-        department: "Ministry of Education / AICTE",
-        quota_type: "Centrally Sponsored (60:40 Ratio)",
-        benefit_display: "₹50,000 / year technical education grant",
-        benefit_amount: 50000,
-        deadline_days: 7,
-        required_documents: ["Aadhaar Card", "Income Certificate", "Mark Sheet (10th/12th)"],
-        official_url: "https://scholarships.gov.in",
-        description: "Direct financial grant for girls pursuing technical diploma or degree courses."
+        id: "PMFBY",
+        name: "Pradhan Mantri Fasal Bima Yojana (PMFBY)",
+        shortName: "PM Fasal Bima",
+        department: "Ministry of Agriculture & Farmers Welfare",
+        quota_type: "Central & State Sponsored (50:50)",
+        benefit_display: "Comprehensive Crop Insurance Support",
+        benefit_amount: 25000,
+        deadline_days: 20,
+        required_documents: ["Aadhaar Card", "7/12 Land Record Extract", "Bank Passbook"],
+        official_url: "https://pmfby.gov.in",
+        description: "Financial support to farmers suffering crop loss/damage arising out of unforeseen events."
       }
     ]);
   };
 
   const filteredSchemes = schemes.filter(s => {
-    const matchesDomain = selectedDomain === 'all' || s.domain === selectedDomain;
-    const matchesCategory = selectedCategory === 'all' || (s.category_target && s.category_target.includes(selectedCategory));
+    const matchesSaved = !showOnlySaved || isSchemeSaved(s.id);
     const matchesQuery = searchQuery === '' ||
-      s.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (s.name && s.name.toLowerCase().includes(searchQuery.toLowerCase())) ||
       (s.shortName && s.shortName.toLowerCase().includes(searchQuery.toLowerCase())) ||
       (s.description && s.description.toLowerCase().includes(searchQuery.toLowerCase()));
-    return matchesDomain && matchesCategory && matchesQuery;
+
+    return matchesSaved && matchesQuery;
   });
 
   const handleSaveToggle = (schemeId, e) => {
     e.stopPropagation();
-    if (!isAuthenticated) {
-      setIsAuthModalOpen(true);
-      return;
-    }
     toggleSaveScheme(schemeId);
   };
 
@@ -109,8 +104,7 @@ export default function SchemeDirectory({ onOpenDetail, onOpenCompare, lang }) {
 
   const handleClearFilters = () => {
     setSearchQuery('');
-    setSelectedDomain('all');
-    setSelectedCategory('all');
+    setShowOnlySaved(false);
   };
 
   return (
@@ -121,12 +115,12 @@ export default function SchemeDirectory({ onOpenDetail, onOpenCompare, lang }) {
         <div className="absolute top-0 right-0 -mr-8 -mt-8 w-48 h-48 bg-emerald-500/20 rounded-full blur-2xl pointer-events-none" />
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10">
           <div>
-            <div className="flex items-center space-x-2 text-amber-400 font-bold text-xs uppercase tracking-wider mb-1">
-              <Sparkles className="w-4 h-4" /> Central & State Schemes Directory
+            <div className="flex items-center space-x-2 text-amber-400 font-semibold text-xs uppercase tracking-wider mb-1">
+              <Sparkles className="w-4 h-4" /> Agriculture & Farming Schemes Directory
             </div>
-            <h2 className="text-2xl font-black">All Welfare & Financial Grant Schemes ({schemes.length})</h2>
+            <h2 className="text-2xl font-black">All Agriculture Welfare & Grant Schemes ({schemes.length})</h2>
             <p className="text-xs text-emerald-200 mt-1 max-w-xl">
-              Browse, filter, and compare all government welfare schemes across agriculture, education, and social empowerment.
+              Browse, filter, and compare central and state government agricultural schemes, crop insurance, and solar pump subsidies.
             </p>
           </div>
 
@@ -161,30 +155,28 @@ export default function SchemeDirectory({ onOpenDetail, onOpenCompare, lang }) {
           <Search className="w-4 h-4 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
           <input
             type="text"
-            placeholder="Search scheme name, benefit or keywords..."
+            placeholder="Search agriculture scheme name, benefit or keywords..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full pl-10 pr-4 py-2.5 rounded-2xl border border-slate-200 focus:ring-2 focus:ring-emerald-500 text-sm font-semibold text-slate-900 bg-slate-50/50 outline-none"
           />
         </div>
 
-        {/* Domain Filter Buttons */}
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="text-xs font-bold text-slate-500">Domain:</span>
-          {['all', 'agriculture', 'education'].map(d => (
-            <button
-              key={d}
-              onClick={() => setSelectedDomain(d)}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all uppercase ${
-                selectedDomain === d
-                  ? 'bg-emerald-800 text-white shadow-sm'
-                  : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-              }`}
-            >
-              {d === 'all' ? 'All Sectors' : d}
-            </button>
-          ))}
-        </div>
+        {/* Saved Schemes Filter Pill */}
+        <button
+          onClick={() => setShowOnlySaved(!showOnlySaved)}
+          className={`px-4 py-2.5 rounded-2xl font-extrabold text-xs flex items-center space-x-2 transition-all border ${
+            showOnlySaved
+              ? 'bg-amber-400 text-slate-950 border-amber-500 shadow-md'
+              : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border-slate-200'
+          }`}
+        >
+          <Bookmark className={`w-4 h-4 ${showOnlySaved ? 'fill-slate-950 text-slate-950' : 'text-amber-500 fill-amber-400'}`} />
+          <span>{t.savedSchemesNav || "Saved Schemes"}</span>
+          <span className="px-2 py-0.5 rounded-full text-xs font-black bg-amber-500 text-slate-950">
+            {savedSchemesCount}
+          </span>
+        </button>
 
       </div>
 
@@ -195,31 +187,41 @@ export default function SchemeDirectory({ onOpenDetail, onOpenCompare, lang }) {
           <div className="text-xs font-semibold">Loading Directory Schemes...</div>
         </div>
       ) : filteredSchemes.length === 0 ? (
-        /* Friendly Search No-Match Empty State */
+        /* Friendly Search No-Match / Empty Saved Schemes State */
         <div className="bg-white rounded-3xl border border-slate-200 p-8 sm:p-12 text-center space-y-6 shadow-md">
           <div className="w-16 h-16 rounded-3xl bg-amber-100 text-amber-700 flex items-center justify-center mx-auto border border-amber-300 shadow-sm">
-            <Lightbulb className="w-8 h-8" />
+            {showOnlySaved ? <Bookmark className="w-8 h-8 fill-amber-500 text-amber-600" /> : <Lightbulb className="w-8 h-8" />}
           </div>
 
           <div className="max-w-md mx-auto space-y-2">
-            <h4 className="text-xl font-bold text-slate-900">No Schemes Match "{searchQuery}"</h4>
+            <h4 className="text-xl font-bold text-slate-900">
+              {showOnlySaved && savedSchemesCount === 0
+                ? "No Saved Schemes Yet"
+                : searchQuery
+                ? `No Schemes Match "${searchQuery}"`
+                : "No Schemes Found"}
+            </h4>
             <p className="text-xs text-slate-500">
-              We couldn't find any scheme matching your current search terms or filter selection.
+              {showOnlySaved && savedSchemesCount === 0
+                ? "You haven't saved any schemes yet. Click the bookmark icon on any scheme card to add it to your saved list."
+                : "We couldn't find any scheme matching your current search terms or filter selection."}
             </p>
           </div>
 
-          <div className="max-w-md mx-auto flex flex-wrap gap-2 justify-center">
-            <span className="text-xs font-semibold text-slate-500 self-center">Try searching for:</span>
-            {['PM-KISAN', 'Scholarship', 'Solar Pump', 'Insurance', 'Grant'].map((term) => (
-              <button
-                key={term}
-                onClick={() => setSearchQuery(term)}
-                className="px-3 py-1 rounded-full bg-emerald-50 hover:bg-emerald-100 text-emerald-900 border border-emerald-200 text-xs font-bold transition-all"
-              >
-                {term}
-              </button>
-            ))}
-          </div>
+          {!showOnlySaved && (
+            <div className="max-w-md mx-auto flex flex-wrap gap-2 justify-center">
+              <span className="text-xs font-semibold text-slate-500 self-center">Try searching for:</span>
+              {['PM-KISAN', 'Scholarship', 'Solar Pump', 'Insurance', 'Grant'].map((term) => (
+                <button
+                  key={term}
+                  onClick={() => setSearchQuery(term)}
+                  className="px-3 py-1 rounded-full bg-emerald-50 hover:bg-emerald-100 text-emerald-900 border border-emerald-200 text-xs font-bold transition-all"
+                >
+                  {term}
+                </button>
+              ))}
+            </div>
+          )}
 
           <div className="pt-2">
             <button
@@ -227,7 +229,7 @@ export default function SchemeDirectory({ onOpenDetail, onOpenCompare, lang }) {
               className="px-6 py-2.5 rounded-2xl bg-emerald-800 hover:bg-emerald-700 text-white font-bold text-xs shadow-md shadow-emerald-800/20 inline-flex items-center space-x-2 transition-all"
             >
               <RefreshCw className="w-4 h-4" />
-              <span>Clear Search & Reset All Filters</span>
+              <span>{showOnlySaved ? "Show All Schemes" : "Clear Search & Reset All Filters"}</span>
             </button>
           </div>
         </div>
@@ -253,7 +255,7 @@ export default function SchemeDirectory({ onOpenDetail, onOpenCompare, lang }) {
                   <div className="flex items-start justify-between">
                     <div className="flex items-center space-x-1.5">
                       <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-100 text-emerald-900 uppercase">
-                        {s.domain}
+                        {t.agricultureCategory || 'AGRICULTURE'}
                       </span>
                       {isUrgent && (
                         <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-red-600 text-white animate-pulse flex items-center">
@@ -281,7 +283,7 @@ export default function SchemeDirectory({ onOpenDetail, onOpenCompare, lang }) {
                       <button
                         onClick={(e) => handleSaveToggle(s.id, e)}
                         className="p-1.5 rounded-xl bg-slate-50 hover:bg-amber-50 text-slate-400 hover:text-amber-500 transition-colors"
-                        title={saved ? "Saved to Profile" : "Save Scheme"}
+                        title={saved ? (t.savedSchemeTitle || "Saved to Profile") : (t.saveSchemeTitle || "Save Scheme")}
                       >
                         <Bookmark className={`w-4 h-4 ${saved ? 'fill-amber-500 text-amber-500' : ''}`} />
                       </button>
@@ -289,7 +291,7 @@ export default function SchemeDirectory({ onOpenDetail, onOpenCompare, lang }) {
                   </div>
 
                   <h3 className="text-base font-extrabold text-slate-900 line-clamp-2 hover:text-emerald-700 transition-colors">
-                    {s.name}
+                    {getSchemeName(s, lang)}
                   </h3>
 
                   <div className="text-2xs text-slate-500 font-semibold flex items-center space-x-1">
@@ -298,7 +300,7 @@ export default function SchemeDirectory({ onOpenDetail, onOpenCompare, lang }) {
                   </div>
 
                   <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed font-medium">
-                    {s.description}
+                    {getSchemeDescription(s, lang)}
                   </p>
                 </div>
 
@@ -306,7 +308,7 @@ export default function SchemeDirectory({ onOpenDetail, onOpenCompare, lang }) {
                   <div className="flex items-center justify-between">
                     <div>
                       <div className="text-[10px] text-slate-400 font-medium">Financial Benefit</div>
-                      <div className="text-sm font-black text-emerald-800">{s.benefit_display}</div>
+                      <div className="text-sm font-black text-emerald-800">{getSchemeBenefit(s, lang)}</div>
                     </div>
 
                     <div className="text-right">

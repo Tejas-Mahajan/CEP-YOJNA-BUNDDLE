@@ -6,63 +6,89 @@ sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 from main import evaluate_profile, load_schemes
 from models import UserProfile
+from services.evaluator import evaluate_scheme_eligibility
 
 def test_enhanced_engine():
     print("==========================================")
-    print("  YOJANABUNDLE ENHANCED ENGINE TEST SUITE")
+    print("  YOJANABUNDLE AGRICULTURE ENGINE TEST")
     print("==========================================")
     
     schemes = load_schemes()
-    print(f"✓ Loaded {len(schemes)} schemes with dynamic rule predicates.\n")
+    print(f"✓ Loaded {len(schemes)} agriculture schemes with dynamic rule predicates.\n")
 
-    # Test Case 1: SC Merit Engineering Student (Triggers Mutual Exclusivity: Post-Matric SC vs Top Class SC)
-    sc_student = UserProfile(
-        domain="education",
-        annual_income=180000.0,
-        category="SC",
-        state="Pan-India / All",
-        age=21,
-        course_level="Engineering",
-        marks_percentage=82.0,
-        owned_documents=["Aadhaar Card", "Caste Certificate", "Income Certificate", "Mark Sheet (10th/12th)", "College Fee Receipt", "Bank Passbook"]
-    )
+    test_profiles = [
+        (
+            "TEST CASE 1: SMALL FARMER MAHARASHTRA",
+            UserProfile(
+                annual_income=180000.0,
+                category="OBC",
+                state="Maharashtra",
+                age=42,
+                land_acres=2.5,
+                occupation="Small Farmer",
+                owned_documents=["Aadhaar Card", "7/12 Land Record Extract", "Bank Passbook"]
+            )
+        ),
+        (
+            "TEST CASE 2: MARGINAL FARMER (SOLAR FOCUS)",
+            UserProfile(
+                annual_income=95000.0,
+                category="General",
+                state="Maharashtra",
+                age=50,
+                land_acres=1.2,
+                occupation="Marginal Farmer",
+                owned_documents=["Aadhaar Card", "7/12 Land Record Extract"]
+            )
+        ),
+        (
+            "TEST CASE 3: LARGE LANDHOLDER (35 ACRES, HIGH INCOME)",
+            UserProfile(
+                annual_income=1500000.0,
+                category="General",
+                state="Maharashtra",
+                age=45,
+                land_acres=35.0,
+                occupation="Large Farmer",
+                owned_documents=["Aadhaar Card", "7/12 Land Record Extract", "Bank Passbook"]
+            )
+        ),
+        (
+            "TEST CASE 4: UNDERAGE APPLICANT (AGE 16, LAND 0.1 ACRES)",
+            UserProfile(
+                annual_income=50000.0,
+                category="SC",
+                state="Maharashtra",
+                age=16,
+                land_acres=0.005,
+                occupation="Student Farmer",
+                owned_documents=["Aadhaar Card"]
+            )
+        )
+    ]
 
-    result_sc = evaluate_profile(sc_student)
-    print("--- TEST CASE 1: SC MERIT STUDENT (CONFLICT DETECTION TEST) ---")
-    print(f"Total Matched Eligible Schemes: {result_sc.total_eligible_schemes}")
-    print(f"Total Potential Benefit: {result_sc.formatted_potential_benefit}")
-    print(f"Document Readiness: {result_sc.document_readiness_pct}%")
-    
-    print(f"\n⚡ Conflicts Detected ({len(result_sc.conflicts_detected)}):")
-    for c in result_sc.conflicts_detected:
-        print(f"  • {c.reason_en}")
+    for title, profile in test_profiles:
+        print(f"--- {title} ---")
+        matched = []
+        unmatched = []
 
-    print("\nAction Plan Priority Rankings:")
-    for r in result_sc.ranked_schemes:
-        secondary_flag = " [MUTUALLY EXCLUSIVE SECONDARY]" if r.is_mutually_exclusive_secondary else ""
-        print(f"  [{r.priority_tier}] Score: {r.composite_score} | {r.scheme['shortName']} | Benefit: {r.scheme['benefit_display']}{secondary_flag}")
+        for s in schemes:
+            is_eligible, reasons = evaluate_scheme_eligibility(profile, s)
+            if is_eligible:
+                matched.append(s['shortName'])
+            else:
+                unmatched.append((s['shortName'], reasons))
 
-    # Test Case 2: Small Farmer in Maharashtra (Graph Document Overlap Test)
-    farmer_profile = UserProfile(
-        domain="agriculture",
-        annual_income=180000.0,
-        category="OBC",
-        state="Maharashtra",
-        age=42,
-        land_acres=2.5,
-        occupation="Small Farmer",
-        owned_documents=["Aadhaar Card", "7/12 Land Record Extract", "Bank Passbook"]
-    )
+        print(f"✓ MATCHED SCHEMES ({len(matched)}/8): {', '.join(matched) if matched else 'None'}")
+        if unmatched:
+            print(f"❌ DISQUALIFIED / UNMATCHED SCHEMES ({len(unmatched)}/8):")
+            for name, reasons in unmatched:
+                print(f"   • {name}: {'; '.join(reasons)}")
+        else:
+            print("  (Farmer matched all 8 active schemes)")
+        print()
 
-    result_farmer = evaluate_profile(farmer_profile)
-    print("\n--- TEST CASE 2: FARMER GRAPH DOCUMENT OVERLAP TEST ---")
-    print(f"Total Matched Eligible Schemes: {result_farmer.total_eligible_schemes}")
-    print(f"Document Readiness: {result_farmer.document_readiness_pct}%")
-    print(f"\n🔥 Key Document Banners ({len(result_farmer.high_leverage_callouts)}):")
-    for callout in result_farmer.high_leverage_callouts:
-        print(f"  {callout}")
-
-    print("\n✓ All tests completed successfully!")
+    print("✓ All agriculture engine tests completed successfully!")
 
 if __name__ == "__main__":
     test_enhanced_engine()
