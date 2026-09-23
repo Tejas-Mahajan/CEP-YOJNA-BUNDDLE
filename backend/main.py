@@ -101,14 +101,18 @@ def get_current_user(
     return user
 
 # Global Exception Handler to catch any unhandled exceptions gracefully
+import logging
+
+logger = logging.getLogger("yojanabundle")
+
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
+    logger.exception(f"Unhandled error on {request.url.path}")
     return JSONResponse(
         status_code=500,
         content={
             "status": "error",
-            "message": "An unexpected error occurred during profile evaluation.",
-            "detail": str(exc),
+            "message": "An unexpected error occurred. Please try again later.",
             "path": request.url.path
         }
     )
