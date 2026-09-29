@@ -9,7 +9,9 @@ from dotenv import load_dotenv
 # Load environment variables from .env file
 load_dotenv(os.path.join(os.path.dirname(__file__), ".env"))
 
-JWT_SECRET = os.environ.get("JWT_SECRET", "yojana_bundle_jwt_secret_key_default_2026")
+JWT_SECRET = os.environ.get("JWT_SECRET")
+if not JWT_SECRET:
+    raise RuntimeError("JWT_SECRET environment variable is missing or empty. Please set JWT_SECRET.")
 JWT_ALGORITHM = os.environ.get("JWT_ALGORITHM", "HS256")
 ACCESS_TOKEN_EXPIRE_HOURS = int(os.environ.get("ACCESS_TOKEN_EXPIRE_HOURS", "24"))
 
