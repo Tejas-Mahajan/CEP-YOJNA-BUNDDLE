@@ -100,15 +100,17 @@ def get_current_user(
 
     return user
 
-# Global Exception Handler to catch any unhandled exceptions gracefully
+import logging
+logger = logging.getLogger("yojanabundle")
+
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
+    logger.exception(f"Unhandled error on {request.url.path}")
     return JSONResponse(
         status_code=500,
         content={
             "status": "error",
-            "message": "An unexpected error occurred during profile evaluation.",
-            "detail": str(exc),
+            "message": "An unexpected error occurred. Please try again later.",
             "path": request.url.path
         }
     )
@@ -215,18 +217,16 @@ def update_profile(
     """
     Updates authenticated user's profile attributes in SQLite database.
     """
-    existing_attributes = current_user.profile_attributes or {}
+    user = current_user
     update_data = req.model_dump(exclude_unset=True) if hasattr(req, 'model_dump') else req.dict(exclude_unset=True)
-    
-    # Merge non-null updated fields
-    merged_attributes = {**existing_attributes, **update_data}
-    current_user.profile_attributes = merged_attributes
 
-    db.add(current_user)
+    db.refresh(user)
+    current_attrs = user.profile_attributes or {}
+    current_attrs.update(update_data)
+    user.profile_attributes = current_attrs
     db.commit()
-    db.refresh(current_user)
 
-    return {"status": "success", "user": current_user.to_dict()}
+    return {"status": "success", "user": user.to_dict()}
 
 
 @app.post("/api/evaluate", response_model=EvaluationResponse)
