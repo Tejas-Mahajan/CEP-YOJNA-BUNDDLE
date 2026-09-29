@@ -9,7 +9,7 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session
 
 from models import UserProfile, EvaluationResponse, FeedbackRequest, LoginRequest, SignupRequest, AuthResponse, ProfileUpdateRequest
-from models_db import User
+from models_db import User, Feedback
 from db import get_db, init_db
 from auth_utils import hash_password, verify_password, generate_jwt_token, decode_jwt_token
 from services.evaluator import evaluate_scheme_eligibility
@@ -42,7 +42,6 @@ app.add_middleware(
 )
 
 DATA_PATH = os.path.join(os.path.dirname(__file__), "data", "schemes.json")
-FEEDBACK_PATH = os.path.join(os.path.dirname(__file__), "feedback_log.json")
 
 security = HTTPBearer(auto_error=False)
 
@@ -290,25 +289,25 @@ def evaluate_profile(profile: UserProfile):
     )
 
 @app.post("/api/feedback")
-def record_feedback(fb: FeedbackRequest):
-    feedback_entries = []
-    if os.path.exists(FEEDBACK_PATH):
-        try:
-            with open(FEEDBACK_PATH, "r", encoding="utf-8") as f:
-                feedback_entries = json.load(f)
-        except Exception:
-            feedback_entries = []
+def record_feedback(fb: FeedbackRequest, db: Session = Depends(get_db)):
+    feedback_id = f"fb_{uuid.uuid4().hex[:10]}"
+    feedback_record = Feedback(
+        id=feedback_id,
+        scheme_id=fb.scheme_id,
+        rating=fb.rating,
+        comment=fb.comment,
+        feedback_text=fb.comment
+    )
+    db.add(feedback_record)
+    db.commit()
+    db.refresh(feedback_record)
 
     new_entry = {
-        "scheme_id": fb.scheme_id,
-        "rating": fb.rating,
-        "comment": fb.comment
+        "id": feedback_record.id,
+        "scheme_id": feedback_record.scheme_id,
+        "rating": feedback_record.rating,
+        "comment": feedback_record.comment
     }
-    feedback_entries.append(new_entry)
-
-    with open(FEEDBACK_PATH, "w", encoding="utf-8") as f:
-        json.dump(feedback_entries, f, indent=2)
-
     return {"status": "success", "message": "Feedback logged successfully", "recorded": new_entry}
 
 if __name__ == "__main__":
