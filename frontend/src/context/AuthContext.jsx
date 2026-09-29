@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { API_BASE } from '../config';
 
 const AuthContext = createContext();
 
@@ -60,7 +61,7 @@ export const AuthProvider = ({ children }) => {
         }
 
         if (storedToken) {
-          const res = await fetch('/api/auth/me', {
+          const res = await fetch(`${API_BASE}/api/auth/me`, {
             headers: {
               'Authorization': `Bearer ${storedToken}`
             }
@@ -106,7 +107,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     try {
-      const res = await fetch('/api/auth/login', {
+      const res = await fetch(`${API_BASE}/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -145,7 +146,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     try {
-      const res = await fetch('/api/auth/signup', {
+      const res = await fetch(`${API_BASE}/api/auth/signup`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -189,7 +190,7 @@ export const AuthProvider = ({ children }) => {
 
     try {
       if (authToken) {
-        const res = await fetch('/api/auth/profile', {
+        const res = await fetch(`${API_BASE}/api/auth/profile`, {
           method: 'PATCH',
           headers: {
             'Content-Type': 'application/json',

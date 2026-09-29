@@ -22,6 +22,7 @@ import ErrorBoundary from './components/ErrorBoundary';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { formatDeadlineText } from './utils/validation';
 import { TRANSLATIONS, getSchemeName, getSchemeDescription, getSchemeBenefit } from './data/translations';
+import { API_BASE } from './config';
 
 function MainAppContent() {
   // App Flow State Machine: 'INTRO' -> 'AUTH' -> 'WELCOME' -> 'DASHBOARD'
@@ -61,7 +62,7 @@ function MainAppContent() {
   useEffect(() => {
     const fetchSchemes = async () => {
       try {
-        const res = await fetch('/api/schemes');
+        const res = await fetch(`${API_BASE}/api/schemes`);
         if (res.ok) {
           const data = await res.json();
           setSchemes(data.schemes || []);
@@ -105,7 +106,7 @@ function MainAppContent() {
     setApiError(null);
 
     try {
-      const res = await fetch('/api/evaluate', {
+      const res = await fetch(`${API_BASE}/api/evaluate`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(profileData)
@@ -158,7 +159,7 @@ function MainAppContent() {
 
   const handleFeedbackSubmit = async (feedbackPayload) => {
     try {
-      await fetch('/api/feedback', {
+      await fetch(`${API_BASE}/api/feedback`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(feedbackPayload)
