@@ -65,3 +65,8 @@ backend/data/*.db
 ehthumbs.db
 Thumbs.db
 desktop.ini
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3

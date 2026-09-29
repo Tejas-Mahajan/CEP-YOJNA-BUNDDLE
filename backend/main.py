@@ -1,6 +1,7 @@
 import json
 import os
 import uuid
+import logging
 from typing import List, Dict, Any, Optional
 from fastapi import FastAPI, HTTPException, Request, Depends, status
 from fastapi.responses import JSONResponse
@@ -96,19 +97,12 @@ def get_current_user(
 
     return user
 
-import logging
-logger = logging.getLogger("yojanabundle")
-
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
-    logger.exception(f"Unhandled error on {request.url.path}")
+    logging.error(f"Unhandled exception: {exc}")
     return JSONResponse(
         status_code=500,
-        content={
-            "status": "error",
-            "message": "An unexpected error occurred. Please try again later.",
-            "path": request.url.path
-        }
+        content={"detail": "Internal server error"}
     )
 
 def load_schemes() -> List[Dict[str, Any]]:
