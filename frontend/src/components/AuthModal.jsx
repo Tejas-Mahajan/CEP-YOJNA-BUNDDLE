@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Phone, Mail, Lock, User, ShieldCheck, Sparkles, Sprout, ArrowRight, CheckCircle2, Languages, UserCheck } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { TRANSLATIONS } from '../data/translations';
 
 export default function AuthModal({ isOpen, onClose, lang = 'en', setLang, onGuestContinue }) {
   const { login, signup } = useAuth();
+  const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
 
   const [authMode, setAuthMode] = useState('login'); // 'login' or 'signup'
   const [authTab, setAuthTab] = useState('email'); // Default to working email+password flow
@@ -41,7 +43,7 @@ export default function AuthModal({ isOpen, onClose, lang = 'en', setLang, onGue
   const handleSendOTP = (e) => {
     e.preventDefault();
     if (!phone || phone.length < 10) {
-      setErrorMsg("Please enter a valid 10-digit Mobile Number");
+      setErrorMsg(t.authInvalidMobile);
       return;
     }
     setErrorMsg('');
@@ -58,20 +60,20 @@ export default function AuthModal({ isOpen, onClose, lang = 'en', setLang, onGue
       if (authMode === 'login') {
         const identifier = authTab === 'phone' ? phone : email;
         if (!identifier) {
-          throw new Error(`Please enter your ${authTab === 'phone' ? 'mobile number' : 'email address'}`);
+          throw new Error((authTab === 'phone' ? t.authMissingMobile : t.authMissingEmail));
         }
         const res = await login({ identifier, password, method: authTab });
         if (!res.success) {
-          setErrorMsg(res.error || "Login failed");
+          setErrorMsg(res.error || t.authLoginFailed);
           return;
         }
       } else {
         if (!name.trim()) {
-          throw new Error("Please enter your Full Name");
+          throw new Error(t.authMissingName);
         }
         const identifier = authTab === 'phone' ? phone : email;
         if (!identifier) {
-          throw new Error(`Please enter your ${authTab === 'phone' ? 'mobile number' : 'email address'}`);
+          throw new Error((authTab === 'phone' ? t.authMissingMobile : t.authMissingEmail));
         }
         const res = await signup({
           name,
@@ -82,13 +84,13 @@ export default function AuthModal({ isOpen, onClose, lang = 'en', setLang, onGue
           profileAttributes: null
         });
         if (!res.success) {
-          setErrorMsg(res.error || "Signup failed");
+          setErrorMsg(res.error || t.authSignupFailed);
           return;
         }
       }
       onClose();
     } catch (err) {
-      setErrorMsg(err.message || "Authentication failed. Please check credentials.");
+      setErrorMsg(err.message || t.authAuthenticationFailed);
     } finally {
       setIsSubmitting(false);
     }
@@ -166,23 +168,23 @@ export default function AuthModal({ isOpen, onClose, lang = 'en', setLang, onGue
               </div>
               <div>
                 <h2 className="text-xl font-bold tracking-tight">
-                  {authMode === 'login' ? 'Welcome to YojanaBundle' : 'Create Your Profile'}
+                  {authMode === 'login' ? t.authWelcome : t.authCreateProfile}
                 </h2>
                 <p className="text-xs text-emerald-200">
-                  {authMode === 'login' ? 'Access saved schemes & personalized bundles' : 'Store your attributes for instant scheme eligibility'}
+                  {authMode === 'login' ? t.authWelcomeSubtitle : t.authCreateProfileSubtitle}
                 </p>
               </div>
             </div>
 
             {/* Quick Demo Login Badges */}
             <div className="flex items-center space-x-2 pt-2">
-              <span className="text-2xs text-emerald-200 uppercase font-extrabold tracking-wider">Quick 1-Click Demo Login:</span>
+              <span className="text-2xs text-emerald-200 uppercase font-extrabold tracking-wider">{t.authDemoLogin}</span>
               <button
                 type="button"
                 onClick={() => handleDemoLogin('farmer')}
                 className="px-3 py-1 rounded-full bg-emerald-700/80 hover:bg-emerald-600 border border-emerald-500/50 text-xs font-semibold text-white flex items-center space-x-1 transition-all"
               >
-                <span>🌾 Farmer (Ramesh)</span>
+                <span>{t.authDemoFarmer}</span>
               </button>
             </div>
           </div>
@@ -199,7 +201,7 @@ export default function AuthModal({ isOpen, onClose, lang = 'en', setLang, onGue
                     : 'text-slate-500 hover:text-slate-900'
                 }`}
               >
-                Log In
+                {t.authLogin}
               </button>
               <button
                 type="button"
@@ -210,7 +212,7 @@ export default function AuthModal({ isOpen, onClose, lang = 'en', setLang, onGue
                     : 'text-slate-500 hover:text-slate-900'
                 }`}
               >
-                Sign Up & Save Profile
+                {t.authSignup}
               </button>
             </div>
 
@@ -226,19 +228,19 @@ export default function AuthModal({ isOpen, onClose, lang = 'en', setLang, onGue
                 }`}
               >
                 <Mail className="w-4 h-4" />
-                <span>Email + Password</span>
+                <span>{t.authEmailPassword}</span>
               </button>
 
               <button
                 type="button"
                 disabled
-                title="Phone authentication coming soon"
+                title={t.authComingSoon}
                 className="flex items-center space-x-1.5 text-xs sm:text-sm font-semibold pb-1 text-slate-300 cursor-not-allowed border-b-2 border-transparent"
               >
                 <Phone className="w-4 h-4 text-slate-300" />
-                <span>Phone Number</span>
+                <span>{t.authPhoneNumber}</span>
                 <span className="text-3xs bg-slate-100 text-slate-400 font-bold px-1.5 py-0.5 rounded-full border border-slate-200">
-                  Coming soon
+                  {t.authComingSoon}
                 </span>
               </button>
             </div>
@@ -256,13 +258,13 @@ export default function AuthModal({ isOpen, onClose, lang = 'en', setLang, onGue
               {/* Full Name in Signup Mode */}
               {authMode === 'signup' && (
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">Full Name</label>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">{t.authFullName}</label>
                   <div className="relative">
                     <User className="w-4 h-4 absolute left-3 top-3 text-slate-400" />
                     <input
                       type="text"
                       required
-                      placeholder="e.g. Ramesh V. Patil"
+                      placeholder={t.authFullNamePlaceholder}
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none"
@@ -276,7 +278,7 @@ export default function AuthModal({ isOpen, onClose, lang = 'en', setLang, onGue
               {/* Phone Tab Inputs */}
               {authTab === 'phone' && (
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">Mobile Number</label>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">{t.authMobileNumber}</label>
                   <div className="flex space-x-2">
                     <div className="px-3 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs font-bold text-slate-700 flex items-center">
                       +91
@@ -303,8 +305,8 @@ export default function AuthModal({ isOpen, onClose, lang = 'en', setLang, onGue
                       className="mt-3 p-3 rounded-xl bg-emerald-50 border border-emerald-200 space-y-2"
                     >
                       <div className="flex items-center justify-between text-xs font-bold text-emerald-900">
-                        <span>Enter 6-Digit OTP</span>
-                        <span className="text-emerald-700 font-normal">Sent to +91 {phone}</span>
+                        <span>{t.authEnterOtp}</span>
+                        <span className="text-emerald-700 font-normal">{t.authSentTo} +91 {phone}</span>
                       </div>
                       <div className="relative">
                         <ShieldCheck className="w-4 h-4 absolute left-3 top-3 text-emerald-600" />
@@ -325,13 +327,13 @@ export default function AuthModal({ isOpen, onClose, lang = 'en', setLang, onGue
               {authTab === 'email' && (
                 <>
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1">Email Address</label>
+                    <label className="block text-xs font-bold text-slate-700 mb-1">{t.authEmailAddress}</label>
                     <div className="relative">
                       <Mail className="w-4 h-4 absolute left-3 top-3 text-slate-400" />
                       <input
                         type="email"
                         required
-                        placeholder="name@example.com"
+                        placeholder={t.authEmailPlaceholder}
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none"
@@ -340,7 +342,7 @@ export default function AuthModal({ isOpen, onClose, lang = 'en', setLang, onGue
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1">Password</label>
+                    <label className="block text-xs font-bold text-slate-700 mb-1">{t.authPassword}</label>
                     <div className="relative">
                       <Lock className="w-4 h-4 absolute left-3 top-3 text-slate-400" />
                       <input
@@ -356,7 +358,7 @@ export default function AuthModal({ isOpen, onClose, lang = 'en', setLang, onGue
                         onClick={() => setShowPassword(!showPassword)}
                         className="absolute right-3 top-2.5 text-xs text-slate-400 hover:text-slate-600 font-semibold"
                       >
-                        {showPassword ? 'Hide' : 'Show'}
+                        {showPassword ? t.authHide : t.authShow}
                       </button>
                     </div>
                   </div>
@@ -370,7 +372,7 @@ export default function AuthModal({ isOpen, onClose, lang = 'en', setLang, onGue
                   onClick={handleSendOTP}
                   className="w-full py-3 bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded-xl shadow-lg shadow-emerald-700/20 flex items-center justify-center space-x-2 transition-all"
                 >
-                  <span>Send Verification Code</span>
+                  <span>{t.authSendCode}</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
               ) : (
@@ -383,7 +385,7 @@ export default function AuthModal({ isOpen, onClose, lang = 'en', setLang, onGue
                     <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
                   ) : (
                     <>
-                      <span>{authMode === 'login' ? 'Log In & Continue' : 'Create Account & Save'}</span>
+                      <span>{authMode === 'login' ? t.authLoginContinue : t.authCreateAccount}</span>
                       <CheckCircle2 className="w-4 h-4" />
                     </>
                   )}
@@ -400,7 +402,7 @@ export default function AuthModal({ isOpen, onClose, lang = 'en', setLang, onGue
                 className="w-full py-2.5 px-4 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-extrabold text-xs transition-all flex items-center justify-center space-x-1.5"
               >
                 <UserCheck className="w-4 h-4 text-emerald-700" />
-                <span>Continue as Guest ➔</span>
+                <span>{t.authGuest}</span>
               </button>
             </div>
 

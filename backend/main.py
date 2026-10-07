@@ -1,6 +1,7 @@
 import json
 import os
 import uuid
+import logging
 from typing import List, Dict, Any, Optional
 from fastapi import FastAPI, HTTPException, Request, Depends, status
 from fastapi.responses import JSONResponse
@@ -9,7 +10,7 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session
 
 from models import UserProfile, EvaluationResponse, FeedbackRequest, LoginRequest, SignupRequest, AuthResponse, ProfileUpdateRequest
-from models_db import User
+from models_db import User, Feedback
 from db import get_db, init_db
 from auth_utils import hash_password, verify_password, generate_jwt_token, decode_jwt_token
 from services.evaluator import evaluate_scheme_eligibility
@@ -29,23 +30,19 @@ app = FastAPI(
 def startup_event():
     init_db()
 
-# Enable CORS for local React dev server ports
+# Configure CORS
+cors_origins_raw = os.environ.get("CORS_ORIGINS", "http://localhost:3000,http://localhost:5173")
+allow_origins = [origin.strip() for origin in cors_origins_raw.split(",") if origin.strip()]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:3000",
-        "http://127.0.0.1:3000",
-        "http://localhost:5173",
-        "http://127.0.0.1:5173",
-        "*"
-    ],
+    allow_origins=allow_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 DATA_PATH = os.path.join(os.path.dirname(__file__), "data", "schemes.json")
-FEEDBACK_PATH = os.path.join(os.path.dirname(__file__), "feedback_log.json")
 
 security = HTTPBearer(auto_error=False)
 
@@ -100,19 +97,12 @@ def get_current_user(
 
     return user
 
-import logging
-logger = logging.getLogger("yojanabundle")
-
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
-    logger.exception(f"Unhandled error on {request.url.path}")
+    logging.error(f"Unhandled exception: {exc}")
     return JSONResponse(
         status_code=500,
-        content={
-            "status": "error",
-            "message": "An unexpected error occurred. Please try again later.",
-            "path": request.url.path
-        }
+        content={"detail": "Internal server error"}
     )
 
 def load_schemes() -> List[Dict[str, Any]]:
@@ -293,27 +283,30 @@ def evaluate_profile(profile: UserProfile):
     )
 
 @app.post("/api/feedback")
-def record_feedback(fb: FeedbackRequest):
-    feedback_entries = []
-    if os.path.exists(FEEDBACK_PATH):
-        try:
-            with open(FEEDBACK_PATH, "r", encoding="utf-8") as f:
-                feedback_entries = json.load(f)
-        except Exception:
-            feedback_entries = []
+def record_feedback(fb: FeedbackRequest, db: Session = Depends(get_db)):
+    feedback_id = f"fb_{uuid.uuid4().hex[:10]}"
+    feedback_record = Feedback(
+        id=feedback_id,
+        scheme_id=fb.scheme_id,
+        rating=fb.rating,
+        comment=fb.comment,
+        feedback_text=fb.comment
+    )
+    db.add(feedback_record)
+    db.commit()
+    db.refresh(feedback_record)
 
     new_entry = {
-        "scheme_id": fb.scheme_id,
-        "rating": fb.rating,
-        "comment": fb.comment
+        "id": feedback_record.id,
+        "scheme_id": feedback_record.scheme_id,
+        "rating": feedback_record.rating,
+        "comment": feedback_record.comment
     }
-    feedback_entries.append(new_entry)
-
-    with open(FEEDBACK_PATH, "w", encoding="utf-8") as f:
-        json.dump(feedback_entries, f, indent=2)
-
     return {"status": "success", "message": "Feedback logged successfully", "recorded": new_entry}
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
+    host = os.environ.get("HOST", "0.0.0.0")
+    port = int(os.environ.get("PORT", 8000))
+    reload = os.environ.get("ENVIRONMENT") != "production"
+    uvicorn.run("main:app", host=host, port=port, reload=reload)

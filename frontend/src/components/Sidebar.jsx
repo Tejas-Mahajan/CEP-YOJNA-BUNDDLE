@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Home, Compass, ClipboardList, FolderCheck, Search, MapPin, Sparkles, ChevronRight, Bookmark, Layers, Lock } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { TRANSLATIONS } from '../data/translations';
+import { API_BASE } from '../config';
 
 export default function Sidebar({ activeNav, setActiveNav, activeTab, setActiveTab, resultsCount, lang, onGoHome, isFirstTimeSetup }) {
   const { savedSchemesCount } = useAuth();
@@ -12,7 +13,7 @@ export default function Sidebar({ activeNav, setActiveNav, activeTab, setActiveT
   React.useEffect(() => {
     const fetchCount = async () => {
       try {
-        const res = await fetch('/api/schemes');
+        const res = await fetch(`${API_BASE}/api/schemes`);
         if (res.ok) {
           const data = await res.json();
           if (data.schemes) {

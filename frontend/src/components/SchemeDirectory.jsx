@@ -4,6 +4,7 @@ import { Search, Filter, ExternalLink, Sparkles, Clock, FileText, Building2, Che
 import { useAuth } from '../context/AuthContext';
 import { formatDeadlineText } from '../utils/validation';
 import { TRANSLATIONS, getSchemeName, getSchemeDescription, getSchemeBenefit } from '../data/translations';
+import { API_BASE } from '../config';
 
 export default function SchemeDirectory({ onOpenDetail, onOpenCompare, lang }) {
   const [schemes, setSchemes] = useState([]);
@@ -18,7 +19,7 @@ export default function SchemeDirectory({ onOpenDetail, onOpenCompare, lang }) {
   useEffect(() => {
     const fetchSchemes = async () => {
       try {
-        const res = await fetch('/api/schemes');
+        const res = await fetch(`${API_BASE}/api/schemes`);
         if (res.ok) {
           const data = await res.json();
           setSchemes(data.schemes || []);

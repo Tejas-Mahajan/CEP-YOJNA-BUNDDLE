@@ -41,3 +41,25 @@ class User(Base):
             "created_at": self.created_at.isoformat() if self.created_at else None,
             "profileAttributes": self.profile_attributes
         }
+
+class Feedback(Base):
+    __tablename__ = "feedbacks"
+
+    id = Column(String, primary_key=True, index=True)
+    scheme_id = Column(String, nullable=True)
+    rating = Column(String, nullable=False)
+    comment = Column(Text, nullable=True)
+    feedback_text = Column(Text, nullable=True)
+    user_id = Column(String, nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "scheme_id": self.scheme_id,
+            "rating": self.rating,
+            "comment": self.comment or self.feedback_text,
+            "feedback_text": self.feedback_text or self.comment,
+            "user_id": self.user_id,
+            "created_at": self.created_at.isoformat() if self.created_at else None
+        }
