@@ -107,4 +107,8 @@ def sanitize_scheme_object(scheme: Dict[str, Any]) -> Dict[str, Any]:
 
     cleaned["official_url"] = str(cleaned.get("official_url", "https://myscheme.gov.in"))
 
+    cleaned["level"] = clean_text_field(cleaned.get("level", "Central"))
+    cleaned["government"] = clean_text_field(cleaned.get("government", "Government of India"))
+    cleaned["government_mr"] = clean_text_field(cleaned.get("government_mr", "भारत सरकार"))
+
     return cleaned

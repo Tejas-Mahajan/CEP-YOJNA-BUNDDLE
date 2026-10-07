@@ -20,6 +20,9 @@ class SchemeModel(BaseModel):
     name: str
     shortName: str
     department: Optional[str] = Field("Government of India", description="Ministry or Nodal Department")
+    level: Optional[str] = Field("Central", description="Central or State")
+    government: Optional[str] = Field("Government of India", description="Government of India or Government of Maharashtra")
+    government_mr: Optional[str] = Field("भारत सरकार", description="भारत सरकार or महाराष्ट्र शासन")
     quota_type: Optional[str] = Field("Central Sector Scheme (100% Central)", description="Central vs State Funding Quota")
     rules: List[RuleCondition] = []
     category_target: List[str] = ["General", "OBC", "SC", "ST", "EWS"]

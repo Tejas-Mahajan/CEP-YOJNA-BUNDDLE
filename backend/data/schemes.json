@@ -3,6 +3,9 @@
     "id": "PM_KISAN",
     "name": "Pradhan Mantri Kisan Samman Nidhi (PM-KISAN)",
     "shortName": "PM-KISAN",
+    "level": "Central",
+    "government": "Government of India",
+    "government_mr": "भारत सरकार",
     "rules": [
       {
         "field": "age",
@@ -55,6 +58,9 @@
     "id": "PMFBY",
     "name": "Pradhan Mantri Fasal Bima Yojana (PMFBY)",
     "shortName": "PM Fasal Bima",
+    "level": "Central",
+    "government": "Government of India",
+    "government_mr": "भारत सरकार",
     "rules": [
       {
         "field": "age",
@@ -102,6 +108,9 @@
     "id": "KCC",
     "name": "Kisan Credit Card (KCC) Concessional Loan",
     "shortName": "Kisan Credit Card",
+    "level": "Central",
+    "government": "Government of India",
+    "government_mr": "भारत सरकार",
     "rules": [
       {
         "field": "age",
@@ -150,6 +159,9 @@
     "id": "PM_KUSUM",
     "name": "PM-KUSUM Solar Pump Subsidy Scheme",
     "shortName": "PM-KUSUM Solar",
+    "level": "Central",
+    "government": "Government of India",
+    "government_mr": "भारत सरकार",
     "rules": [
       {
         "field": "age",
@@ -206,6 +218,9 @@
     "id": "PMKSY",
     "name": "Pradhan Mantri Krishi Sinchayee Yojana (Per Drop More Crop)",
     "shortName": "PM Krishi Sinchayee",
+    "level": "Central",
+    "government": "Government of India",
+    "government_mr": "भारत सरकार",
     "rules": [
       {
         "field": "age",
@@ -261,6 +276,9 @@
     "id": "SOIL_HEALTH",
     "name": "Soil Health Card Scheme",
     "shortName": "Soil Health Card",
+    "level": "Central",
+    "government": "Government of India",
+    "government_mr": "भारत सरकार",
     "rules": [],
     "category_target": [
       "General",
@@ -297,6 +315,9 @@
     "id": "PKVY",
     "name": "Paramparagat Krishi Vikas Yojana (PKVY Organic Support)",
     "shortName": "PKVY Organic Farming",
+    "level": "Central",
+    "government": "Government of India",
+    "government_mr": "भारत सरकार",
     "rules": [
       {
         "field": "age",
@@ -352,6 +373,9 @@
     "id": "SMAM",
     "name": "Sub-Mission on Agricultural Mechanization (SMAM Equipment Subsidy)",
     "shortName": "SMAM Machinery",
+    "level": "Central",
+    "government": "Government of India",
+    "government_mr": "भारत सरकार",
     "rules": [
       {
         "field": "age",
@@ -408,6 +432,9 @@
     "id": "NAMO_SHETKARI",
     "name": "Namo Shetkari Mahasanman Nidhi Yojana",
     "shortName": "Namo Shetkari",
+    "level": "State",
+    "government": "Government of Maharashtra",
+    "government_mr": "महाराष्ट्र शासन",
     "rules": [
       {
         "field": "age",
@@ -460,6 +487,9 @@
     "id": "PM_KMY",
     "name": "Pradhan Mantri Kisan Maan-Dhan Yojana (PM-KMY)",
     "shortName": "PM-KMY Pension",
+    "level": "Central",
+    "government": "Government of India",
+    "government_mr": "भारत सरकार",
     "rules": [
       {
         "field": "age",
@@ -487,7 +517,7 @@
     "benefit_display": "Assured monthly pension of ₹3,000 after attaining the age of 60 years",
     "benefit_display_mr": "वयाची ६० वर्षे पूर्ण झाल्यानंतर दरमहा ₹३,००० निश्चित पेन्शन",
     "deadline_days": 365,
-    "official_url": "https://maandhan.in",
+    "official_url": "https://mahandhan.in",
     "required_documents": [
       "Aadhaar Card",
       "Savings Bank Account",
@@ -515,6 +545,9 @@
     "id": "MAGEL_TYALA_SHET_TALE",
     "name": "Magel Tyala Shet Tale (Farm Pond Scheme)",
     "shortName": "Shet Tale",
+    "level": "State",
+    "government": "Government of Maharashtra",
+    "government_mr": "महाराष्ट्र शासन",
     "rules": [
       {
         "field": "age",
@@ -567,6 +600,9 @@
     "id": "GOPINATH_MUNDE_VIMA",
     "name": "Gopinath Munde Shetkari Apghat Suraksha Sadanugraha Anudan Yojana",
     "shortName": "Farmer Accident Insurance",
+    "level": "State",
+    "government": "Government of Maharashtra",
+    "government_mr": "महाराष्ट्र शासन",
     "rules": [
       {
         "field": "age",
@@ -614,6 +650,9 @@
     "id": "BHAUSAHEB_FUNDKAR",
     "name": "Bhausaheb Fundkar Phalbag Lagvad Yojana",
     "shortName": "Phalbag Lagvad",
+    "level": "State",
+    "government": "Government of Maharashtra",
+    "government_mr": "महाराष्ट्र शासन",
     "rules": [
       {
         "field": "age",
@@ -664,6 +703,290 @@
       "महाडीबीटी पोर्टलवर कृषी योजनांतर्गत ऑनलाईन अर्ज करा.",
       "पूर्वपरवानगीनंतर अधिकृत रोपवाटिकांमधून रोपे खरेदी करा.",
       "झाडे जगण्याच्या प्रमाणानुसार अनुदान जमा (पहिले वर्ष ५०%, दुसरे ३०%, तिसरे २०%)."
+    ]
+  },
+  {
+    "id": "AIF",
+    "name": "Agriculture Infrastructure Fund (AIF)",
+    "shortName": "Agri Infra Fund",
+    "level": "Central",
+    "government": "Government of India",
+    "government_mr": "भारत सरकार",
+    "rules": [
+      {
+        "field": "age",
+        "operator": "BETWEEN",
+        "value": [
+          18,
+          75
+        ]
+      },
+      {
+        "field": "land_acres",
+        "operator": ">=",
+        "value": 0.5
+      }
+    ],
+    "category_target": [
+      "General",
+      "OBC",
+      "SC",
+      "ST",
+      "EWS"
+    ],
+    "benefit_amount": 2000000.0,
+    "benefit_type": "Interest Subvention & Credit Guarantee",
+    "benefit_display": "3% per annum interest subvention on institutional loans up to ₹2 Crore for post-harvest management infrastructure and credit guarantee coverage",
+    "benefit_display_mr": "मका, धान्य साठवणूक व काढणीपश्चात पायाभूत सुविधांसाठी ₹२ कोटींपर्यंतच्या कर्जावर वार्षिक ३% व्याज परतावा",
+    "deadline_days": 60,
+    "official_url": "https://agriinfra.dac.gov.in",
+    "required_documents": [
+      "Aadhaar Card",
+      "7/12 Land Record Extract",
+      "Detailed Project Report (DPR)",
+      "Bank Account Details",
+      "PAN Card"
+    ],
+    "mutually_exclusive_with": [],
+    "description": "A medium-long term debt financing facility for investment in viable projects for post-harvest management infrastructure and community farming assets, providing a 3% interest subvention up to ₹2 Crore for up to 7 years.",
+    "description_mr": "काढणीपश्चात व्यवस्थापन व गोदाम, कोल्ड स्टोरेजसारख्या पायाभूत सुविधांच्या उभारणीसाठी ₹२ कोटींपर्यंतच्या कर्जावर ३% व्याज सवलत देणारी मध्यवर्ती योजना.",
+    "application_steps": [
+      "Register as a borrower on the official Agri Infra portal (agriinfra.dac.gov.in).",
+      "Upload the Detailed Project Report (DPR), land documents, and KYC details.",
+      "Select the participating bank/lending institution for loan evaluation and sanction."
+    ],
+    "application_steps_mr": [
+      "अॅग्री इन्फ्रा पोर्टलवर (agriinfra.dac.gov.in) कर्जदार म्हणून नोंदणी करा.",
+      "सविस्तर प्रकल्प अहवाल (DPR), जमिनीची कागदपत्रे व केवायसी अपलोड करा.",
+      "कर्ज मंजुरीसाठी सहभागी बँक निवडून अर्ज सादर करा."
+    ]
+  },
+  {
+    "id": "PMFME",
+    "name": "Pradhan Mantri Formalisation of Micro Food Processing Enterprises (PMFME)",
+    "shortName": "PM Food Processing",
+    "level": "Central",
+    "government": "Government of India",
+    "government_mr": "भारत सरकार",
+    "rules": [
+      {
+        "field": "age",
+        "operator": "BETWEEN",
+        "value": [
+          18,
+          75
+        ]
+      },
+      {
+        "field": "land_acres",
+        "operator": ">=",
+        "value": 0.01
+      }
+    ],
+    "category_target": [
+      "General",
+      "OBC",
+      "SC",
+      "ST",
+      "EWS"
+    ],
+    "benefit_amount": 1000000.0,
+    "benefit_type": "Credit-Linked Capital Subsidy",
+    "benefit_display": "35% credit-linked capital subsidy up to ₹10,00,000 for setting up or upgrading micro food processing units",
+    "benefit_display_mr": "अन्न प्रक्रिया उद्योग उभारणी/विस्तारासाठी पात्र प्रस्तावांवर ३५% (जास्तीत जास्त ₹१० लाख) क्रेडिट-लिंक्ड भांडवली अनुदान",
+    "deadline_days": 45,
+    "official_url": "https://pmfme.mofpi.gov.in",
+    "required_documents": [
+      "Aadhaar Card",
+      "PAN Card",
+      "Bank Passbook",
+      "Business Project Report / Enterprise Details",
+      "FSSAI License / Registration (if existing unit)"
+    ],
+    "mutually_exclusive_with": [],
+    "description": "Provides financial, technical, and business support for micro food processing enterprises, offering 35% subsidy on eligible project cost up to ₹10 Lakhs to boost farm-level processing and value addition.",
+    "description_mr": "शेतमालावर प्रक्रिया करून मूल्यवर्धन करणाऱ्या सूक्ष्म अन्न प्रक्रिया उद्योगांना प्रोत्साहन देण्यासाठी ३५% (कमाल ₹१० लाख) भांडवली अनुदान.",
+    "application_steps": [
+      "Apply online on the official PMFME portal (pmfme.mofpi.gov.in).",
+      "Submit detailed project proposal along with personal and financial credentials.",
+      "District Resource Person (DRP) evaluates the project and forwards it to the bank for loan approval and subsidy disbursement."
+    ],
+    "application_steps_mr": [
+      "PMFME अधिकृत पोर्टलवर (pmfme.mofpi.gov.in) ऑनलाईन अर्ज भरा.",
+      "प्रकल्प आराखडा आणि वित्तीय कागदपत्रे सादर करा.",
+      "जिल्हा संसाधन व्यक्तीकडून (DRP) तपासणीनंतर बँक कर्जासह अनुदान मंजूर केले जाते."
+    ]
+  },
+  {
+    "id": "POKRA",
+    "name": "Nanaji Deshmukh Krishi Sanjivani Prakalp (PoKRA)",
+    "shortName": "PoKRA Climate Resilient Scheme",
+    "level": "State",
+    "government": "Government of Maharashtra",
+    "government_mr": "महाराष्ट्र शासन",
+    "rules": [
+      {
+        "field": "age",
+        "operator": "BETWEEN",
+        "value": [
+          18,
+          75
+        ]
+      },
+      {
+        "field": "land_acres",
+        "operator": "BETWEEN",
+        "value": [
+          0.1,
+          12.5
+        ]
+      }
+    ],
+    "category_target": [
+      "General",
+      "OBC",
+      "SC",
+      "ST",
+      "EWS"
+    ],
+    "benefit_amount": 100000.0,
+    "benefit_type": "Subsidy & Infrastructure Support",
+    "benefit_display": "Up to 100% financial assistance (up to ₹1,00,000) for climate-resilient agricultural infrastructure, shade nets, and micro-irrigation in selected drought-prone villages",
+    "benefit_display_mr": "निवडक दुष्काळग्रस्त गावांमध्ये हवामान अनुकूल शेती, शेततळी व शेडनेटसाठी १००% पर्यंत (₹१,००,००० पर्यंत) अनुदान",
+    "deadline_days": 30,
+    "official_url": "https://pokra.maharashtra.gov.in",
+    "required_documents": [
+      "Aadhaar Card",
+      "7/12 & 8A Land Record Extract",
+      "Bank Passbook",
+      "Residence Proof in PoKRA project village"
+    ],
+    "mutually_exclusive_with": [],
+    "description": "A World Bank-assisted Maharashtra Government project enhancing climate resilience of smallholder farmers in drought-prone Marathwada, Vidarbha, and Saline track districts through subsidized micro-irrigation, soil health, and farm technology.",
+    "description_mr": "हवामान बदलास समर्थ ठरणाऱ्या शेती पद्धती, ठिबक/तुषार सिंचन आणि शेडनेट गृहांसाठी महाराष्ट्रातील निवडक गावांतील शेतकऱ्यांना भरीव आर्थिक सहाय्य.",
+    "application_steps": [
+      "Register on the PoKRA Mobile App or website (dbt.mahapokra.gov.in).",
+      "Select the desired climate-resilient component (farm pond, micro-irrigation, shade net).",
+      "Village Climate Resilient Agriculture Management Committee (VCRMC) verifies and sanctions the subsidy directly to the bank account."
+    ],
+    "application_steps_mr": [
+      "पोकरा (PoKRA) मोबाईल अॅप किंवा महापोकरा पोर्टलवर नोंदणी करा.",
+      "हवामान अनुकूल शेती घटक (शेततळे, ठिबक, शेडनेट) निवडून अर्ज करा.",
+      "ग्राम हवामान अनुकूल शेती व्यवस्थापन समिती (VCRMC) मंजुरीनंतर अनुदान खात्यात जमा."
+    ]
+  },
+  {
+    "id": "DR_AMBEDKAR_KRUSHI_SWAVALAMBAN",
+    "name": "Dr. Babasaheb Ambedkar Krushi Swavalamban Yojana",
+    "shortName": "Ambedkar Krushi Swavalamban",
+    "level": "State",
+    "government": "Government of Maharashtra",
+    "government_mr": "महाराष्ट्र शासन",
+    "rules": [
+      {
+        "field": "age",
+        "operator": "BETWEEN",
+        "value": [
+          18,
+          75
+        ]
+      },
+      {
+        "field": "land_acres",
+        "operator": "BETWEEN",
+        "value": [
+          0.5,
+          15.0
+        ]
+      }
+    ],
+    "category_target": [
+      "SC"
+    ],
+    "benefit_amount": 250000.0,
+    "benefit_type": "Capital Subsidy",
+    "benefit_display": "Up to 100% subsidy (max ₹2,50,000 for new wells, plus additional support for pumps and micro-irrigation) for Scheduled Caste (SC) farmers",
+    "benefit_display_mr": "अनुसूचित जातीच्या (SC) शेतकऱ्यांसाठी नवीन विहिरीकरिता ₹२,५०,००० पर्यंत आणि सौर पंप/सिंचनासाठी १००% पर्यंत अनुदान",
+    "deadline_days": 30,
+    "official_url": "https://mahadbt.maharashtra.gov.in",
+    "required_documents": [
+      "Aadhaar Card",
+      "Caste Certificate (SC/Neo-Buddhist)",
+      "7/12 & 8A Land Record Extract",
+      "Income Certificate (Annual income up to ₹1,50,000)",
+      "Bank Passbook"
+    ],
+    "mutually_exclusive_with": [
+      "BIRSA_MUNDA_KRUSHI_KRANTI"
+    ],
+    "description": "Empowers Scheduled Caste and Neo-Buddhist farmers in Maharashtra by providing 100% subsidized irrigation facilities including new well construction, in-well boring, solar pump installation, and micro-irrigation.",
+    "description_mr": "महाराष्ट्रातील अनुसूचित जातीच्या शेतकऱ्यांचे उत्पन्न वाढवण्यासाठी नवीन विहीर, पाईपलाईन, सोलर पंप व तुषार/ठिबक सिंचनासाठी १००% सवलतीत शासकीय अनुदान.",
+    "application_steps": [
+      "Log in to MahaDBT portal (mahadbt.maharashtra.gov.in) using Aadhaar.",
+      "Select 'Special Component Plan - Dr. Babasaheb Ambedkar Krushi Swavalamban Scheme'.",
+      "Upload caste and land documents for evaluation by District Agriculture Officer."
+    ],
+    "application_steps_mr": [
+      "महाडीबीटी (MahaDBT) पोर्टलवर आधारद्वारे लॉगीन करा.",
+      "विशेष घटक योजना - डॉ. बाबासाहेब आंबेडकर कृषी स्वावलंबन योजना निवडा.",
+      "जातीचा दाखला व ७/१२ उतारा अपलोड करून अर्ज सादर करा."
+    ]
+  },
+  {
+    "id": "BIRSA_MUNDA_KRUSHI_KRANTI",
+    "name": "Birsa Munda Krushi Kranti Yojana",
+    "shortName": "Birsa Munda Krushi",
+    "level": "State",
+    "government": "Government of Maharashtra",
+    "government_mr": "महाराष्ट्र शासन",
+    "rules": [
+      {
+        "field": "age",
+        "operator": "BETWEEN",
+        "value": [
+          18,
+          75
+        ]
+      },
+      {
+        "field": "land_acres",
+        "operator": "BETWEEN",
+        "value": [
+          0.5,
+          15.0
+        ]
+      }
+    ],
+    "category_target": [
+      "ST"
+    ],
+    "benefit_amount": 250000.0,
+    "benefit_type": "Capital Subsidy",
+    "benefit_display": "Up to 100% subsidy (max ₹2,50,000 for new wells, plus pump set and drip/sprinkler systems) for Scheduled Tribe (ST) farmers",
+    "benefit_display_mr": "अनुसूचित जमातीच्या (ST) शेतकऱ्यांसाठी नवीन विहीर, शेततळे प्लास्टिक अस्तरीकरण व ठिबक सिंचनासाठी ₹२,५०,००० पर्यंत अनुदान",
+    "deadline_days": 30,
+    "official_url": "https://mahadbt.maharashtra.gov.in",
+    "required_documents": [
+      "Aadhaar Card",
+      "Caste Certificate (ST)",
+      "7/12 & 8A Land Record Extract",
+      "Income Certificate (Annual income up to ₹1,50,000)",
+      "Bank Passbook"
+    ],
+    "mutually_exclusive_with": [
+      "DR_AMBEDKAR_KRUSHI_SWAVALAMBAN"
+    ],
+    "description": "A flagship Maharashtra state scheme aimed at Scheduled Tribe (ST) tribal farmers to secure permanent irrigation assets such as new wells, pump sets, micro-irrigation, and plastic lining for farm ponds.",
+    "description_mr": "महाराष्ट्रातील अनुसूचित जमाती (ST) बांधवांच्या शाश्वत उत्पन्नासाठी नवीन विहीर, वीज/सौर पंप, शेततळे अस्तरीकरण व सूक्ष्म सिंचनासाठी १००% पर्यंत अनुदान.",
+    "application_steps": [
+      "Log in to MahaDBT Farmer Portal (mahadbt.maharashtra.gov.in).",
+      "Choose Tribal Sub-Plan - Birsa Munda Krushi Kranti Yojana.",
+      "Upload tribal caste certificate, land records, and bank passbook."
+    ],
+    "application_steps_mr": [
+      "महाडीबीटी (MahaDBT) शेतकरी पोर्टलवर ऑनलाईन अर्ज करा.",
+      "आदिवासी उपयोजना - बिरसा मुंडा कृषी क्रांती योजना पर्याय निवडा.",
+      "एसटी (ST) जातीचा दाखला व ७/१२ उतारा अपलोड करा."
     ]
   }
 ]
