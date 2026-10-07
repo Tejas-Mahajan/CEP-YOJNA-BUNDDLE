@@ -403,5 +403,267 @@
       "यंत्र व अधिकृत विक्रेता निवडा.",
       "यंत्र तपासणीनंतर अनुदान बँक खात्यात जमा."
     ]
+  },
+  {
+    "id": "NAMO_SHETKARI",
+    "name": "Namo Shetkari Mahasanman Nidhi Yojana",
+    "shortName": "Namo Shetkari",
+    "rules": [
+      {
+        "field": "age",
+        "operator": "BETWEEN",
+        "value": [
+          18,
+          75
+        ]
+      },
+      {
+        "field": "land_acres",
+        "operator": ">=",
+        "value": 0.01
+      }
+    ],
+    "category_target": [
+      "General",
+      "OBC",
+      "SC",
+      "ST",
+      "EWS"
+    ],
+    "benefit_amount": 6000.0,
+    "benefit_type": "Direct Cash Transfer",
+    "benefit_display": "Additional ₹6,000 / year paid in 3 equal installments of ₹2,000 (Maharashtra State Top-up to PM-KISAN)",
+    "benefit_display_mr": "दरवर्षी अतिरिक्त ₹६,००० (₹२,००० चे ३ हप्ते) महाराष्ट्र शासनातर्फे",
+    "deadline_days": 30,
+    "official_url": "https://nsmny.mahaonline.gov.in",
+    "required_documents": [
+      "Aadhaar Card",
+      "7/12 Land Record Extract",
+      "Bank Passbook",
+      "PM-KISAN Registration"
+    ],
+    "mutually_exclusive_with": [],
+    "description": "Maharashtra state government's financial assistance scheme that provides an additional ₹6,000 annually to eligible PM-KISAN beneficiaries in the state.",
+    "description_mr": "महाराष्ट्रातील पीएम-किसान योजनेच्या पात्र लाभार्थी शेतकऱ्यांना राज्य शासनातर्फे दरवर्षी अतिरिक्त ₹६,००० चे थेट अर्थसहाय्य.",
+    "application_steps": [
+      "Automatically applied for existing PM-KISAN beneficiaries in Maharashtra.",
+      "Ensure e-KYC and Aadhaar seeding with bank account is complete.",
+      "Check status on the NSMNY portal."
+    ],
+    "application_steps_mr": [
+      "महाराष्ट्रातील विद्यमान पीएम-किसान लाभार्थ्यांना स्वयंचलितपणे लागू.",
+      "ई-केवायसी आणि बँक खात्याशी आधार जोडणी पूर्ण असल्याची खात्री करा.",
+      "एनएसएमएनवाय पोर्टलवर स्थिती तपासा."
+    ]
+  },
+  {
+    "id": "PM_KMY",
+    "name": "Pradhan Mantri Kisan Maan-Dhan Yojana (PM-KMY)",
+    "shortName": "PM-KMY Pension",
+    "rules": [
+      {
+        "field": "age",
+        "operator": "BETWEEN",
+        "value": [
+          18,
+          40
+        ]
+      },
+      {
+        "field": "land_acres",
+        "operator": "<=",
+        "value": 5.0
+      }
+    ],
+    "category_target": [
+      "General",
+      "OBC",
+      "SC",
+      "ST",
+      "EWS"
+    ],
+    "benefit_amount": 36000.0,
+    "benefit_type": "Pension",
+    "benefit_display": "Assured monthly pension of ₹3,000 after attaining the age of 60 years",
+    "benefit_display_mr": "वयाची ६० वर्षे पूर्ण झाल्यानंतर दरमहा ₹३,००० निश्चित पेन्शन",
+    "deadline_days": 365,
+    "official_url": "https://maandhan.in",
+    "required_documents": [
+      "Aadhaar Card",
+      "Savings Bank Account",
+      "7/12 Land Record Extract"
+    ],
+    "mutually_exclusive_with": [
+      "NPS",
+      "EPFO",
+      "ESIC"
+    ],
+    "description": "A voluntary and contributory pension scheme for small and marginal farmers (18-40 years) to receive a fixed pension of ₹3,000/month after 60 years of age.",
+    "description_mr": "लहान आणि अल्पभूधारक शेतकऱ्यांसाठी (१८-४० वर्षे) ऐच्छिक आणि अंशदायी पेन्शन योजना, ज्यामध्ये ६० वर्षांनंतर दरमहा ₹३,००० मिळतात.",
+    "application_steps": [
+      "Visit nearest Common Service Centre (CSC).",
+      "Provide Aadhaar and bank details for auto-debit of monthly contribution (₹55 to ₹200).",
+      "Central Govt makes a matching contribution to the pension fund."
+    ],
+    "application_steps_mr": [
+      "जवळच्या सीएससी (CSC) केंद्राला भेट द्या.",
+      "मासिक हप्त्यासाठी (₹५५ ते ₹२००) आधार आणि बँक तपशील द्या.",
+      "केंद्र सरकार पेन्शन फंडात समान योगदान देते."
+    ]
+  },
+  {
+    "id": "MAGEL_TYALA_SHET_TALE",
+    "name": "Magel Tyala Shet Tale (Farm Pond Scheme)",
+    "shortName": "Shet Tale",
+    "rules": [
+      {
+        "field": "age",
+        "operator": "BETWEEN",
+        "value": [
+          18,
+          75
+        ]
+      },
+      {
+        "field": "land_acres",
+        "operator": ">=",
+        "value": 1.5
+      }
+    ],
+    "category_target": [
+      "General",
+      "OBC",
+      "SC",
+      "ST",
+      "EWS"
+    ],
+    "benefit_amount": 50000.0,
+    "benefit_type": "Subsidy",
+    "benefit_display": "Direct subsidy up to ₹50,000 for constructing a farm pond for water conservation",
+    "benefit_display_mr": "जलसंधारणासाठी शेततळे उभारणीकरिता ₹५०,००० पर्यंत थेट अनुदान",
+    "deadline_days": 45,
+    "official_url": "https://mahadbt.maharashtra.gov.in",
+    "required_documents": [
+      "Aadhaar Card",
+      "7/12 and 8A Extract",
+      "Bank Passbook",
+      "Undertaking/Affidavit"
+    ],
+    "mutually_exclusive_with": [],
+    "description": "Maharashtra government scheme to provide permanent protective irrigation capabilities by subsidizing the excavation and lining of farm ponds.",
+    "description_mr": "शेतकऱ्यांना शाश्वत सिंचन सुविधा उपलब्ध करून देण्यासाठी शेततळ्याच्या खोदाई आणि अस्तरीकरणासाठी महाराष्ट्र शासनाचे अनुदान.",
+    "application_steps": [
+      "Register on MahaDBT Farmer Portal.",
+      "Apply under 'Irrigation Facilities' for Farm Pond.",
+      "Complete physical verification by agriculture assistant after approval."
+    ],
+    "application_steps_mr": [
+      "महाडीबीटी (MahaDBT) शेतकरी पोर्टलवर नोंदणी करा.",
+      "सिंचन सुविधांतर्गत शेततळ्यासाठी अर्ज करा.",
+      "मंजुरीनंतर कृषी सहाय्यकाकडून प्रत्यक्ष स्थळ पाहणी पूर्ण करा."
+    ]
+  },
+  {
+    "id": "GOPINATH_MUNDE_VIMA",
+    "name": "Gopinath Munde Shetkari Apghat Suraksha Sadanugraha Anudan Yojana",
+    "shortName": "Farmer Accident Insurance",
+    "rules": [
+      {
+        "field": "age",
+        "operator": "BETWEEN",
+        "value": [
+          10,
+          75
+        ]
+      }
+    ],
+    "category_target": [
+      "General",
+      "OBC",
+      "SC",
+      "ST",
+      "EWS"
+    ],
+    "benefit_amount": 200000.0,
+    "benefit_type": "Insurance",
+    "benefit_display": "Ex-gratia up to ₹2,00,000 in case of accidental death or permanent disability",
+    "benefit_display_mr": "अपघाती मृत्यू किंवा कायमचे अपंगत्व आल्यास ₹२,००,००० पर्यंत सानुग्रह अनुदान",
+    "deadline_days": 90,
+    "official_url": "https://krishi.maharashtra.gov.in",
+    "required_documents": [
+      "7/12 Extract",
+      "FIR / Police Spot Panchnama",
+      "Death / Disability Certificate",
+      "Aadhaar Card"
+    ],
+    "mutually_exclusive_with": [],
+    "description": "Provides financial assistance to the families of farmers in Maharashtra in the event of accidental death, partial, or permanent disability.",
+    "description_mr": "अपघाती मृत्यू किंवा कायमचे अपंगत्व आल्यास महाराष्ट्रातील शेतकरी कुटुंबांना आर्थिक मदत देणारी योजना.",
+    "application_steps": [
+      "Submit proposal to Taluka Agriculture Officer within 90 days of the incident.",
+      "Attach police panchnama, medical certificates, and land records.",
+      "Claim processed and transferred to heir's bank account via DBT."
+    ],
+    "application_steps_mr": [
+      "घटनेच्या ९० दिवसांच्या आत तालुका कृषी अधिकाऱ्याकडे प्रस्ताव सादर करा.",
+      "पोलीस पंचनामा, वैद्यकीय प्रमाणपत्र आणि जमिनीचे रेकॉर्ड जोडा.",
+      "डीबीटी द्वारे दावा मंजूर होऊन वारसदाराच्या बँक खात्यात जमा."
+    ]
+  },
+  {
+    "id": "BHAUSAHEB_FUNDKAR",
+    "name": "Bhausaheb Fundkar Phalbag Lagvad Yojana",
+    "shortName": "Phalbag Lagvad",
+    "rules": [
+      {
+        "field": "age",
+        "operator": "BETWEEN",
+        "value": [
+          18,
+          75
+        ]
+      },
+      {
+        "field": "land_acres",
+        "operator": "BETWEEN",
+        "value": [
+          0.5,
+          25.0
+        ]
+      }
+    ],
+    "category_target": [
+      "General",
+      "OBC",
+      "SC",
+      "ST",
+      "EWS"
+    ],
+    "benefit_amount": 100000.0,
+    "benefit_type": "Subsidy",
+    "benefit_display": "100% subsidy for horticulture plantation (fruit trees) spread over 3 years",
+    "benefit_display_mr": "फळबाग लागवडीसाठी (आंबा, डाळिंब इ.) ३ वर्षांत १००% अनुदान",
+    "deadline_days": 30,
+    "official_url": "https://mahadbt.maharashtra.gov.in",
+    "required_documents": [
+      "Aadhaar Card",
+      "7/12 and 8A Extract",
+      "Bank Passbook"
+    ],
+    "mutually_exclusive_with": [
+      "MGNREGS Horticulture"
+    ],
+    "description": "Maharashtra state scheme providing 100% subsidy on expenses for planting specific fruit orchards to increase farmers' sustainable income (paid in a 50:30:20 ratio over 3 years).",
+    "description_mr": "शेतकऱ्यांचे उत्पन्न वाढवण्यासाठी विशिष्ट फळबागांच्या लागवडीवर १००% अनुदान देणारी महाराष्ट्र राज्य योजना (३ वर्षात ५०:३०:२० प्रमाणे वितरित).",
+    "application_steps": [
+      "Apply online through the MahaDBT portal under Agriculture schemes.",
+      "Procure saplings from authorized nurseries after pre-sanction.",
+      "Subsidy credited post-survival verification (Year 1: 50%, Year 2: 30%, Year 3: 20%)."
+    ],
+    "application_steps_mr": [
+      "महाडीबीटी पोर्टलवर कृषी योजनांतर्गत ऑनलाईन अर्ज करा.",
+      "पूर्वपरवानगीनंतर अधिकृत रोपवाटिकांमधून रोपे खरेदी करा.",
+      "झाडे जगण्याच्या प्रमाणानुसार अनुदान जमा (पहिले वर्ष ५०%, दुसरे ३०%, तिसरे २०%)."
+    ]
   }
 ]
