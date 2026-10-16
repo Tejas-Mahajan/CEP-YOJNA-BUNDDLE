@@ -30,7 +30,7 @@ class SchemeModel(BaseModel):
     benefit_type: str = "Direct Cash Transfer"
     benefit_display: str = ""
     benefit_display_mr: Optional[str] = None
-    deadline_days: int = 30
+    closing_date: Optional[str] = None  # ISO date string (YYYY-MM-DD) or None for year-round
     deadline_date: Optional[str] = None
     official_url: str = "https://myscheme.gov.in"
     required_documents: List[str] = []
@@ -73,8 +73,9 @@ class RankedScheme(BaseModel):
 
 class EvaluationResponse(BaseModel):
     total_eligible_schemes: int
-    total_potential_benefit: float
-    formatted_potential_benefit: str
+    total_benefits: Dict[str, float] = Field(default_factory=lambda: {"direct": 0.0, "credit": 0.0, "insurance": 0.0})
+    total_potential_benefit: float = 0.0
+    formatted_potential_benefit: str = ""
     document_readiness_pct: float
     ranked_schemes: List[RankedScheme]
     ineligible_schemes: List[Dict[str, Any]]

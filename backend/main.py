@@ -15,7 +15,7 @@ from db import get_db, init_db
 from auth_utils import hash_password, verify_password, generate_jwt_token, decode_jwt_token
 from services.evaluator import evaluate_scheme_eligibility
 from services.conflicts import detect_scheme_conflicts
-from services.overlap import analyze_document_overlaps
+from services.overlap import analyze_document_overlaps, calculate_weighted_readiness
 from services.ranker import rank_and_score_schemes
 from services.data_cleaner import sanitize_scheme_object
 
@@ -198,6 +198,14 @@ def auth_signup(req: SignupRequest, db: Session = Depends(get_db)):
 def auth_me(current_user: User = Depends(get_current_user)):
     return {"status": "success", "user": current_user.to_dict()}
 
+@app.get("/api/auth/profile")
+def get_profile(current_user: User = Depends(get_current_user)):
+    return {
+        "status": "success",
+        "profile": current_user.profile_attributes or {},
+        "user": current_user.to_dict()
+    }
+
 @app.patch("/api/auth/profile")
 def update_profile(
     req: ProfileUpdateRequest,
@@ -217,6 +225,27 @@ def update_profile(
     db.commit()
 
     return {"status": "success", "user": user.to_dict()}
+
+
+def format_indian_currency(amount: float) -> str:
+    """Format a number into Indian currency style (e.g. ₹1,00,000)."""
+    amt_int = int(round(amount))
+    s = str(abs(amt_int))
+    if len(s) <= 3:
+        res = s
+    else:
+        last3 = s[-3:]
+        rest = s[:-3]
+        groups = []
+        while len(rest) > 2:
+            groups.append(rest[-2:])
+            rest = rest[:-2]
+        if rest:
+            groups.append(rest)
+        groups.reverse()
+        res = ",".join(groups) + "," + last3
+    prefix = "-₹" if amt_int < 0 else "₹"
+    return f"{prefix}{res}"
 
 
 @app.post("/api/evaluate", response_model=EvaluationResponse)
@@ -241,11 +270,33 @@ def evaluate_profile(profile: UserProfile):
     insights, callouts = analyze_document_overlaps(eligible_schemes, owned_docs)
     ranked = rank_and_score_schemes(eligible_schemes, owned_docs, secondary_ids)
 
-    total_benefit = sum(s.get("benefit_amount", 0.0) for s in eligible_schemes)
+    secondary_set = set(secondary_ids)
+    direct_benefit = 0.0
+    credit_benefit = 0.0
+    insurance_benefit = 0.0
+
+    for s in eligible_schemes:
+        if s.get("id") in secondary_set:
+            continue
+        amt = float(s.get("benefit_amount", 0.0) or 0.0)
+        b_type = str(s.get("benefit_type", "") or "")
+
+        if any(term in b_type for term in ["Credit Line", "Interest Subvention", "Credit-Linked"]):
+            credit_benefit += amt
+        elif "Insurance" in b_type:
+            insurance_benefit += amt
+        elif any(term in b_type for term in ["Direct Cash Transfer", "Free Service", "Pension", "Capital Subsidy"]) or ("Subsidy" in b_type and "Credit-Linked" not in b_type):
+            direct_benefit += amt
+        else:
+            direct_benefit += amt
+
+    total_benefits = {
+        "direct": round(direct_benefit, 2),
+        "credit": round(credit_benefit, 2),
+        "insurance": round(insurance_benefit, 2)
+    }
     
-    total_required_unique = len(insights)
-    owned_unique = sum(1 for i in insights if i.is_owned)
-    doc_readiness_pct = round((owned_unique / total_required_unique * 100.0), 1) if total_required_unique > 0 else 100.0
+    doc_readiness_pct = calculate_weighted_readiness(eligible_schemes, owned_docs)
 
     action_checklist = []
     for r in ranked:
@@ -259,7 +310,7 @@ def evaluate_profile(profile: UserProfile):
             "benefit_display": s.get("benefit_display", ""),
             "benefit_display_mr": s.get("benefit_display_mr"),
             "benefit_amount": s.get("benefit_amount", 0.0),
-            "deadline_days": s.get("deadline_days", 30),
+            "closing_date": s.get("closing_date"),  # ISO date string or None (year-round)
             "missing_documents": r.missing_documents,
             "all_required_documents": s.get("required_documents", []),
             "official_url": s.get("official_url", "https://myscheme.gov.in"),
@@ -271,8 +322,9 @@ def evaluate_profile(profile: UserProfile):
 
     return EvaluationResponse(
         total_eligible_schemes=len(eligible_schemes),
-        total_potential_benefit=total_benefit,
-        formatted_potential_benefit=f"₹{total_benefit:,.0f}",
+        total_benefits=total_benefits,
+        total_potential_benefit=total_benefits["direct"],
+        formatted_potential_benefit=format_indian_currency(total_benefits["direct"]),
         document_readiness_pct=doc_readiness_pct,
         ranked_schemes=ranked,
         ineligible_schemes=ineligible_schemes,

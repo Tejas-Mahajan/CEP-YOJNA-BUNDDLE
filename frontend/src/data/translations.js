@@ -81,6 +81,8 @@ export const TRANSLATIONS = {
     // Dashboard & Metrics
     totalBenefitLabel: "Total Potential Benefit",
     totalBenefitDesc: "Combined agricultural grants, subsidies & insurance protection",
+    accessibleCreditLabel: "Accessible Credit & Loans",
+    riskProtectionLabel: "Risk Protection Cover",
     matchedSchemesLabel: "Matched Schemes",
     schemesUnit: "Schemes",
     schemesMatchedUnit: "Schemes Matched",
@@ -281,6 +283,8 @@ export const TRANSLATIONS = {
     // Dashboard & Metrics
     totalBenefitLabel: "एकूण संभाव्य आर्थिक फायदा",
     totalBenefitDesc: "एकत्रित बँक खात्यात मिळणारे अनुदान व पीक विमा",
+    accessibleCreditLabel: "सुलभ पतपुरवठा व कर्ज मर्यादा",
+    riskProtectionLabel: "जोखीम संरक्षण विमा कवच",
     matchedSchemesLabel: "पात्र योजनांची संख्या",
     schemesUnit: "योजना",
     schemesMatchedUnit: "पात्र योजना",
@@ -481,6 +485,8 @@ export const TRANSLATIONS = {
     // Dashboard & Metrics
     totalBenefitLabel: "कुल संभावित वित्तीय लाभ",
     totalBenefitDesc: "कुल नकद अनुदान, सब्सिडी एवं फसल बीमा",
+    accessibleCreditLabel: "सुलभ ऋण एवं क्रेडिट सीमा",
+    riskProtectionLabel: "जोखिम सुरक्षा बीमा कवर",
     matchedSchemesLabel: "पात्र योजनाएं",
     schemesUnit: "योजनाएं",
     schemesMatchedUnit: "पात्र योजनाएं",

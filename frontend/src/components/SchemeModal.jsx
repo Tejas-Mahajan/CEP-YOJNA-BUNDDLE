@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, ExternalLink, ShieldCheck, Clock, FileText, CheckCircle2, Building2, Sparkles, Layers, ArrowRight, Bookmark, BookmarkCheck, Calendar, Check, AlertCircle } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { TRANSLATIONS, getSchemeName, getSchemeDescription, getSchemeBenefit } from '../data/translations';
+import { daysUntilClose } from '../utils/validation';
 
 export default function SchemeModal({ scheme, onClose, allInsights = [], lang }) {
   const [activeModalTab, setActiveModalTab] = useState('overview'); // 'overview', 'documents', 'deadlines', 'steps'
@@ -17,11 +18,24 @@ export default function SchemeModal({ scheme, onClose, allInsights = [], lang })
   const department = scheme.department || 'Ministry of Agriculture & Farmers Welfare';
   const quotaType = scheme.quota_type || 'Central Sector Scheme (100% Central Fund)';
   
-  // Calculate deadline date display
-  const deadlineDays = scheme.deadline_days || 15;
-  const deadlineDateObj = new Date();
-  deadlineDateObj.setDate(deadlineDateObj.getDate() + deadlineDays);
-  const deadlineDateStr = scheme.deadline_date || deadlineDateObj.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+  // Calculate deadline info from closing_date
+  const daysRemaining = daysUntilClose(scheme.closing_date);   // null = year-round, 0 = expired
+  const isYearRound = daysRemaining === null;
+  const isExpired = daysRemaining === 0;
+
+  // Human-readable closing date label
+  let deadlineDateStr;
+  if (isYearRound) {
+    deadlineDateStr = 'Year-Round / First Come First Served';
+  } else if (scheme.closing_date) {
+    const [y, m, d] = scheme.closing_date.split('-').map(Number);
+    deadlineDateStr = new Date(y, m - 1, d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+  } else {
+    deadlineDateStr = 'Not specified';
+  }
+
+  // Progress bar fill: 0% for year-round; 100% for expired; proportional up to 90 days
+  const progressPct = isYearRound ? 100 : isExpired ? 0 : Math.max(5, Math.min(100, ((90 - daysRemaining) / 90) * 100));
 
   // Document reusability map
   const getDocumentInsight = (docName) => {
@@ -236,11 +250,15 @@ export default function SchemeModal({ scheme, onClose, allInsights = [], lang })
                 <div className="p-6 rounded-3xl bg-slate-900 text-white space-y-4 shadow-lg border border-slate-800">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
-                      <Clock className="w-5 h-5 text-amber-400 animate-pulse" />
+                      <Clock className={`w-5 h-5 text-amber-400 ${!isYearRound && !isExpired ? 'animate-pulse' : ''}`} />
                       <h4 className="text-sm font-bold">Application Deadline Countdown</h4>
                     </div>
-                    <span className="px-3 py-1 rounded-full text-xs font-extrabold bg-amber-500 text-slate-950">
-                      {deadlineDays} Days Left
+                    <span className={`px-3 py-1 rounded-full text-xs font-extrabold ${
+                      isExpired ? 'bg-red-600 text-white' :
+                      isYearRound ? 'bg-emerald-500 text-slate-950' :
+                      'bg-amber-500 text-slate-950'
+                    }`}>
+                      {isYearRound ? 'Year-Round' : isExpired ? 'Closed' : `${daysRemaining} Days Left`}
                     </span>
                   </div>
 
@@ -252,14 +270,20 @@ export default function SchemeModal({ scheme, onClose, allInsights = [], lang })
                     </div>
                     <div className="h-3 bg-slate-800 rounded-full overflow-hidden p-0.5 border border-slate-700">
                       <div
-                        className="h-full bg-gradient-to-r from-emerald-500 via-teal-400 to-amber-400 rounded-full transition-all duration-500"
-                        style={{ width: `${Math.max(10, Math.min(100, (deadlineDays / 30) * 100))}%` }}
+                        className={`h-full rounded-full transition-all duration-500 ${
+                          isYearRound ? 'bg-gradient-to-r from-emerald-500 to-teal-400' :
+                          isExpired ? 'bg-red-500' :
+                          'bg-gradient-to-r from-emerald-500 via-teal-400 to-amber-400'
+                        }`}
+                        style={{ width: `${progressPct}%` }}
                       />
                     </div>
                   </div>
 
                   <p className="text-2xs text-slate-400 italic">
-                    * Applications close automatically on portal servers at 11:59 PM IST on the deadline date. Apply early to avoid server load.
+                    {isYearRound
+                      ? '* This scheme accepts applications year-round on a first-come, first-served basis through MahaDBT or the official portal.'
+                      : '* Applications close automatically on portal servers at 11:59 PM IST on the deadline date. Apply early to avoid server load.'}
                   </p>
                 </div>
               </motion.div>

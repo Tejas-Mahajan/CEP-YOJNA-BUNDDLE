@@ -40,15 +40,51 @@ export function validateProfile(profile) {
 }
 
 /**
- * Helper to format deadline days into human readable text with Year-Round fallback
+ * Calculates days remaining from today to an ISO closing date string.
+ * Returns null for year-round schemes (no closing_date).
+ * Returns 0 for expired deadlines.
  */
-export function formatDeadlineText(deadlineDays, lang = 'en') {
-  if (!deadlineDays || deadlineDays >= 300 || deadlineDays <= 0) {
+export function daysUntilClose(closingDateStr) {
+  if (!closingDateStr) return null; // year-round / FCFS
+
+  try {
+    // Parse as YYYY-MM-DD at local midnight to avoid UTC-shift issues
+    const [year, month, day] = closingDateStr.split('-').map(Number);
+    const closing = new Date(year, month - 1, day); // local midnight
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const msPerDay = 1000 * 60 * 60 * 24;
+    const diff = Math.floor((closing - today) / msPerDay);
+    return Math.max(0, diff);
+  } catch {
+    return null; // malformed — treat as year-round
+  }
+}
+
+/**
+ * Formats a scheme's closing_date into a human-readable deadline chip text.
+ * Accepts an ISO date string (YYYY-MM-DD) or null/undefined for year-round schemes.
+ */
+export function formatDeadlineText(closingDateStr, lang = 'en') {
+  const days = daysUntilClose(closingDateStr);
+
+  // null → year-round scheme (no closing_date)
+  if (days === null) {
     if (lang === 'mr') return 'वर्षभर खुले';
     if (lang === 'hi') return 'वर्ष भर खुला';
     return 'Open Year-Round';
   }
-  if (lang === 'mr') return `मुदत: ${deadlineDays} दिवस`;
-  if (lang === 'hi') return `समय सीमा: ${deadlineDays} दिन`;
-  return `Closes in ${deadlineDays} Days`;
+
+  // 0 → expired
+  if (days === 0) {
+    if (lang === 'mr') return 'मुदत संपली';
+    if (lang === 'hi') return 'विंडो बंद';
+    return 'Window Closed';
+  }
+
+  // > 0 → active countdown
+  if (lang === 'mr') return `मुदत: ${days} दिवस`;
+  if (lang === 'hi') return `समय सीमा: ${days} दिन`;
+  return `Closes in ${days} Days`;
 }

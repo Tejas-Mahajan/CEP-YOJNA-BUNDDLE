@@ -200,6 +200,31 @@ export const AuthProvider = ({ children }) => {
   };
 
 
+  // Explicitly re-fetch user profile from backend
+  const fetchUserProfile = async () => {
+    const activeToken = token || localStorage.getItem('yojana_auth_token');
+    if (!activeToken) return null;
+
+    try {
+      const res = await fetch(`${API_BASE}/api/auth/profile`, {
+        headers: {
+          'Authorization': `Bearer ${activeToken}`
+        }
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.user) {
+          setUser(data.user);
+          localStorage.setItem('yojana_user_profile', JSON.stringify(data.user));
+        }
+        return data.profile || data.user?.profileAttributes || null;
+      }
+    } catch (err) {
+      console.error("Failed to fetch user profile from server:", err);
+    }
+    return null;
+  };
+
   // Toggle scheme saving
   const toggleSaveScheme = (schemeId) => {
     let updated;
@@ -228,6 +253,7 @@ export const AuthProvider = ({ children }) => {
         login,
         signup,
         logout,
+        fetchUserProfile,
         updateUserProfileAttributes,
         isLoadingAuth
       }}

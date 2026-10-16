@@ -74,8 +74,16 @@ def sanitize_scheme_object(scheme: Dict[str, Any]) -> Dict[str, Any]:
     except (ValueError, TypeError):
         cleaned["benefit_amount"] = 0.0
 
-    # Deadline Parsing
-    cleaned["deadline_days"] = parse_deadline_days(cleaned.get("deadline_days"))
+    # Closing Date (ISO string YYYY-MM-DD, or None for year-round schemes)
+    raw_closing = cleaned.get("closing_date")
+    if isinstance(raw_closing, str) and raw_closing.strip():
+        import re
+        if re.match(r"^\d{4}-\d{2}-\d{2}$", raw_closing.strip()):
+            cleaned["closing_date"] = raw_closing.strip()
+        else:
+            cleaned["closing_date"] = None  # Malformed — treat as year-round
+    else:
+        cleaned["closing_date"] = None  # Missing — year-round / FCFS scheme
 
     # Required Documents Array
     raw_docs = cleaned.get("required_documents")

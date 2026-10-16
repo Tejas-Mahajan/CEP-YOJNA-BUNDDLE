@@ -1,6 +1,7 @@
 import React from 'react';
 import { Printer, ArrowLeft } from 'lucide-react';
 import { TRANSLATIONS } from '../data/translations';
+import { formatDeadlineText } from '../utils/validation';
 
 export default function ExportReport({ results, profile, onBack, lang }) {
   if (!results) return null;
@@ -61,10 +62,20 @@ export default function ExportReport({ results, profile, onBack, lang }) {
         </div>
 
         {/* Total Financial Summary Banner */}
-        <div className="p-6 rounded-2xl bg-emerald-900 text-white flex items-center justify-between">
+        <div className="p-6 rounded-2xl bg-emerald-900 text-white flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <div className="text-xs font-semibold text-emerald-300">{t.totalBenefitLabel}</div>
-            <div className="text-3xl font-extrabold text-amber-400">{results.formatted_potential_benefit}</div>
+            <div className="text-3xl font-extrabold text-amber-400">{results.formatted_potential_benefit || `₹${(results.total_benefits?.direct || results.total_potential_benefit || 0).toLocaleString('en-IN')}`}</div>
+            {results.total_benefits && (results.total_benefits.credit > 0 || results.total_benefits.insurance > 0) && (
+              <div className="mt-1.5 space-y-0.5 text-xs text-emerald-200 font-medium">
+                {results.total_benefits.credit > 0 && (
+                  <div>+ ₹{results.total_benefits.credit.toLocaleString('en-IN')} Accessible Credit & Loans</div>
+                )}
+                {results.total_benefits.insurance > 0 && (
+                  <div>+ ₹{results.total_benefits.insurance.toLocaleString('en-IN')} Risk Protection Cover</div>
+                )}
+              </div>
+            )}
           </div>
           <div className="text-right text-xs">
             <div><strong className="text-lg">{results.total_eligible_schemes}</strong> Eligible Schemes</div>
@@ -115,7 +126,7 @@ export default function ExportReport({ results, profile, onBack, lang }) {
                     </span>
                   </td>
                   <td className="py-3 px-3 font-semibold text-emerald-800">{r.scheme.benefit_display}</td>
-                  <td className="py-3 px-3">{r.scheme.deadline_days} Days</td>
+                  <td className="py-3 px-3">{formatDeadlineText(r.scheme.closing_date)}</td>
                   <td className="py-3 px-3 text-[11px]">{r.scheme.required_documents.join(', ')}</td>
                 </tr>
               ))}

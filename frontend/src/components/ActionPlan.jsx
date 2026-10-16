@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { ExternalLink, Clock, FileCheck, AlertTriangle, ThumbsUp, ThumbsDown, Info, ChevronDown, ChevronUp, CheckCircle, Search, Sparkles, Bookmark, Filter, RefreshCw, Lightbulb } from 'lucide-react';
 import { TRANSLATIONS, getSchemeName, getPriorityTierLabel, getSchemeDescription, getSchemeBenefit } from '../data/translations';
 import { useAuth } from '../context/AuthContext';
-import { formatDeadlineText } from '../utils/validation';
+import { formatDeadlineText, daysUntilClose } from '../utils/validation';
 
 // Skeleton Shimmer Loader Component
 export function ActionPlanSkeleton() {
@@ -308,12 +308,12 @@ export default function ActionPlan({ results, onOpenDetail, onOpenFeedback, onPr
                     {/* Deadline chip */}
                     <div className="mt-2 flex items-center space-x-2 text-xs font-semibold">
                       <div className={`px-3 py-1 rounded-xl flex items-center space-x-1 ${
-                        (s.deadline_days > 0 && s.deadline_days <= 10)
+                        (() => { const d = daysUntilClose(s.closing_date); return d !== null && d <= 10; })()
                           ? 'bg-red-50 text-red-700 border border-red-200 animate-pulse'
                           : 'bg-amber-50 text-amber-800 border border-amber-200'
                       }`}>
                         <Clock className="w-3.5 h-3.5" />
-                        <span>{formatDeadlineText(s.deadline_days, lang)}</span>
+                        <span>{formatDeadlineText(s.closing_date, lang)}</span>
                       </div>
                     </div>
                   </div>

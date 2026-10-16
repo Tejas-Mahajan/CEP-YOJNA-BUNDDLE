@@ -19,6 +19,7 @@ import WelcomeBar from './components/WelcomeBar';
 import FloatingSummaryBar from './components/FloatingSummaryBar';
 import MobileDrawer from './components/MobileDrawer';
 import ErrorBoundary from './components/ErrorBoundary';
+import DashboardSkeleton from './components/DashboardSkeleton';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { formatDeadlineText } from './utils/validation';
 import { TRANSLATIONS, getSchemeName, getSchemeDescription, getSchemeBenefit } from './data/translations';
@@ -55,9 +56,10 @@ function MainAppContent() {
     owned_documents: []
   };
 
-  const { user, isAuthenticated, isAuthModalOpen, setIsAuthModalOpen, updateUserProfileAttributes, savedSchemes: savedSchemeIds, toggleSaveScheme } = useAuth();
+  const { user, token, isAuthenticated, isAuthModalOpen, setIsAuthModalOpen, updateUserProfileAttributes, fetchUserProfile, savedSchemes: savedSchemeIds, toggleSaveScheme, isLoadingAuth } = useAuth();
 
   const [schemes, setSchemes] = useState([]);
+  const [isHydrating, setIsHydrating] = useState(true);
 
   useEffect(() => {
     const fetchSchemes = async () => {
@@ -85,23 +87,8 @@ function MainAppContent() {
   // Ref to track active evaluate debounce timer
   const debounceTimerRef = useRef(null);
 
-  // Synchronize profile state when logged in user changes
-  useEffect(() => {
-    if (user && user.profileAttributes && Object.keys(user.profileAttributes).length > 0) {
-      setProfile((prev) => ({
-        ...prev,
-        ...user.profileAttributes
-      }));
-    } else if (user) {
-      // New user signup without saved attributes -> start blank & force matcher tab
-      setProfile(BLANK_PROFILE);
-      setActiveNav('matcher');
-    }
-  }, [user]);
-
-
   // Core profile evaluation function
-  const evaluateProfile = async (profileData) => {
+  const evaluateProfile = async (profileData, targetNav = null) => {
     setIsEvaluating(true);
     setApiError(null);
 
@@ -118,25 +105,87 @@ function MainAppContent() {
 
       const data = await res.json();
       setResults(data);
-      if (activeNav === 'matcher') {
+      if (targetNav) {
+        setActiveNav(targetNav);
+      } else if (activeNav === 'matcher') {
         setActiveNav('plan');
       }
+      return data;
     } catch (err) {
       console.warn("Backend API call failed, using client-side fallback engine...", err);
       setApiError("Backend server disconnected");
-      fallbackClientEvaluation(profileData);
+      const fallbackData = fallbackClientEvaluation(profileData);
+      if (targetNav) {
+        setActiveNav(targetNav);
+      }
+      return fallbackData;
     } finally {
       setIsEvaluating(false);
     }
   };
 
-  // Run initial evaluation on load
+  // State Hydration on Session Load or User Login
   useEffect(() => {
-    evaluateProfile(profile);
+    if (isLoadingAuth) {
+      return;
+    }
+
+    let isCancelled = false;
+
+    const hydrateAndEvaluate = async () => {
+      setIsHydrating(true);
+
+      try {
+        if (isAuthenticated) {
+          // 1. Fetch user's saved profile & documents from backend
+          let savedAttrs = user?.profileAttributes;
+
+          if (fetchUserProfile) {
+            const serverProfile = await fetchUserProfile();
+            if (serverProfile && Object.keys(serverProfile).length > 0) {
+              savedAttrs = serverProfile;
+            }
+          }
+
+          if (savedAttrs && Object.keys(savedAttrs).length > 0) {
+            const hydratedProfile = {
+              ...BLANK_PROFILE,
+              ...savedAttrs
+            };
+
+            if (isCancelled) return;
+            setProfile(hydratedProfile);
+
+            // 2. Automatically trigger evaluation with the user's saved profile
+            await evaluateProfile(hydratedProfile, 'plan');
+          } else {
+            // Authenticated user with no saved profile yet -> open Eligibility Matcher
+            if (isCancelled) return;
+            setProfile(BLANK_PROFILE);
+            setActiveNav('matcher');
+            await evaluateProfile(BLANK_PROFILE, 'matcher');
+          }
+        } else {
+          // Unauthenticated / Guest session
+          if (isCancelled) return;
+          await evaluateProfile(profile);
+        }
+      } catch (err) {
+        console.error("Hydration evaluation failed:", err);
+      } finally {
+        if (!isCancelled) {
+          setIsHydrating(false);
+        }
+      }
+    };
+
+    hydrateAndEvaluate();
+
     return () => {
+      isCancelled = true;
       if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current);
     };
-  }, []);
+  }, [isAuthenticated, user?.id, isLoadingAuth]);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -147,7 +196,7 @@ function MainAppContent() {
         console.error("Failed to save profile attributes to backend database:", saveRes.error);
       }
     }
-    evaluateProfile(profile);
+    evaluateProfile(profile, 'plan');
   };
 
   const handleReset = () => {
@@ -185,7 +234,8 @@ function MainAppContent() {
           benefit_display: "₹6,000 / year in 3 installments",
           benefit_display_mr: "दरवर्षी ₹६,००० (३ हप्ते)",
           benefit_amount: 6000,
-          deadline_days: 15,
+          benefit_type: "Direct Cash Transfer",
+          closing_date: null,           // year-round / FCFS
           required_documents: ["Aadhaar Card", "7/12 Land Record Extract", "Bank Passbook", "Income Certificate"],
           documents_required: ["Aadhaar Card", "7/12 Land Record Extract", "Bank Passbook", "Income Certificate"],
           official_url: "https://pmkisan.gov.in",
@@ -211,7 +261,8 @@ function MainAppContent() {
           benefit_display: "Comprehensive Crop Insurance Support",
           benefit_display_mr: "सर्वसमावेशक पीक विमा संरक्षण",
           benefit_amount: 25000,
-          deadline_days: 20,
+          benefit_type: "Insurance Coverage",
+          closing_date: "2026-12-31",   // Rabi season deadline
           required_documents: ["Aadhaar Card", "7/12 Land Record Extract", "Bank Passbook"],
           documents_required: ["Aadhaar Card", "7/12 Land Record Extract", "Bank Passbook"],
           official_url: "https://pmfby.gov.in",
@@ -228,13 +279,57 @@ function MainAppContent() {
       });
     }
 
-    const totalBenefit = mockRanked.reduce((acc, curr) => acc + curr.scheme.benefit_amount, 0);
+    const total_benefits = mockRanked
+      .filter(item => !item.is_mutually_exclusive_secondary)
+      .reduce((acc, curr) => {
+        const s = curr.scheme || {};
+        const amt = Number(s.benefit_amount) || 0;
+        const bType = String(s.benefit_type || '');
+
+        if (['Credit Line', 'Interest Subvention', 'Credit-Linked'].some(term => bType.includes(term))) {
+          acc.credit += amt;
+        } else if (bType.includes('Insurance')) {
+          acc.insurance += amt;
+        } else if (
+          ['Direct Cash Transfer', 'Free Service', 'Pension', 'Capital Subsidy'].some(term => bType.includes(term)) ||
+          (bType.includes('Subsidy') && !bType.includes('Credit-Linked'))
+        ) {
+          acc.direct += amt;
+        } else {
+          acc.direct += amt;
+        }
+        return acc;
+      }, { direct: 0.0, credit: 0.0, insurance: 0.0 });
+
+    const userDocs = p.owned_documents || [];
+    const coreWeights = {
+      "Aadhaar Card": 3.0,
+      "7/12 Land Record Extract": 3.0,
+      "Bank Passbook": 3.0,
+      "Caste Certificate": 3.0,
+      "Income Certificate": 2.0,
+      "Domicile Certificate": 2.0,
+      "Non-Creamy Layer Certificate": 2.0,
+      "Disability Certificate": 2.0,
+      "Sowing Certificate": 1.5,
+      "Water Source Availability Certificate": 1.5,
+      "Organic Cluster Membership Proof": 1.5,
+      "Electricity Bill": 1.5
+    };
+    const reqDocsList = mockRanked.flatMap(r => r.scheme.required_documents || []);
+    const totalW = reqDocsList.reduce((acc, d) => acc + (coreWeights[d] || 1.0), 0);
+    const ownedW = reqDocsList.reduce((acc, d) => {
+      const isOwned = userDocs.some(u => d.toLowerCase().includes(u.toLowerCase()) || u.toLowerCase().includes(d.toLowerCase()));
+      return acc + (isOwned ? (coreWeights[d] || 1.0) : 0);
+    }, 0);
+    const docReadiness = totalW > 0 ? Math.round((ownedW / totalW) * 1000) / 10 : 100.0;
 
     setResults({
       total_eligible_schemes: mockRanked.length,
-      total_potential_benefit: totalBenefit,
-      formatted_potential_benefit: `₹${totalBenefit.toLocaleString('en-IN')}`,
-      document_readiness_pct: 80.0,
+      total_benefits: total_benefits,
+      total_potential_benefit: total_benefits.direct,
+      formatted_potential_benefit: `₹${total_benefits.direct.toLocaleString('en-IN')}`,
+      document_readiness_pct: docReadiness,
       ranked_schemes: mockRanked,
       ineligible_schemes: [],
       conflicts_detected: conflicts,
@@ -265,7 +360,7 @@ function MainAppContent() {
         scheme_name: r.scheme.name,
         priority_tier: r.priority_tier,
         benefit_display: r.scheme.benefit_display,
-        deadline_days: r.scheme.deadline_days,
+        closing_date: r.scheme.closing_date ?? null,
         missing_documents: r.missing_documents,
         official_url: r.scheme.official_url
       }))
@@ -359,7 +454,7 @@ function MainAppContent() {
             setActiveNav={setActiveNav}
             activeTab={activeNav}
             setActiveTab={setActiveNav}
-            resultsCount={resultsCount}
+            resultsCount={isHydrating ? 0 : resultsCount}
             lang={lang}
             onGoHome={() => setActiveNav('matcher')}
             isFirstTimeSetup={isFirstTimeSetup}
@@ -371,55 +466,66 @@ function MainAppContent() {
             {/* TAB 1: Dashboard & Eligibility Matcher */}
             {activeNav === 'matcher' && (
               <div className="space-y-6">
+                {isHydrating && isAuthenticated ? (
+                  <DashboardSkeleton lang={lang} />
+                ) : (
+                  <>
+                    {/* First-Time Setup Welcome Banner */}
+                    {isFirstTimeSetup && (
+                      <div className="bg-gradient-to-r from-emerald-950 via-emerald-900 to-teal-950 text-white rounded-3xl p-6 shadow-xl border border-emerald-700/60 flex items-center space-x-4 animate-in fade-in duration-300">
+                        <div className="w-12 h-12 rounded-2xl bg-white/15 flex items-center justify-center text-emerald-300 flex-shrink-0 backdrop-blur-md">
+                          <Sparkles className="w-6 h-6 text-amber-300" />
+                        </div>
+                        <div>
+                          <h3 className="text-lg font-extrabold text-white">👋 Welcome, {user?.name || 'Farmer'}! Let's find your scheme matches</h3>
+                          <p className="text-xs text-emerald-200 mt-1">
+                            Fill in your profile details below to see your personalized scheme action plan. All other portal sections will unlock immediately after submission.
+                          </p>
+                        </div>
+                      </div>
+                    )}
 
-                {/* First-Time Setup Welcome Banner */}
-                {isFirstTimeSetup && (
-                  <div className="bg-gradient-to-r from-emerald-950 via-emerald-900 to-teal-950 text-white rounded-3xl p-6 shadow-xl border border-emerald-700/60 flex items-center space-x-4 animate-in fade-in duration-300">
-                    <div className="w-12 h-12 rounded-2xl bg-white/15 flex items-center justify-center text-emerald-300 flex-shrink-0 backdrop-blur-md">
-                      <Sparkles className="w-6 h-6 text-amber-300" />
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-extrabold text-white">👋 Welcome, {user?.name || 'Farmer'}! Let's find your scheme matches</h3>
-                      <p className="text-xs text-emerald-200 mt-1">
-                        Fill in your profile details below to see your personalized scheme action plan. All other portal sections will unlock immediately after submission.
-                      </p>
-                    </div>
-                  </div>
+                    <ErrorBoundary fallbackMessage="An error occurred inside the Profile Form component.">
+                      <ProfileForm
+                        profile={profile}
+                        setProfile={setProfile}
+                        onSubmit={handleFormSubmit}
+                        isEvaluating={isEvaluating}
+                        lang={lang}
+                      />
+                    </ErrorBoundary>
+                  </>
                 )}
-
-                <ErrorBoundary fallbackMessage="An error occurred inside the Profile Form component.">
-                  <ProfileForm
-                    profile={profile}
-                    setProfile={setProfile}
-                    onSubmit={handleFormSubmit}
-                    isEvaluating={isEvaluating}
-                    lang={lang}
-                  />
-                </ErrorBoundary>
               </div>
             )}
 
             {/* TAB 2: 'Apply First' Ranked Action Plan */}
             {activeNav === 'plan' && (
               <div className="space-y-6 animate-in fade-in duration-300">
-                {results && (
-                  <ErrorBoundary fallbackMessage="Unable to render summary metrics cards.">
-                    <SummaryCards results={results} lang={lang} />
-                  </ErrorBoundary>
-                )}
+                {isHydrating ? (
+                  <DashboardSkeleton lang={lang} />
+                ) : (
+                  <>
+                    {results && (
+                      <ErrorBoundary fallbackMessage="Unable to render summary metrics cards.">
+                        <SummaryCards results={results} lang={lang} />
+                      </ErrorBoundary>
+                    )}
 
-                <ErrorBoundary fallbackMessage="Unable to render Action Checklist component.">
-                  <ActionPlan
-                    results={results}
-                    onOpenDetail={(scheme) => setDetailScheme(scheme)}
-                    onOpenFeedback={(schemeId, defaultRating) => setFeedbackState({ schemeId, defaultRating })}
-                    onPrintReport={() => setActiveNav('export')}
-                    lang={lang}
-                    isEvaluating={isEvaluating}
-                    matrixDocFilter={matrixDocFilter}
-                    onResetFilters={() => setMatrixDocFilter(null)}
-                  />
-                </ErrorBoundary>
+                    <ErrorBoundary fallbackMessage="Unable to render Action Checklist component.">
+                      <ActionPlan
+                        results={results}
+                        onOpenDetail={(scheme) => setDetailScheme(scheme)}
+                        onOpenFeedback={(schemeId, defaultRating) => setFeedbackState({ schemeId, defaultRating })}
+                        onPrintReport={() => setActiveNav('export')}
+                        lang={lang}
+                        isEvaluating={isEvaluating}
+                        matrixDocFilter={matrixDocFilter}
+                        onResetFilters={() => setMatrixDocFilter(null)}
+                      />
+                    </ErrorBoundary>
+                  </>
+                )}
               </div>
             )}
 
@@ -547,8 +653,8 @@ function MainAppContent() {
                           </h3>
 
                           <div className="text-2xs text-slate-500 font-semibold flex items-center space-x-1">
-                            <Building2 className="w-3.5 h-3.5 text-emerald-600" />
-                            <span className="truncate">{s.department || "Government of India"}</span>
+                            <Building2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                            <span className="truncate">{(lang === 'mr' && s.government_mr) ? s.government_mr : (s.government || s.department || "Government of India")}</span>
                           </div>
 
                           <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed font-medium">
@@ -566,7 +672,7 @@ function MainAppContent() {
                             <div className="text-right">
                               <div className="text-[10px] text-slate-400 font-medium">Window</div>
                               <div className="text-xs font-bold text-amber-600 flex items-center justify-end">
-                                <Clock className="w-3 h-3 mr-1" /> {formatDeadlineText(s.deadline_days, lang)}
+                                <Clock className="w-3 h-3 mr-1" /> {formatDeadlineText(s.closing_date, lang)}
                               </div>
                             </div>
                           </div>
@@ -593,7 +699,7 @@ function MainAppContent() {
       </main>
 
       {/* Sticky Bottom Floating Smart Summary Bar */}
-      {results && activeNav !== 'home' && activeNav !== 'matcher' && (
+      {results && !isHydrating && activeNav !== 'home' && activeNav !== 'matcher' && (
         <FloatingSummaryBar
           results={results}
           onScrollToPlan={() => setActiveNav('plan')}
