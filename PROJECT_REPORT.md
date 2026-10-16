@@ -27,7 +27,6 @@ CEP-YOJNA-BUNDDLE/
 │   ├── models.py
 │   ├── models_db.py
 │   ├── requirements.txt
-│   ├── seed_demo_user.py
 │   ├── test_auth.py
 │   ├── test_engine.py
 │   ├── test_hardening.py
@@ -113,9 +112,6 @@ CEP-YOJNA-BUNDDLE/
 
 #### 4. [`backend/main.py`](file:///c:/YojnaBundle/CEP-YOJNA-BUNDDLE/backend/main.py)
 * **Description:** Primary FastAPI application entry point. Implements CORS middleware, SQLite startup initialization, global 500 exception handler, reusable `get_current_user` FastAPI dependency, scheme loader, and endpoints (`/api/health`, `/api/schemes`, `/api/auth/signup`, `/api/auth/login`, `/api/auth/me`, `/api/evaluate`, `/api/feedback`).
-
-#### 5. [`backend/seed_demo_user.py`](file:///c:/YojnaBundle/CEP-YOJNA-BUNDDLE/backend/seed_demo_user.py)
-* **Description:** CLI seeding script inserting demo user (`demo.farmer@example.com` / `FarmerPassword123!`, bcrypt hashed) into `users.db`.
 
 #### 6. [`backend/test_auth.py`](file:///c:/YojnaBundle/CEP-YOJNA-BUNDDLE/backend/test_auth.py)
 * **Description:** Automated test suite verifying signup (200 OK + token), duplicate email prevention (409 Conflict), wrong password handling (401 Unauthorized), correct password verification (200 OK), `/api/auth/me` with valid token, and garbage token rejection (401 Unauthorized).

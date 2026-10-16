@@ -10,7 +10,6 @@ from fastapi.testclient import TestClient
 
 from main import app
 from db import init_db, SessionLocal
-from seed_demo_user import seed_demo_user
 
 client = TestClient(app)
 
@@ -21,11 +20,7 @@ def test_auth_pipeline():
 
     init_db()
 
-    # 1. Test Seed Demo User
-    demo_user = seed_demo_user()
-    print("[OK] Demo user successfully initialized in SQLite DB.\n")
-
-    # 2. Test Signup with New Email (Expect 200 OK + Real Token)
+    # 1. Test Signup with New Email (Expect 200 OK + Real Token)
     test_email = f"test.farmer.{int(os.times().system * 1000)}@example.com"
     test_password = "SecurePassword123!"
 

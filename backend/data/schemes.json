@@ -12,7 +12,7 @@
         "operator": "BETWEEN",
         "value": [
           18,
-          75
+          110
         ]
       },
       {
@@ -36,22 +36,22 @@
     "official_url": "https://pmkisan.gov.in",
     "required_documents": [
       "Aadhaar Card",
-      "7/12 Land Record Extract",
-      "Bank Passbook",
-      "Income Certificate"
+      "7/12 and 8A Land Record Extract",
+      "Bank Passbook (Aadhaar-seeded)",
+      "Mobile Number linked with Aadhaar"
     ],
     "mutually_exclusive_with": [],
-    "description": "Financial support to all landholding farmer families across the country (except institutional landholders or high-income taxpayers) to enable them to take care of expenses related to agriculture and allied activities.",
-    "description_mr": "देशातील सर्व अल्प, अत्यल्प व बहुधारक शेतकरी कुटुंबांना (संस्थात्मक भूधारक व उच्च करदाते वगळून) शेती आणि संबंधित कामांसाठी वार्षिक ₹६,००० चे थेट अर्थसहाय्य.",
+    "description": "Financial support to all landholding farmer families across the country (except institutional landholders or income taxpayers) to enable them to take care of expenses related to agriculture and allied activities.",
+    "description_mr": "देशातील सर्व अल्प, अत्यल्प व बहुधारक शेतकरी कुटुंबांना (संस्थात्मक भूधारक व आयकर दाते वगळून) शेती आणि संबंधित कामांसाठी वार्षिक ₹६,००० चे थेट अर्थसहाय्य.",
     "application_steps": [
       "Visit official PM-KISAN portal or nearest Common Service Centre (CSC).",
-      "Submit land ownership documents (7/12 extract) and bank account details linked with Aadhaar.",
-      "Complete e-KYC authentication via Aadhaar OTP."
+      "Submit land ownership documents (7/12 & 8A extract) and bank account details linked with Aadhaar.",
+      "Complete mandatory e-KYC authentication via Aadhaar OTP or biometric."
     ],
     "application_steps_mr": [
       "अधिकृत PM-KISAN पोर्टल किंवा जवळच्या सीएससी केंद्राला भेट द्या.",
-      "7/12 उतारा आणि आधार संलग्न बँक खाते तपशील सादर करा.",
-      "आधार ओटीपी द्वारे ई-केवायसी पूर्ण करा."
+      "7/12 व 8अ उतारा आणि आधार संलग्न बँक खाते तपशील सादर करा.",
+      "आधार ओटीपी किंवा बायोमेट्रिक द्वारे अनिवार्य ई-केवायसी पूर्ण करा."
     ]
   },
   {
@@ -67,8 +67,13 @@
         "operator": "BETWEEN",
         "value": [
           18,
-          80
+          110
         ]
+      },
+      {
+        "field": "land_acres",
+        "operator": ">=",
+        "value": 0.01
       }
     ],
     "category_target": [
@@ -80,28 +85,28 @@
     ],
     "benefit_amount": 25000.0,
     "benefit_type": "Insurance Coverage",
-    "benefit_display": "Up to ₹25,000/acre crop loss insurance protection at low premium (1.5% Rabi, 2% Kharif, 5% Commercial/Horticultural)",
-    "benefit_display_mr": "दर एकरी ₹२५,००० पर्यंत पीक विमा संरक्षण (रब्बी १.५%, खरीप २%, व्यावसायिक/बागायती ५% विमा हप्ता)",
+    "benefit_display": "Up to ₹25,000/acre crop loss insurance protection at just ₹1 premium in Maharashtra (Central rates: 1.5% Rabi, 2% Kharif, 5% Commercial/Horticultural)",
+    "benefit_display_mr": "महाराष्ट्रात फक्त ₹१ विमा हप्त्यात दर एकरी ₹२५,००० पर्यंत पीक विमा संरक्षण (केंद्र शासनाचे दर: रब्बी १.५%, खरीप २%, व्यावसायिक/बागायती ५%)",
     "deadline_days": 8,
     "official_url": "https://pmfby.gov.in",
     "required_documents": [
       "Aadhaar Card",
-      "7/12 Land Record Extract",
-      "Sowing Certificate",
+      "7/12 Land Record Extract (with e-Pik Pahani entry)",
+      "Sowing Certificate (पेरणी प्रमाणपत्र)",
       "Bank Passbook"
     ],
     "mutually_exclusive_with": [],
-    "description": "Comprehensive crop insurance cover against yield losses caused by non-preventable natural risks from pre-sowing to post-harvest (Farmer premium share: 1.5% for Rabi, 2% for Kharif, and 5% for Annual Commercial/Horticultural crops).",
-    "description_mr": "नैसर्गिक आपत्तींमुळे होणाऱ्या पिकांच्या नुकसानीसाठी सर्वसमावेशक पीक विमा संरक्षण (शेतकरी हप्ता: रब्बी १.५%, खरीप २%, आणि व्यावसायिक/बागायती पिकांसाठी ५%).",
+    "description": "Comprehensive crop insurance cover against yield losses caused by non-preventable natural risks from pre-sowing to post-harvest. Under Maharashtra's 'Sarvasamaveshak Pik Vima Yojana', the State Government pays the farmer's share, allowing enrollment for just ₹1.",
+    "description_mr": "नैसर्गिक आपत्तींमुळे होणाऱ्या पिकांच्या नुकसानीसाठी सर्वसमावेशक पीक विमा संरक्षण. महाराष्ट्रात राज्य शासनाकडून शेतकरी हप्ता भरला जात असल्याने शेतकऱ्यांना केवळ ₹१ प्रति अर्जात विमा संरक्षण मिळते.",
     "application_steps": [
-      "Enroll online via National Crop Insurance Portal or at local bank branch.",
-      "Submit land holding record (7/12 extract) and crop sowing proof.",
-      "Pay nominal farmer premium share (1.5% for Rabi crops, 2% for Kharif crops, and 5% for Annual Commercial/Horticultural crops)."
+      "Enroll online via National Crop Insurance Portal (pmfby.gov.in), CSC, or local bank branch.",
+      "Submit land holding record (7/12 extract with e-Pik Pahani) and crop sowing declaration.",
+      "Pay ₹1 token registration fee in Maharashtra (or standard 1.5% Rabi / 2% Kharif / 5% Commercial central share)."
     ],
     "application_steps_mr": [
-      "राष्ट्रीय पीक विमा पोर्टलवर किंवा बँकेत नोंदणी करा.",
-      "7/12 उतारा आणि पेरणी प्रमाणपत्र सादर करा.",
-      "शेतकरी हप्त्याची रक्कम जमा करा (रब्बी १.५%, खरीप २%, आणि व्यावसायिक/बागायती पिकांसाठी ५%)."
+      "राष्ट्रीय पीक विमा पोर्टलवर (pmfby.gov.in), सीएससी केंद्रात किंवा बँकेत नोंदणी करा.",
+      "ई-पीक पाहणी नोंदवलेला 7/12 उतारा आणि पेरणी स्वयंघोषणापत्र सादर करा.",
+      "महाराष्ट्रात केवळ ₹१ नाममात्र शुल्क जमा करा (उर्वरित हप्ता राज्य शासन भरते)."
     ]
   },
   {
@@ -111,330 +116,6 @@
     "level": "Central",
     "government": "Government of India",
     "government_mr": "भारत सरकार",
-    "rules": [
-      {
-        "field": "age",
-        "operator": "BETWEEN",
-        "value": [
-          18,
-          75
-        ]
-      }
-    ],
-    "category_target": [
-      "General",
-      "OBC",
-      "SC",
-      "ST",
-      "EWS"
-    ],
-    "benefit_amount": 40000.0,
-    "benefit_type": "Credit Line",
-    "benefit_display": "Low-interest agricultural loan up to ₹3,00,000 at effective 4% interest rate",
-    "benefit_display_mr": "₹३,००,००० पर्यंत सवलतीच्या दरात (४% व्याज) कृषी कर्ज",
-    "deadline_days": 45,
-    "official_url": "https://myscheme.gov.in/schemes/kcc",
-    "required_documents": [
-      "Aadhaar Card",
-      "7/12 Land Record Extract",
-      "Identity Proof (Voter ID/PAN)",
-      "Passport Size Photo",
-      "Bank Passbook"
-    ],
-    "mutually_exclusive_with": [],
-    "description": "Provides timely and hassle-free credit to farmers for crop cultivation, post-harvest expenses, and farm maintenance.",
-    "description_mr": "पिक लागवड आणि शेती खर्चासाठी अत्यंत कमी व्याजदरावर तात्काळ कर्ज सुविधा.",
-    "application_steps": [
-      "Fill standard KCC application form at nearest commercial bank or RRB.",
-      "Provide land records and crop details.",
-      "Card issued with flexible credit limit valid for 5 years."
-    ],
-    "application_steps_mr": [
-      "जवळच्या बँकेत जाऊन किसान क्रेडिट कार्ड अर्ज भरा.",
-      "जमिनीचे कागदपत्रे व पिकांचा तपशील सादर करा.",
-      "५ वर्षांसाठी वैध केसीसी कार्ड प्राप्त करा."
-    ]
-  },
-  {
-    "id": "PM_KUSUM",
-    "name": "PM-KUSUM Solar Pump Subsidy Scheme",
-    "shortName": "PM-KUSUM Solar",
-    "level": "Central",
-    "government": "Government of India",
-    "government_mr": "भारत सरकार",
-    "rules": [
-      {
-        "field": "age",
-        "operator": "BETWEEN",
-        "value": [
-          18,
-          75
-        ]
-      },
-      {
-        "field": "land_acres",
-        "operator": "BETWEEN",
-        "value": [
-          0.5,
-          50.0
-        ]
-      }
-    ],
-    "category_target": [
-      "General",
-      "OBC",
-      "SC",
-      "ST",
-      "EWS"
-    ],
-    "benefit_amount": 75000.0,
-    "benefit_type": "Subsidy",
-    "benefit_display": "Up to 90% total subsidy (30% Central + 30% State + 30% State top-up in states like Maharashtra) for standalone off-grid solar water pumps",
-    "benefit_display_mr": "ऑफ-ग्रिड सोलर पंप बसवण्यासाठी ९०% पर्यंत एकूण अनुदान (३०% केंद्र + ३०% राज्य + ३०% राज्य अतिरिक्त अनुदान)",
-    "deadline_days": 20,
-    "official_url": "https://pmkusum.mnre.gov.in",
-    "required_documents": [
-      "Aadhaar Card",
-      "7/12 Land Record Extract",
-      "Bank Passbook",
-      "Electricity Bill / NOC",
-      "Income Certificate"
-    ],
-    "mutually_exclusive_with": [],
-    "description": "Helps farmers replace diesel pumps with solar-powered irrigation pumps with up to 90% total subsidy (30% Central + 30% State + 30% State top-up).",
-    "description_mr": "डिझेल पंपांऐवजी सौर उर्जेवर चालणारे सिंचन पंप बसवण्यासाठी ९०% पर्यंत एकूण शासकीय अनुदान (३०% केंद्र + ३०% राज्य + ३०% राज्य अतिरिक्त अनुदान).",
-    "application_steps": [
-      "Register on state renewable energy development agency portal.",
-      "Upload land verification documents and water source details.",
-      "Pay 10% farmer share after application approval."
-    ],
-    "application_steps_mr": [
-      "महाऊर्जा/राज्य रिन्युएबल पोर्टलवर नोंदणी करा.",
-      "जमीन व विहीर/कूपनलिका कागदपत्रे अपलोड करा.",
-      "अर्ज मंजूर झाल्यावर १०% शेतकरी हिस्सा जमा करा."
-    ]
-  },
-  {
-    "id": "PMKSY",
-    "name": "Pradhan Mantri Krishi Sinchayee Yojana (Per Drop More Crop)",
-    "shortName": "PM Krishi Sinchayee",
-    "level": "Central",
-    "government": "Government of India",
-    "government_mr": "भारत सरकार",
-    "rules": [
-      {
-        "field": "age",
-        "operator": "BETWEEN",
-        "value": [
-          18,
-          80
-        ]
-      },
-      {
-        "field": "land_acres",
-        "operator": "BETWEEN",
-        "value": [
-          0.2,
-          12.5
-        ]
-      }
-    ],
-    "category_target": [
-      "General",
-      "OBC",
-      "SC",
-      "ST",
-      "EWS"
-    ],
-    "benefit_amount": 30000.0,
-    "benefit_type": "Subsidy",
-    "benefit_display": "55% subsidy for Small/Marginal Farmers & 45% for others on Drip/Sprinkler Systems",
-    "benefit_display_mr": "ठिबक व तुषार सिंचन संचावर ५५% पर्यंत अनुदान",
-    "deadline_days": 30,
-    "official_url": "https://pmksy.gov.in",
-    "required_documents": [
-      "Aadhaar Card",
-      "7/12 Land Record Extract",
-      "Bank Passbook",
-      "Water Source Availability Certificate"
-    ],
-    "mutually_exclusive_with": [],
-    "description": "Promotes micro-irrigation technologies (drip and sprinkler systems) to maximize water use efficiency in farm plots.",
-    "description_mr": "पाण्याच्या कार्यक्षम वापरासाठी ठिबक व तुषार सिंचन संचासाठी अनुदान.",
-    "application_steps": [
-      "Apply through district agriculture office or online state agriculture portal.",
-      "Undergo field inspection by agricultural extension officer.",
-      "Drip/sprinkler equipment installed with subsidy credited to vendor/farmer."
-    ],
-    "application_steps_mr": [
-      "कृषी विभाग पोर्टलवर अर्ज करा.",
-      "कृषी अधिकाऱ्याकडून शेत पाहणी पूर्ण करा.",
-      "अनुदानित ठिबक संच बसवून घ्या."
-    ]
-  },
-  {
-    "id": "SOIL_HEALTH",
-    "name": "Soil Health Card Scheme",
-    "shortName": "Soil Health Card",
-    "level": "Central",
-    "government": "Government of India",
-    "government_mr": "भारत सरकार",
-    "rules": [],
-    "category_target": [
-      "General",
-      "OBC",
-      "SC",
-      "ST",
-      "EWS"
-    ],
-    "benefit_amount": 3000.0,
-    "benefit_type": "Free Service / Soil Testing",
-    "benefit_display": "Free soil sample testing & customized crop fertilizer prescription every 2 years",
-    "benefit_display_mr": "मोफत माती परीक्षण व खत वापराची वैज्ञानिक मार्गदर्शिका",
-    "deadline_days": 60,
-    "official_url": "https://soilhealth.dac.gov.in",
-    "required_documents": [
-      "Aadhaar Card",
-      "7/12 Land Record Extract"
-    ],
-    "mutually_exclusive_with": [],
-    "description": "Provides crop-wise recommendations for nutrients and fertilizers required for individual farm plots to boost yields.",
-    "description_mr": "जमिनीची सुपीकता वाढवण्यासाठी मोफत माती तपासणी आणि खतांचे प्रमाण दर्शवणारे कार्ड.",
-    "application_steps": [
-      "Agriculture department officials collect soil sample from farm field.",
-      "Sample tested at district soil testing laboratory.",
-      "Soil Health Card printed and delivered to farmer with dosage advice."
-    ],
-    "application_steps_mr": [
-      "कृषी अधिकारी शेतातील मातीचा नमुना गोळा करतात.",
-      "जिल्हा मृदा चाचणी प्रयोगशाळेत चाचणी केली जाते.",
-      "सोल हेल्थ कार्ड शेतकऱ्यास सुपूर्द केले जाते."
-    ]
-  },
-  {
-    "id": "PKVY",
-    "name": "Paramparagat Krishi Vikas Yojana (PKVY Organic Support)",
-    "shortName": "PKVY Organic Farming",
-    "level": "Central",
-    "government": "Government of India",
-    "government_mr": "भारत सरकार",
-    "rules": [
-      {
-        "field": "age",
-        "operator": "BETWEEN",
-        "value": [
-          18,
-          75
-        ]
-      },
-      {
-        "field": "land_acres",
-        "operator": "BETWEEN",
-        "value": [
-          0.5,
-          5.0
-        ]
-      }
-    ],
-    "category_target": [
-      "General",
-      "OBC",
-      "SC",
-      "ST",
-      "EWS"
-    ],
-    "benefit_amount": 50000.0,
-    "benefit_type": "Direct Cash Transfer & Inputs",
-    "benefit_display": "₹50,000 / hectare support over 3 years for organic inputs & certification",
-    "benefit_display_mr": "सेंद्रिय शेतीसाठी दर हेक्टरी ₹५०,००० चे ३ वर्षांचे अर्थसहाय्य",
-    "deadline_days": 40,
-    "official_url": "https://pgsindia-ncof.dacnet.nic.in",
-    "required_documents": [
-      "Aadhaar Card",
-      "7/12 Land Record Extract",
-      "Bank Passbook",
-      "Organic Cluster Membership Proof"
-    ],
-    "mutually_exclusive_with": [],
-    "description": "Encourages organic farming clusters with financial assistance for bio-fertilizers, seeds, and organic certification.",
-    "description_mr": "सेंद्रिय खते, बियाणे व सेंद्रिय प्रमाणीकरणासाठी ३ वर्षांचे आर्थिक सहाय्य.",
-    "application_steps": [
-      "Form a cluster of 20 or more farmers in local village.",
-      "Register cluster with Regional Executive Council.",
-      "Funds transferred directly for bio-inputs and PGS certification."
-    ],
-    "application_steps_mr": [
-      "गावात २० शेतकऱ्यांचा गट तयार करा.",
-      "गटाची नोंदणी कृषी विभागाकडे करा.",
-      "जैविक निविष्ठांसाठी निधी थेट बँक खात्यात प्राप्त करा."
-    ]
-  },
-  {
-    "id": "SMAM",
-    "name": "Sub-Mission on Agricultural Mechanization (SMAM Equipment Subsidy)",
-    "shortName": "SMAM Machinery",
-    "level": "Central",
-    "government": "Government of India",
-    "government_mr": "भारत सरकार",
-    "rules": [
-      {
-        "field": "age",
-        "operator": "BETWEEN",
-        "value": [
-          18,
-          75
-        ]
-      },
-      {
-        "field": "land_acres",
-        "operator": "BETWEEN",
-        "value": [
-          0.5,
-          25.0
-        ]
-      }
-    ],
-    "category_target": [
-      "General",
-      "OBC",
-      "SC",
-      "ST",
-      "EWS"
-    ],
-    "benefit_amount": 45000.0,
-    "benefit_type": "Subsidy",
-    "benefit_display": "40% to 50% financial subsidy on tractors, rotavators, and harvesters",
-    "benefit_display_mr": "ट्रॅक्टर, रोटाव्हेटर व कृषी यंत्रांवर ४०% ते ५०% अनुदान",
-    "deadline_days": 12,
-    "official_url": "https://agrimachinery.nic.in",
-    "required_documents": [
-      "Aadhaar Card",
-      "7/12 Land Record Extract",
-      "Bank Passbook",
-      "Caste Certificate",
-      "Income Certificate"
-    ],
-    "mutually_exclusive_with": [],
-    "description": "Assists small and marginal farmers in purchasing modern agricultural machinery and tools to reduce labor cost.",
-    "description_mr": "आधुनिक शेती यंत्रांच्या खरेदीवर ५०% पर्यंत थेट अनुदान.",
-    "application_steps": [
-      "Register on Direct Benefit Transfer in Agricultural Mechanization portal.",
-      "Select desired machinery model and authorized dealer.",
-      "Subsidy amount disbursed upon physical inspection of machinery."
-    ],
-    "application_steps_mr": [
-      "कृषी यांत्रिकीकरण महाडीबीटी पोर्टलवर नोंदणी करा.",
-      "यंत्र व अधिकृत विक्रेता निवडा.",
-      "यंत्र तपासणीनंतर अनुदान बँक खात्यात जमा."
-    ]
-  },
-  {
-    "id": "NAMO_SHETKARI",
-    "name": "Namo Shetkari Mahasanman Nidhi Yojana",
-    "shortName": "Namo Shetkari",
-    "level": "State",
-    "government": "Government of Maharashtra",
-    "government_mr": "महाराष्ट्र शासन",
     "rules": [
       {
         "field": "age",
@@ -457,30 +138,355 @@
       "ST",
       "EWS"
     ],
+    "benefit_amount": 300000.0,
+    "benefit_type": "Credit Line",
+    "benefit_display": "Low-interest agricultural credit up to ₹3,00,000 at effective 4% interest rate (Collateral-free up to ₹2,00,000)",
+    "benefit_display_mr": "₹३,००,००० पर्यंत सवलतीच्या दरात (४% प्रभावी व्याजदर) कृषी कर्ज (₹२,००,००० पर्यंत विनातारण कर्ज)",
+    "deadline_days": 45,
+    "official_url": "https://myscheme.gov.in/schemes/kcc",
+    "required_documents": [
+      "Aadhaar Card",
+      "7/12 and 8A Land Record Extract",
+      "Identity Proof (Voter ID / PAN Card)",
+      "Passport Size Photo",
+      "Bank Passbook"
+    ],
+    "mutually_exclusive_with": [],
+    "description": "Provides timely and hassle-free working capital credit to farmers for crop cultivation, post-harvest expenses, and allied activities at 7% base interest with a 3% prompt repayment incentive (effective 4% p.a.).",
+    "description_mr": "पीक लागवड, काढणीपश्चात खर्च आणि शेती देखभालीसाठी अत्यंत कमी व्याजदरावर (वेळेवर परतफेड केल्यास ४% व्याजदर) तात्काळ कृषी कर्ज सुविधा.",
+    "application_steps": [
+      "Fill standard KCC application form at nearest commercial, cooperative bank, or RRB.",
+      "Provide 7/12 & 8A land records and planned crop cultivation details.",
+      "Receive KCC revolving credit limit valid for 5 years (collateral-free up to ₹2 Lakh)."
+    ],
+    "application_steps_mr": [
+      "जवळच्या राष्ट्रीयीकृत किंवा सहकारी बँकेत जाऊन किसान क्रेडिट कार्ड अर्ज भरा.",
+      "जमिनीचा 7/12, 8अ उतारा व पिकांचा तपशील सादर करा.",
+      "५ वर्षांसाठी वैध असलेले केसीसी कार्ड प्राप्त करा (₹२ लाखांपर्यंत विनातारण)."
+    ]
+  },
+  {
+    "id": "PM_KUSUM",
+    "name": "PM-KUSUM / Magel Tyala Saur Krishi Pump Scheme",
+    "shortName": "PM-KUSUM Solar",
+    "level": "Central",
+    "government": "Government of India",
+    "government_mr": "भारत सरकार",
+    "rules": [
+      {
+        "field": "age",
+        "operator": "BETWEEN",
+        "value": [
+          18,
+          110
+        ]
+      },
+      {
+        "field": "land_acres",
+        "operator": ">=",
+        "value": 0.5
+      }
+    ],
+    "category_target": [
+      "General",
+      "OBC",
+      "SC",
+      "ST",
+      "EWS"
+    ],
+    "benefit_amount": 150000.0,
+    "benefit_type": "Subsidy",
+    "benefit_display": "90% subsidy for General category (95% for SC/ST) on standalone off-grid solar water pumps (3 HP to 7.5 HP)",
+    "benefit_display_mr": "ऑफ-ग्रिड सोलर पंप (३ ते ७.५ HP) बसवण्यासाठी सर्वसाधारण प्रवर्गास ९०% आणि अ.जा./अ.ज. (SC/ST) शेतकऱ्यांना ९५% अनुदान",
+    "deadline_days": 20,
+    "official_url": "https://pmkusum.mnre.gov.in",
+    "required_documents": [
+      "Aadhaar Card",
+      "7/12 Land Record Extract (showing water source entry)",
+      "Bank Passbook",
+      "Caste Certificate (for 95% SC/ST subsidy)",
+      "No-Objection Certificate (if joint ownership)"
+    ],
+    "mutually_exclusive_with": [],
+    "description": "Helps farmers replace diesel pumps and obtain daytime irrigation with solar-powered water pumps at a 90% subsidy (30% Central + 60% State support in Maharashtra; 95% total subsidy for SC/ST farmers).",
+    "description_mr": "डिझेल पंपांऐवजी सौर उर्जेवर चालणारे सिंचन पंप बसवण्यासाठी सर्वसाधारण गटासाठी ९०% आणि अनुसूचित जाती/जमातीच्या शेतकऱ्यांसाठी ९५% शासकीय अनुदान.",
+    "application_steps": [
+      "Register on Mahavitaran / MEDA PM-KUSUM portal.",
+      "Upload 7/12 extract showing assured water source (well/borewell/farm pond) and select pump capacity.",
+      "Pay 10% farmer share (5% for SC/ST) online after application approval."
+    ],
+    "application_steps_mr": [
+      "महावितरण (मागेल त्याला सौर कृषी पंप) किंवा महाऊर्जा पीएम-कुसुम पोर्टलवर नोंदणी करा.",
+      "विहीर/कूपनलिका/शेततळे नोंद असलेला 7/12 उतारा अपलोड करा.",
+      "अर्ज मंजूर झाल्यावर १०% शेतकरी हिस्सा (SC/ST साठी ५%) ऑनलाईन जमा करा."
+    ]
+  },
+  {
+    "id": "PMKSY",
+    "name": "Pradhan Mantri Krishi Sinchayee Yojana (Per Drop More Crop)",
+    "shortName": "PM Krishi Sinchayee",
+    "level": "Central",
+    "government": "Government of India",
+    "government_mr": "भारत सरकार",
+    "rules": [
+      {
+        "field": "age",
+        "operator": "BETWEEN",
+        "value": [
+          18,
+          110
+        ]
+      },
+      {
+        "field": "land_acres",
+        "operator": ">=",
+        "value": 0.2
+      }
+    ],
+    "category_target": [
+      "General",
+      "OBC",
+      "SC",
+      "ST",
+      "EWS"
+    ],
+    "benefit_amount": 50000.0,
+    "benefit_type": "Subsidy",
+    "benefit_display": "55% Central subsidy for Small/Marginal Farmers & 45% for others (Up to 80% total with Maharashtra State Top-up) for up to 5 hectares",
+    "benefit_display_mr": "ठिबक व तुषार सिंचन संचावर केंद्राचे ४५%-५५% अनुदान (महाराष्ट्र शासनाच्या पूरक अनुदानासह एकूण ७५% ते ८०% पर्यंत अनुदान, ५ हेक्टरच्या मर्यादेत)",
+    "deadline_days": 30,
+    "official_url": "https://mahadbt.maharashtra.gov.in",
+    "required_documents": [
+      "Aadhaar Card",
+      "7/12 and 8A Land Record Extract",
+      "Bank Passbook",
+      "Electricity Bill or Water Source Proof",
+      "GST Invoice from Registered Micro-Irrigation Dealer"
+    ],
+    "mutually_exclusive_with": [],
+    "description": "Promotes micro-irrigation technologies (drip and sprinkler systems) for up to 5 hectares per farmer. Combined with Maharashtra's Mukhyamantri Shashwat Krishi Sinchan Yojana top-up, small/marginal farmers receive up to 80% subsidy and others receive up to 75%.",
+    "description_mr": "पाण्याच्या कार्यक्षम वापरासाठी ठिबक व तुषार सिंचन संचासाठी अनुदान. मुख्यमंत्री शाश्वत कृषी सिंचन योजनेच्या पूरक अनुदानासह अल्प व अत्यल्प भूधारकांना ८०% आणि इतर शेतकऱ्यांना ७५% पर्यंत अनुदान (कमाल ५ हेक्टरपर्यंत).",
+    "application_steps": [
+      "Apply online via MahaDBT Farmer Portal under 'Irrigation Devices & Facilities'.",
+      "After lottery/pre-sanction approval, install ISI-marked drip/sprinkler system from an authorized dealer.",
+      "Upload dealer invoice and complete geo-tagged verification by the Agriculture Assistant for DBT disbursement."
+    ],
+    "application_steps_mr": [
+      "महाडीबीटी (MahaDBT) शेतकरी पोर्टलवर 'सिंचन साधने व सुविधा' अंतर्गत अर्ज करा.",
+      "पूर्वसंमती मिळाल्यानंतर अधिकृत विक्रेत्याकडून ठिबक/तुषार संच बसवून घ्या.",
+      "पक्के बिल अपलोड करा आणि कृषी सहाय्यकाकडून मोका तपासणी पूर्ण करून बँक खात्यात अनुदान मिळवा."
+    ]
+  },
+  {
+    "id": "SOIL_HEALTH",
+    "name": "Soil Health Card Scheme",
+    "shortName": "Soil Health Card",
+    "level": "Central",
+    "government": "Government of India",
+    "government_mr": "भारत सरकार",
+    "rules": [
+      {
+        "field": "land_acres",
+        "operator": ">=",
+        "value": 0.01
+      }
+    ],
+    "category_target": [
+      "General",
+      "OBC",
+      "SC",
+      "ST",
+      "EWS"
+    ],
+    "benefit_amount": 3000.0,
+    "benefit_type": "Free Service / Soil Testing",
+    "benefit_display": "12-parameter soil sample testing & customized crop fertilizer prescription every 3 years",
+    "benefit_display_mr": "१२ घटकांचे माती परीक्षण व पिकानुसार खत वापराची वैज्ञानिक शिफारस पत्रिका",
+    "deadline_days": 60,
+    "official_url": "https://soilhealth.dac.gov.in",
+    "required_documents": [
+      "Aadhaar Card",
+      "7/12 Land Record Extract",
+      "Mobile Number"
+    ],
+    "mutually_exclusive_with": [],
+    "description": "Evaluates soil across 12 chemical and physical parameters (N, P, K, S, Zn, Fe, Cu, Mn, Bo, pH, EC, OC) and provides crop-wise recommendations for nutrients and fertilizers to reduce input costs and boost yields.",
+    "description_mr": "जमिनीची सुपीकता जाणून घेण्यासाठी १२ घटकांची माती तपासणी आणि पिकानुसार खतांची योग्य मात्रा दर्शवणारे आरोग्य कार्ड.",
+    "application_steps": [
+      "Agriculture department officials or Krishi Sakhi collect geo-tagged soil samples from the farm field.",
+      "Sample is analyzed across 12 parameters at the district/village soil testing laboratory.",
+      "Download the digital Soil Health Card and fertilizer dosage advice from the portal or receive printed copy."
+    ],
+    "application_steps_mr": [
+      "कृषी सहाय्यक किंवा कृषी सखी शेतातील मातीचा नमुना (GPS नोंदीसह) गोळा करतात.",
+      "मृदा चाचणी प्रयोगशाळेत मातीतील १२ घटकांची तपासणी केली जाते.",
+      "तपासणी अहवाल व खत मात्रेची शिफारस असलेले सॉईल हेल्थ कार्ड ऑनलाईन किंवा छापील स्वरूपात प्राप्त करा."
+    ]
+  },
+  {
+    "id": "PKVY",
+    "name": "Paramparagat Krishi Vikas Yojana (PKVY Organic Support)",
+    "shortName": "PKVY Organic Farming",
+    "level": "Central",
+    "government": "Government of India",
+    "government_mr": "भारत सरकार",
+    "rules": [
+      {
+        "field": "age",
+        "operator": "BETWEEN",
+        "value": [
+          18,
+          110
+        ]
+      },
+      {
+        "field": "land_acres",
+        "operator": ">=",
+        "value": 0.25
+      }
+    ],
+    "category_target": [
+      "General",
+      "OBC",
+      "SC",
+      "ST",
+      "EWS"
+    ],
+    "benefit_amount": 50000.0,
+    "benefit_type": "Direct Cash Transfer & Inputs",
+    "benefit_display": "₹50,000 / hectare support over 3 years (including ₹31,000/ha DBT for organic inputs), capped at 2 hectares per farmer",
+    "benefit_display_mr": "सेंद्रिय शेतीसाठी दर हेक्टरी ₹५०,००० चे ३ वर्षांचे सहाय्य (त्यापैकी ₹३१,००० थेट बँक खात्यात जैविक निविष्ठांसाठी; कमाल २ हेक्टर मर्यादा)",
+    "deadline_days": 40,
+    "official_url": "https://pgsindia-ncof.dacnet.nic.in",
+    "required_documents": [
+      "Aadhaar Card",
+      "7/12 and 8A Land Record Extract",
+      "Bank Passbook",
+      "Organic Cluster Membership Consent"
+    ],
+    "mutually_exclusive_with": [],
+    "description": "Promotes chemical-free organic farming through cluster formation (20 hectare clusters), offering ₹50,000/hectare over 3 years (up to 2 hectares per farmer) for bio-fertilizers, organic seeds, PGS-India certification, and marketing.",
+    "description_mr": "सेंद्रिय खते, बियाणे, PGS प्रमाणीकरण व मार्केटिंगसाठी ३ वर्षांत प्रति हेक्टरी ₹५०,००० चे (कमाल २ हेक्टरपर्यंत) आर्थिक सहाय्य.",
+    "application_steps": [
+      "Join or form a local cluster of farmers covering at least 20 hectares (approx. 50 acres) with the Taluka Agriculture Office.",
+      "Register the cluster under PGS-India through the Regional Council / ATMA.",
+      "Receive direct benefit transfer (DBT) installments for purchasing on-farm and off-farm organic inputs."
+    ],
+    "application_steps_mr": [
+      "गावात किमान २० हेक्टर (सुमारे ५० एकर) क्षेत्राचा शेतकरी गट तयार करून कृषी विभागाकडे नोंदणी करा.",
+      "आत्मा (ATMA) व PGS-India पोर्टलवर सेंद्रिय गटाची नोंदणी पूर्ण करा.",
+      "सेंद्रिय खते व जैविक निविष्ठांसाठी अनुदान थेट बँक खात्यात (DBT) प्राप्त करा."
+    ]
+  },
+  {
+    "id": "SMAM",
+    "name": "Sub-Mission on Agricultural Mechanization (SMAM Equipment Subsidy)",
+    "shortName": "SMAM Machinery",
+    "level": "Central",
+    "government": "Government of India",
+    "government_mr": "भारत सरकार",
+    "rules": [
+      {
+        "field": "age",
+        "operator": "BETWEEN",
+        "value": [
+          18,
+          110
+        ]
+      },
+      {
+        "field": "land_acres",
+        "operator": ">=",
+        "value": 0.25
+      }
+    ],
+    "category_target": [
+      "General",
+      "OBC",
+      "SC",
+      "ST",
+      "EWS"
+    ],
+    "benefit_amount": 125000.0,
+    "benefit_type": "Subsidy",
+    "benefit_display": "50% subsidy for SC/ST, Women & Small/Marginal farmers (40% for others) on tractors, power tillers, rotavators, and harvesters",
+    "benefit_display_mr": "ट्रॅक्टर, पॉवर टिलर, रोटाव्हेटर व आधुनिक कृषी यंत्रांवर ४०% ते ५०% अनुदान",
+    "deadline_days": 12,
+    "official_url": "https://mahadbt.maharashtra.gov.in",
+    "required_documents": [
+      "Aadhaar Card",
+      "7/12 and 8A Land Record Extract",
+      "Bank Passbook",
+      "Caste Certificate (if applying under SC/ST category)",
+      "Tractor RC (if applying for tractor-driven implements)"
+    ],
+    "mutually_exclusive_with": [],
+    "description": "Assists farmers in purchasing modern agricultural machinery, tractors, power tillers, and implements with a 50% subsidy for Small/Marginal, Women, and SC/ST farmers, and 40% for other farmers.",
+    "description_mr": "अल्प/अत्यल्प भूधारक, महिला आणि अ.जा./अ.ज. शेतकऱ्यांना आधुनिक शेती अवजारे व ट्रॅक्टर खरेदीवर ५०% आणि इतर शेतकऱ्यांना ४०% थेट अनुदान.",
+    "application_steps": [
+      "Apply on the MahaDBT Farmer Portal under 'Agricultural Mechanization' (or Central agrimachinery.nic.in portal).",
+      "Upon pre-sanction selection, purchase the approved machinery from an authorized manufacturer/dealer.",
+      "Upload invoice and complete physical verification by the Agriculture Officer for DBT subsidy credit."
+    ],
+    "application_steps_mr": [
+      "महाडीबीटी (MahaDBT) पोर्टलवर 'कृषी यांत्रिकीकरण' घटकाखाली ऑनलाईन अर्ज करा.",
+      "पूर्वसंमती मिळाल्यावर अधिकृत विक्रेत्याकडून मंजूर यंत्र खरेदी करा.",
+      "खरेदी पावती अपलोड करा आणि कृषी अधिकाऱ्यांच्या पडताळणीनंतर बँक खात्यात अनुदान मिळवा."
+    ]
+  },
+  {
+    "id": "NAMO_SHETKARI",
+    "name": "Namo Shetkari Mahasanman Nidhi Yojana",
+    "shortName": "Namo Shetkari",
+    "level": "State",
+    "government": "Government of Maharashtra",
+    "government_mr": "महाराष्ट्र शासन",
+    "rules": [
+      {
+        "field": "age",
+        "operator": "BETWEEN",
+        "value": [
+          18,
+          110
+        ]
+      },
+      {
+        "field": "land_acres",
+        "operator": ">=",
+        "value": 0.01
+      }
+    ],
+    "category_target": [
+      "General",
+      "OBC",
+      "SC",
+      "ST",
+      "EWS"
+    ],
     "benefit_amount": 6000.0,
     "benefit_type": "Direct Cash Transfer",
     "benefit_display": "Additional ₹6,000 / year paid in 3 equal installments of ₹2,000 (Maharashtra State Top-up to PM-KISAN)",
     "benefit_display_mr": "दरवर्षी अतिरिक्त ₹६,००० (₹२,००० चे ३ हप्ते) महाराष्ट्र शासनातर्फे",
     "deadline_days": 30,
-    "official_url": "https://nsmny.mahaonline.gov.in",
+    "official_url": "https://nsmny.mahait.org",
     "required_documents": [
       "Aadhaar Card",
-      "7/12 Land Record Extract",
-      "Bank Passbook",
-      "PM-KISAN Registration"
+      "7/12 and 8A Land Record Extract",
+      "Bank Passbook (Aadhaar-seeded & DBT enabled)",
+      "Active PM-KISAN Registration ID"
     ],
     "mutually_exclusive_with": [],
-    "description": "Maharashtra state government's financial assistance scheme that provides an additional ₹6,000 annually to eligible PM-KISAN beneficiaries in the state.",
-    "description_mr": "महाराष्ट्रातील पीएम-किसान योजनेच्या पात्र लाभार्थी शेतकऱ्यांना राज्य शासनातर्फे दरवर्षी अतिरिक्त ₹६,००० चे थेट अर्थसहाय्य.",
+    "description": "Maharashtra state government's financial assistance scheme that provides an additional ₹6,000 annually to eligible PM-KISAN beneficiaries in the state, bringing total annual direct income support to ₹12,000.",
+    "description_mr": "महाराष्ट्रातील पीएम-किसान योजनेच्या पात्र लाभार्थी शेतकऱ्यांना राज्य शासनातर्फे दरवर्षी अतिरिक्त ₹६,००० चे थेट अर्थसहाय्य (एकूण वार्षिक ₹१२,००० लाभ).",
     "application_steps": [
-      "Automatically applied for existing PM-KISAN beneficiaries in Maharashtra.",
-      "Ensure e-KYC and Aadhaar seeding with bank account is complete.",
-      "Check status on the NSMNY portal."
+      "Automatically linked for all active PM-KISAN beneficiaries registered in Maharashtra.",
+      "Ensure PM-KISAN e-KYC, land seeding, and Aadhaar NPCI bank account linking are active.",
+      "Check beneficiary status on the NSMNY portal."
     ],
     "application_steps_mr": [
-      "महाराष्ट्रातील विद्यमान पीएम-किसान लाभार्थ्यांना स्वयंचलितपणे लागू.",
-      "ई-केवायसी आणि बँक खात्याशी आधार जोडणी पूर्ण असल्याची खात्री करा.",
-      "एनएसएमएनवाय पोर्टलवर स्थिती तपासा."
+      "महाराष्ट्रातील पात्र पीएम-किसान लाभार्थ्यांचा या योजनेत स्वयंचलितपणे समावेश होतो.",
+      "पीएम-किसान ई-केवायसी, भूमी अभिलेख नोंद आणि बँक खात्याशी आधार संलग्नता (NPCI seeding) पूर्ण असल्याची खात्री करा.",
+      "NSMNY पोर्टलवर आपली लाभार्थी स्थिती तपासा."
     ]
   },
   {
@@ -501,8 +507,11 @@
       },
       {
         "field": "land_acres",
-        "operator": "<=",
-        "value": 5.0
+        "operator": "BETWEEN",
+        "value": [
+          0.01,
+          5.0
+        ]
       }
     ],
     "category_target": [
@@ -514,13 +523,13 @@
     ],
     "benefit_amount": 36000.0,
     "benefit_type": "Pension",
-    "benefit_display": "Assured monthly pension of ₹3,000 after attaining the age of 60 years",
-    "benefit_display_mr": "वयाची ६० वर्षे पूर्ण झाल्यानंतर दरमहा ₹३,००० निश्चित पेन्शन",
+    "benefit_display": "Assured monthly pension of ₹3,000 (₹36,000/year) after attaining the age of 60 years",
+    "benefit_display_mr": "वयाची ६० वर्षे पूर्ण झाल्यानंतर दरमहा ₹३,००० (वार्षिक ₹३६,०००) निश्चित पेन्शन",
     "deadline_days": 365,
-    "official_url": "https://mahandhan.in",
+    "official_url": "https://maandhan.in",
     "required_documents": [
       "Aadhaar Card",
-      "Savings Bank Account",
+      "Savings Bank Passbook / PM-KISAN Account",
       "7/12 Land Record Extract"
     ],
     "mutually_exclusive_with": [
@@ -528,22 +537,22 @@
       "EPFO",
       "ESIC"
     ],
-    "description": "A voluntary and contributory pension scheme for small and marginal farmers (18-40 years) to receive a fixed pension of ₹3,000/month after 60 years of age.",
-    "description_mr": "लहान आणि अल्पभूधारक शेतकऱ्यांसाठी (१८-४० वर्षे) ऐच्छिक आणि अंशदायी पेन्शन योजना, ज्यामध्ये ६० वर्षांनंतर दरमहा ₹३,००० मिळतात.",
+    "description": "A voluntary and contributory pension scheme for small and marginal farmers (aged 18-40 years owning up to 2 hectares / 5 acres) providing an assured monthly pension of ₹3,000 after turning 60.",
+    "description_mr": "अल्प व अत्यल्प भूधारक शेतकऱ्यांसाठी (वय १८ ते ४० वर्षे, जमीन २ हेक्टर / ५ एकरांपर्यंत) ऐच्छिक व अंशदायी पेन्शन योजना, ज्यामध्ये ६० वर्षांनंतर दरमहा ₹३,००० पेन्शन मिळते.",
     "application_steps": [
-      "Visit nearest Common Service Centre (CSC).",
-      "Provide Aadhaar and bank details for auto-debit of monthly contribution (₹55 to ₹200).",
-      "Central Govt makes a matching contribution to the pension fund."
+      "Visit the nearest Common Service Centre (CSC) or self-enroll at maandhan.in.",
+      "Provide Aadhaar and bank details for monthly contribution auto-debit (₹55 to ₹200/month based on entry age; can be paid directly from PM-KISAN installments).",
+      "Central Government contributes an equal matching amount to the LIC-managed pension fund."
     ],
     "application_steps_mr": [
-      "जवळच्या सीएससी (CSC) केंद्राला भेट द्या.",
-      "मासिक हप्त्यासाठी (₹५५ ते ₹२००) आधार आणि बँक तपशील द्या.",
-      "केंद्र सरकार पेन्शन फंडात समान योगदान देते."
+      "जवळच्या सीएससी (CSC) केंद्राला भेट द्या किंवा maandhan.in वर ऑनलाईन नोंदणी करा.",
+      "वयानुसार मासिक हप्त्यासाठी (₹५५ ते ₹२००) आधार व बँक तपशील द्या (पीएम-किसान निधीतूनही हप्ता वजा करण्याचा पर्याय उपलब्ध).",
+      "केंद्र सरकार पेन्शन फंडात शेतकऱ्याइतकेच समान योगदान जमा करते."
     ]
   },
   {
     "id": "MAGEL_TYALA_SHET_TALE",
-    "name": "Magel Tyala Shet Tale (Farm Pond Scheme)",
+    "name": "Magel Tyala Shet Tale (Mukhyamantri Shashwat Krishi Sinchan Farm Pond)",
     "shortName": "Shet Tale",
     "level": "State",
     "government": "Government of Maharashtra",
@@ -554,7 +563,7 @@
         "operator": "BETWEEN",
         "value": [
           18,
-          75
+          110
         ]
       },
       {
@@ -570,30 +579,30 @@
       "ST",
       "EWS"
     ],
-    "benefit_amount": 50000.0,
+    "benefit_amount": 75000.0,
     "benefit_type": "Subsidy",
-    "benefit_display": "Direct subsidy up to ₹50,000 for constructing a farm pond for water conservation",
-    "benefit_display_mr": "जलसंधारणासाठी शेततळे उभारणीकरिता ₹५०,००० पर्यंत थेट अनुदान",
+    "benefit_display": "Direct subsidy up to ₹75,000 for constructing an individual farm pond (plus additional up to ₹75,000 subsidy available for plastic lining)",
+    "benefit_display_mr": "जलसंधारणासाठी वैयक्तिक शेततळे खोदाईकरिता ₹७५,००० पर्यंत थेट अनुदान (तसेच प्लास्टिक अस्तरीकरणासाठी अतिरिक्त ₹७५,००० पर्यंत अनुदान उपलब्ध)",
     "deadline_days": 45,
     "official_url": "https://mahadbt.maharashtra.gov.in",
     "required_documents": [
       "Aadhaar Card",
-      "7/12 and 8A Extract",
+      "7/12 and 8A Land Record Extract (Minimum 0.60 Hectare / 1.5 Acres)",
       "Bank Passbook",
-      "Undertaking/Affidavit"
+      "Self-Declaration / Undertaking of not having availed prior farm pond subsidy"
     ],
     "mutually_exclusive_with": [],
-    "description": "Maharashtra government scheme to provide permanent protective irrigation capabilities by subsidizing the excavation and lining of farm ponds.",
-    "description_mr": "शेतकऱ्यांना शाश्वत सिंचन सुविधा उपलब्ध करून देण्यासाठी शेततळ्याच्या खोदाई आणि अस्तरीकरणासाठी महाराष्ट्र शासनाचे अनुदान.",
+    "description": "Maharashtra government scheme integrated under Mukhyamantri Shashwat Krishi Sinchan Yojana providing up to ₹75,000 subsidy for excavating farm ponds and additional support for plastic lining to ensure protective irrigation.",
+    "description_mr": "मुख्यमंत्री शाश्वत कृषी सिंचन योजनेंतर्गत शेतकऱ्यांना शाश्वत सिंचन सुविधा उपलब्ध करून देण्यासाठी वैयक्तिक शेततळ्याच्या खोदाईसाठी ₹७५,००० पर्यंत आणि अस्तरीकरणासाठी अतिरिक्त अनुदान.",
     "application_steps": [
-      "Register on MahaDBT Farmer Portal.",
-      "Apply under 'Irrigation Facilities' for Farm Pond.",
-      "Complete physical verification by agriculture assistant after approval."
+      "Log in to the MahaDBT Farmer Portal (mahadbt.maharashtra.gov.in).",
+      "Apply under 'Mukhyamantri Shashwat Krishi Sinchan Yojana - Individual Farm Pond'.",
+      "Receive work order after site suitability verification by the Agriculture Assistant, complete excavation, and get DBT payout."
     ],
     "application_steps_mr": [
-      "महाडीबीटी (MahaDBT) शेतकरी पोर्टलवर नोंदणी करा.",
-      "सिंचन सुविधांतर्गत शेततळ्यासाठी अर्ज करा.",
-      "मंजुरीनंतर कृषी सहाय्यकाकडून प्रत्यक्ष स्थळ पाहणी पूर्ण करा."
+      "महाडीबीटी (MahaDBT) शेतकरी पोर्टलवर लॉगीन करा.",
+      "मुख्यमंत्री शाश्वत कृषी सिंचन योजनेंतर्गत 'वैयक्तिक शेततळे' बाबीसाठी अर्ज करा.",
+      "कृषी सहाय्यकाकडून जागेची पाहणी व कार्यारंभ आदेश मिळाल्यानंतर शेततळ्याचे काम पूर्ण करून अनुदान मिळवा."
     ]
   },
   {
@@ -611,6 +620,11 @@
           10,
           75
         ]
+      },
+      {
+        "field": "land_acres",
+        "operator": ">=",
+        "value": 0.01
       }
     ],
     "category_target": [
@@ -622,28 +636,29 @@
     ],
     "benefit_amount": 200000.0,
     "benefit_type": "Insurance",
-    "benefit_display": "Ex-gratia up to ₹2,00,000 in case of accidental death or permanent disability",
-    "benefit_display_mr": "अपघाती मृत्यू किंवा कायमचे अपंगत्व आल्यास ₹२,००,००० पर्यंत सानुग्रह अनुदान",
+    "benefit_display": "State ex-gratia grant of ₹2,00,000 for accidental death or permanent total disability (₹1,00,000 for partial disability of 1 limb/eye)",
+    "benefit_display_mr": "अपघाती मृत्यू किंवा दोन अवयव निकामी झाल्यास ₹२,००,००० आणि एक अवयव निकामी झाल्यास ₹१,००,००० सानुग्रह अनुदान",
     "deadline_days": 90,
     "official_url": "https://krishi.maharashtra.gov.in",
     "required_documents": [
-      "7/12 Extract",
-      "FIR / Police Spot Panchnama",
-      "Death / Disability Certificate",
-      "Aadhaar Card"
+      "7/12 and 8A Extract (and Ferfar / Mutation Entry)",
+      "FIR / Police Spot Panchnama / Inquest Panchnama",
+      "Post-Mortem Report / Death or Disability Certificate",
+      "Aadhaar Card & Age Proof of Deceased/Injured",
+      "Heir's Aadhaar-linked Bank Passbook"
     ],
     "mutually_exclusive_with": [],
-    "description": "Provides financial assistance to the families of farmers in Maharashtra in the event of accidental death, partial, or permanent disability.",
-    "description_mr": "अपघाती मृत्यू किंवा कायमचे अपंगत्व आल्यास महाराष्ट्रातील शेतकरी कुटुंबांना आर्थिक मदत देणारी योजना.",
+    "description": "Provides 24x7 financial protection (₹2 Lakh for accidental death/two-organ disability; ₹1 Lakh for one-organ disability) to all landholding farmers in Maharashtra (aged 10-75) plus 1 family member whose name is not on the 7/12 extract.",
+    "description_mr": "महाराष्ट्रातील १० ते ७५ वयोगटातील सर्व ७/१२ धारक शेतकरी आणि ७/१२ वर नाव नसलेल्या कुटुंबातील कोणत्याही १ सदस्यास अपघाती मृत्यू किंवा अपंगत्व आल्यास ₹२,००,००० पर्यंत तात्काळ सानुग्रह अनुदान.",
     "application_steps": [
-      "Submit proposal to Taluka Agriculture Officer within 90 days of the incident.",
-      "Attach police panchnama, medical certificates, and land records.",
-      "Claim processed and transferred to heir's bank account via DBT."
+      "Submit claim proposal to the Taluka Agriculture Officer within 90 days of the accident.",
+      "Attach police FIR, spot panchnama, post-mortem/medical certificate, and 7/12 land records.",
+      "Taluka-level committee headed by Tehsildar approves the claim and transfers funds directly to the legal heir's bank account via ECS/DBT."
     ],
     "application_steps_mr": [
-      "घटनेच्या ९० दिवसांच्या आत तालुका कृषी अधिकाऱ्याकडे प्रस्ताव सादर करा.",
-      "पोलीस पंचनामा, वैद्यकीय प्रमाणपत्र आणि जमिनीचे रेकॉर्ड जोडा.",
-      "डीबीटी द्वारे दावा मंजूर होऊन वारसदाराच्या बँक खात्यात जमा."
+      "अपघातानंतर ९० दिवसांच्या आत तालुका कृषी अधिकाऱ्याकडे विहित नमुन्यात प्रस्ताव सादर करा.",
+      "पोलीस प्रथम खबरी अहवाल (FIR), घटनास्थळ पंचनामा, शवविच्छेदन अहवाल/अपंगत्व प्रमाणपत्र व ७/१२ उतारा जोडा.",
+      "तहसीलदारांच्या अध्यक्षतेखालील समितीच्या मंजुरीनंतर वारसदाराच्या बँक खात्यात थेट अनुदान जमा होते."
     ]
   },
   {
@@ -659,16 +674,13 @@
         "operator": "BETWEEN",
         "value": [
           18,
-          75
+          110
         ]
       },
       {
         "field": "land_acres",
-        "operator": "BETWEEN",
-        "value": [
-          0.5,
-          25.0
-        ]
+        "operator": ">=",
+        "value": 0.25
       }
     ],
     "category_target": [
@@ -680,29 +692,30 @@
     ],
     "benefit_amount": 100000.0,
     "benefit_type": "Subsidy",
-    "benefit_display": "100% subsidy for horticulture plantation (fruit trees) spread over 3 years",
-    "benefit_display_mr": "फळबाग लागवडीसाठी (आंबा, डाळिंब इ.) ३ वर्षांत १००% अनुदान",
+    "benefit_display": "100% government subsidy for perennial fruit orchard plantation (50:30:20 ratio over 3 years) up to 6 hectares in Konkan and 4 hectares in rest of Maharashtra",
+    "benefit_display_mr": "बहुवार्षिक फळबाग लागवडीसाठी (आंबा, डाळिंब, काजू, संत्रा इ.) ३ वर्षांत ५०:३०:२० प्रमाणानुसार १००% शासकीय अनुदान",
     "deadline_days": 30,
     "official_url": "https://mahadbt.maharashtra.gov.in",
     "required_documents": [
       "Aadhaar Card",
-      "7/12 and 8A Extract",
-      "Bank Passbook"
+      "7/12 and 8A Land Record Extract",
+      "Bank Passbook",
+      "Drip Irrigation Installation Proof (mandatory for fruit orchard)"
     ],
     "mutually_exclusive_with": [
       "MGNREGS Horticulture"
     ],
-    "description": "Maharashtra state scheme providing 100% subsidy on expenses for planting specific fruit orchards to increase farmers' sustainable income (paid in a 50:30:20 ratio over 3 years).",
-    "description_mr": "शेतकऱ्यांचे उत्पन्न वाढवण्यासाठी विशिष्ट फळबागांच्या लागवडीवर १००% अनुदान देणारी महाराष्ट्र राज्य योजना (३ वर्षात ५०:३०:२० प्रमाणे वितरित).",
+    "description": "Maharashtra state scheme for farmers ineligible under MGNREGS, providing 100% reimbursement on pit digging, grafts/saplings, and crop protection for 15+ perennial fruit crops (disbursed as 50% in Year 1, 30% in Year 2, and 20% in Year 3).",
+    "description_mr": "महात्मा गांधी राष्ट्रीय ग्रामीण रोजगार हमी योजनेंतर्गत पात्र नसलेल्या शेतकऱ्यांना १५ हून अधिक बहुवार्षिक फळबागांच्या लागवडीवर १००% अनुदान देणारी योजना (३ वर्षांत ५०:३०:२० या प्रमाणात वितरित).",
     "application_steps": [
-      "Apply online through the MahaDBT portal under Agriculture schemes.",
-      "Procure saplings from authorized nurseries after pre-sanction.",
-      "Subsidy credited post-survival verification (Year 1: 50%, Year 2: 30%, Year 3: 20%)."
+      "Apply online through the MahaDBT Farmer Portal under the 'Horticulture' component.",
+      "Dig pits, install mandatory drip irrigation, and procure grafts/saplings from government or NHB-accredited nurseries after receiving pre-sanction.",
+      "Subsidy is credited after survival rate verification (minimum 80% survival for perennial crops: Year 1 - 50%, Year 2 - 30%, Year 3 - 20%)."
     ],
     "application_steps_mr": [
-      "महाडीबीटी पोर्टलवर कृषी योजनांतर्गत ऑनलाईन अर्ज करा.",
-      "पूर्वपरवानगीनंतर अधिकृत रोपवाटिकांमधून रोपे खरेदी करा.",
-      "झाडे जगण्याच्या प्रमाणानुसार अनुदान जमा (पहिले वर्ष ५०%, दुसरे ३०%, तिसरे २०%)."
+      "महाडीबीटी पोर्टलवर 'फलोत्पादन' घटकाखाली ऑनलाईन अर्ज करा.",
+      "पूर्वसंमती मिळाल्यानंतर खड्डे खोदून, ठिबक सिंचन बसवून अधिकृत रोपवाटिकांमधून कलमे/रोपे खरेदी करून लागवड करा.",
+      "झाडे जगण्याच्या प्रमाणानुसार (किमान ८०% झाडे जिवंत असणे आवश्यक) अनुदान बँक खात्यात जमा होते (पहिले वर्ष ५०%, दुसरे ३०%, तिसरे २०%)."
     ]
   },
   {
@@ -736,29 +749,29 @@
     ],
     "benefit_amount": 2000000.0,
     "benefit_type": "Interest Subvention & Credit Guarantee",
-    "benefit_display": "3% per annum interest subvention on institutional loans up to ₹2 Crore for post-harvest management infrastructure and credit guarantee coverage",
-    "benefit_display_mr": "मका, धान्य साठवणूक व काढणीपश्चात पायाभूत सुविधांसाठी ₹२ कोटींपर्यंतच्या कर्जावर वार्षिक ३% व्याज परतावा",
+    "benefit_display": "3% per annum interest subvention on institutional loans up to ₹2 Crore for up to 7 years, plus CGTMSE credit guarantee fee coverage",
+    "benefit_display_mr": "गोदाम, शीतगृह व काढणीपश्चात पायाभूत सुविधांसाठी ₹२ कोटींपर्यंतच्या कर्जावर ७ वर्षांपर्यंत वार्षिक ३% व्याज सवलत व क्रेडिट गॅरंटी",
     "deadline_days": 60,
     "official_url": "https://agriinfra.dac.gov.in",
     "required_documents": [
       "Aadhaar Card",
-      "7/12 Land Record Extract",
-      "Detailed Project Report (DPR)",
-      "Bank Account Details",
-      "PAN Card"
+      "PAN Card",
+      "7/12 Land Record Extract / Lease Agreement",
+      "Detailed Project Report (DPR) & Quotation",
+      "Bank Account Statements (Last 6 months)"
     ],
     "mutually_exclusive_with": [],
-    "description": "A medium-long term debt financing facility for investment in viable projects for post-harvest management infrastructure and community farming assets, providing a 3% interest subvention up to ₹2 Crore for up to 7 years.",
-    "description_mr": "काढणीपश्चात व्यवस्थापन व गोदाम, कोल्ड स्टोरेजसारख्या पायाभूत सुविधांच्या उभारणीसाठी ₹२ कोटींपर्यंतच्या कर्जावर ३% व्याज सवलत देणारी मध्यवर्ती योजना.",
+    "description": "A medium-long term debt financing facility for investment in post-harvest management infrastructure (warehouses, cold stores, sorting/grading units, primary/secondary processing) and community farming assets, offering 3% interest subvention up to ₹2 Crore for 7 years (can be converged with PMFME or state capital subsidies).",
+    "description_mr": "काढणीपश्चात व्यवस्थापन व गोदाम, कोल्ड स्टोरेज, प्रतवारी युनिटसारख्या पायाभूत सुविधांच्या उभारणीसाठी ₹२ कोटींपर्यंतच्या कर्जावर ७ वर्षांसाठी ३% व्याज सवलत देणारी केंद्रीय योजना.",
     "application_steps": [
-      "Register as a borrower on the official Agri Infra portal (agriinfra.dac.gov.in).",
-      "Upload the Detailed Project Report (DPR), land documents, and KYC details.",
-      "Select the participating bank/lending institution for loan evaluation and sanction."
+      "Register as a beneficiary on the official Agri Infra portal (agriinfra.dac.gov.in).",
+      "Submit the Detailed Project Report (DPR), land documents, and KYC details for central PMU verification.",
+      "Select preferred lending bank for loan sanction and automated 3% interest subvention."
     ],
     "application_steps_mr": [
-      "अॅग्री इन्फ्रा पोर्टलवर (agriinfra.dac.gov.in) कर्जदार म्हणून नोंदणी करा.",
+      "अॅग्री इन्फ्रा पोर्टलवर (agriinfra.dac.gov.in) लाभार्थी म्हणून ऑनलाईन नोंदणी करा.",
       "सविस्तर प्रकल्प अहवाल (DPR), जमिनीची कागदपत्रे व केवायसी अपलोड करा.",
-      "कर्ज मंजुरीसाठी सहभागी बँक निवडून अर्ज सादर करा."
+      "कर्ज मंजुरी आणि ३% व्याज सवलतीसाठी आपल्या पसंतीची बँक निवडून अर्ज सादर करा."
     ]
   },
   {
@@ -792,34 +805,34 @@
     ],
     "benefit_amount": 1000000.0,
     "benefit_type": "Credit-Linked Capital Subsidy",
-    "benefit_display": "35% credit-linked capital subsidy up to ₹10,00,000 for setting up or upgrading micro food processing units",
-    "benefit_display_mr": "अन्न प्रक्रिया उद्योग उभारणी/विस्तारासाठी पात्र प्रस्तावांवर ३५% (जास्तीत जास्त ₹१० लाख) क्रेडिट-लिंक्ड भांडवली अनुदान",
+    "benefit_display": "35% credit-linked capital subsidy up to ₹10,00,000 for setting up or upgrading micro food processing units (plus ₹40,000/member seed capital for SHGs)",
+    "benefit_display_mr": "अन्न प्रक्रिया उद्योग उभारणी/विस्तारासाठी पात्र प्रकल्प खर्चाच्या ३५% (जास्तीत जास्त ₹१० लाख) क्रेडिट-लिंक्ड भांडवली अनुदान",
     "deadline_days": 45,
     "official_url": "https://pmfme.mofpi.gov.in",
     "required_documents": [
       "Aadhaar Card",
       "PAN Card",
-      "Bank Passbook",
-      "Business Project Report / Enterprise Details",
-      "FSSAI License / Registration (if existing unit)"
+      "Bank Passbook (Last 6 months statement)",
+      "Quotation of Machinery & Site Layout / Ownership Proof",
+      "FSSAI Registration & Udyam Registration (assisted during application)"
     ],
     "mutually_exclusive_with": [],
-    "description": "Provides financial, technical, and business support for micro food processing enterprises, offering 35% subsidy on eligible project cost up to ₹10 Lakhs to boost farm-level processing and value addition.",
-    "description_mr": "शेतमालावर प्रक्रिया करून मूल्यवर्धन करणाऱ्या सूक्ष्म अन्न प्रक्रिया उद्योगांना प्रोत्साहन देण्यासाठी ३५% (कमाल ₹१० लाख) भांडवली अनुदान.",
+    "description": "Provides financial, technical, and business support for micro food processing enterprises, offering a 35% credit-linked capital subsidy on eligible project cost up to ₹10 Lakhs (minimum 10% beneficiary contribution, balance bank loan).",
+    "description_mr": "शेतमालावर प्रक्रिया करून मूल्यवर्धन करणाऱ्या नवीन किंवा विद्यमान सूक्ष्म अन्न प्रक्रिया उद्योगांना प्रोत्साहन देण्यासाठी ३५% (कमाल ₹१० लाख) भांडवली अनुदान.",
     "application_steps": [
-      "Apply online on the official PMFME portal (pmfme.mofpi.gov.in).",
-      "Submit detailed project proposal along with personal and financial credentials.",
-      "District Resource Person (DRP) evaluates the project and forwards it to the bank for loan approval and subsidy disbursement."
+      "Apply online on the official PMFME portal (pmfme.mofpi.gov.in) as an individual, FPO, or SHG.",
+      "District Resource Person (DRP) assists free-of-cost in preparing the Detailed Project Report (DPR) and Udyam/FSSAI registration.",
+      "District Level Committee approves the proposal and forwards it to the bank for loan sanction and 35% subsidy release."
     ],
     "application_steps_mr": [
       "PMFME अधिकृत पोर्टलवर (pmfme.mofpi.gov.in) ऑनलाईन अर्ज भरा.",
-      "प्रकल्प आराखडा आणि वित्तीय कागदपत्रे सादर करा.",
-      "जिल्हा संसाधन व्यक्तीकडून (DRP) तपासणीनंतर बँक कर्जासह अनुदान मंजूर केले जाते."
+      "जिल्हा संसाधन व्यक्तीच्या (DRP) मदतीने मोफत प्रकल्प आराखडा (DPR) तयार करून सादर करा.",
+      "जिल्हास्तरीय समितीच्या शिफारशीनंतर बँक कर्जासह ३५% भांडवली अनुदान मंजूर केले जाते."
     ]
   },
   {
     "id": "POKRA",
-    "name": "Nanaji Deshmukh Krishi Sanjivani Prakalp (PoKRA)",
+    "name": "Nanaji Deshmukh Krishi Sanjivani Prakalp (PoKRA 2.0)",
     "shortName": "PoKRA Climate Resilient Scheme",
     "level": "State",
     "government": "Government of Maharashtra",
@@ -830,7 +843,7 @@
         "operator": "BETWEEN",
         "value": [
           18,
-          75
+          110
         ]
       },
       {
@@ -851,28 +864,28 @@
     ],
     "benefit_amount": 100000.0,
     "benefit_type": "Subsidy & Infrastructure Support",
-    "benefit_display": "Up to 100% financial assistance (up to ₹1,00,000) for climate-resilient agricultural infrastructure, shade nets, and micro-irrigation in selected drought-prone villages",
-    "benefit_display_mr": "निवडक दुष्काळग्रस्त गावांमध्ये हवामान अनुकूल शेती, शेततळी व शेडनेटसाठी १००% पर्यंत (₹१,००,००० पर्यंत) अनुदान",
+    "benefit_display": "75% to 100% financial assistance for climate-resilient agriculture, shade nets, sericulture, farm ponds, and micro-irrigation in selected project villages",
+    "benefit_display_mr": "निवडक प्रकल्प समाविष्ट गावांमध्ये हवामान अनुकूल शेती, रेशीम उद्योग, शेततळी व शेडनेटसाठी ७५% ते १००% पर्यंत भरीव अनुदान",
     "deadline_days": 30,
-    "official_url": "https://pokra.maharashtra.gov.in",
+    "official_url": "https://dbt.mahapokra.gov.in",
     "required_documents": [
       "Aadhaar Card",
-      "7/12 & 8A Land Record Extract",
+      "7/12 & 8A Land Record Extract (Up to 5 Hectares / 12.5 Acres)",
       "Bank Passbook",
-      "Residence Proof in PoKRA project village"
+      "Gram Sabha / VCRMC Resolution in PoKRA project village"
     ],
     "mutually_exclusive_with": [],
-    "description": "A World Bank-assisted Maharashtra Government project enhancing climate resilience of smallholder farmers in drought-prone Marathwada, Vidarbha, and Saline track districts through subsidized micro-irrigation, soil health, and farm technology.",
-    "description_mr": "हवामान बदलास समर्थ ठरणाऱ्या शेती पद्धती, ठिबक/तुषार सिंचन आणि शेडनेट गृहांसाठी महाराष्ट्रातील निवडक गावांतील शेतकऱ्यांना भरीव आर्थिक सहाय्य.",
+    "description": "A World Bank-assisted Maharashtra Government flagship project (expanded across 21 districts in Phase 2) enhancing climate resilience of smallholder farmers (owning up to 5 hectares) through subsidized micro-irrigation, protected cultivation, soil health, and water harvesting.",
+    "description_mr": "हवामान बदलास समर्थ ठरणाऱ्या शेती पद्धती, ठिबक/तुषार सिंचन, शेततळे, रेशीम उद्योग आणि शेडनेट गृहांसाठी महाराष्ट्रातील २१ जिल्ह्यांतील निवडक गावांमधील अल्प/अत्यल्प व ५ हेक्टरपर्यंतच्या शेतकऱ्यांना भरीव आर्थिक सहाय्य.",
     "application_steps": [
-      "Register on the PoKRA Mobile App or website (dbt.mahapokra.gov.in).",
-      "Select the desired climate-resilient component (farm pond, micro-irrigation, shade net).",
-      "Village Climate Resilient Agriculture Management Committee (VCRMC) verifies and sanctions the subsidy directly to the bank account."
+      "Register on the PoKRA DBT Portal (dbt.mahapokra.gov.in) using Aadhaar authentication.",
+      "Select the desired climate-resilient farming component (shade net, orchard, micro-irrigation, farm pond).",
+      "Village Climate Resilient Agriculture Management Committee (VCRMC) & Gram Sabha verify the application, followed by online pre-sanction and DBT release."
     ],
     "application_steps_mr": [
-      "पोकरा (PoKRA) मोबाईल अॅप किंवा महापोकरा पोर्टलवर नोंदणी करा.",
-      "हवामान अनुकूल शेती घटक (शेततळे, ठिबक, शेडनेट) निवडून अर्ज करा.",
-      "ग्राम हवामान अनुकूल शेती व्यवस्थापन समिती (VCRMC) मंजुरीनंतर अनुदान खात्यात जमा."
+      "महापोकरा डीबीटी पोर्टलवर (dbt.mahapokra.gov.in) आधार क्रमांकाद्वारे नोंदणी करा.",
+      "हवामान अनुकूल शेती घटक (शेततळे, ठिबक, शेडनेट, फळबाग, रेशीम उद्योग) निवडून अर्ज सादर करा.",
+      "ग्राम हवामान अनुकूल शेती व्यवस्थापन समिती (VCRMC) व ग्रामसभेच्या मंजुरीनंतर पूर्वसंमती मिळून अनुदान खात्यात जमा होते."
     ]
   },
   {
@@ -888,7 +901,7 @@
         "operator": "BETWEEN",
         "value": [
           18,
-          75
+          110
         ]
       },
       {
@@ -903,33 +916,33 @@
     "category_target": [
       "SC"
     ],
-    "benefit_amount": 250000.0,
+    "benefit_amount": 400000.0,
     "benefit_type": "Capital Subsidy",
-    "benefit_display": "Up to 100% subsidy (max ₹2,50,000 for new wells, plus additional support for pumps and micro-irrigation) for Scheduled Caste (SC) farmers",
-    "benefit_display_mr": "अनुसूचित जातीच्या (SC) शेतकऱ्यांसाठी नवीन विहिरीकरिता ₹२,५०,००० पर्यंत आणि सौर पंप/सिंचनासाठी १००% पर्यंत अनुदान",
+    "benefit_display": "Up to 100% package subsidy (revised up to ₹4,00,000 for new wells, plus grants for pump sets, electric connection, plastic lining & micro-irrigation) for SC farmers",
+    "benefit_display_mr": "अनुसूचित जाती (SC) व नवबौद्ध शेतकऱ्यांसाठी नवीन विहिरीकरिता ₹४,००,००० पर्यंत (तसेच जुनी विहीर दुरुस्ती, पंप संच व ठिबकसाठी) भरीव शासकीय अनुदान",
     "deadline_days": 30,
     "official_url": "https://mahadbt.maharashtra.gov.in",
     "required_documents": [
       "Aadhaar Card",
-      "Caste Certificate (SC/Neo-Buddhist)",
-      "7/12 & 8A Land Record Extract",
-      "Income Certificate (Annual income up to ₹1,50,000)",
-      "Bank Passbook"
+      "Caste Certificate (SC / Neo-Buddhist)",
+      "7/12 & 8A Land Record Extract (Min 1 acre / 0.40 Ha for new well; 0.20 Ha for other components, max 6 Ha)",
+      "Bank Passbook",
+      "Gram Sabha Recommendation & Groundwater Availability Certificate (for new well)"
     ],
     "mutually_exclusive_with": [
       "BIRSA_MUNDA_KRUSHI_KRANTI"
     ],
-    "description": "Empowers Scheduled Caste and Neo-Buddhist farmers in Maharashtra by providing 100% subsidized irrigation facilities including new well construction, in-well boring, solar pump installation, and micro-irrigation.",
-    "description_mr": "महाराष्ट्रातील अनुसूचित जातीच्या शेतकऱ्यांचे उत्पन्न वाढवण्यासाठी नवीन विहीर, पाईपलाईन, सोलर पंप व तुषार/ठिबक सिंचनासाठी १००% सवलतीत शासकीय अनुदान.",
+    "description": "Empowers Scheduled Caste and Neo-Buddhist farmers in Maharashtra (owning 0.40 to 6.00 hectares for new wells; 0.20 to 6.00 hectares for other irrigation items, with the ₹1.5 Lakh annual income limit removed) by providing comprehensive subsidies for new wells, well repair, in-well boring, pump sets, and micro-irrigation.",
+    "description_mr": "महाराष्ट्रातील अनुसूचित जाती व नवबौद्ध शेतकऱ्यांचे उत्पन्न वाढवण्यासाठी नवीन विहीर, जुनी विहीर दुरुस्ती, पाईपलाईन, पंप संच व तुषार/ठिबक सिंचनासाठी विशेष घटक योजनेतून भरीव शासकीय अनुदान (वार्षिक उत्पन्नाची अट रद्द).",
     "application_steps": [
-      "Log in to MahaDBT portal (mahadbt.maharashtra.gov.in) using Aadhaar.",
-      "Select 'Special Component Plan - Dr. Babasaheb Ambedkar Krushi Swavalamban Scheme'.",
-      "Upload caste and land documents for evaluation by District Agriculture Officer."
+      "Log in to the MahaDBT Farmer Portal (mahadbt.maharashtra.gov.in) using Aadhaar.",
+      "Apply under 'Special Component Plan - Dr. Babasaheb Ambedkar Krushi Swavalamban Yojana'.",
+      "Upload SC caste certificate and 7/12 & 8A extracts for verification by the Agriculture Officer and Panchayat Samiti."
     ],
     "application_steps_mr": [
-      "महाडीबीटी (MahaDBT) पोर्टलवर आधारद्वारे लॉगीन करा.",
-      "विशेष घटक योजना - डॉ. बाबासाहेब आंबेडकर कृषी स्वावलंबन योजना निवडा.",
-      "जातीचा दाखला व ७/१२ उतारा अपलोड करून अर्ज सादर करा."
+      "महाडीबीटी (MahaDBT) शेतकरी पोर्टलवर आधारद्वारे लॉगीन करा.",
+      "'विशेष घटक योजना - डॉ. बाबासाहेब आंबेडकर कृषी स्वावलंबन योजना' निवडून आवश्यक बाबीसाठी अर्ज करा.",
+      "जातीचा दाखला व ७/१२, ८अ उतारा अपलोड करून कृषी विभागाकडे ऑनलाईन अर्ज सादर करा."
     ]
   },
   {
@@ -945,7 +958,7 @@
         "operator": "BETWEEN",
         "value": [
           18,
-          75
+          110
         ]
       },
       {
@@ -960,33 +973,33 @@
     "category_target": [
       "ST"
     ],
-    "benefit_amount": 250000.0,
+    "benefit_amount": 400000.0,
     "benefit_type": "Capital Subsidy",
-    "benefit_display": "Up to 100% subsidy (max ₹2,50,000 for new wells, plus pump set and drip/sprinkler systems) for Scheduled Tribe (ST) farmers",
-    "benefit_display_mr": "अनुसूचित जमातीच्या (ST) शेतकऱ्यांसाठी नवीन विहीर, शेततळे प्लास्टिक अस्तरीकरण व ठिबक सिंचनासाठी ₹२,५०,००० पर्यंत अनुदान",
+    "benefit_display": "Up to 100% package subsidy (revised up to ₹4,00,000 for new wells, plus farm pond lining, pump sets, and drip/sprinkler systems) for Scheduled Tribe (ST) farmers",
+    "benefit_display_mr": "अनुसूचित जमातीच्या (ST) शेतकऱ्यांसाठी नवीन विहिरीकरिता ₹४,००,००० पर्यंत, तसेच शेततळे अस्तरीकरण, पंप संच व सूक्ष्म सिंचनासाठी भरीव अनुदान",
     "deadline_days": 30,
     "official_url": "https://mahadbt.maharashtra.gov.in",
     "required_documents": [
       "Aadhaar Card",
-      "Caste Certificate (ST)",
-      "7/12 & 8A Land Record Extract",
-      "Income Certificate (Annual income up to ₹1,50,000)",
-      "Bank Passbook"
+      "Caste Certificate (Scheduled Tribe - ST)",
+      "7/12 & 8A Land Record Extract (or Forest Rights Act / FRA land patta; 0.40 Ha to 6 Ha for new well)",
+      "Bank Passbook",
+      "Gram Sabha Recommendation"
     ],
     "mutually_exclusive_with": [
       "DR_AMBEDKAR_KRUSHI_SWAVALAMBAN"
     ],
-    "description": "A flagship Maharashtra state scheme aimed at Scheduled Tribe (ST) tribal farmers to secure permanent irrigation assets such as new wells, pump sets, micro-irrigation, and plastic lining for farm ponds.",
-    "description_mr": "महाराष्ट्रातील अनुसूचित जमाती (ST) बांधवांच्या शाश्वत उत्पन्नासाठी नवीन विहीर, वीज/सौर पंप, शेततळे अस्तरीकरण व सूक्ष्म सिंचनासाठी १००% पर्यंत अनुदान.",
+    "description": "A flagship Maharashtra state scheme for Scheduled Tribe (ST) farmers (including Forest Rights Act patta holders, with the ₹1.5 Lakh annual income cap removed) to build permanent irrigation assets such as new wells, well deepening, solar/electric pumps, micro-irrigation, and kitchen gardens (parasbag).",
+    "description_mr": "महाराष्ट्रातील अनुसूचित जमातीच्या (ST) शेतकऱ्यांच्या (वनहक्क पट्टेधारकांसह) शाश्वत उत्पन्नासाठी नवीन विहीर, वीज/सौर पंप, शेततळे अस्तरीकरण, परसबाग व सूक्ष्म सिंचनासाठी आदिवासी उपयोजनेंतर्गत भरीव शासकीय अनुदान (उत्पन्नाची अट रद्द).",
     "application_steps": [
-      "Log in to MahaDBT Farmer Portal (mahadbt.maharashtra.gov.in).",
-      "Choose Tribal Sub-Plan - Birsa Munda Krushi Kranti Yojana.",
-      "Upload tribal caste certificate, land records, and bank passbook."
+      "Log in to the MahaDBT Farmer Portal (mahadbt.maharashtra.gov.in).",
+      "Choose 'Tribal Sub-Plan - Birsa Munda Krushi Kranti Yojana' and select required irrigation components.",
+      "Upload ST caste certificate, 7/12 & 8A land records (or FRA patta), and bank passbook."
     ],
     "application_steps_mr": [
-      "महाडीबीटी (MahaDBT) शेतकरी पोर्टलवर ऑनलाईन अर्ज करा.",
-      "आदिवासी उपयोजना - बिरसा मुंडा कृषी क्रांती योजना पर्याय निवडा.",
-      "एसटी (ST) जातीचा दाखला व ७/१२ उतारा अपलोड करा."
+      "महाडीबीटी (MahaDBT) शेतकरी पोर्टलवर लॉगीन करा.",
+      "'आदिवासी उपयोजना - बिरसा मुंडा कृषी क्रांती योजना' पर्याय निवडून अर्ज करा.",
+      "अनुसूचित जमातीचा (ST) दाखला व ७/१२, ८अ उतारा (किंवा वनहक्क पट्टा) अपलोड करा."
     ]
   }
 ]

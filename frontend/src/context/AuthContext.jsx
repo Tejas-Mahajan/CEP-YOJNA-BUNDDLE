@@ -3,32 +3,6 @@ import { API_BASE } from '../config';
 
 const AuthContext = createContext();
 
-// Demo user presets for 1-click test login
-export const DEMO_USERS = {
-  farmer: {
-    id: "user_farmer_101",
-    name: "Ramesh Patil",
-    identifier: "demo.farmer@example.com",
-    password: "FarmerPassword123!",
-    authMethod: "email",
-    role: "Farmer",
-    savedSchemes: ["PM_KISAN", "PMFBY"],
-    profileAttributes: {
-      annual_income: 180000,
-      category: "OBC",
-      state: "Maharashtra",
-      age: 42,
-      land_acres: 3.5,
-      occupation: "Farmer",
-      owned_documents: [
-        "Aadhaar Card",
-        "7/12 Land Record Extract",
-        "Bank Passbook",
-        "Income Certificate"
-      ]
-    }
-  }
-};
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -93,14 +67,9 @@ export const AuthProvider = ({ children }) => {
   };
 
   // Real backend Login handler
-  const login = async ({ identifier, password, userPreset }) => {
-    let loginIdentifier = identifier;
-    let loginPassword = password;
-
-    if (userPreset && DEMO_USERS[userPreset]) {
-      loginIdentifier = DEMO_USERS[userPreset].identifier;
-      loginPassword = DEMO_USERS[userPreset].password;
-    }
+  const login = async ({ identifier, password }) => {
+    const loginIdentifier = identifier;
+    const loginPassword = password;
 
     if (!loginIdentifier || !loginPassword) {
       return { success: false, error: "Email address/Identifier and Password are required" };

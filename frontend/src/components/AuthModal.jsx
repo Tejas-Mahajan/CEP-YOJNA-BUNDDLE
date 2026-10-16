@@ -97,17 +97,6 @@ export default function AuthModal({ isOpen, onClose, lang = 'en', setLang, onGue
   };
 
 
-  const handleDemoLogin = async (presetType) => {
-    setErrorMsg('');
-    setIsSubmitting(true);
-    const res = await login({ userPreset: presetType });
-    setIsSubmitting(false);
-    if (res && res.success) {
-      onClose();
-    } else if (res && res.error) {
-      setErrorMsg(res.error);
-    }
-  };
 
   const handleGuestClick = () => {
     if (onGuestContinue) {
@@ -176,17 +165,6 @@ export default function AuthModal({ isOpen, onClose, lang = 'en', setLang, onGue
               </div>
             </div>
 
-            {/* Quick Demo Login Badges */}
-            <div className="flex items-center space-x-2 pt-2">
-              <span className="text-2xs text-emerald-200 uppercase font-extrabold tracking-wider">{t.authDemoLogin}</span>
-              <button
-                type="button"
-                onClick={() => handleDemoLogin('farmer')}
-                className="px-3 py-1 rounded-full bg-emerald-700/80 hover:bg-emerald-600 border border-emerald-500/50 text-xs font-semibold text-white flex items-center space-x-1 transition-all"
-              >
-                <span>{t.authDemoFarmer}</span>
-              </button>
-            </div>
           </div>
 
           <div className="p-6 space-y-4">
