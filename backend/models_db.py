@@ -1,6 +1,7 @@
 import json
 from datetime import datetime
-from sqlalchemy import Column, String, DateTime, Text
+from sqlalchemy import Column, String, DateTime, Text, Float, JSON
+from sqlalchemy.dialects.postgresql import JSONB
 from db import Base
 
 class User(Base):
@@ -62,4 +63,61 @@ class Feedback(Base):
             "feedback_text": self.feedback_text or self.comment,
             "user_id": self.user_id,
             "created_at": self.created_at.isoformat() if self.created_at else None
+        }
+
+class Scheme(Base):
+    __tablename__ = "schemes"
+
+    id                      = Column(String, primary_key=True)
+    name                    = Column(Text, nullable=False)
+    short_name              = Column(Text, nullable=False)
+    level                   = Column(String, default="Central")
+    government              = Column(Text, default="Government of India")
+    government_mr           = Column(Text, nullable=True)
+
+    rules                   = Column(JSON().with_variant(JSONB(), "postgresql"), nullable=False, default=list)
+    category_target         = Column(JSON().with_variant(JSONB(), "postgresql"), nullable=False, default=list)
+
+    benefit_amount          = Column(Float, nullable=False, default=0.0)
+    benefit_type            = Column(Text, default="Direct Cash Transfer")
+    benefit_display         = Column(Text, default="")
+    benefit_display_mr      = Column(Text, nullable=True)
+
+    closing_date            = Column(Text, nullable=True)   # 'YYYY-MM-DD' or None
+
+    required_documents      = Column(JSON().with_variant(JSONB(), "postgresql"), nullable=False, default=list)
+    mutually_exclusive_with = Column(JSON().with_variant(JSONB(), "postgresql"), nullable=False, default=list)
+
+    description             = Column(Text, default="")
+    description_mr          = Column(Text, nullable=True)
+    application_steps       = Column(JSON().with_variant(JSONB(), "postgresql"), nullable=False, default=list)
+    application_steps_mr    = Column(JSON().with_variant(JSONB(), "postgresql"), nullable=False, default=list)
+
+    official_url            = Column(Text, default="https://myscheme.gov.in")
+
+    created_at              = Column(DateTime, default=datetime.utcnow)
+    updated_at              = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "shortName": self.short_name,     # API key compatibility
+            "level": self.level,
+            "government": self.government,
+            "government_mr": self.government_mr,
+            "rules": self.rules or [],
+            "category_target": self.category_target or [],
+            "benefit_amount": self.benefit_amount,
+            "benefit_type": self.benefit_type,
+            "benefit_display": self.benefit_display,
+            "benefit_display_mr": self.benefit_display_mr,
+            "closing_date": self.closing_date,
+            "required_documents": self.required_documents or [],
+            "mutually_exclusive_with": self.mutually_exclusive_with or [],
+            "description": self.description,
+            "description_mr": self.description_mr,
+            "application_steps": self.application_steps or [],
+            "application_steps_mr": self.application_steps_mr or [],
+            "official_url": self.official_url,
         }

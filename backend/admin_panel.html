@@ -1,0 +1,1506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="referrer" content="no-referrer">
+  <title>YojanaBundle Admin Panel</title>
+  <!-- Google Fonts: Plus Jakarta Sans matching the main YojanaBundle React app -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* --- Brand Colors (Extracted from frontend tailwind.config.js & index.css) --- */
+      --brand-emerald-dark: #022c22;  /* emerald-950 */
+      --brand-dark: #064e3b;          /* emerald-900 / brand.dark */
+      --brand-emerald: #047857;       /* emerald-700 / brand.emerald */
+      --brand-primary: #10b981;       /* emerald-500 / brand.primary */
+      --brand-primary-hover: #059669; /* emerald-600 */
+      --brand-light: #ecfdf5;         /* emerald-50 / brand.light */
+      --brand-accent: #f59e0b;        /* amber-500 */
+      --brand-slate: #0f172a;         /* slate-900 / brand.slate */
+
+      /* --- Page & Card Surfaces --- */
+      --bg-page: #f8fafc;             /* slate-50: main app page background */
+      --bg-card: #ffffff;             /* clean white card surface */
+      --bg-header-gradient: linear-gradient(135deg, #022c22 0%, #064e3b 55%, #042f2e 100%);
+      --bg-primary-btn: linear-gradient(to right, #065f46, #047857, #0f766e);
+      --bg-primary-btn-hover: linear-gradient(to right, #022c22, #065f46, #047857);
+      --bg-subtle: #f1f5f9;           /* slate-100 */
+      --bg-input: #ffffff;
+      --bg-row-hover: #f0fdf4;        /* emerald-50/60 row hover */
+
+      /* --- Borders & Dividers --- */
+      --border-color: #e2e8f0;        /* slate-200 */
+      --border-subtle: #f1f5f9;       /* slate-100 */
+      --border-input: #cbd5e1;        /* slate-300 */
+      --border-focus: #10b981;
+
+      /* --- Typography Colors --- */
+      --text-main: #0f172a;           /* slate-900 */
+      --text-body: #334155;           /* slate-700 */
+      --text-muted: #64748b;          /* slate-500 */
+      --text-light: #94a3b8;          /* slate-400 */
+      --text-on-dark: #ffffff;
+      --text-on-dark-sub: #a7f3d0;    /* emerald-200 */
+
+      /* --- Badges & Chips --- */
+      --badge-central-bg: #dbeafe;     /* blue-100 */
+      --badge-central-text: #1e3a8a;   /* blue-900 */
+      --badge-central-border: #bfdbfe; /* blue-200 */
+
+      --badge-state-bg: #fef3c7;       /* amber-100 */
+      --badge-state-text: #78350f;     /* amber-900 */
+      --badge-state-border: #fde68a;   /* amber-200 */
+
+      --badge-green-bg: #ecfdf5;       /* emerald-50 */
+      --badge-green-text: #065f46;     /* emerald-800 */
+      --badge-green-border: #a7f3d0;   /* emerald-200 */
+
+      /* --- Status Colors --- */
+      --danger: #dc2626;              /* red-600 */
+      --danger-hover: #b91c1c;
+      --danger-bg: #fef2f2;           /* red-50 */
+      --danger-border: #fecaca;        /* red-200 */
+      --danger-text: #991b1b;         /* red-800 */
+
+      --success-bg: #ecfdf5;
+      --success-border: #a7f3d0;
+      --success-text: #065f46;
+
+      /* --- Layout Radii & Shadows --- */
+      --radius-xl: 24px;              /* rounded-3xl */
+      --radius-lg: 16px;              /* rounded-2xl */
+      --radius-md: 12px;              /* rounded-xl */
+      --radius-sm: 8px;
+      --radius-pill: 9999px;          /* rounded-full */
+
+      --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+      --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+      --shadow-glass: 0 8px 32px 0 rgba(6, 95, 70, 0.08);
+      --shadow-modal: 0 25px 50px -12px rgba(15, 23, 42, 0.25);
+      --shadow-btn: 0 4px 14px rgba(4, 120, 87, 0.25);
+
+      --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      font-size: 14px;
+      line-height: 1.5;
+      padding: 20px 16px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Container & Layout */
+    .container { max-width: 1300px; margin: 0 auto; }
+
+    /* Header Bar (Dark Green Gradient matching main app Nav & Hero) */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 24px;
+      background: var(--bg-header-gradient);
+      color: var(--text-on-dark);
+      border: 1px solid rgba(4, 120, 87, 0.4);
+      border-radius: var(--radius-xl);
+      box-shadow: 0 10px 25px -5px rgba(2, 44, 34, 0.35);
+      margin-bottom: 22px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text-on-dark);
+      letter-spacing: -0.02em;
+    }
+    .brand-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-md);
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(16, 185, 129, 0.3));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+    }
+    .badge-status {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      background: rgba(16, 185, 129, 0.22);
+      color: var(--text-on-dark-sub);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .badge-counter {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: var(--radius-pill);
+      background: var(--badge-green-bg);
+      color: var(--badge-green-text);
+      border: 1px solid var(--badge-green-border);
+    }
+    .badge-central {
+      background: var(--badge-central-bg) !important;
+      color: var(--badge-central-text) !important;
+      border: 1px solid var(--badge-central-border) !important;
+    }
+    .badge-state {
+      background: var(--badge-state-bg) !important;
+      color: var(--badge-state-text) !important;
+      border: 1px solid var(--badge-state-border) !important;
+    }
+    .badge-role {
+      background: var(--badge-green-bg) !important;
+      color: var(--badge-green-text) !important;
+      border: 1px solid var(--badge-green-border) !important;
+    }
+
+    /* Tabs (Active tab uses Emerald Green with white text) */
+    .tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+    .tab-btn {
+      padding: 10px 20px;
+      background: var(--bg-card);
+      color: var(--text-body);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+      font-family: var(--font-sans);
+      font-weight: 700;
+      font-size: 13px;
+      transition: all 0.2s ease;
+      box-shadow: var(--shadow-sm);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .tab-btn:hover {
+      background: var(--bg-page);
+      color: var(--brand-dark);
+      border-color: #cbd5e1;
+      transform: translateY(-1px);
+    }
+    .tab-btn.active {
+      background: linear-gradient(135deg, #065f46 0%, #047857 100%);
+      color: #ffffff;
+      border-color: #047857;
+      box-shadow: var(--shadow-btn);
+    }
+
+    /* Buttons */
+    .btn {
+      padding: 9px 16px;
+      border-radius: var(--radius-md);
+      font-family: var(--font-sans);
+      font-weight: 700;
+      cursor: pointer;
+      border: 1px solid transparent;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      font-size: 13px;
+      text-decoration: none;
+    }
+    .btn-primary {
+      background: var(--bg-primary-btn);
+      color: #ffffff;
+      border: none;
+      box-shadow: var(--shadow-btn);
+    }
+    .btn-primary:hover {
+      background: var(--bg-primary-btn-hover);
+      box-shadow: 0 6px 16px rgba(4, 120, 87, 0.35);
+      transform: translateY(-1px);
+    }
+    .btn-secondary {
+      background: var(--bg-subtle);
+      color: var(--text-body);
+      border-color: var(--border-color);
+    }
+    .btn-secondary:hover {
+      background: #e2e8f0;
+      color: var(--text-main);
+    }
+    .btn-danger {
+      background: var(--danger);
+      color: #ffffff;
+      border-color: var(--danger-hover);
+      box-shadow: 0 4px 12px rgba(220, 38, 38, 0.25);
+    }
+    .btn-danger:hover {
+      background: var(--danger-hover);
+      transform: translateY(-1px);
+    }
+    .btn-outline {
+      background: #ffffff;
+      border-color: var(--border-color);
+      color: var(--text-body);
+      box-shadow: var(--shadow-sm);
+    }
+    .btn-outline:hover {
+      background: var(--brand-light);
+      color: var(--brand-dark);
+      border-color: #a7f3d0;
+    }
+    .btn-lock {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.28);
+      color: #ffffff;
+    }
+    .btn-lock:hover {
+      background: rgba(255, 255, 255, 0.24);
+      color: #ffffff;
+      border-color: rgba(255, 255, 255, 0.45);
+    }
+    .btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none !important; }
+
+    /* Cards */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-xl);
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-card);
+    }
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .search-input {
+      background: var(--bg-input);
+      border: 1px solid var(--border-input);
+      color: var(--text-main);
+      padding: 9px 14px;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      font-family: var(--font-sans);
+      min-width: 280px;
+      outline: none;
+      transition: all 0.15s ease;
+      box-shadow: var(--shadow-sm);
+    }
+    .search-input:focus {
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.18);
+    }
+
+    /* Tables */
+    .table-responsive {
+      overflow-x: auto;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-color);
+      background: #ffffff;
+      -webkit-overflow-scrolling: touch;
+    }
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      text-align: left;
+    }
+    th {
+      background: #f8fafc;
+      color: var(--text-muted);
+      font-weight: 700;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border-color);
+      white-space: nowrap;
+    }
+    td {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border-subtle);
+      color: var(--text-body);
+      vertical-align: middle;
+      font-size: 13px;
+    }
+    tr:last-child td { border-bottom: none; }
+    tbody tr:hover td { background: var(--bg-row-hover); }
+
+    /* Code Snippet Chips */
+    code.chip-id {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--brand-dark);
+      background: var(--brand-light);
+      padding: 3px 8px;
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+    }
+
+    /* Modal / Form */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(6px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 16px;
+    }
+    .modal-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-xl);
+      width: 100%;
+      max-width: 1100px;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-modal);
+      overflow: hidden;
+    }
+    .modal-header {
+      padding: 18px 24px;
+      background: var(--bg-header-gradient);
+      color: var(--text-on-dark);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(4, 120, 87, 0.4);
+    }
+    .modal-header h3 {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--text-on-dark);
+      letter-spacing: -0.01em;
+    }
+    .modal-body { padding: 24px; overflow-y: auto; flex: 1; background: #ffffff; }
+    .modal-footer {
+      padding: 16px 24px;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      background: #f8fafc;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    @media (max-width: 860px) {
+      .form-grid { grid-template-columns: 1fr; }
+    }
+    .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+    .form-group label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .form-control {
+      background: var(--bg-input);
+      border: 1px solid var(--border-input);
+      color: var(--text-main);
+      padding: 9px 13px;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      font-family: var(--font-sans);
+      outline: none;
+      transition: all 0.15s ease;
+      box-shadow: var(--shadow-sm);
+    }
+    .form-control:focus {
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.18);
+    }
+    textarea.form-control {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 1.45;
+      resize: vertical;
+      min-height: 84px;
+    }
+    .json-hint {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      font-weight: 700;
+      margin-top: 4px;
+      padding: 3px 8px;
+      border-radius: var(--radius-sm);
+      width: fit-content;
+    }
+    .json-valid {
+      background: var(--success-bg);
+      color: var(--success-text);
+      border: 1px solid var(--success-border);
+    }
+    .json-invalid {
+      background: var(--danger-bg);
+      color: var(--danger-text);
+      border: 1px solid var(--danger-border);
+    }
+
+    /* Alerts (Light green and light red banners) */
+    .alert {
+      padding: 12px 18px;
+      border-radius: var(--radius-md);
+      margin-bottom: 16px;
+      font-weight: 600;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .alert-success {
+      background: var(--success-bg);
+      border: 1px solid var(--success-border);
+      color: var(--success-text);
+      box-shadow: var(--shadow-sm);
+    }
+    .alert-error {
+      background: var(--danger-bg);
+      border: 1px solid var(--danger-border);
+      color: var(--danger-text);
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* Key-entry (Unlock) Card */
+    .auth-card {
+      max-width: 460px;
+      margin: 80px auto;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-xl);
+      padding: 40px 32px;
+      text-align: center;
+      box-shadow: var(--shadow-glass);
+    }
+    .auth-card-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: var(--radius-lg);
+      background: linear-gradient(135deg, #065f46 0%, #047857 50%, #10b981 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px auto;
+      font-size: 26px;
+      box-shadow: 0 8px 20px rgba(4, 120, 87, 0.25);
+      border: 2px solid rgba(16, 185, 129, 0.3);
+    }
+    .auth-card h2 {
+      margin-bottom: 8px;
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: -0.02em;
+    }
+    .auth-card p {
+      color: var(--text-muted);
+      margin-bottom: 22px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    /* Responsive Queries */
+    @media (max-width: 768px) {
+      body { padding: 12px 8px; }
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 14px;
+        padding: 16px;
+      }
+      .toolbar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .search-input { min-width: 0; width: 100%; }
+      .tabs { gap: 6px; }
+      .tab-btn { flex: 1; justify-content: center; padding: 9px 12px; }
+      .modal-box { max-height: 96vh; }
+      .modal-header, .modal-body, .modal-footer { padding: 14px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Key Authentication Modal/Card -->
+  <div id="authContainer" class="container" style="display: none;">
+    <div class="auth-card">
+      <div class="auth-card-icon">🌱</div>
+      <h2>YojanaBundle Admin Authentication</h2>
+      <p>Enter the <code>ADMIN_SECRET_KEY</code> to access administrative operations.</p>
+      <div id="authError" class="alert alert-error" style="display: none;"></div>
+      <form id="authForm" onsubmit="handleAuthSubmit(event)">
+        <div class="form-group" style="text-align: left;">
+          <input
+            type="password"
+            id="secretKeyInput"
+            class="form-control"
+            placeholder="Paste ADMIN_SECRET_KEY here"
+            required
+            autocomplete="new-password"
+            spellcheck="false"
+            autocapitalize="off"
+            style="padding: 12px;"
+          >
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 12px; font-size: 14px;">
+          Unlock Admin Panel
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Main Admin Dashboard -->
+  <div id="dashboardContainer" class="container" style="display: none;">
+    <header>
+      <div class="brand">
+        <div class="brand-icon">🌱</div>
+        <div>
+          <span>YojanaBundle Admin</span>
+          <span class="badge-status" style="margin-left: 8px;">Protected Session</span>
+        </div>
+      </div>
+      <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+        <span id="sessionTimer" style="color: var(--text-on-dark-sub); font-size: 12px; font-weight: 600;">Checking session...</span>
+        <button class="btn btn-lock" onclick="lockAdminSession()">Lock Session</button>
+      </div>
+    </header>
+
+    <div class="tabs">
+      <button class="tab-btn active" id="tabBtnSchemes" onclick="switchTab('schemes')">📜 Schemes</button>
+      <button class="tab-btn" id="tabBtnFeedback" onclick="switchTab('feedback')">💬 Feedback</button>
+      <button class="tab-btn" id="tabBtnUsers" onclick="switchTab('users')">👥 Users</button>
+    </div>
+
+    <div id="globalAlert" style="display: none;"></div>
+
+    <!-- Schemes Tab -->
+    <div id="tabSchemes" class="card">
+      <div class="toolbar">
+        <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+          <input
+            type="text"
+            id="schemeSearchInput"
+            class="search-input"
+            placeholder="Filter schemes by name or ID..."
+            oninput="filterSchemesTable()"
+          >
+          <span id="schemeCountBadge" class="badge-counter">0 schemes</span>
+        </div>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+          <button class="btn btn-outline" onclick="loadSchemes()">🔄 Refresh</button>
+          <button class="btn btn-primary" onclick="openSchemeEditor(null)">+ New Scheme</button>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Short Name</th>
+              <th>Level</th>
+              <th>Benefit Amount</th>
+              <th>Closing Date</th>
+              <th>Target Categories</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="schemesTableBody">
+            <!-- Dynamically populated -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Feedback Tab -->
+    <div id="tabFeedback" class="card" style="display: none;">
+      <div class="toolbar">
+        <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+          <input
+            type="text"
+            id="feedbackSchemeFilter"
+            class="search-input"
+            placeholder="Filter by Scheme ID (e.g. PM_KISAN)..."
+          >
+          <button class="btn btn-secondary" onclick="loadFeedback(0)">Filter</button>
+          <button class="btn btn-outline" onclick="clearFeedbackFilter()">Reset</button>
+        </div>
+        <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+          <span id="feedbackCountBadge" class="badge-counter">0 items</span>
+          <button class="btn btn-outline" onclick="loadFeedback(0)">🔄 Refresh</button>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Scheme ID</th>
+              <th>Rating</th>
+              <th>Comment</th>
+              <th>User ID</th>
+            </tr>
+          </thead>
+          <tbody id="feedbackTableBody">
+            <!-- Dynamically populated -->
+          </tbody>
+        </table>
+      </div>
+      <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px;">
+        <button id="fbPrevBtn" class="btn btn-outline" onclick="prevFeedbackPage()">Previous</button>
+        <button id="fbNextBtn" class="btn btn-outline" onclick="nextFeedbackPage()">Next</button>
+      </div>
+    </div>
+
+    <!-- Users Tab -->
+    <div id="tabUsers" class="card" style="display: none;">
+      <div class="toolbar">
+        <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+          <input
+            type="text"
+            id="userSearchInput"
+            class="search-input"
+            placeholder="Search users by email or name..."
+          >
+          <button class="btn btn-secondary" onclick="loadUsers(0)">Search</button>
+          <button class="btn btn-outline" onclick="clearUserSearch()">Reset</button>
+        </div>
+        <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+          <span id="usersCountBadge" class="badge-counter">0 users</span>
+          <button class="btn btn-outline" onclick="loadUsers(0)">🔄 Refresh</button>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Created At</th>
+              <th>Profile Summary</th>
+            </tr>
+          </thead>
+          <tbody id="usersTableBody">
+            <!-- Dynamically populated -->
+          </tbody>
+        </table>
+      </div>
+      <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px;">
+        <button id="uPrevBtn" class="btn btn-outline" onclick="prevUsersPage()">Previous</button>
+        <button id="uNextBtn" class="btn btn-outline" onclick="nextUsersPage()">Next</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scheme Edit / Create Modal -->
+  <div id="schemeModal" class="modal-backdrop" style="display: none;">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="schemeModalTitle">Edit Scheme</h3>
+        <button class="btn btn-lock" onclick="closeSchemeModal()" style="padding: 6px 12px; font-size: 14px;">✕</button>
+      </div>
+      <div class="modal-body">
+        <div id="modalAlert" style="display: none;"></div>
+        <form id="schemeForm">
+          <div class="form-grid">
+            <!-- Left Column: Standard Inputs -->
+            <div>
+              <div class="form-group">
+                <label>Scheme ID (Unique Key)</label>
+                <input type="text" id="sf_id" class="form-control" placeholder="e.g. PM_KISAN" required>
+              </div>
+              <div class="form-group">
+                <label>Official Name</label>
+                <input type="text" id="sf_name" class="form-control" required>
+              </div>
+              <div class="form-group">
+                <label>Short Name (Display)</label>
+                <input type="text" id="sf_shortName" class="form-control" required>
+              </div>
+              <div class="form-group">
+                <label>Level</label>
+                <select id="sf_level" class="form-control">
+                  <option value="Central">Central</option>
+                  <option value="State">State</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Government</label>
+                <input type="text" id="sf_government" class="form-control" value="Government of India">
+              </div>
+              <div class="form-group">
+                <label>Government (Marathi)</label>
+                <input type="text" id="sf_government_mr" class="form-control" value="भारत सरकार">
+              </div>
+              <div class="form-group">
+                <label>Benefit Amount (₹)</label>
+                <input type="number" step="any" min="0" id="sf_benefit_amount" class="form-control" value="0.0">
+              </div>
+              <div class="form-group">
+                <label>Benefit Type</label>
+                <input type="text" id="sf_benefit_type" class="form-control" value="Direct Cash Transfer">
+              </div>
+              <div class="form-group">
+                <label>Benefit Display String</label>
+                <input type="text" id="sf_benefit_display" class="form-control">
+              </div>
+              <div class="form-group">
+                <label>Benefit Display (Marathi)</label>
+                <input type="text" id="sf_benefit_display_mr" class="form-control">
+              </div>
+              <div class="form-group">
+                <label>Closing Date (YYYY-MM-DD or leave blank for year-round)</label>
+                <input type="text" id="sf_closing_date" class="form-control" placeholder="YYYY-MM-DD">
+              </div>
+              <div class="form-group">
+                <label>Official Portal URL</label>
+                <input type="url" id="sf_official_url" class="form-control" value="https://myscheme.gov.in">
+              </div>
+              <div class="form-group">
+                <label>Description</label>
+                <textarea id="sf_description" class="form-control" rows="3"></textarea>
+              </div>
+              <div class="form-group">
+                <label>Description (Marathi)</label>
+                <textarea id="sf_description_mr" class="form-control" rows="3"></textarea>
+              </div>
+            </div>
+
+            <!-- Right Column: JSON Array Textareas with Live Validation -->
+            <div>
+              <div class="form-group">
+                <label>Rules (JSON Array of {field, operator, value})</label>
+                <textarea id="sf_rules" class="form-control" rows="5" oninput="validateJsonInput('sf_rules', 'sf_rules_hint')"></textarea>
+                <span id="sf_rules_hint" class="json-hint json-valid">✓ Valid JSON</span>
+              </div>
+              <div class="form-group">
+                <label>Category Target (JSON Array: General, OBC, SC, ST, EWS)</label>
+                <textarea id="sf_category_target" class="form-control" rows="3" oninput="validateJsonInput('sf_category_target', 'sf_category_target_hint')"></textarea>
+                <span id="sf_category_target_hint" class="json-hint json-valid">✓ Valid JSON</span>
+              </div>
+              <div class="form-group">
+                <label>Required Documents (JSON Array of strings)</label>
+                <textarea id="sf_required_documents" class="form-control" rows="3" oninput="validateJsonInput('sf_required_documents', 'sf_required_documents_hint')"></textarea>
+                <span id="sf_required_documents_hint" class="json-hint json-valid">✓ Valid JSON</span>
+              </div>
+              <div class="form-group">
+                <label>Application Steps (JSON Array of strings)</label>
+                <textarea id="sf_application_steps" class="form-control" rows="3" oninput="validateJsonInput('sf_application_steps', 'sf_application_steps_hint')"></textarea>
+                <span id="sf_application_steps_hint" class="json-hint json-valid">✓ Valid JSON</span>
+              </div>
+              <div class="form-group">
+                <label>Application Steps Marathi (JSON Array of strings)</label>
+                <textarea id="sf_application_steps_mr" class="form-control" rows="3" oninput="validateJsonInput('sf_application_steps_mr', 'sf_application_steps_mr_hint')"></textarea>
+                <span id="sf_application_steps_mr_hint" class="json-hint json-valid">✓ Valid JSON</span>
+              </div>
+              <div class="form-group">
+                <label>Mutually Exclusive With (JSON Array of scheme IDs)</label>
+                <textarea id="sf_mutually_exclusive_with" class="form-control" rows="3" oninput="validateJsonInput('sf_mutually_exclusive_with', 'sf_mutually_exclusive_with_hint')"></textarea>
+                <span id="sf_mutually_exclusive_with_hint" class="json-hint json-valid">✓ Valid JSON</span>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="closeSchemeModal()">Cancel</button>
+        <button id="saveSchemeBtn" class="btn btn-primary" onclick="submitSchemeForm()">Save Scheme</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // In-memory application state (never stored in localStorage/sessionStorage)
+    let currentCsrfToken = null;
+    let sessionExpiresAt = null;
+
+    let allSchemesData = [];
+    let isEditingScheme = false;
+    let editingSchemeId = null;
+
+    let feedbackOffset = 0;
+    const FEEDBACK_LIMIT = 20;
+
+    let usersOffset = 0;
+    const USERS_LIMIT = 20;
+
+    // Remove any legacy stored keys from previous versions immediately
+    try {
+      sessionStorage.removeItem('yojna_admin_key');
+      localStorage.removeItem('yojna_admin_key');
+    } catch (e) {}
+
+    // --- Authentication & Session Management ---
+    function updateSessionDisplay(expiresAt) {
+      const timerEl = document.getElementById('sessionTimer');
+      if (!timerEl) return;
+      if (expiresAt) {
+        try {
+          const expDate = new Date(expiresAt);
+          const timeStr = expDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+          timerEl.textContent = `Session active until ${timeStr}`;
+        } catch (e) {
+          timerEl.textContent = `Session active until ${expiresAt}`;
+        }
+      } else {
+        timerEl.textContent = 'Session inactive';
+      }
+    }
+
+    async function checkAuthStatus() {
+      try {
+        const res = await fetch('/api/admin/session', {
+          method: 'GET',
+          credentials: 'same-origin',
+          headers: { 'Accept': 'application/json' }
+        });
+
+        if (res.status === 200) {
+          const data = await res.json();
+          currentCsrfToken = data.csrf_token;
+          sessionExpiresAt = data.expires_at;
+          updateSessionDisplay(sessionExpiresAt);
+
+          document.getElementById('authContainer').style.display = 'none';
+          document.getElementById('dashboardContainer').style.display = 'block';
+          loadSchemes();
+        } else {
+          currentCsrfToken = null;
+          sessionExpiresAt = null;
+          updateSessionDisplay(null);
+          document.getElementById('authContainer').style.display = 'block';
+          document.getElementById('dashboardContainer').style.display = 'none';
+
+          if (res.status === 429) {
+            showAuthError('Too many failed requests. You are temporarily locked out. Please wait.');
+          } else if (res.status === 404) {
+            showAuthError('Admin operations are disabled on this backend server.');
+          }
+        }
+      } catch (err) {
+        currentCsrfToken = null;
+        sessionExpiresAt = null;
+        document.getElementById('authContainer').style.display = 'block';
+        document.getElementById('dashboardContainer').style.display = 'none';
+        showAuthError('Unable to connect to server. Please check your network.');
+      }
+    }
+
+    async function handleAuthSubmit(event) {
+      event.preventDefault();
+      const input = document.getElementById('secretKeyInput');
+      const key = input.value.trim();
+      // Immediately clear the input value so key never lingers in the DOM
+      input.value = '';
+
+      if (!key) return;
+
+      const errBox = document.getElementById('authError');
+      errBox.style.display = 'none';
+
+      try {
+        const res = await fetch('/api/admin/login', {
+          method: 'POST',
+          credentials: 'same-origin',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({ key: key })
+        });
+
+        if (res.status === 200) {
+          const data = await res.json();
+          currentCsrfToken = data.csrf_token;
+          sessionExpiresAt = data.expires_at;
+          updateSessionDisplay(sessionExpiresAt);
+
+          document.getElementById('authContainer').style.display = 'none';
+          document.getElementById('dashboardContainer').style.display = 'block';
+          loadSchemes();
+        } else if (res.status === 401) {
+          showAuthError('Invalid Admin Secret Key.');
+        } else if (res.status === 429) {
+          showAuthError('Too many failed attempts. You are temporarily locked out. Please wait.');
+        } else if (res.status === 404) {
+          showAuthError('Admin operations are disabled on this backend server.');
+        } else {
+          showAuthError(`Login failed (HTTP ${res.status}). Please try again.`);
+        }
+      } catch (err) {
+        showAuthError('Network error during login. Please try again.');
+      }
+    }
+
+    async function lockAdminSession() {
+      try {
+        await fetch('/api/admin/logout', {
+          method: 'POST',
+          credentials: 'same-origin',
+          headers: {
+            'X-CSRF-Token': currentCsrfToken || ''
+          }
+        });
+      } catch (err) {
+        // Even if logout network call fails, clear local in-memory session
+      }
+      currentCsrfToken = null;
+      sessionExpiresAt = null;
+      updateSessionDisplay(null);
+      document.getElementById('authContainer').style.display = 'block';
+      document.getElementById('dashboardContainer').style.display = 'none';
+      showAuthError('Session locked.');
+    }
+
+    // --- Universal Secure Fetch Wrapper ---
+    async function adminFetch(url, options = {}) {
+      options.credentials = 'same-origin';
+      options.headers = options.headers || {};
+
+      const method = (options.method || 'GET').toUpperCase();
+      if (['POST', 'PUT', 'DELETE', 'PATCH'].includes(method) && currentCsrfToken) {
+        options.headers['X-CSRF-Token'] = currentCsrfToken;
+      }
+
+      try {
+        const res = await fetch(url, options);
+
+        if (res.status === 401) {
+          currentCsrfToken = null;
+          sessionExpiresAt = null;
+          updateSessionDisplay(null);
+          document.getElementById('authContainer').style.display = 'block';
+          document.getElementById('dashboardContainer').style.display = 'none';
+          showAuthError('Session expired, please unlock again.');
+          throw new Error('Unauthorized');
+        }
+
+        if (res.status === 403) {
+          showGlobalAlert('Request forbidden (CSRF or Origin validation failed).', 'error');
+          throw new Error('Forbidden');
+        }
+
+        if (res.status === 429) {
+          showGlobalAlert('Too many requests. Rate limit or safety valve triggered. Please wait.', 'error');
+          throw new Error('Rate Limited');
+        }
+
+        if (res.status === 404) {
+          showGlobalAlert('Admin operations are disabled on this backend server.', 'error');
+          throw new Error('Not Found');
+        }
+
+        return res;
+      } catch (err) {
+        if (err.message !== 'Unauthorized' && err.message !== 'Rate Limited' && err.message !== 'Forbidden' && err.message !== 'Not Found') {
+          console.error('adminFetch error:', err.message);
+        }
+        throw err;
+      }
+    }
+
+    function showAuthError(msg) {
+      const errBox = document.getElementById('authError');
+      errBox.textContent = msg;
+      errBox.style.display = 'block';
+    }
+
+    function showGlobalAlert(msg, type = 'success') {
+      const box = document.getElementById('globalAlert');
+      box.className = `alert alert-${type}`;
+      box.textContent = msg;
+      box.style.display = 'block';
+      setTimeout(() => { box.style.display = 'none'; }, 6000);
+    }
+
+    // --- Tab Switching ---
+    function switchTab(tab) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('tabSchemes').style.display = 'none';
+      document.getElementById('tabFeedback').style.display = 'none';
+      document.getElementById('tabUsers').style.display = 'none';
+
+      if (tab === 'schemes') {
+        document.getElementById('tabBtnSchemes').classList.add('active');
+        document.getElementById('tabSchemes').style.display = 'block';
+        loadSchemes();
+      } else if (tab === 'feedback') {
+        document.getElementById('tabBtnFeedback').classList.add('active');
+        document.getElementById('tabFeedback').style.display = 'block';
+        loadFeedback(0);
+      } else if (tab === 'users') {
+        document.getElementById('tabBtnUsers').classList.add('active');
+        document.getElementById('tabUsers').style.display = 'block';
+        loadUsers(0);
+      }
+    }
+
+    // --- Schemes Operations ---
+    async function loadSchemes() {
+      try {
+        const res = await adminFetch('/api/admin/schemes');
+        const data = await res.json();
+        allSchemesData = data.schemes || [];
+        renderSchemesTable(allSchemesData);
+      } catch (err) {
+        // Handled in adminFetch
+      }
+    }
+
+    function renderSchemesTable(schemes) {
+      const tbody = document.getElementById('schemesTableBody');
+      tbody.innerHTML = '';
+      document.getElementById('schemeCountBadge').textContent = `${schemes.length} schemes`;
+
+      if (schemes.length === 0) {
+        const tr = document.createElement('tr');
+        const td = document.createElement('td');
+        td.colSpan = 7;
+        td.style.textAlign = 'center';
+        td.style.color = '#64748b';
+        td.style.padding = '24px';
+        td.textContent = 'No schemes found in database.';
+        tr.appendChild(td);
+        tbody.appendChild(tr);
+        return;
+      }
+
+      schemes.forEach(s => {
+        const tr = document.createElement('tr');
+
+        // Safe DOM assignment with textContent
+        const tdId = document.createElement('td');
+        const codeId = document.createElement('code');
+        codeId.className = 'chip-id';
+        codeId.textContent = s.id;
+        tdId.appendChild(codeId);
+
+        const tdName = document.createElement('td');
+        tdName.style.fontWeight = '600';
+        tdName.textContent = s.shortName || s.name;
+
+        const tdLevel = document.createElement('td');
+        const badgeLevel = document.createElement('span');
+        const isCentral = (s.level === 'Central' || (s.government && s.government.toLowerCase().includes('india')));
+        badgeLevel.className = isCentral ? 'badge-status badge-central' : 'badge-status badge-state';
+        badgeLevel.textContent = s.level || (isCentral ? 'Central' : 'State');
+        tdLevel.appendChild(badgeLevel);
+
+        const tdBenefit = document.createElement('td');
+        tdBenefit.style.fontWeight = '700';
+        tdBenefit.style.color = '#047857';
+        tdBenefit.textContent = s.benefit_amount ? `₹${Number(s.benefit_amount).toLocaleString('en-IN')}` : '₹0';
+
+        const tdClosing = document.createElement('td');
+        tdClosing.textContent = s.closing_date || 'Year-round';
+        tdClosing.style.fontSize = '12px';
+        tdClosing.style.color = s.closing_date ? '#b45309' : '#64748b';
+
+        const tdCat = document.createElement('td');
+        const categories = s.category_target || [];
+        if (categories.length > 0 && categories.length < 5) {
+          tdCat.textContent = categories.join(', ');
+          tdCat.style.fontWeight = '600';
+          tdCat.style.color = '#065f46';
+        } else {
+          tdCat.textContent = 'All Categories';
+          tdCat.style.color = '#64748b';
+        }
+        tdCat.style.fontSize = '12px';
+
+        const tdAction = document.createElement('td');
+        const editBtn = document.createElement('button');
+        editBtn.className = 'btn btn-outline';
+        editBtn.style.padding = '5px 12px';
+        editBtn.style.fontSize = '12px';
+        editBtn.textContent = 'Edit';
+        editBtn.onclick = () => openSchemeEditor(s);
+        tdAction.appendChild(editBtn);
+
+        tr.appendChild(tdId);
+        tr.appendChild(tdName);
+        tr.appendChild(tdLevel);
+        tr.appendChild(tdBenefit);
+        tr.appendChild(tdClosing);
+        tr.appendChild(tdCat);
+        tr.appendChild(tdAction);
+
+        tbody.appendChild(tr);
+      });
+    }
+
+    function filterSchemesTable() {
+      const q = document.getElementById('schemeSearchInput').value.toLowerCase().trim();
+      if (!q) {
+        renderSchemesTable(allSchemesData);
+        return;
+      }
+      const filtered = allSchemesData.filter(s =>
+        (s.id && s.id.toLowerCase().includes(q)) ||
+        (s.name && s.name.toLowerCase().includes(q)) ||
+        (s.shortName && s.shortName.toLowerCase().includes(q))
+      );
+      renderSchemesTable(filtered);
+    }
+
+    // --- Scheme Editor Modal ---
+    function openSchemeEditor(scheme) {
+      isEditingScheme = !!scheme;
+      editingSchemeId = scheme ? scheme.id : null;
+
+      const title = document.getElementById('schemeModalTitle');
+      title.textContent = isEditingScheme ? `Edit Scheme: ${scheme.id}` : 'Create New Scheme';
+
+      const idInput = document.getElementById('sf_id');
+      idInput.value = scheme ? scheme.id : '';
+      idInput.disabled = isEditingScheme;
+
+      document.getElementById('sf_name').value = scheme ? scheme.name : '';
+      document.getElementById('sf_shortName').value = scheme ? (scheme.shortName || '') : '';
+      document.getElementById('sf_level').value = scheme ? (scheme.level || 'Central') : 'Central';
+      document.getElementById('sf_government').value = scheme ? (scheme.government || 'Government of India') : 'Government of India';
+      document.getElementById('sf_government_mr').value = scheme ? (scheme.government_mr || 'भारत सरकार') : 'भारत सरकार';
+      document.getElementById('sf_benefit_amount').value = scheme ? (scheme.benefit_amount ?? 0) : 0;
+      document.getElementById('sf_benefit_type').value = scheme ? (scheme.benefit_type || 'Direct Cash Transfer') : 'Direct Cash Transfer';
+      document.getElementById('sf_benefit_display').value = scheme ? (scheme.benefit_display || '') : '';
+      document.getElementById('sf_benefit_display_mr').value = scheme ? (scheme.benefit_display_mr || '') : '';
+      document.getElementById('sf_closing_date').value = scheme ? (scheme.closing_date || '') : '';
+      document.getElementById('sf_official_url').value = scheme ? (scheme.official_url || 'https://myscheme.gov.in') : 'https://myscheme.gov.in';
+      document.getElementById('sf_description').value = scheme ? (scheme.description || '') : '';
+      document.getElementById('sf_description_mr').value = scheme ? (scheme.description_mr || '') : '';
+
+      // JSON Array fields
+      setJsonField('sf_rules', scheme ? scheme.rules : []);
+      setJsonField('sf_category_target', scheme ? scheme.category_target : ['General', 'OBC', 'SC', 'ST', 'EWS']);
+      setJsonField('sf_required_documents', scheme ? scheme.required_documents : ['Aadhaar Card']);
+      setJsonField('sf_application_steps', scheme ? scheme.application_steps : ['Submit application on portal.']);
+      setJsonField('sf_application_steps_mr', scheme ? scheme.application_steps_mr : ['अधिकृत पोर्टलवर अर्ज सादर करा.']);
+      setJsonField('sf_mutually_exclusive_with', scheme ? scheme.mutually_exclusive_with : []);
+
+      document.getElementById('modalAlert').style.display = 'none';
+      document.getElementById('schemeModal').style.display = 'flex';
+      validateAllJsonFields();
+    }
+
+    function setJsonField(id, val) {
+      document.getElementById(id).value = JSON.stringify(val || [], null, 2);
+    }
+
+    function closeSchemeModal() {
+      document.getElementById('schemeModal').style.display = 'none';
+    }
+
+    function validateJsonInput(fieldId, hintId) {
+      const val = document.getElementById(fieldId).value.trim();
+      const hint = document.getElementById(hintId);
+      try {
+        if (val) JSON.parse(val);
+        hint.textContent = '✓ Valid JSON';
+        hint.className = 'json-hint json-valid';
+        checkSaveButtonState();
+        return true;
+      } catch (e) {
+        hint.textContent = `✗ Invalid JSON: ${e.message}`;
+        hint.className = 'json-hint json-invalid';
+        document.getElementById('saveSchemeBtn').disabled = true;
+        return false;
+      }
+    }
+
+    function validateAllJsonFields() {
+      const fields = [
+        ['sf_rules', 'sf_rules_hint'],
+        ['sf_category_target', 'sf_category_target_hint'],
+        ['sf_required_documents', 'sf_required_documents_hint'],
+        ['sf_application_steps', 'sf_application_steps_hint'],
+        ['sf_application_steps_mr', 'sf_application_steps_mr_hint'],
+        ['sf_mutually_exclusive_with', 'sf_mutually_exclusive_with_hint']
+      ];
+      return fields.every(([f, h]) => validateJsonInput(f, h));
+    }
+
+    function checkSaveButtonState() {
+      const fields = ['sf_rules', 'sf_category_target', 'sf_required_documents', 'sf_application_steps', 'sf_application_steps_mr', 'sf_mutually_exclusive_with'];
+      const allValid = fields.every(f => {
+        try {
+          const v = document.getElementById(f).value.trim();
+          if (v) JSON.parse(v);
+          return true;
+        } catch {
+          return false;
+        }
+      });
+      document.getElementById('saveSchemeBtn').disabled = !allValid;
+    }
+
+    async function submitSchemeForm() {
+      if (!validateAllJsonFields()) {
+        alert('Please fix JSON syntax errors before saving.');
+        return;
+      }
+
+      const modalAlert = document.getElementById('modalAlert');
+      modalAlert.style.display = 'none';
+
+      try {
+        const payload = {
+          id: document.getElementById('sf_id').value.trim(),
+          name: document.getElementById('sf_name').value.trim(),
+          shortName: document.getElementById('sf_shortName').value.trim(),
+          level: document.getElementById('sf_level').value.trim(),
+          government: document.getElementById('sf_government').value.trim(),
+          government_mr: document.getElementById('sf_government_mr').value.trim() || null,
+          benefit_amount: parseFloat(document.getElementById('sf_benefit_amount').value) || 0.0,
+          benefit_type: document.getElementById('sf_benefit_type').value.trim(),
+          benefit_display: document.getElementById('sf_benefit_display').value.trim(),
+          benefit_display_mr: document.getElementById('sf_benefit_display_mr').value.trim() || null,
+          closing_date: document.getElementById('sf_closing_date').value.trim() || null,
+          official_url: document.getElementById('sf_official_url').value.trim(),
+          description: document.getElementById('sf_description').value.trim(),
+          description_mr: document.getElementById('sf_description_mr').value.trim() || null,
+          rules: JSON.parse(document.getElementById('sf_rules').value || '[]'),
+          category_target: JSON.parse(document.getElementById('sf_category_target').value || '[]'),
+          required_documents: JSON.parse(document.getElementById('sf_required_documents').value || '[]'),
+          application_steps: JSON.parse(document.getElementById('sf_application_steps').value || '[]'),
+          application_steps_mr: JSON.parse(document.getElementById('sf_application_steps_mr').value || '[]'),
+          mutually_exclusive_with: JSON.parse(document.getElementById('sf_mutually_exclusive_with').value || '[]')
+        };
+
+        const url = isEditingScheme ? `/api/admin/schemes/${editingSchemeId}` : '/api/admin/schemes';
+        const method = isEditingScheme ? 'PUT' : 'POST';
+
+        const res = await adminFetch(url, {
+          method,
+          headers: { 'Content-Type': 'application/json' },
+          body: payload
+        });
+
+        const resData = await res.json();
+        if (!res.ok) {
+          modalAlert.className = 'alert alert-error';
+          modalAlert.textContent = resData.detail || 'Failed to save scheme.';
+          modalAlert.style.display = 'block';
+          return;
+        }
+
+        closeSchemeModal();
+        showGlobalAlert(isEditingScheme ? `Scheme '${editingSchemeId}' updated successfully.` : `Scheme '${payload.id}' created successfully.`);
+        loadSchemes();
+      } catch (err) {
+        modalAlert.className = 'alert alert-error';
+        modalAlert.textContent = err.message || 'An error occurred while saving.';
+        modalAlert.style.display = 'block';
+      }
+    }
+
+    // --- Feedback Operations ---
+    async function loadFeedback(offset = 0) {
+      feedbackOffset = Math.max(0, offset);
+      const schemeId = document.getElementById('feedbackSchemeFilter').value.trim();
+      let url = `/api/admin/feedback?limit=${FEEDBACK_LIMIT}&offset=${feedbackOffset}`;
+      if (schemeId) url += `&scheme_id=${encodeURIComponent(schemeId)}`;
+
+      try {
+        const res = await adminFetch(url);
+        const data = await res.json();
+        renderFeedbackTable(data);
+      } catch (err) {}
+    }
+
+    function renderFeedbackTable(data) {
+      const tbody = document.getElementById('feedbackTableBody');
+      tbody.innerHTML = '';
+      const items = data.items || [];
+      document.getElementById('feedbackCountBadge').textContent = `${data.total || 0} total`;
+
+      document.getElementById('fbPrevBtn').disabled = (data.offset <= 0);
+      document.getElementById('fbNextBtn').disabled = (data.offset + items.length >= data.total);
+
+      if (items.length === 0) {
+        const tr = document.createElement('tr');
+        const td = document.createElement('td');
+        td.colSpan = 5;
+        td.style.textAlign = 'center';
+        td.style.color = '#64748b';
+        td.style.padding = '24px';
+        td.textContent = 'No feedback entries found.';
+        tr.appendChild(td);
+        tbody.appendChild(tr);
+        return;
+      }
+
+      items.forEach(f => {
+        const tr = document.createElement('tr');
+
+        const tdDate = document.createElement('td');
+        tdDate.textContent = f.created_at ? f.created_at.slice(0, 16).replace('T', ' ') : '-';
+        tdDate.style.fontSize = '12px';
+        tdDate.style.color = '#64748b';
+
+        const tdScheme = document.createElement('td');
+        const cScheme = document.createElement('code');
+        cScheme.className = 'chip-id';
+        cScheme.textContent = f.scheme_id || 'General';
+        tdScheme.appendChild(cScheme);
+
+        const tdRating = document.createElement('td');
+        tdRating.textContent = f.rating === 'up' ? '👍 Up' : (f.rating === 'down' ? '👎 Down' : f.rating);
+        tdRating.style.fontWeight = '700';
+
+        const tdComment = document.createElement('td');
+        tdComment.textContent = f.comment || f.feedback_text || '-';
+        tdComment.style.maxWidth = '380px';
+
+        const tdUser = document.createElement('td');
+        tdUser.textContent = f.user_id ? f.user_id.slice(0, 8) + '...' : 'Anonymous';
+        tdUser.style.fontSize = '12px';
+        tdUser.style.color = '#94a3b8';
+
+        tr.appendChild(tdDate);
+        tr.appendChild(tdScheme);
+        tr.appendChild(tdRating);
+        tr.appendChild(tdComment);
+        tr.appendChild(tdUser);
+
+        tbody.appendChild(tr);
+      });
+    }
+
+    function clearFeedbackFilter() {
+      document.getElementById('feedbackSchemeFilter').value = '';
+      loadFeedback(0);
+    }
+    function prevFeedbackPage() { loadFeedback(feedbackOffset - FEEDBACK_LIMIT); }
+    function nextFeedbackPage() { loadFeedback(feedbackOffset + FEEDBACK_LIMIT); }
+
+    // --- Users Operations ---
+    async function loadUsers(offset = 0) {
+      usersOffset = Math.max(0, offset);
+      const q = document.getElementById('userSearchInput').value.trim();
+      let url = `/api/admin/users?limit=${USERS_LIMIT}&offset=${usersOffset}`;
+      if (q) url += `&q=${encodeURIComponent(q)}`;
+
+      try {
+        const res = await adminFetch(url);
+        const data = await res.json();
+        renderUsersTable(data);
+      } catch (err) {}
+    }
+
+    function renderUsersTable(data) {
+      const tbody = document.getElementById('usersTableBody');
+      tbody.innerHTML = '';
+      const items = data.items || [];
+      document.getElementById('usersCountBadge').textContent = `${data.total || 0} total`;
+
+      document.getElementById('uPrevBtn').disabled = (data.offset <= 0);
+      document.getElementById('uNextBtn').disabled = (data.offset + items.length >= data.total);
+
+      if (items.length === 0) {
+        const tr = document.createElement('tr');
+        const td = document.createElement('td');
+        td.colSpan = 6;
+        td.style.textAlign = 'center';
+        td.style.color = '#64748b';
+        td.style.padding = '24px';
+        td.textContent = 'No registered users found.';
+        tr.appendChild(td);
+        tbody.appendChild(tr);
+        return;
+      }
+
+      items.forEach(u => {
+        const tr = document.createElement('tr');
+
+        const tdId = document.createElement('td');
+        const cId = document.createElement('code');
+        cId.textContent = u.id ? u.id.slice(0, 10) + '...' : '-';
+        cId.style.color = '#64748b';
+        cId.style.fontFamily = 'var(--font-mono)';
+        cId.style.fontSize = '12px';
+        tdId.appendChild(cId);
+
+        const tdName = document.createElement('td');
+        tdName.style.fontWeight = '700';
+        tdName.textContent = u.name || '-';
+
+        const tdEmail = document.createElement('td');
+        tdEmail.textContent = u.email || '-';
+
+        const tdRole = document.createElement('td');
+        const badgeRole = document.createElement('span');
+        badgeRole.className = 'badge-status badge-role';
+        badgeRole.textContent = u.role || 'Farmer';
+        tdRole.appendChild(badgeRole);
+
+        const tdCreated = document.createElement('td');
+        tdCreated.textContent = u.created_at ? u.created_at.slice(0, 10) : '-';
+        tdCreated.style.fontSize = '12px';
+        tdCreated.style.color = '#64748b';
+
+        const tdSummary = document.createElement('td');
+        const s = u.profile_summary || {};
+        const parts = [];
+        if (s.category) parts.push(`Cat: ${s.category}`);
+        if (s.land_acres !== undefined && s.land_acres !== null) parts.push(`Land: ${s.land_acres} ac`);
+        if (s.annual_income) parts.push(`₹${Number(s.annual_income).toLocaleString('en-IN')}`);
+        if (s.state) parts.push(s.state);
+        tdSummary.textContent = parts.join(' | ') || 'No profile data';
+        tdSummary.style.fontSize = '12px';
+        tdSummary.style.color = '#475569';
+
+        tr.appendChild(tdId);
+        tr.appendChild(tdName);
+        tr.appendChild(tdEmail);
+        tr.appendChild(tdRole);
+        tr.appendChild(tdCreated);
+        tr.appendChild(tdSummary);
+
+        tbody.appendChild(tr);
+      });
+    }
+
+    function clearUserSearch() {
+      document.getElementById('userSearchInput').value = '';
+      loadUsers(0);
+    }
+    function prevUsersPage() { loadUsers(usersOffset - USERS_LIMIT); }
+    function nextUsersPage() { loadUsers(usersOffset + USERS_LIMIT); }
+
+    // Init check on load
+    window.addEventListener('DOMContentLoaded', checkAuthStatus);
+  </script>
+</body>
+</html>

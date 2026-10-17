@@ -110,5 +110,29 @@ def evaluate_scheme_eligibility(profile: UserProfile, scheme: Dict[str, Any]) ->
         if not satisfied:
             reasons.append(reason)
 
+    # 2. Evaluate Category Target
+    category_target = scheme.get("category_target")
+    if category_target and isinstance(category_target, list):
+        target_normalized = [str(c).strip().lower() for c in category_target if str(c).strip()]
+        
+        # Missing or empty category_target means open to all
+        if target_normalized:
+            is_general_scheme = any(c in target_normalized for c in ["all", "open", "pan-india / all", "general"])
+            raw_user_cat = profile_dict.get("category")
+            user_cat_clean = str(raw_user_cat).strip().lower() if raw_user_cat is not None else ""
+
+            RECOGNIZED_CATEGORIES = {"general", "obc", "sc", "st", "ews"}
+            target_display = ", ".join(category_target)
+
+            if not user_cat_clean or user_cat_clean == "none" or user_cat_clean not in RECOGNIZED_CATEGORIES:
+                # Missing or unrecognized category (treated as 'unknown'):
+                # General schemes remain eligible; category-restricted schemes are disqualified
+                if not is_general_scheme:
+                    reasons.append(f"Only for {target_display} category farmers (caste category required).")
+            else:
+                # Valid recognized category: check membership
+                if user_cat_clean not in target_normalized:
+                    reasons.append(f"Only for {target_display} category farmers.")
+
     is_eligible = (len(reasons) == 0)
     return is_eligible, reasons

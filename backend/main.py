@@ -2,22 +2,31 @@ import json
 import os
 import uuid
 import logging
+import time
 from typing import List, Dict, Any, Optional
-from fastapi import FastAPI, HTTPException, Request, Depends, status
+from dotenv import load_dotenv
+
+# Ensure environment variables are loaded from backend/.env
+_ENV_PATH = os.path.join(os.path.dirname(__file__), ".env")
+load_dotenv(_ENV_PATH, override=False)
+
+from fastapi import FastAPI, HTTPException, Request, Response, Depends, status
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session
+import urllib.parse
 
 from models import UserProfile, EvaluationResponse, FeedbackRequest, LoginRequest, SignupRequest, AuthResponse, ProfileUpdateRequest
-from models_db import User, Feedback
-from db import get_db, init_db
+from models_db import User, Feedback, Scheme
+from db import get_db, init_db, SessionLocal
 from auth_utils import hash_password, verify_password, generate_jwt_token, decode_jwt_token
 from services.evaluator import evaluate_scheme_eligibility
 from services.conflicts import detect_scheme_conflicts
 from services.overlap import analyze_document_overlaps, calculate_weighted_readiness
 from services.ranker import rank_and_score_schemes
 from services.data_cleaner import sanitize_scheme_object
+from admin_routes import router as admin_router
 
 app = FastAPI(
     title="YojanaBundle API",
@@ -28,7 +37,16 @@ app = FastAPI(
 # Initialize Database tables on application startup
 @app.on_event("startup")
 def startup_event():
+    load_dotenv(_ENV_PATH, override=False)
     init_db()
+    admin_key = os.environ.get("ADMIN_SECRET_KEY", "").strip()
+    uvicorn_logger = logging.getLogger("uvicorn.error")
+    if admin_key:
+        uvicorn_logger.info("Admin panel: ENABLED")
+        print("Admin panel: ENABLED", flush=True)
+    else:
+        uvicorn_logger.info("Admin panel: DISABLED (ADMIN_SECRET_KEY not set)")
+        print("Admin panel: DISABLED (ADMIN_SECRET_KEY not set)", flush=True)
 
 # Configure CORS
 cors_origins_raw = os.environ.get("CORS_ORIGINS", "http://localhost:3000,http://localhost:5173")
@@ -42,6 +60,38 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Security headers for admin operations and HTML panel
+@app.middleware("http")
+async def add_security_headers_to_admin(request: Request, call_next):
+    # Reject cross-origin preflight requests targeting admin endpoints
+    if request.method == "OPTIONS" and (request.url.path.startswith("/api/admin") or request.url.path == "/admin-panel"):
+        origin = request.headers.get("Origin")
+        host = (request.headers.get("Host") or request.url.netloc or "").lower().split(":")[0]
+        if origin:
+            parsed_origin = urllib.parse.urlparse(origin).netloc.lower().split(":")[0]
+            if parsed_origin != host:
+                return Response(status_code=403, content="Cross-origin requests to admin endpoints are forbidden.")
+
+    response = await call_next(request)
+    if request.url.path.startswith("/api/admin") or request.url.path == "/admin-panel":
+        response.headers["Cache-Control"] = "no-store"
+        response.headers["X-Robots-Tag"] = "noindex"
+        # Ensure CORS allow-credentials / allow-origin are never attached to admin endpoints
+        for hdr in [
+            "Access-Control-Allow-Origin",
+            "Access-Control-Allow-Credentials",
+            "Access-Control-Allow-Methods",
+            "Access-Control-Allow-Headers",
+            "Access-Control-Expose-Headers",
+        ]:
+            if hdr in response.headers:
+                del response.headers[hdr]
+    return response
+
+# Register Admin Router
+app.include_router(admin_router)
+
+# Fallback path if DB query fails or table is unseeded
 DATA_PATH = os.path.join(os.path.dirname(__file__), "data", "schemes.json")
 
 security = HTTPBearer(auto_error=False)
@@ -52,7 +102,7 @@ def get_current_user(
 ) -> User:
     """
     Reusable FastAPI dependency for extracting and verifying JWT Bearer tokens
-    and fetching the authenticated user from the SQLite database.
+    and fetching the authenticated user from the database.
     """
     if not credentials or not credentials.credentials:
         raise HTTPException(
@@ -105,23 +155,63 @@ async def global_exception_handler(request: Request, exc: Exception):
         content={"detail": "Internal server error"}
     )
 
-def load_schemes() -> List[Dict[str, Any]]:
+_SCHEMES_CACHE: Dict[str, Any] = {
+    "data": None,
+    "timestamp": 0.0
+}
+_CACHE_TTL_SECONDS = 300  # 5 minutes TTL
+
+def clear_schemes_cache():
+    """Clears the in-memory schemes cache."""
+    _SCHEMES_CACHE["data"] = None
+    _SCHEMES_CACHE["timestamp"] = 0.0
+
+def _load_schemes_from_json() -> List[Dict[str, Any]]:
+    """Fallback loader when DB is unseeded or query fails."""
     if not os.path.exists(DATA_PATH):
-        raise FileNotFoundError(f"Schemes database file not found at {DATA_PATH}")
-    
+        raise FileNotFoundError(f"Fallback schemes file not found at {DATA_PATH}")
     with open(DATA_PATH, "r", encoding="utf-8") as f:
         raw_schemes = json.load(f)
+    return [sanitize_scheme_object(s) for s in raw_schemes]
 
-    cleaned_schemes = [sanitize_scheme_object(s) for s in raw_schemes]
-    return cleaned_schemes
+def load_schemes(db: Optional[Session] = None) -> List[Dict[str, Any]]:
+    """
+    Loads schemes from the database with a 5-minute TTL in-memory cache.
+    Falls back to schemes.json if the database query fails or returns zero rows.
+    """
+    now = time.time()
+    if _SCHEMES_CACHE["data"] is not None and (now - _SCHEMES_CACHE["timestamp"]) < _CACHE_TTL_SECONDS:
+        return _SCHEMES_CACHE["data"]
+
+    schemes_data = None
+    try:
+        if db is not None:
+            records = db.query(Scheme).all()
+        else:
+            with SessionLocal() as session:
+                records = session.query(Scheme).all()
+
+        if records:
+            schemes_data = [sanitize_scheme_object(r.to_dict()) for r in records]
+        else:
+            logging.warning("Schemes table in DB returned zero rows; falling back to schemes.json.")
+    except Exception as exc:
+        logging.warning(f"Failed to query schemes from DB ({exc}); falling back to schemes.json.")
+
+    if not schemes_data:
+        schemes_data = _load_schemes_from_json()
+
+    _SCHEMES_CACHE["data"] = schemes_data
+    _SCHEMES_CACHE["timestamp"] = now
+    return schemes_data
 
 @app.get("/api/health")
 def health_check():
     return {"status": "ok", "service": "YojanaBundle Backend Engine v2.1 (Hardened)", "version": "2.1.0"}
 
 @app.get("/api/schemes")
-def get_all_schemes():
-    schemes = load_schemes()
+def get_all_schemes(db: Session = Depends(get_db)):
+    schemes = load_schemes(db=db)
     return {"total": len(schemes), "schemes": schemes}
 
 @app.post("/api/auth/login", response_model=AuthResponse)
@@ -213,7 +303,7 @@ def update_profile(
     db: Session = Depends(get_db)
 ):
     """
-    Updates authenticated user's profile attributes in SQLite database.
+    Updates authenticated user's profile attributes in the database.
     """
     user = current_user
     update_data = req.model_dump(exclude_unset=True) if hasattr(req, 'model_dump') else req.dict(exclude_unset=True)
@@ -249,8 +339,8 @@ def format_indian_currency(amount: float) -> str:
 
 
 @app.post("/api/evaluate", response_model=EvaluationResponse)
-def evaluate_profile(profile: UserProfile):
-    all_schemes = load_schemes()
+def evaluate_profile(profile: UserProfile, db: Optional[Session] = Depends(get_db)):
+    all_schemes = load_schemes(db=db)
     owned_docs = profile.owned_documents if profile.owned_documents is not None else []
 
     eligible_schemes = []
