@@ -205,6 +205,10 @@ def load_schemes(db: Optional[Session] = None) -> List[Dict[str, Any]]:
     _SCHEMES_CACHE["timestamp"] = now
     return schemes_data
 
+@app.api_route("/", methods=["GET", "HEAD"])
+def root():
+    return {"service": "YojanaBundle API", "status": "ok"}
+
 @app.get("/api/health")
 def health_check():
     return {"status": "ok", "service": "YojanaBundle Backend Engine v2.1 (Hardened)", "version": "2.1.0"}

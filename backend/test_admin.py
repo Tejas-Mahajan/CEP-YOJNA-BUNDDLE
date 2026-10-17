@@ -634,6 +634,12 @@ class AdminSecurityAndRoutesTestCase(unittest.TestCase):
             self.assertEqual(res.status_code, 429, "Fallback host 192.168.1.55 should be locked out")
         reset_brute_force_state()
 
+    # -----------------------------------------------------------------------
+    # 19. Root Route GET / and HEAD /
+    # -----------------------------------------------------------------------
+    def test_root_route_returns_200_and_no_admin_mention(self):
+        res = self.client.get("/"); self.assertEqual(res.status_code, 200); self.assertNotIn("admin", res.text.lower()); self.assertEqual(self.client.head("/").status_code, 200)
+
 
 def run_tests():
     suite = unittest.TestLoader().loadTestsFromTestCase(AdminSecurityAndRoutesTestCase)
