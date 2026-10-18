@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Search, Filter, ExternalLink, Sparkles, Clock, FileText, Building2, CheckCircle2, Bookmark, RefreshCw, Lightbulb, Scale, AlertTriangle } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { formatDeadlineText, daysUntilClose } from '../utils/validation';
-import { TRANSLATIONS, getSchemeName, getSchemeDescription, getSchemeBenefit } from '../data/translations';
+import { TRANSLATIONS, getSchemeName, getSchemeDescription, getSchemeBenefit, formatNumberByLang } from '../data/translations';
 import { API_BASE } from '../config';
 
 export default function SchemeDirectory({ onOpenDetail, onOpenCompare, lang }) {
@@ -149,11 +149,13 @@ export default function SchemeDirectory({ onOpenDetail, onOpenCompare, lang }) {
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10">
           <div>
             <div className="flex items-center space-x-2 text-amber-400 font-semibold text-xs uppercase tracking-wider mb-1">
-              <Sparkles className="w-4 h-4" /> Agriculture & Farming Schemes Directory
+              <Sparkles className="w-4 h-4" /> {t.directoryTag || (lang === 'mr' ? 'कृषी व शेतकरी योजना निर्देशिका' : lang === 'hi' ? 'कृषि एवं किसान योजना निर्देशिका' : 'Agriculture & Farming Schemes Directory')}
             </div>
-            <h2 className="text-2xl font-black">All Agriculture Welfare & Grant Schemes ({schemes.length})</h2>
+            <h2 className="text-2xl font-black">
+              {t.directoryTitle || (lang === 'mr' ? 'सर्व कृषी कल्याण व अनुदान योजना' : lang === 'hi' ? 'सभी कृषि कल्याण एवं अनुदान योजनाएं' : 'All Agriculture Welfare & Grant Schemes')} ({formatNumberByLang(schemes.length, lang)})
+            </h2>
             <p className="text-xs text-emerald-200 mt-1 max-w-xl">
-              Browse, filter, and compare central and state government agricultural schemes, crop insurance, and solar pump subsidies.
+              {t.directorySub || (lang === 'mr' ? 'केंद्र व राज्य शासनाच्या कृषी योजना, पीक विमा आणि सोलर पंप अनुदानाची माहिती मिळवा व तुलना करा.' : lang === 'hi' ? 'केंद्र व राज्य सरकार की कृषि योजनाओं, फसल बीमा और सोलर पंप सब्सिडी की जानकारी प्राप्त करें और तुलना करें।' : 'Browse, filter, and compare central and state government agricultural schemes, crop insurance, and solar pump subsidies.')}
             </p>
           </div>
 
@@ -162,17 +164,23 @@ export default function SchemeDirectory({ onOpenDetail, onOpenCompare, lang }) {
             <div className="bg-amber-400 text-slate-950 p-3 px-4 rounded-2xl shadow-lg border border-amber-300 flex items-center space-x-3">
               <Scale className="w-5 h-5 text-slate-950" />
               <div>
-                <div className="text-xs font-black">Selected {compareIds.length}/2 for Comparison</div>
+                <div className="text-xs font-black">
+                  {t.compareSelectedCount
+                    ? t.compareSelectedCount.replace('{count}', formatNumberByLang(compareIds.length, lang))
+                    : `Selected ${formatNumberByLang(compareIds.length, lang)}/${formatNumberByLang(2, lang)} for Comparison`}
+                </div>
                 <div className="text-2xs font-bold text-slate-800">
-                  {compareIds.length === 2 ? 'Ready to compare side-by-side!' : 'Select 1 more scheme'}
+                  {compareIds.length === 2
+                    ? (t.compareReady || 'Ready to compare side-by-side!')
+                    : (t.compareSelectMore || (lang === 'mr' ? 'आणखी १ योजना निवडा' : lang === 'hi' ? '1 और योजना चुनें' : 'Select 1 more scheme'))}
                 </div>
               </div>
               {compareIds.length === 2 && (
                 <button
                   onClick={handleTriggerCompare}
-                  className="px-3 py-1.5 rounded-xl bg-slate-950 text-white font-extrabold text-xs hover:bg-slate-900 transition-all shadow-md"
+                  className="px-3 py-1.5 rounded-xl bg-slate-950 text-white font-extrabold text-xs hover:bg-slate-900 transition-all shadow-md cursor-pointer"
                 >
-                  Compare Now 📊
+                  {t.compareNowBtn || 'Compare Now 📊'}
                 </button>
               )}
             </div>
@@ -189,7 +197,7 @@ export default function SchemeDirectory({ onOpenDetail, onOpenCompare, lang }) {
             <Search className="w-4 h-4 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
             <input
               type="text"
-              placeholder="Search agriculture scheme name, benefit or keywords..."
+              placeholder={t.directorySearchPlaceholder || (lang === 'mr' ? 'कृषी योजनेचे नाव, फायदा किंवा कीवर्ड शोधा...' : lang === 'hi' ? 'कृषि योजना का नाम, लाभ या कीवर्ड खोजें...' : 'Search agriculture scheme name, benefit or keywords...')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-10 pr-4 py-2.5 rounded-2xl border border-slate-200 focus:ring-2 focus:ring-emerald-500 text-sm font-semibold text-slate-900 bg-slate-50/50 outline-none"
@@ -199,7 +207,7 @@ export default function SchemeDirectory({ onOpenDetail, onOpenCompare, lang }) {
           {/* Saved Schemes Filter Pill */}
           <button
             onClick={() => setShowOnlySaved(!showOnlySaved)}
-            className={`px-4 py-2.5 rounded-2xl font-extrabold text-xs flex items-center justify-center space-x-2 transition-all border shrink-0 ${
+            className={`px-4 py-2.5 rounded-2xl font-extrabold text-xs flex items-center justify-center space-x-2 transition-all border shrink-0 cursor-pointer ${
               showOnlySaved
                 ? 'bg-amber-400 text-slate-950 border-amber-500 shadow-md'
                 : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border-slate-200'
@@ -208,7 +216,7 @@ export default function SchemeDirectory({ onOpenDetail, onOpenCompare, lang }) {
             <Bookmark className={`w-4 h-4 ${showOnlySaved ? 'fill-slate-950 text-slate-950' : 'text-amber-500 fill-amber-400'}`} />
             <span>{t.savedSchemesNav || "Saved Schemes"}</span>
             <span className="px-2 py-0.5 rounded-full text-xs font-black bg-amber-500 text-slate-950">
-              {savedSchemesCount}
+              {formatNumberByLang(savedSchemesCount, lang)}
             </span>
           </button>
         </div>
@@ -217,47 +225,61 @@ export default function SchemeDirectory({ onOpenDetail, onOpenCompare, lang }) {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 border-t border-slate-100">
           <div className="flex flex-wrap items-center gap-2">
             <span className="text-xs font-bold text-slate-500 flex items-center mr-1">
-              <Filter className="w-3.5 h-3.5 mr-1 text-slate-400" /> Government:
+              <Filter className="w-3.5 h-3.5 mr-1 text-slate-400" /> {lang === 'mr' ? 'शासन / सरकार:' : lang === 'hi' ? 'सरकार:' : 'Government:'}
             </span>
             <div className="inline-flex p-1 bg-slate-100/90 rounded-2xl border border-slate-200/80">
               <button
                 type="button"
                 onClick={() => setGovFilter('All')}
-                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all ${
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                   govFilter === 'All'
                     ? 'bg-emerald-800 text-white shadow-sm font-extrabold'
                     : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
                 }`}
               >
-                All Schemes
+                {lang === 'mr' ? 'सर्व योजना' : lang === 'hi' ? 'सभी योजनाएं' : 'All Schemes'}
               </button>
               <button
                 type="button"
                 onClick={() => setGovFilter('Central')}
-                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all ${
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                   govFilter === 'Central'
                     ? 'bg-emerald-800 text-white shadow-sm font-extrabold'
                     : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
                 }`}
               >
-                Central Government
+                {lang === 'mr' ? 'केंद्र शासन' : lang === 'hi' ? 'केंद्र सरकार' : 'Central Government'}
               </button>
               <button
                 type="button"
                 onClick={() => setGovFilter('Maharashtra')}
-                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all ${
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                   govFilter === 'Maharashtra'
                     ? 'bg-emerald-800 text-white shadow-sm font-extrabold'
                     : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
                 }`}
               >
-                Maharashtra Government
+                {lang === 'mr' ? 'महाराष्ट्र शासन' : lang === 'hi' ? 'महाराष्ट्र सरकार' : 'Maharashtra Government'}
               </button>
             </div>
           </div>
 
           <div className="text-2xs font-semibold text-slate-400">
-            Showing <span className="font-bold text-slate-700">{filteredSchemes.length}</span> of {schemes.length} schemes
+            {lang === 'mr' ? (
+              <>
+                <span className="font-bold text-slate-700">{formatNumberByLang(schemes.length, lang)}</span> पैकी{' '}
+                <span className="font-bold text-slate-700">{formatNumberByLang(filteredSchemes.length, lang)}</span> योजना दर्शवित आहे
+              </>
+            ) : lang === 'hi' ? (
+              <>
+                <span className="font-bold text-slate-700">{formatNumberByLang(schemes.length, lang)}</span> में से{' '}
+                <span className="font-bold text-slate-700">{formatNumberByLang(filteredSchemes.length, lang)}</span> योजनाएं प्रदर्शित
+              </>
+            ) : (
+              <>
+                Showing <span className="font-bold text-slate-700">{filteredSchemes.length}</span> of {schemes.length} schemes
+              </>
+            )}
           </div>
         </div>
 
@@ -354,7 +376,7 @@ export default function SchemeDirectory({ onOpenDetail, onOpenCompare, lang }) {
                       </span>
                       {isUrgent && (
                         <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-red-600 text-white animate-pulse flex items-center">
-                          <AlertTriangle className="w-3 h-3 mr-0.5" /> {daysLeft} Days Left
+                          <AlertTriangle className="w-3 h-3 mr-0.5" /> {formatNumberByLang(daysLeft, lang)} {lang === 'mr' ? 'दिवस शिल्लक' : lang === 'hi' ? 'दिन शेष' : 'Days Left'}
                         </span>
                       )}
                     </div>
@@ -363,21 +385,21 @@ export default function SchemeDirectory({ onOpenDetail, onOpenCompare, lang }) {
                       {/* Compare Checkbox */}
                       <button
                         onClick={(e) => toggleCompare(s.id, e)}
-                        className={`px-2 py-1 rounded-lg text-[10px] font-extrabold border transition-all flex items-center space-x-1 ${
+                        className={`px-2 py-1 rounded-lg text-[10px] font-extrabold border transition-all flex items-center space-x-1 cursor-pointer ${
                           isCompared
                             ? 'bg-amber-400 text-slate-950 border-amber-500 shadow-2xs'
                             : 'bg-slate-100 text-slate-600 hover:bg-slate-200 border-slate-200'
                         }`}
-                        title="Compare Side-by-Side"
+                        title={t.compareTooltip || "Compare Side-by-Side"}
                       >
                         <Scale className="w-3 h-3" />
-                        <span>{isCompared ? 'Comparing' : 'Compare'}</span>
+                        <span>{isCompared ? (t.comparingBtn || (lang === 'mr' ? 'तुलना सुरू' : lang === 'hi' ? 'तुलना जारी' : 'Comparing')) : (t.compareBtn || (lang === 'mr' ? 'तुलना करा' : lang === 'hi' ? 'तुलना करें' : 'Compare'))}</span>
                       </button>
 
                       {/* Bookmark Button */}
                       <button
                         onClick={(e) => handleSaveToggle(s.id, e)}
-                        className="p-1.5 rounded-xl bg-slate-50 hover:bg-amber-50 text-slate-400 hover:text-amber-500 transition-colors"
+                        className="p-1.5 rounded-xl bg-slate-50 hover:bg-amber-50 text-slate-400 hover:text-amber-500 transition-colors cursor-pointer"
                         title={saved ? (t.savedSchemeTitle || "Saved to Profile") : (t.saveSchemeTitle || "Save Scheme")}
                       >
                         <Bookmark className={`w-4 h-4 ${saved ? 'fill-amber-500 text-amber-500' : ''}`} />
@@ -402,12 +424,12 @@ export default function SchemeDirectory({ onOpenDetail, onOpenCompare, lang }) {
                 <div className="pt-3 border-t border-slate-100 space-y-3">
                   <div className="flex items-center justify-between">
                     <div>
-                      <div className="text-[10px] text-slate-400 font-medium">Financial Benefit</div>
+                      <div className="text-[10px] text-slate-400 font-medium">{lang === 'mr' ? 'आर्थिक लाभ' : lang === 'hi' ? 'वित्तीय लाभ' : 'Financial Benefit'}</div>
                       <div className="text-sm font-black text-emerald-800">{getSchemeBenefit(s, lang)}</div>
                     </div>
 
                     <div className="text-right">
-                      <div className="text-[10px] text-slate-400 font-medium">Window</div>
+                      <div className="text-[10px] text-slate-400 font-medium">{t.windowLabel || (lang === 'mr' ? 'मुदत' : lang === 'hi' ? 'समय सीमा' : 'Window')}</div>
                       <div className={`text-xs font-bold flex items-center ${isUrgent ? 'text-red-600' : 'text-amber-600'}`}>
                         <Clock className="w-3 h-3 mr-1" /> {formatDeadlineText(s.closing_date, lang)}
                       </div>
@@ -416,9 +438,9 @@ export default function SchemeDirectory({ onOpenDetail, onOpenCompare, lang }) {
 
                   <button
                     onClick={() => onOpenDetail(s)}
-                    className="w-full py-2.5 rounded-xl bg-slate-900 hover:bg-emerald-800 text-white font-bold text-xs shadow-sm flex items-center justify-center space-x-1 transition-all"
+                    className="w-full py-2.5 rounded-xl bg-slate-900 hover:bg-emerald-800 text-white font-bold text-xs shadow-sm flex items-center justify-center space-x-1 transition-all cursor-pointer"
                   >
-                    <span>View Deep-Dive Details</span>
+                    <span>{t.viewDeepDive || (lang === 'mr' ? 'सविस्तर तपशील पहा' : lang === 'hi' ? 'विस्तृत विवरण देखें' : 'View Deep-Dive Details')}</span>
                     <ExternalLink className="w-3.5 h-3.5" />
                   </button>
                 </div>

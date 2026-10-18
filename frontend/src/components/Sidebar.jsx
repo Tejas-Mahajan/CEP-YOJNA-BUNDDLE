@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Home, Compass, ClipboardList, FolderCheck, Search, MapPin, Sparkles, ChevronRight, Bookmark, Layers, Lock } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import { TRANSLATIONS } from '../data/translations';
+import { TRANSLATIONS, formatNumberByLang } from '../data/translations';
 import { API_BASE } from '../config';
 
 export default function Sidebar({ activeNav, setActiveNav, activeTab, setActiveTab, resultsCount, lang, onGoHome, isFirstTimeSetup }) {
@@ -48,7 +48,7 @@ export default function Sidebar({ activeNav, setActiveNav, activeTab, setActiveT
           label: t.actionPlanNav || "'Apply First' Action Plan",
           subtitle: t.actionPlanNavSub || 'Weighted priority checklist',
           icon: ClipboardList,
-          badge: resultsCount > 0 ? `${resultsCount} ${t.schemesMatchedUnit || 'Matched'}` : null,
+          badge: resultsCount > 0 ? `${formatNumberByLang(resultsCount, lang)} ${t.schemesMatchedUnit || 'Matched'}` : null,
           badgeColor: 'bg-emerald-600 text-white'
         },
         {
@@ -68,7 +68,7 @@ export default function Sidebar({ activeNav, setActiveNav, activeTab, setActiveT
           label: t.allSchemesDirectoryNav || 'All Schemes Directory',
           subtitle: t.allSchemesDirectoryNavSub || 'Agri Schemes & Side-by-Side Compare',
           icon: Search,
-          badge: `${lang === 'mr' ? 'सर्व' : lang === 'hi' ? 'सभी' : 'All'} ${totalSchemes}`,
+          badge: `${lang === 'mr' ? 'सर्व' : lang === 'hi' ? 'सभी' : 'All'} ${formatNumberByLang(totalSchemes, lang)}`,
           badgeColor: 'bg-slate-200 text-slate-800'
         },
         {
@@ -178,7 +178,7 @@ export default function Sidebar({ activeNav, setActiveNav, activeTab, setActiveT
             <span>{t.savedSchemesNav || "Saved Schemes"}</span>
           </div>
           <span className={`px-2.5 py-0.5 rounded-full text-xs font-black ${(activeTab === 'SAVED' || activeNav === 'SAVED') ? 'bg-emerald-500 text-slate-950' : 'bg-amber-400 text-slate-950'}`}>
-            {savedSchemesCount}
+            {formatNumberByLang(savedSchemesCount, lang)}
           </span>
         </button>
 

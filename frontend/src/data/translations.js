@@ -420,7 +420,7 @@ export const TRANSLATIONS = {
     step1Title: "१. वैयक्तिक तपशील",
     agriTitle: "शेती व कृषी योजना",
     agriDesc: "पीएम-किसान, पीक विमा, सोलर पंप अनुदान, किसान क्रेडिट कार्ड",
-    step2Title: "२. वैयक्तिक व आर्थिक तपशील",
+    step2Title: "१. वैयक्तिक व आर्थिक तपशील",
     step2Subtitle: "अधिवास, उत्पन्न आणि जमीन तपशील सेट करा",
     step2HeaderDesc: "अधिवास राज्य, वार्षिक उत्पन्न, जात प्रवर्ग आणि शेती आकार प्रविष्ट करा",
     annualIncome: "वार्षिक उत्पन्न (₹)",
@@ -432,7 +432,7 @@ export const TRANSLATIONS = {
     acresUnit: "एकर",
     smallFarmerMarker: "५ एकर (लहान शेतकरी)",
     farmingType: "शेतकरी वर्ग / प्रकार",
-    step3Title: "३. उपलब्ध कागदपत्रे चेकलिस्ट",
+    step3Title: "२. उपलब्ध कागदपत्रे चेकलिस्ट",
     step3Subtitle: "उपलब्ध मास्टर कागदपत्रे निवडा",
     step3Desc: "कागदपत्र सज्जता व पुर्नवापर ऑप्टिमायझेशनसाठी उपलब्ध कागदपत्रे निवडा.",
     nextStepDocs: "पुढे: आवश्यक कागदपत्रे",
@@ -744,7 +744,7 @@ export const TRANSLATIONS = {
     notifYesterday: "काल",
     notifDaysAgo: "{days} दिवसांपूर्वी",
     notifViewScheme: "योजना पहा",
-    notifFooterCredit: "राष्ट्रीय पोर्टल सेवांमधून थेट अद्यतनित",
+    notifFooterCredit: "अपडेटेड राहा",
 
     // System Errors & Connection
     backendDisconnectedDesc: "बॅकएंड कनेक्ट होऊ शकले नाही — ऑफलाइन डेमो डेटा दाखवत आहे.",
@@ -830,7 +830,7 @@ export const TRANSLATIONS = {
     step1Title: "१. व्यक्तिगत विवरण",
     agriTitle: "कृषि एवं खेती",
     agriDesc: "पीएम-किसान, फसल बीमा, सोलर पंप सब्सिडी, किसान क्रेडिट कार्ड",
-    step2Title: "२. प्रोफाइल एवं आय विवरण",
+    step2Title: "१. प्रोफाइल एवं आय विवरण",
     step2Subtitle: "मूल निवास, आय और भूमि विवरण सेट करें",
     step2HeaderDesc: "मूल निवास राज्य, वार्षिक आय, जाति वर्ग और भूमि का आकार दर्ज करें",
     annualIncome: "वार्षिक आय (₹)",
@@ -842,7 +842,7 @@ export const TRANSLATIONS = {
     acresUnit: "एकड़",
     smallFarmerMarker: "5 एकड़ (छोटे किसान)",
     farmingType: "किसान वर्ग / प्रकार",
-    step3Title: "३. उपलब्ध दस्तावेज चेकलिस्ट",
+    step3Title: "२. उपलब्ध दस्तावेज चेकलिस्ट",
     step3Subtitle: "उपलब्ध मास्टर दस्तावेज चुनें",
     step3Desc: "दस्तावेजों की तैयारी एवं पुन: उपयोग की गणना के लिए उपलब्ध दस्तावेज चुनें।",
     nextStepDocs: "आगे: आवश्यक दस्तावेज",
@@ -1154,7 +1154,7 @@ export const TRANSLATIONS = {
     notifYesterday: "कल",
     notifDaysAgo: "{days} दिन पहले",
     notifViewScheme: "योजना देखें",
-    notifFooterCredit: "राष्ट्रीय पोर्टल सेवाओं से वास्तविक समय में अपडेट",
+    notifFooterCredit: "अपडेटेड रहिए",
 
     // System Errors & Connection
     backendDisconnectedDesc: "बैकएंड कनेक्ट नहीं हो सका — ऑफ़लाइन डेमो डेटा दिखाया जा रहा है।",
@@ -1988,4 +1988,17 @@ export function getLocalizedCallout(calloutText, lang = 'en') {
     }
   }
   return calloutText;
+}
+
+export function toDevanagariDigits(num) {
+  if (num === null || num === undefined) return '';
+  const devanagariMap = ['०', '१', '२', '३', '४', '५', '६', '७', '८', '९'];
+  return String(num).replace(/[0-9]/g, (digit) => devanagariMap[Number(digit)]);
+}
+
+export function formatNumberByLang(num, lang) {
+  if (lang === 'mr' || lang === 'hi') {
+    return toDevanagariDigits(num);
+  }
+  return String(num);
 }

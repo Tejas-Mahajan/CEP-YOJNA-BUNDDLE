@@ -23,7 +23,7 @@ import ErrorBoundary from './components/ErrorBoundary';
 import DashboardSkeleton from './components/DashboardSkeleton';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { formatDeadlineText } from './utils/validation';
-import { TRANSLATIONS, getSchemeName, getSchemeDescription, getSchemeBenefit } from './data/translations';
+import { TRANSLATIONS, getSchemeName, getSchemeDescription, getSchemeBenefit, formatNumberByLang } from './data/translations';
 import { API_BASE } from './config';
 
 function MainAppContent() {
@@ -611,18 +611,20 @@ function MainAppContent() {
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative z-10">
                     <div>
                       <div className="flex items-center space-x-2 text-amber-400 font-semibold text-xs uppercase tracking-wider mb-1">
-                        <Bookmark className="w-4 h-4 fill-amber-400" /> Bookmarked Schemes Vault
+                        <Bookmark className="w-4 h-4 fill-amber-400" /> {t.bookmarkedVaultTitle || (lang === 'mr' ? 'जतन केलेल्या योजनांचे दालन' : lang === 'hi' ? 'सहेजी गई योजनाओं का वॉल्ट' : 'Bookmarked Schemes Vault')}
                       </div>
-                      <h2 className="text-2xl font-black">Your Saved Schemes ({savedSchemes.length})</h2>
+                      <h2 className="text-2xl font-black">
+                        {t.yourSavedSchemes || (lang === 'mr' ? 'तुमच्या जतन केलेल्या योजना' : lang === 'hi' ? 'आपकी सहेजी गई योजनाएं' : 'Your Saved Schemes')} ({formatNumberByLang(savedSchemes.length, lang)})
+                      </h2>
                       <p className="text-xs text-emerald-200 mt-1 max-w-xl">
-                        Quick access to your saved agriculture & welfare schemes. Compare benefits or view deep-dive details.
+                        {t.savedSchemesDesc || (lang === 'mr' ? 'आपल्या जतन केलेल्या कृषी आणि कल्याणकारी योजनांमध्ये त्वरित प्रवेश करा. फायदे तपासा किंवा सविस्तर तपशील पहा.' : lang === 'hi' ? 'अपनी सहेजी गई कृषि एवं कल्याणकारी योजनाओं को तुरंत देखें। लाभ की तुलना करें या विस्तृत विवरण देखें।' : 'Quick access to your saved agriculture & welfare schemes. Compare benefits or view deep-dive details.')}
                       </p>
                     </div>
                     <button
                       onClick={() => setActiveNav('directory')}
                       className="px-4 py-2 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-extrabold text-xs shadow-md transition-all self-start sm:self-center cursor-pointer"
                     >
-                      Explore All Schemes
+                      {t.exploreAllSchemes || (lang === 'mr' ? 'सर्व योजना एक्सप्लोर करा' : lang === 'hi' ? 'सभी योजनाएं देखें' : 'Explore All Schemes')}
                     </button>
                   </div>
                 </div>
@@ -633,9 +635,11 @@ function MainAppContent() {
                       <Bookmark className="w-8 h-8 fill-amber-500 text-amber-600" />
                     </div>
                     <div className="max-w-md mx-auto space-y-2">
-                      <h4 className="text-xl font-bold text-slate-900">No Saved Schemes Yet</h4>
+                      <h4 className="text-xl font-bold text-slate-900">
+                        {t.noSavedSchemesTitle || (lang === 'mr' ? 'अद्याप कोणतीही योजना जतन केलेली नाही' : lang === 'hi' ? 'अभी तक कोई योजना सहेजी नहीं गई' : 'No Saved Schemes Yet')}
+                      </h4>
                       <p className="text-xs text-slate-500">
-                        You haven't saved any schemes yet. Click the bookmark icon on any scheme card in the Directory or Action Plan to add it here.
+                        {t.noSavedSchemesDesc || (lang === 'mr' ? 'तुम्ही अद्याप कोणतीही योजना जतन केलेली नाही. कोणत्याही योजना कार्डवरील बुकमार्क चिन्हावर क्लिक करा.' : lang === 'hi' ? 'आपने अभी तक कोई योजना नहीं सहेजी है। किसी भी योजना कार्ड पर बुकमार्क आइकन पर क्लिक करें।' : "You haven't saved any schemes yet. Click the bookmark icon on any scheme card in the Directory or Action Plan to add it here.")}
                       </p>
                     </div>
                     <div>
@@ -644,7 +648,7 @@ function MainAppContent() {
                         className="px-6 py-2.5 rounded-2xl bg-emerald-800 hover:bg-emerald-700 text-white font-bold text-xs shadow-md shadow-emerald-800/20 inline-flex items-center space-x-2 transition-all cursor-pointer"
                       >
                         <Search className="w-4 h-4" />
-                        <span>Browse All Schemes</span>
+                        <span>{t.browseAllSchemes || (lang === 'mr' ? 'सर्व योजना ब्राउझ करा' : lang === 'hi' ? 'सभी योजनाएं ब्राउज़ करें' : 'Browse All Schemes')}</span>
                       </button>
                     </div>
                   </div>
