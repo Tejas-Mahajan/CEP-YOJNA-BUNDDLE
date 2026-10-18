@@ -1,36 +1,72 @@
 /**
  * Frontend Validation Module for YojanaBundle Profile Data
  * Scoped to Agriculture and Farming Profile Inputs
+ * Supports Multi-Language Localization (en, mr, hi)
  */
 
-export function validateProfile(profile) {
+export function validateProfile(profile, lang = 'en') {
   if (!profile) return { isValid: true, errors: {} };
 
   const errors = {};
 
+  const errorMessages = {
+    en: {
+      incomeRequired: "Annual Income is required",
+      incomeNegative: "Annual Income cannot be negative",
+      incomeMax: "Annual Income exceeds maximum limit of ₹50,00,000",
+      ageRequired: "Age is required",
+      ageRange: "Age must be between 14 and 100 years",
+      landRequired: "Land Holding size is required",
+      landNegative: "Land Holding size cannot be negative",
+      landMax: "Land Holding size cannot exceed 100 Acres"
+    },
+    mr: {
+      incomeRequired: "वार्षिक उत्पन्न आवश्यक आहे",
+      incomeNegative: "वार्षिक उत्पन्न ऋण असू शकत नाही",
+      incomeMax: "वार्षिक उत्पन्न कमाल मर्यादा ₹५०,००,००० पेक्षा जास्त आहे",
+      ageRequired: "वय आवश्यक आहे",
+      ageRange: "वय १४ ते १०० वर्षांच्या दरम्यान असावे",
+      landRequired: "जमीन धारणा आकार आवश्यक आहे",
+      landNegative: "जमीन धारणा आकार ऋण असू शकत नाही",
+      landMax: "जमीन धारणा १०० एकरापेक्षा जास्त असू शकत नाही"
+    },
+    hi: {
+      incomeRequired: "वार्षिक आय आवश्यक है",
+      incomeNegative: "वार्षिक आय नकारात्मक नहीं हो सकती",
+      incomeMax: "वार्षिक आय अधिकतम सीमा ₹50,00,000 से अधिक है",
+      ageRequired: "आयु आवश्यक है",
+      ageRange: "आयु 14 से 100 वर्ष के बीच होनी चाहिए",
+      landRequired: "भूमि जोत का आकार आवश्यक है",
+      landNegative: "भूमि जोत का आकार नकारात्मक नहीं हो सकता",
+      landMax: "भूमि जोत का आकार 100 एकड़ से अधिक नहीं हो सकता"
+    }
+  };
+
+  const msgs = errorMessages[lang] || errorMessages.en;
+
   // 1. Annual Income Validation
   if (profile.annual_income === undefined || profile.annual_income === null || isNaN(profile.annual_income)) {
-    errors.annual_income = "Annual Income is required";
+    errors.annual_income = msgs.incomeRequired;
   } else if (profile.annual_income < 0) {
-    errors.annual_income = "Annual Income cannot be negative";
+    errors.annual_income = msgs.incomeNegative;
   } else if (profile.annual_income > 5000000) {
-    errors.annual_income = "Annual Income exceeds maximum limit of ₹50,00,000";
+    errors.annual_income = msgs.incomeMax;
   }
 
   // 2. Age Validation
   if (profile.age === undefined || profile.age === null || isNaN(profile.age)) {
-    errors.age = "Age is required";
+    errors.age = msgs.ageRequired;
   } else if (profile.age < 14 || profile.age > 100) {
-    errors.age = "Age must be between 14 and 100 years";
+    errors.age = msgs.ageRange;
   }
 
   // 3. Land Acres Validation
   if (profile.land_acres === undefined || profile.land_acres === null || isNaN(profile.land_acres)) {
-    errors.land_acres = "Land Holding size is required";
+    errors.land_acres = msgs.landRequired;
   } else if (profile.land_acres < 0) {
-    errors.land_acres = "Land Holding size cannot be negative";
+    errors.land_acres = msgs.landNegative;
   } else if (profile.land_acres > 100) {
-    errors.land_acres = "Land Holding size cannot exceed 100 Acres";
+    errors.land_acres = msgs.landMax;
   }
 
   return {

@@ -67,13 +67,13 @@ export default function Header({ lang, setLang, onOpenMobileDrawer, onGoHome }) 
                 className="px-3.5 py-2.5 rounded-2xl bg-gradient-to-r from-emerald-800 via-emerald-700 to-teal-700 hover:from-emerald-900 hover:to-teal-800 text-white text-xs font-extrabold shadow-md shadow-emerald-800/20 flex items-center space-x-1.5 transition-all cursor-pointer"
               >
                 <LogIn className="w-4 h-4" />
-                <span className="hidden sm:inline">Log In / Sign Up</span>
+                <span className="hidden sm:inline">{t.authLoginSignup || 'Log In / Sign Up'}</span>
               </button>
             ) : (
               <button
                 onClick={() => setIsProfileModalOpen(prev => !prev)}
                 className="p-2 rounded-2xl border border-emerald-300 bg-emerald-50 text-emerald-950 text-xs font-bold flex items-center space-x-1.5 hover:bg-emerald-100 transition-colors cursor-pointer"
-                title="View Stored Profile Attributes"
+                title={t.storedAttributes || t.accountSettings || "View Stored Profile Attributes"}
               >
                 <div className="w-7 h-7 rounded-full bg-emerald-800 text-white font-bold flex items-center justify-center text-xs shadow-sm">
                   {user.name ? user.name.charAt(0).toUpperCase() : 'U'}
@@ -87,7 +87,7 @@ export default function Header({ lang, setLang, onOpenMobileDrawer, onGoHome }) 
               <button
                 onClick={onOpenMobileDrawer}
                 className="lg:hidden p-2.5 rounded-2xl bg-slate-100 border border-slate-200 text-slate-700 hover:bg-slate-200"
-                title="Open Navigation Menu"
+                title={t.openNavMenu || "Open Navigation Menu"}
               >
                 <Menu className="w-5 h-5 text-emerald-900" />
               </button>

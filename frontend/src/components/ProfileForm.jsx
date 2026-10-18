@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sprout, Sparkles, ArrowRight, ArrowLeft, Check, FileCheck, User, ShieldCheck, ChevronRight, AlertCircle } from 'lucide-react';
 import { AVAILABLE_DOCUMENTS } from '../data/presets';
-import { TRANSLATIONS } from '../data/translations';
+import { TRANSLATIONS, getLocalizedDocumentName, getLocalizedCategory, getLocalizedState } from '../data/translations';
 import { validateProfile } from '../utils/validation';
 
 export default function ProfileForm({ profile, setProfile, onSubmit, isEvaluating, lang }) {
@@ -41,16 +41,25 @@ export default function ProfileForm({ profile, setProfile, onSubmit, isEvaluatin
 
   const formatLandDisplay = (acres) => {
     const val = Number(acres) || 0;
+    const unit = t.acresUnit || 'Acres';
     if (val >= 25) {
-      return '25+ Acres';
+      return `25+ ${unit}`;
     }
-    return `${val} Acres`;
+    return `${val} ${unit}`;
   };
+
+  // Re-run validation on language change if there are active errors
+  React.useEffect(() => {
+    if (Object.keys(validationErrors).length > 0) {
+      const validation = validateProfile(profile, lang);
+      setValidationErrors(validation.errors);
+    }
+  }, [lang]);
 
   const handleInputChange = (field, value) => {
     setProfile(prev => {
       const updated = { ...prev, [field]: value };
-      const validation = validateProfile(updated);
+      const validation = validateProfile(updated, lang);
       setValidationErrors(validation.errors);
       return updated;
     });
@@ -76,7 +85,7 @@ export default function ProfileForm({ profile, setProfile, onSubmit, isEvaluatin
 
   const handleFormSubmitWithValidation = (e) => {
     e.preventDefault();
-    const validation = validateProfile(profile);
+    const validation = validateProfile(profile, lang);
     if (!validation.isValid) {
       setValidationErrors(validation.errors);
       return;
@@ -85,8 +94,8 @@ export default function ProfileForm({ profile, setProfile, onSubmit, isEvaluatin
   };
 
   const steps = [
-    { number: 1, title: t.step2Title || "Profile & Income Attributes", subtitle: "Set Domicile, Income & LandHolding" },
-    { number: 2, title: t.step3Title || "Owned Documents Checklist", subtitle: "Select Possessed Master Documents" }
+    { number: 1, title: t.step2Title || "Profile & Income Attributes", subtitle: t.step2Subtitle || "Set Domicile, Income & LandHolding" },
+    { number: 2, title: t.step3Title || "Owned Documents Checklist", subtitle: t.step3Subtitle || "Select Possessed Master Documents" }
   ];
 
   return (
@@ -161,43 +170,43 @@ export default function ProfileForm({ profile, setProfile, onSubmit, isEvaluatin
                 <span className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-900 font-bold text-sm flex items-center justify-center border border-emerald-300">1</span>
                 <div>
                   <h3 className="text-lg font-bold text-slate-900">{t.step2Title || "Profile & Income Attributes"}</h3>
-                  <p className="text-xs text-slate-500">Provide domicile, income, category, and landholding size</p>
+                  <p className="text-xs text-slate-500">{t.step2HeaderDesc || "Provide domicile, income, category, and landholding size"}</p>
                 </div>
               </div>
 
               {/* Domicile State & Basic Info */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Domicile State</label>
+                  <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">{t.domicileState || "Domicile State"}</label>
                   <select
                     value={profile.state || 'Maharashtra'}
                     onChange={(e) => handleInputChange('state', e.target.value)}
                     className="w-full px-4 py-3 rounded-2xl border border-slate-200 bg-slate-50/50 text-sm font-semibold text-slate-900 focus:ring-2 focus:ring-emerald-500 outline-none"
                   >
-                    <option value="Maharashtra">Maharashtra (महाराष्ट्र)</option>
-                    <option value="Karnataka">Karnataka</option>
-                    <option value="Gujarat">Gujarat</option>
-                    <option value="All">Pan-India / All States</option>
+                    <option value="Maharashtra">{t.stateMaharashtra || 'Maharashtra'} (महाराष्ट्र)</option>
+                    <option value="Karnataka">{t.stateKarnataka || 'Karnataka'}</option>
+                    <option value="Gujarat">{t.stateGujarat || 'Gujarat'}</option>
+                    <option value="All">{t.stateAll || 'Pan-India / All States'}</option>
                   </select>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Caste Category</label>
+                  <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">{t.casteCategory || "Caste Category"}</label>
                   <select
                     value={profile.category || 'General'}
                     onChange={(e) => handleInputChange('category', e.target.value)}
                     className="w-full px-4 py-3 rounded-2xl border border-slate-200 bg-slate-50/50 text-sm font-semibold text-slate-900 focus:ring-2 focus:ring-emerald-500 outline-none"
                   >
-                    <option value="General">General (खुला)</option>
-                    <option value="OBC">OBC (इतर मागासवर्ग)</option>
-                    <option value="SC">SC (अनुसूचित जाती)</option>
-                    <option value="ST">ST (अनुसूचित जमाती)</option>
-                    <option value="EWS">EWS (आर्थिकदृष्ट्या दुर्बल)</option>
+                    <option value="General">{t.catGeneral || 'General (खुला)'}</option>
+                    <option value="OBC">{t.catOBC || 'OBC (इतर मागासवर्ग)'}</option>
+                    <option value="SC">{t.catSC || 'SC (अनुसूचित जाती)'}</option>
+                    <option value="ST">{t.catST || 'ST (अनुसूचित जमाती)'}</option>
+                    <option value="EWS">{t.catEWS || 'EWS (आर्थिकदृष्ट्या दुर्बल)'}</option>
                   </select>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Age (Years)</label>
+                  <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">{t.ageYears || "Age (Years)"}</label>
                   <input
                     type="number"
                     min="14"
@@ -219,7 +228,7 @@ export default function ProfileForm({ profile, setProfile, onSubmit, isEvaluatin
                 {/* Annual Income */}
                 <div className="space-y-2 p-5 rounded-2xl bg-slate-50/60 border border-slate-200">
                   <div className="flex justify-between items-center">
-                    <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Annual Income (₹)</label>
+                    <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">{t.annualIncome || "Annual Income (₹)"}</label>
                     <span className="text-sm font-black text-emerald-800 bg-emerald-100 px-3 py-1 rounded-xl border border-emerald-300">
                       {formatIncomeDisplay(profile.annual_income)}
                     </span>
@@ -262,7 +271,7 @@ export default function ProfileForm({ profile, setProfile, onSubmit, isEvaluatin
                 {/* Land Holding for Farmers */}
                 <div className="space-y-2 p-5 rounded-2xl bg-emerald-50/40 border border-emerald-200">
                   <div className="flex justify-between items-center">
-                    <label className="text-xs font-bold text-emerald-950 uppercase tracking-wider">Land Holding (Acres)</label>
+                    <label className="text-xs font-bold text-emerald-950 uppercase tracking-wider">{t.landAcres || "Land Holding (Acres)"}</label>
                     <span className="text-sm font-black text-emerald-900 bg-white px-3 py-1 rounded-xl border border-emerald-300">
                       {formatLandDisplay(profile.land_acres)}
                     </span>
@@ -282,9 +291,9 @@ export default function ProfileForm({ profile, setProfile, onSubmit, isEvaluatin
                     className="w-full h-2 bg-emerald-200 rounded-lg appearance-none cursor-pointer accent-emerald-600"
                   />
                   <div className="flex justify-between text-[10px] text-emerald-700 font-medium pt-1">
-                    <span>0 Acres</span>
-                    <span>10 Acres</span>
-                    <span>25+ Acres</span>
+                    <span>0 {t.acresUnit || 'Acres'}</span>
+                    <span>10 {t.acresUnit || 'Acres'}</span>
+                    <span>25+ {t.acresUnit || 'Acres'}</span>
                   </div>
                   {validationErrors.land_acres && (
                     <div className="text-red-600 text-2xs font-bold mt-1 flex items-center">
@@ -311,7 +320,7 @@ export default function ProfileForm({ profile, setProfile, onSubmit, isEvaluatin
                   <span className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-900 font-bold text-sm flex items-center justify-center border border-emerald-300">2</span>
                   <div>
                     <h3 className="text-lg font-bold text-slate-900">{t.step3Title}</h3>
-                    <p className="text-xs text-slate-500">Select all documents you currently possess</p>
+                    <p className="text-xs text-slate-500">{t.step3Desc || "Select all documents you currently possess"}</p>
                   </div>
                 </div>
 
@@ -321,14 +330,14 @@ export default function ProfileForm({ profile, setProfile, onSubmit, isEvaluatin
                     onClick={handleSelectAllDocs}
                     className="px-3 py-1.5 rounded-xl bg-emerald-100 text-emerald-800 hover:bg-emerald-200 text-xs font-bold transition-all"
                   >
-                    Select All
+                    {t.selectAll || "Select All"}
                   </button>
                   <button
                     type="button"
                     onClick={handleClearAllDocs}
                     className="px-3 py-1.5 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 text-xs font-bold transition-all"
                   >
-                    Clear All
+                    {t.clearAll || "Clear All"}
                   </button>
                 </div>
               </div>
@@ -351,7 +360,7 @@ export default function ProfileForm({ profile, setProfile, onSubmit, isEvaluatin
                     >
                       <span className="flex items-center space-x-2">
                         <FileCheck className={`w-4 h-4 ${isOwned ? 'text-emerald-600' : 'text-slate-400'}`} />
-                        <span>{doc}</span>
+                        <span>{getLocalizedDocumentName(doc, lang)}</span>
                       </span>
                       <div className={`w-5 h-5 rounded-md flex items-center justify-center ${isOwned ? 'bg-emerald-600 text-white' : 'border border-slate-300'}`}>
                         {isOwned && <Check className="w-3.5 h-3.5 stroke-[3]" />}
@@ -363,7 +372,7 @@ export default function ProfileForm({ profile, setProfile, onSubmit, isEvaluatin
 
               <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 text-xs font-semibold flex items-center space-x-2">
                 <Sparkles className="w-4 h-4 text-amber-600 flex-shrink-0" />
-                <span>Selected {profile.owned_documents?.length || 0} master documents. Ready to generate optimized agriculture scheme bundle!</span>
+                <span>{t.selectedDocsMsg ? t.selectedDocsMsg.replace('{count}', profile.owned_documents?.length || 0) : `Selected ${profile.owned_documents?.length || 0} master documents. Ready to generate optimized agriculture scheme bundle!`}</span>
               </div>
             </motion.div>
           )}
@@ -380,7 +389,7 @@ export default function ProfileForm({ profile, setProfile, onSubmit, isEvaluatin
               className="px-5 py-3 rounded-2xl border border-slate-200 hover:bg-slate-100 text-slate-700 font-bold text-xs flex items-center space-x-1.5 transition-all cursor-pointer"
             >
               <ArrowLeft className="w-4 h-4" />
-              <span>Previous Step</span>
+              <span>{t.prevStep || "Previous Step"}</span>
             </button>
           ) : <div />}
 
@@ -414,7 +423,7 @@ export default function ProfileForm({ profile, setProfile, onSubmit, isEvaluatin
                 <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
               ) : (
                 <>
-                  <span>Calculate Agriculture Scheme Bundle</span>
+                  <span>{t.calculateBtn || "Calculate Agriculture Scheme Bundle"}</span>
                   <ArrowRight className="w-5 h-5" />
                 </>
               )}

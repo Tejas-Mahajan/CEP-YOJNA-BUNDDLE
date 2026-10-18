@@ -76,7 +76,7 @@ export default function Sidebar({ activeNav, setActiveNav, activeTab, setActiveT
           label: t.cscLocatorNav || 'CSC / Offline Help Locator',
           subtitle: t.cscLocatorNavSub || 'Maha e-Seva helpdesks & map links',
           icon: MapPin,
-          badge: lang === 'mr' ? 'प्रमाणित' : lang === 'hi' ? 'सत्यापित' : 'Verified',
+          badge: t.verifiedBadge || (lang === 'mr' ? 'प्रमाणित' : lang === 'hi' ? 'सत्यापित' : 'Verified'),
           badgeColor: 'bg-amber-400 text-slate-950'
         }
       ]
@@ -114,7 +114,7 @@ export default function Sidebar({ activeNav, setActiveNav, activeTab, setActiveT
                       setActiveNav(item.id);
                     }
                   }}
-                  title={isLocked ? (lang === 'mr' ? "अनलॉक करण्यासाठी आधी प्रोफाईल भरा" : lang === 'hi' ? "अनलॉक करने के लिए पहले प्रोफाइल भरें" : "Complete initial profile to unlock") : ""}
+                  title={isLocked ? (t.fillProfileToUnlock || (lang === 'mr' ? "अनलॉक करण्यासाठी आधी प्रोफाईल भरा" : lang === 'hi' ? "अनलॉक करने के लिए पहले प्रोफाइल भरें" : "Complete initial profile to unlock")) : ""}
                   className={`w-full p-3 rounded-2xl text-left transition-all flex items-center justify-between group ${
                     isLocked
                       ? 'opacity-50 cursor-not-allowed bg-slate-50 border border-slate-100 text-slate-400'
@@ -139,14 +139,14 @@ export default function Sidebar({ activeNav, setActiveNav, activeTab, setActiveT
                         {item.label}
                       </div>
                       <div className={`text-[10px] truncate ${isLocked ? 'text-slate-400' : isActive ? 'text-emerald-200' : 'text-slate-400'}`}>
-                        {isLocked ? (lang === 'mr' ? '🔒 लॉक केलेले' : lang === 'hi' ? '🔒 लॉक है' : '🔒 Fill profile to unlock') : item.subtitle}
+                        {isLocked ? `🔒 ${t.fillProfileToUnlock || (lang === 'mr' ? 'लॉक केलेले' : lang === 'hi' ? 'लॉक है' : 'Fill profile to unlock')}` : item.subtitle}
                       </div>
                     </div>
                   </div>
 
                   {isLocked ? (
                     <span className="px-2 py-0.5 rounded-full text-[10px] font-extrabold ml-1 flex-shrink-0 bg-slate-200 text-slate-500 flex items-center space-x-1">
-                      <span>{lang === 'mr' ? '🔒 लॉक' : lang === 'hi' ? '🔒 लॉक' : '🔒 Locked'}</span>
+                      <span>🔒 {t.lockedBadge || (lang === 'mr' ? 'लॉक' : lang === 'hi' ? 'लॉक' : 'Locked')}</span>
                     </span>
                   ) : item.badge ? (
                     <span className={`px-2 py-0.5 rounded-full text-[10px] font-extrabold ml-1 flex-shrink-0 ${item.badgeColor || 'bg-emerald-100 text-emerald-900'}`}>

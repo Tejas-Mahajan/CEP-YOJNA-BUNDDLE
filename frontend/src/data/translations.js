@@ -11,20 +11,38 @@ export const TRANSLATIONS = {
     agriTitle: "Agriculture & Farming",
     agriDesc: "PM-KISAN, Fasal Bima, Solar Pump Subsidies, Kisan Credit Card",
     step2Title: "Profile & Income Attributes",
+    step2Subtitle: "Set Domicile, Income & LandHolding",
+    step2HeaderDesc: "Provide domicile, income, category, and landholding size",
     annualIncome: "Annual Income (₹)",
     casteCategory: "Caste Category",
     domicileState: "Domicile State",
     ageYears: "Age (Years)",
     agriSection: "Agriculture Attributes",
     landAcres: "Land Holding Size (Acres)",
+    acresUnit: "Acres",
+    smallFarmerMarker: "5 Acres (Small Farmer)",
     farmingType: "Farming Occupation Type",
     step3Title: "Owned Documents Checklist",
+    step3Subtitle: "Select Possessed Master Documents",
     step3Desc: "Select documents you currently possess to compute document readiness & overlap optimization.",
     nextStepDocs: "Next: Document Checklist",
     selectAll: "Select All",
     clearAll: "Clear All",
     calculateBtn: "Calculate Agriculture Scheme Bundle Plan",
     evaluatingBtn: "Evaluating Schemes & Overlaps...",
+    prevStep: "Previous Step",
+    selectedDocsMsg: "Selected {count} master documents. Ready to generate optimized agriculture scheme bundle!",
+
+    // State & Category Options
+    stateMaharashtra: "Maharashtra",
+    stateKarnataka: "Karnataka",
+    stateGujarat: "Gujarat",
+    stateAll: "Pan-India / All States",
+    catGeneral: "General (Open)",
+    catOBC: "OBC (Other Backward Class)",
+    catSC: "SC (Scheduled Caste)",
+    catST: "ST (Scheduled Tribe)",
+    catEWS: "EWS (Economically Weaker Section)",
     // Authentication Modal
     authWelcome: "Welcome to YojanaBundle",
     authWelcomeSubtitle: "Access saved schemes & personalized bundles",
@@ -33,6 +51,7 @@ export const TRANSLATIONS = {
     authMissingName: "Please enter your Full Name",
     authLogin: "Log In",
     authSignup: "Sign Up & Save Profile",
+    authLoginSignup: "Log In / Sign Up",
     authEmailPassword: "Email + Password",
     authPhoneNumber: "Phone Number",
     authComingSoon: "Coming soon",
@@ -56,12 +75,28 @@ export const TRANSLATIONS = {
     authLoginFailed: "Login failed",
     authSignupFailed: "Signup failed",
     authAuthenticationFailed: "Authentication failed. Please check credentials.",
+    accountSettings: "Account Settings",
+    openNavMenu: "Open Navigation Menu",
 
-    // Top User Bar
+    // Top User Bar & Welcome Screen
     welcomeBack: "Welcome back,",
     profileRoleLabel: "Profile: Farmer",
     storedAttributes: "Stored Attributes",
     logOut: "Log Out",
+    guestUser: "Guest User",
+    beneficiary: "Beneficiary",
+    portalInitializing: "Portal Initializing",
+    welcomeUserMsg: "Setting up your personalized scheme bundling portal & document readiness engine...",
+    loadingRules: "Loading Scheme Rules 2026...",
+    loginPromptDesc: "Log in to save profile & schemes",
+    activeAccount: "Active Account",
+    navigationLabel: "Navigation",
+    engineActiveBanner: "Agriculture & Farming Scheme Bundle Engine Active",
+    resetProfileBtn: "Reset Profile Form",
+    nameLabel: "Name",
+    roleLabel: "Role",
+    syncedAttributesNote: "* These attributes are automatically synced with your form inputs so you don't need to re-enter them repeatedly.",
+    savedInProfile: "Saved in user profile",
 
     // Left Sidebar Navigation
     navPortalDashboard: "PORTAL & DASHBOARD",
@@ -78,6 +113,9 @@ export const TRANSLATIONS = {
     cscLocatorNav: "CSC / Offline Help Locator",
     cscLocatorNavSub: "Maha e-Seva helpdesks & map links",
     savedSchemesNav: "Saved Schemes",
+    verifiedBadge: "Verified",
+    lockedBadge: "Locked",
+    fillProfileToUnlock: "Complete initial profile to unlock",
 
     // Dashboard & Metrics
     totalBenefitLabel: "Total Potential Benefit",
@@ -100,6 +138,8 @@ export const TRANSLATIONS = {
     readyToApply: "Ready to Apply",
     docReadinessLabel: "Document Readiness Score",
     readiness: "Readiness",
+    ready: "Ready",
+    missing: "Missing",
 
     // Document Overlap & Conflicts
     overlapTitle: "Document Overlap & Reuse Optimization",
@@ -113,25 +153,129 @@ export const TRANSLATIONS = {
     conflictDesc: "Only 1 scheme can be claimed per year. We recommend the higher-yielding scheme below:",
     recommendedClaim: "Recommended Primary Claim",
     secondaryClaim: "Mutually Exclusive Alternative",
+    mutuallyExclusiveOption: "Mutually Exclusive Option",
 
-    // Action Plan
+    // Action Plan & Filters
     actionPlanTitle: 'Prioritized "Apply First" Action Plan',
     actionPlanDesc: "Sorted by Weighted Benefit + Urgency + Readiness",
     applyNow: "Apply Now",
     closesInDays: "Closes in {days} Days",
+    daysLeft: "Days Left",
     requiredDocs: "Required Documents",
-    missing: "Missing",
-    ready: "Ready",
     helpful: "Was this recommendation helpful?",
     yesHelpful: "Helpful",
     notRelevant: "Not Relevant",
+    needsImprovement: "Needs Improvement",
     ineligibleTitle: "Ineligible Schemes & Disqualification Reasons",
     exportPlan: "📄 Export Plan",
+    searchEligiblePlaceholder: "Search eligible schemes...",
+    allPriorities: "All Priorities",
+    docFilterPrefix: "Doc Filter",
+    viewDetailsTitle: "View Details",
+    applicationProcedure: "Application Procedure",
+    noEligibleTitle: "No Eligible Schemes Found for Current Filters",
+    noEligibleDesc: "Don't worry! Your profile criteria or active filters might be restricting results. Try these quick optimization tips:",
+    tipDomicileTitle: "🌐 Domicile State",
+    tipDomicileDesc: 'Set state to "Pan-India / All" to unlock national schemes.',
+    tipIncomeTitle: "💰 Annual Income",
+    tipIncomeDesc: "Ensure income slider is within state scheme thresholds (e.g. ₹8.0 Lakh).",
+    tipDocsTitle: "📄 Master Documents",
+    tipDocsDesc: "Select key documents like Aadhaar Card or Income Certificate.",
+    resetFiltersBtn: "Reset All Filters & View All Schemes",
+    saveSchemeTitle: "Save Scheme to Profile",
+    savedSchemeTitle: "Saved to Profile Bundle",
 
     // Floating Action Bar
     floatingTotalBenefit: "TOTAL FINANCIAL BENEFIT UNLOCKED",
     floatingActionChecklist: "Action Checklist",
     floatingExport: "Export",
+
+    // Scheme Directory
+    directoryTag: "Agriculture & Farming Schemes Directory",
+    directoryTitle: "All Agriculture Welfare & Grant Schemes",
+    directorySub: "Browse, filter, and compare central and state government agricultural schemes, crop insurance, and solar pump subsidies.",
+    directorySearchPlaceholder: "Search agriculture scheme name, benefit or keywords...",
+    loadingSchemes: "Loading Directory Schemes...",
+    noSavedSchemesTitle: "No Saved Schemes Yet",
+    noSavedSchemesDesc: "You haven't saved any schemes yet. Click the bookmark icon on any scheme card to add it to your saved list.",
+    noSchemesMatchTitle: 'No Schemes Match "{query}"',
+    noSchemesFoundTitle: "No Schemes Found",
+    noSchemesFoundDesc: "We couldn't find any scheme matching your current search terms or filter selection.",
+    trySearchingFor: "Try searching for:",
+    showAllSchemes: "Show All Schemes",
+    clearSearchReset: "Clear Search & Reset All Filters",
+    compareTooltip: "Compare Side-by-Side",
+    compareBtn: "Compare",
+    comparingBtn: "Comparing",
+    compareSelectedCount: "Selected {count}/2 for Comparison",
+    compareReady: "Ready to compare side-by-side!",
+    compareSelectMore: "Select 1 more scheme",
+    compareNowBtn: "Compare Now 📊",
+    windowLabel: "Window",
+    viewDeepDive: "View Deep-Dive Details",
+    exploreAllSchemes: "Explore All Schemes",
+    browseAllSchemes: "Browse All Schemes",
+    removeFromSaved: "Remove from Saved",
+    bookmarkedVaultTitle: "Bookmarked Schemes Vault",
+    yourSavedSchemes: "Your Saved Schemes",
+    savedSchemesDesc: "Quick access to your saved agriculture & welfare schemes. Compare benefits or view deep-dive details.",
+
+    // Scheme Comparison Modal
+    compareModalTag: "Side-by-Side Scheme Comparison",
+    compareModalTitle: "Compare Government Welfare Grants",
+    sharedMasterDocsPrefix: "Shared Master Documents",
+    sharedMasterDocsSuffix: "satisfies both schemes simultaneously!",
+    mandatoryDocsLabel: "Mandatory Documents",
+    sharedTag: "Shared",
+    applyPortal1: "Apply on Portal 1",
+    applyPortal2: "Apply on Portal 2",
+
+    // Scheme Modal
+    modalTabOverview: "1. Overview & Benefit",
+    modalTabDocs: "2. Documents",
+    modalTabDeadlines: "3. Deadlines & Timelines",
+    modalTabSteps: "4. Step-by-Step Guide",
+    benefitStructureTitle: "Financial Benefit Structure",
+    benefitTypeLabel: "Benefit Type",
+    schemeObjectiveTitle: "Scheme Objective",
+    eligibleCategoriesTitle: "Eligible Social Categories",
+    adminQuotaTitle: "Administrative Quota",
+    nodalDepartmentLabel: "Nodal Department:",
+    mandatoryDocsTitle: "Mandatory Documents",
+    reusableAcrossSchemes: "⚡ Reusable Across Matched Schemes",
+    standardIdentityDoc: "Standard verified identity document",
+    sharedMasterPrefix: "Shared Master",
+    deadlineCountdownTitle: "Application Deadline Countdown",
+    windowOpening: "Window Opening",
+    closingDateLabel: "Closing Date",
+    deadlineDisclaimer: "* Applications close automatically on portal servers at 11:59 PM IST on the deadline date. Apply early to avoid server load.",
+    numberedGuideTitle: "Numbered Application Guide",
+    applyOfficialPortal: "Apply on Official Portal",
+
+    // Feedback Modal
+    feedbackModalTitle: "Feedback & Rating",
+    feedbackModalSub: "Help us improve scheme bundling recommendations for farmers.",
+    feedbackHelpful: "Helpful Match",
+    feedbackNotRelevant: "Not Relevant",
+    feedbackCommentsLabel: "Optional Comments",
+    feedbackCommentsPlaceholder: "Suggest improvements or share document application experience...",
+    feedbackSubmitBtn: "Submit Feedback",
+    feedbackThankYouTitle: "Thank You for Your Feedback!",
+    feedbackThankYouDesc: "Your rating helps optimize YojanaBundle's scheme recommendation engine.",
+
+    // Export Report
+    exportBackBtn: "Back to Dashboard",
+    exportPrintBtn: "Print / Save PDF Report",
+    exportDateGenerated: "Date Generated:",
+    exportSector: "Beneficiary Sector: AGRICULTURE & FARMING",
+    exportProfileSummary: "Beneficiary Profile Summary",
+    tableNameHeader: "Scheme Name",
+    tablePriorityHeader: "Priority",
+    tableBenefitHeader: "Benefit Amount",
+    tableDeadlineHeader: "Deadline",
+    tableDocsHeader: "Required Documents",
+    exportMasterDocsTitle: "Master Document Checklist (Attach with Applications)",
+    exportFooterNotice: "Generated automatically by YojanaBundle Smart Planner. Please verify guidelines on official portals before final submission.",
 
     // CSC Locator Module
     cscBannerTag: "Offline Assistance & Verification",
@@ -167,7 +311,15 @@ export const TRANSLATIONS = {
     notifViewScheme: "View Scheme",
     notifFooterCredit: "Stay Updated",
 
-    // Scheme Names Mapping
+    // System Errors & Connection
+    backendDisconnectedDesc: "Backend unreachable — showing offline demo data, not your real results.",
+    errorDetails: "Error details:",
+    retryConnection: "Retry Connection",
+    firstTimeWelcomeTitle: "👋 Welcome, {name}! Let's find your scheme matches",
+    firstTimeWelcomeSub: "Fill in your profile details below to see your personalized scheme action plan. All other portal sections will unlock immediately after submission.",
+    footerCredit: "YojanaBundle — Smart Scheme Bundling & Document Optimization Planner © 2026",
+
+    // Scheme Names Mapping (All 18 Schemes)
     schemeNames: {
       PM_KISAN: "Pradhan Mantri Kisan Samman Nidhi (PM-KISAN)",
       PMFBY: "Pradhan Mantri Fasal Bima Yojana (PMFBY)",
@@ -176,7 +328,17 @@ export const TRANSLATIONS = {
       PMKSY: "Pradhan Mantri Krishi Sinchayee Yojana (Per Drop More Crop)",
       SOIL_HEALTH: "Soil Health Card Scheme",
       PKVY: "Paramparagat Krishi Vikas Yojana (PKVY Organic Support)",
-      SMAM: "Sub-Mission on Agricultural Mechanization (SMAM Equipment Subsidy)"
+      SMAM: "Sub-Mission on Agricultural Mechanization (SMAM Equipment Subsidy)",
+      NAMO_SHETKARI: "Namo Shetkari Mahasanman Nidhi Yojana",
+      PM_KMY: "Pradhan Mantri Kisan Maan-Dhan Yojana (PM-KMY)",
+      MAGEL_TYALA_SHET_TALE: "Magel Tyala Shet Tale (Farm Pond Scheme)",
+      GOPINATH_MUNDE_VIMA: "Gopinath Munde Shetkari Apghat Suraksha Sadanugraha Anudan Yojana",
+      BHAUSAHEB_FUNDKAR: "Bhausaheb Fundkar Phalbag Lagvad Yojana",
+      AIF: "Agriculture Infrastructure Fund (AIF)",
+      PMFME: "Pradhan Mantri Formalisation of Micro Food Processing Enterprises (PMFME)",
+      POKRA: "Nanaji Deshmukh Krishi Sanjivani Prakalp (PoKRA)",
+      DR_AMBEDKAR_KRUSHI_SWAVALAMBAN: "Dr. Babasaheb Ambedkar Krushi Swavalamban Yojana",
+      BIRSA_MUNDA_KRUSHI_KRANTI: "Birsa Munda Krushi Kranti Yojana"
     },
 
     schemeDescriptions: {
@@ -187,7 +349,17 @@ export const TRANSLATIONS = {
       PMKSY: "Promotes micro-irrigation technologies (drip and sprinkler systems) to maximize water use efficiency in farm plots.",
       SOIL_HEALTH: "Provides crop-wise recommendations for nutrients and fertilizers required for individual farm plots to boost yields.",
       PKVY: "Encourages organic farming clusters with financial assistance for bio-fertilizers, seeds, and organic certification.",
-      SMAM: "Assists small and marginal farmers in purchasing modern agricultural machinery and tools to reduce labor cost."
+      SMAM: "Assists small and marginal farmers in purchasing modern agricultural machinery and tools to reduce labor cost.",
+      NAMO_SHETKARI: "Maharashtra state government's financial assistance scheme that provides an additional ₹6,000 annually to eligible PM-KISAN beneficiaries in the state.",
+      PM_KMY: "A voluntary and contributory pension scheme for small and marginal farmers (18-40 years) to receive a fixed pension of ₹3,000/month after 60 years of age.",
+      MAGEL_TYALA_SHET_TALE: "Maharashtra government scheme to provide permanent protective irrigation capabilities by subsidizing the excavation and lining of farm ponds.",
+      GOPINATH_MUNDE_VIMA: "Provides financial assistance to the families of farmers in Maharashtra in the event of accidental death, partial, or permanent disability.",
+      BHAUSAHEB_FUNDKAR: "Maharashtra state scheme providing 100% subsidy on expenses for planting specific fruit orchards to increase farmers' sustainable income (paid in a 50:30:20 ratio over 3 years).",
+      AIF: "A medium-long term debt financing facility for investment in viable projects for post-harvest management infrastructure and community farming assets, providing a 3% interest subvention up to ₹2 Crore for up to 7 years.",
+      PMFME: "Provides financial, technical, and business support for micro food processing enterprises, offering 35% subsidy on eligible project cost up to ₹10 Lakhs to boost farm-level processing and value addition.",
+      POKRA: "A World Bank-assisted Maharashtra Government project enhancing climate resilience of smallholder farmers in drought-prone Marathwada, Vidarbha, and Saline track districts through subsidized micro-irrigation, soil health, and farm technology.",
+      DR_AMBEDKAR_KRUSHI_SWAVALAMBAN: "Empowers Scheduled Caste and Neo-Buddhist farmers in Maharashtra by providing 100% subsidized irrigation facilities including new well construction, in-well boring, solar pump installation, and micro-irrigation.",
+      BIRSA_MUNDA_KRUSHI_KRANTI: "A flagship Maharashtra state scheme aimed at Scheduled Tribe (ST) tribal farmers to secure permanent irrigation assets such as new wells, pump sets, micro-irrigation, and plastic lining for farm ponds."
     },
 
     schemeBenefits: {
@@ -198,7 +370,17 @@ export const TRANSLATIONS = {
       PMKSY: "55% subsidy for Small/Marginal Farmers & 45% for others on Drip/Sprinkler Systems",
       SOIL_HEALTH: "Free soil sample testing & customized crop fertilizer prescription every 2 years",
       PKVY: "₹50,000 / hectare support over 3 years for organic inputs & certification",
-      SMAM: "40% to 50% financial subsidy on tractors, rotavators, and harvesters"
+      SMAM: "40% to 50% financial subsidy on tractors, rotavators, and harvesters",
+      NAMO_SHETKARI: "Additional ₹6,000 / year paid in 3 equal installments of ₹2,000 (Maharashtra State Top-up to PM-KISAN)",
+      PM_KMY: "Assured monthly pension of ₹3,000 after attaining the age of 60 years",
+      MAGEL_TYALA_SHET_TALE: "Direct subsidy up to ₹50,000 for constructing a farm pond for water conservation",
+      GOPINATH_MUNDE_VIMA: "Ex-gratia up to ₹2,00,000 in case of accidental death or permanent disability",
+      BHAUSAHEB_FUNDKAR: "100% subsidy for horticulture plantation (fruit trees) spread over 3 years",
+      AIF: "3% per annum interest subvention on institutional loans up to ₹2 Crore for post-harvest management infrastructure and credit guarantee coverage",
+      PMFME: "35% credit-linked capital subsidy up to ₹10,00,000 for setting up or upgrading micro food processing units",
+      POKRA: "Up to 100% financial assistance (up to ₹1,00,000) for climate-resilient agricultural infrastructure, shade nets, and micro-irrigation in selected drought-prone villages",
+      DR_AMBEDKAR_KRUSHI_SWAVALAMBAN: "Up to 100% subsidy (max ₹2,50,000 for new wells, plus additional support for pumps and micro-irrigation) for Scheduled Caste (SC) farmers",
+      BIRSA_MUNDA_KRUSHI_KRANTI: "Up to 100% subsidy (max ₹2,50,000 for new wells, plus pump set and drip/sprinkler systems) for Scheduled Tribe (ST) farmers"
     }
   },
 
@@ -212,22 +394,40 @@ export const TRANSLATIONS = {
     demoTesterDesc: "पूर्व-संचितात शेतकरी प्रोफाईल निवडून त्वरित चाचणी करा.",
     step1Title: "१. वैयक्तिक तपशील",
     agriTitle: "शेती व कृषी योजना",
-    agriDesc: "पीम-किसान, पीक विमा, सोलर पंप अनुदान, किसान क्रेडिट कार्ड",
+    agriDesc: "पीएम-किसान, पीक विमा, सोलर पंप अनुदान, किसान क्रेडिट कार्ड",
     step2Title: "२. वैयक्तिक व आर्थिक तपशील",
+    step2Subtitle: "अधिवास, उत्पन्न आणि जमीन तपशील सेट करा",
+    step2HeaderDesc: "अधिवास राज्य, वार्षिक उत्पन्न, जात प्रवर्ग आणि शेती आकार प्रविष्ट करा",
     annualIncome: "वार्षिक उत्पन्न (₹)",
     casteCategory: "प्रवर्ग / जात",
     domicileState: "अधिवास राज्य (State)",
     ageYears: "वय (वर्षे)",
     agriSection: "कृषी विशेष तपशील",
     landAcres: "जमीन धारणा (एकरामध्ये)",
+    acresUnit: "एकर",
+    smallFarmerMarker: "५ एकर (लहान शेतकरी)",
     farmingType: "शेतकरी वर्ग / प्रकार",
     step3Title: "३. उपलब्ध कागदपत्रे चेकलिस्ट",
-    step3Desc: "तुमच्याकडे सध्या असलेली कागदपत्रे निवडा.",
+    step3Subtitle: "उपलब्ध मास्टर कागदपत्रे निवडा",
+    step3Desc: "कागदपत्र सज्जता व पुर्नवापर ऑप्टिमायझेशनसाठी उपलब्ध कागदपत्रे निवडा.",
     nextStepDocs: "पुढे: आवश्यक कागदपत्रे",
     selectAll: "सर्व निवडा",
     clearAll: "सर्व रद्द करा",
     calculateBtn: "पात्रता व योजना बंडल प्लॅन तपासा",
     evaluatingBtn: "योजना व कागदपत्रांचे मूल्यांकन सुरू आहे...",
+    prevStep: "मागील पायरी",
+    selectedDocsMsg: "{count} मुख्य कागदपत्रे निवडली. ऑप्टिमाइझ कृषी योजना बंडल तयार करण्यासाठी सज्ज!",
+
+    // State & Category Options
+    stateMaharashtra: "महाराष्ट्र",
+    stateKarnataka: "कर्नाटक",
+    stateGujarat: "गुजरात",
+    stateAll: "सर्व राज्ये / संपूर्ण भारत",
+    catGeneral: "खुला (General)",
+    catOBC: "इतर मागासवर्ग (OBC)",
+    catSC: "अनुसूचित जाती (SC)",
+    catST: "अनुसूचित जमाती (ST)",
+    catEWS: "आर्थिकदृष्ट्या दुर्बल (EWS)",
     // Authentication Modal
     authWelcome: "YojanaBundle मध्ये आपले स्वागत आहे",
     authWelcomeSubtitle: "जतन केलेल्या योजना आणि वैयक्तिकृत बंडलमध्ये प्रवेश करा",
@@ -236,6 +436,7 @@ export const TRANSLATIONS = {
     authMissingName: "कृपया तुमचे पूर्ण नाव प्रविष्ट करा",
     authLogin: "लॉग इन",
     authSignup: "साइन अप करा आणि प्रोफाइल जतन करा",
+    authLoginSignup: "लॉग इन / साइन अप",
     authEmailPassword: "ईमेल + पासवर्ड",
     authPhoneNumber: "मोबाईल नंबर",
     authComingSoon: "लवकरच उपलब्ध",
@@ -259,12 +460,28 @@ export const TRANSLATIONS = {
     authLoginFailed: "लॉगिन अयशस्वी झाले",
     authSignupFailed: "साइन अप अयशस्वी झाले",
     authAuthenticationFailed: "प्रमाणीकरण अयशस्वी झाले. कृपया तपशील तपासा.",
+    accountSettings: "खाते सेटिंग्ज",
+    openNavMenu: "नेव्हिगेशन मेनू उघडा",
 
-    // Top User Bar
+    // Top User Bar & Welcome Screen
     welcomeBack: "पुन्हा स्वागत आहे,",
     profileRoleLabel: "प्रोफाइल: शेतकरी",
     storedAttributes: "जतन केलेले तपशील",
     logOut: "बाहेर पडा",
+    guestUser: "अतिथी वापरकर्ता",
+    beneficiary: "शेतकरी लाभार्थी",
+    portalInitializing: "पोर्टल सुरू होत आहे",
+    welcomeUserMsg: "आपले वैयक्तिकृत योजना बंडलिंग पोर्टल आणि कागदपत्र सज्जता इंजिन तयार करत आहे...",
+    loadingRules: "योजना नियम २०२६ लोड होत आहेत...",
+    loginPromptDesc: "प्रोफाइल आणि योजना जतन करण्यासाठी लॉग इन करा",
+    activeAccount: "सक्रिय खाते",
+    navigationLabel: "नेव्हिगेशन",
+    engineActiveBanner: "कृषी आणि शेती योजना बंडलिंग इंजिन सक्रिय",
+    resetProfileBtn: "प्रोफाइल फॉर्म रीसेट करा",
+    nameLabel: "नाव",
+    roleLabel: "भूमिका",
+    syncedAttributesNote: "* हे तपशील तुमच्या फॉर्म इनपुटसह आपोआप सिंक होतात, त्यामुळे ते पुन्हा प्रविष्ट करण्याची आवश्यकता नाही.",
+    savedInProfile: "वापरकर्ता प्रोफाइलमध्ये जतन केले",
 
     // Left Sidebar Navigation
     navPortalDashboard: "पोर्टल व डॅशबोर्ड",
@@ -281,6 +498,9 @@ export const TRANSLATIONS = {
     cscLocatorNav: "सीएससी / ऑफलाइन मदत केंद्र",
     cscLocatorNavSub: "महा ई-सेवा केंद्र व नकाशा",
     savedSchemesNav: "जतन केलेल्या योजना",
+    verifiedBadge: "प्रमाणित",
+    lockedBadge: "लॉक",
+    fillProfileToUnlock: "अनलॉक करण्यासाठी आधी प्रोफाईल भरा",
 
     // Dashboard & Metrics
     totalBenefitLabel: "एकूण संभाव्य आर्थिक फायदा",
@@ -303,6 +523,8 @@ export const TRANSLATIONS = {
     readyToApply: "अर्जासाठी तयार",
     docReadinessLabel: "कागदपत्र सज्जता गुण",
     readiness: "सज्जता",
+    ready: "सज्ज",
+    missing: "अपूर्ण",
 
     // Document Overlap & Conflicts
     overlapTitle: "कागदपत्र पुर्नवापर व सुलभता",
@@ -316,25 +538,129 @@ export const TRANSLATIONS = {
     conflictDesc: "एका वर्षात फक्त १ योजनेचा लाभ घेता येतो. आम्ही अधिक फायदेशीर योजनेची शिफारस करतो:",
     recommendedClaim: "शिफारस केलेली प्राथमिक योजना",
     secondaryClaim: "पर्यायी योजना",
+    mutuallyExclusiveOption: "परस्पर अनन्य पर्याय",
 
-    // Action Plan
+    // Action Plan & Filters
     actionPlanTitle: 'प्राधान्यक्रमानुसार "प्रथम अर्ज करा" कृती आराखडा',
     actionPlanDesc: "आर्थिक फायदा + मुदत + कागदपत्र सज्जतेनुसार क्रमवारी",
     applyNow: "आता अर्ज करा",
     closesInDays: "मुदत: {days} दिवस शिल्लक",
+    daysLeft: "दिवस शिल्लक",
     requiredDocs: "आवश्यक कागदपत्रे",
-    missing: "अपूर्ण",
-    ready: "सज्ज",
     helpful: "ही शिफारस उपयुक्त वाटली का?",
     yesHelpful: "उपयुक्त",
     notRelevant: "उपयुक्त नाही",
+    needsImprovement: "सुधारणा आवश्यक",
     ineligibleTitle: "अपात्र योजना व कारणे",
     exportPlan: "📄 रिपोर्ट डाऊनलोड",
+    searchEligiblePlaceholder: "पात्र योजनांमध्ये शोधा...",
+    allPriorities: "सर्व प्राधान्यक्रम",
+    docFilterPrefix: "कागदपत्र फिल्टर",
+    viewDetailsTitle: "तपशील पहा",
+    applicationProcedure: "अर्ज प्रक्रिया",
+    noEligibleTitle: "वर्तमान फिल्टरसाठी कोणतीही पात्र योजना सापडली नाही",
+    noEligibleDesc: "काळजी करू नका! आपले प्रोफाइल निकष किंवा सक्रिय फिल्टर परिणामांना मर्यादित करत असावेत. या टिप्स वापरून पहा:",
+    tipDomicileTitle: "🌐 अधिवास राज्य",
+    tipDomicileDesc: 'राष्ट्रीय योजना अनलॉक करण्यासाठी राज्य "संपूर्ण भारत / सर्व" वर सेट करा.',
+    tipIncomeTitle: "💰 वार्षिक उत्पन्न",
+    tipIncomeDesc: "उत्पन्नाचा स्लाइडर सरकारी मर्यादेत (उदा. ₹८.० लाख) असल्याची खात्री करा.",
+    tipDocsTitle: "📄 मुख्य कागदपत्रे",
+    tipDocsDesc: "आधार कार्ड किंवा उत्पन्न दाखला यासारखी प्रमुख कागदपत्रे निवडा.",
+    resetFiltersBtn: "सर्व फिल्टर रीसेट करा व सर्व योजना पहा",
+    saveSchemeTitle: "प्रोफाइलमध्ये योजना जतन करा",
+    savedSchemeTitle: "प्रोफाइल बंडलमध्ये जतन केले",
 
     // Floating Action Bar
     floatingTotalBenefit: "एकूण अनलॉक झालेला आर्थिक लाभ",
     floatingActionChecklist: "कृती सूची",
     floatingExport: "निर्यात",
+
+    // Scheme Directory
+    directoryTag: "कृषी व शेतकरी योजना निर्देशिका",
+    directoryTitle: "सर्व कृषी कल्याण व अनुदान योजना",
+    directorySub: "केंद्र व राज्य शासनाच्या कृषी योजना, पीक विमा आणि सोलर पंप अनुदानाची माहिती मिळवा व तुलना करा.",
+    directorySearchPlaceholder: "कृषी योजनेचे नाव, फायदा किंवा कीवर्ड शोधा...",
+    loadingSchemes: "योजना लोड होत आहेत...",
+    noSavedSchemesTitle: "अद्याप कोणतीही योजना जतन केलेली नाही",
+    noSavedSchemesDesc: "तुम्ही अद्याप कोणतीही योजना जतन केलेली नाही. कोणत्याही योजना कार्डवरील बुकमार्क चिन्हावर क्लिक करा.",
+    noSchemesMatchTitle: '"{query}" शी जुळणारी कोणतीही योजना सापडली नाही',
+    noSchemesFoundTitle: "कोणतीही योजना सापडली नाही",
+    noSchemesFoundDesc: "आपल्या शोध किंवा फिल्टर निवडीशी जुळणारी कोणतीही योजना आम्हाला सापडली नाही.",
+    trySearchingFor: "शोधून पहा:",
+    showAllSchemes: "सर्व योजना दाखवा",
+    clearSearchReset: "शोध साफ करा आणि सर्व फिल्टर रीसेट करा",
+    compareTooltip: "समोरासमोर तुलना करा",
+    compareBtn: "तुलना करा",
+    comparingBtn: "तुलना सुरू",
+    compareSelectedCount: "तुलनेसाठी {count}/२ निवडले",
+    compareReady: "समोरासमोर तुलना करण्यासाठी सज्ज!",
+    compareSelectMore: "आणखी १ योजना निवडा",
+    compareNowBtn: "आता तुलना करा 📊",
+    windowLabel: "मुदत",
+    viewDeepDive: "सविस्तर तपशील पहा",
+    exploreAllSchemes: "सर्व योजना एक्सप्लोर करा",
+    browseAllSchemes: "सर्व योजना ब्राउझ करा",
+    removeFromSaved: "जतन केलेल्यामधून काढा",
+    bookmarkedVaultTitle: "जतन केलेल्या योजनांचे दालन",
+    yourSavedSchemes: "तुमच्या जतन केलेल्या योजना",
+    savedSchemesDesc: "आपल्या जतन केलेल्या कृषी आणि कल्याणकारी योजनांमध्ये त्वरित प्रवेश करा. फायदे तपासा किंवा सविस्तर तपशील पहा.",
+
+    // Scheme Comparison Modal
+    compareModalTag: "समोरासमोर योजना तुलना",
+    compareModalTitle: "शासकीय कल्याणकारी अनुदानांची तुलना",
+    sharedMasterDocsPrefix: "सामायिक मुख्य कागदपत्रे",
+    sharedMasterDocsSuffix: "एकाच वेळी दोन्ही योजनांसाठी ग्राह्य ठरतात!",
+    mandatoryDocsLabel: "आवश्यक कागदपत्रे",
+    sharedTag: "सामायिक",
+    applyPortal1: "पोर्टल १ वर अर्ज करा",
+    applyPortal2: "पोर्टल २ वर अर्ज करा",
+
+    // Scheme Modal
+    modalTabOverview: "१. आढावा व फायदे",
+    modalTabDocs: "२. कागदपत्रे",
+    modalTabDeadlines: "३. मुदत व वेळापत्रक",
+    modalTabSteps: "४. अर्ज पायऱ्या",
+    benefitStructureTitle: "आर्थिक फायदा स्वरूप",
+    benefitTypeLabel: "लाभाचा प्रकार",
+    schemeObjectiveTitle: "योजनेचे उद्दिष्ट",
+    eligibleCategoriesTitle: "पात्र सामाजिक प्रवर्ग",
+    adminQuotaTitle: "प्रशासकीय कोटा",
+    nodalDepartmentLabel: "नोडल विभाग:",
+    mandatoryDocsTitle: "आवश्यक कागदपत्रे",
+    reusableAcrossSchemes: "⚡ पात्र योजनांमध्ये पुर्नवापरयोग्य",
+    standardIdentityDoc: "प्रमाणित अधिकृत ओळख दस्तऐवज",
+    sharedMasterPrefix: "मुख्य सामायिक कागदपत्र",
+    deadlineCountdownTitle: "अर्ज मुदत काउंटडाउन",
+    windowOpening: "अर्ज विंडो सुरू",
+    closingDateLabel: "अंतिम तारीख",
+    deadlineDisclaimer: "* अंतिम तारखेला रात्री ११:५९ वाजता पोर्टल सर्व्हरवर अर्ज बंद होतात. गर्दी टाळण्यासाठी लवकर अर्ज करा.",
+    numberedGuideTitle: "तपशीलवार अर्ज मार्गदर्शिका",
+    applyOfficialPortal: "अधिकृत पोर्टलवर अर्ज करा",
+
+    // Feedback Modal
+    feedbackModalTitle: "अभिप्राय आणि रेटिंग",
+    feedbackModalSub: "शेतकऱ्यांसाठी योजना शिफारशी सुधारण्यास आम्हाला मदत करा.",
+    feedbackHelpful: "उपयुक्त शिफारस",
+    feedbackNotRelevant: "उपयुक्त नाही",
+    feedbackCommentsLabel: "पर्यायी टिप्पण्या",
+    feedbackCommentsPlaceholder: "सुधारणा सुचवा किंवा कागदपत्र अर्ज अनुभव सामायिक करा...",
+    feedbackSubmitBtn: "अभिप्राय पाठवा",
+    feedbackThankYouTitle: "आपल्या अभिप्रायाबद्दल धन्यवाद!",
+    feedbackThankYouDesc: "आपले रेटिंग योजनाबंडलच्या शिफारस इंजिनला अधिक अचूक बनवण्यास मदत करते.",
+
+    // Export Report
+    exportBackBtn: "डॅशबोर्डवर परत जा",
+    exportPrintBtn: "प्रिंट / पीडीएफ अहवाल जतन करा",
+    exportDateGenerated: "निर्मिती दिनांक:",
+    exportSector: "लाभार्थी क्षेत्र: शेती व कृषी",
+    exportProfileSummary: "लाभार्थी प्रोफाइल सारांश",
+    tableNameHeader: "योजनेचे नाव",
+    tablePriorityHeader: "प्राधान्यक्रम",
+    tableBenefitHeader: "लाभाची रक्कम",
+    tableDeadlineHeader: "मुदत",
+    tableDocsHeader: "आवश्यक कागदपत्रे",
+    exportMasterDocsTitle: "मास्टर कागदपत्रे चेकलिस्ट (अर्जासोबत जोडा)",
+    exportFooterNotice: "योजनाबंडल स्मार्ट प्लॅनरद्वारे स्वयंचलित तयार केले. कृपया अंतिम सबमिशनपूर्वी अधिकृत पोर्टलवरील मार्गदर्शक तत्त्वे तपासा.",
 
     // CSC Locator Module (Marathi)
     cscBannerTag: "ऑफलाइन मदत आणि पडताळणी",
@@ -370,16 +696,34 @@ export const TRANSLATIONS = {
     notifViewScheme: "योजना पहा",
     notifFooterCredit: "राष्ट्रीय पोर्टल सेवांमधून थेट अद्यतनित",
 
-    // Scheme Names Mapping (Marathi)
+    // System Errors & Connection
+    backendDisconnectedDesc: "बॅकएंड कनेक्ट होऊ शकले नाही — ऑफलाइन डेमो डेटा दाखवत आहे.",
+    errorDetails: "त्रुटी तपशील:",
+    retryConnection: "पुन्हा प्रयत्न करा",
+    firstTimeWelcomeTitle: "👋 स्वागत आहे, {name}! चला तुमच्यासाठी योग्य योजना शोधूया",
+    firstTimeWelcomeSub: "तुमचा वैयक्तिकृत कृती आराखडा पाहण्यासाठी खालील प्रोफाइल तपशील भरा. सबमिशननंतर इतर सर्व विभाग अनलॉक होतील.",
+    footerCredit: "योजनाबंडल — स्मार्ट कृषी योजना बंडलिंग व कागदपत्र ऑप्टिमायझेशन प्लॅनर © २०२६",
+
+    // Scheme Names Mapping (All 18 Schemes in Marathi)
     schemeNames: {
       PM_KISAN: "प्रधानमंत्री किसान सन्मान निधी (PM-KISAN)",
       PMFBY: "प्रधानमंत्री पीक विमा योजना (PMFBY)",
       KCC: "किसान क्रेडिट कार्ड (KCC) सवलतीचे कर्ज",
-      PM_KUSUM: "पीएम-कुसुम सौर पंप अनुदान योजना",
+      PM_KUSUM: "पीएम-कुसुम सौर कृषी पंप योजना",
       PMKSY: "प्रधानमंत्री कृषी सिंचन योजना (प्रति थेंब जास्त पीक)",
       SOIL_HEALTH: "मृदा आरोग्य कार्ड योजना (Soil Health Card)",
       PKVY: "परंपरागत कृषी विकास योजना (PKVY सेंद्रिय शेती)",
-      SMAM: "कृषी यांत्रिकीकरण उपअभियान (SMAM यंत्रसामग्री अनुदान)"
+      SMAM: "कृषी यांत्रिकीकरण उपअभियान (SMAM यंत्रसामग्री अनुदान)",
+      NAMO_SHETKARI: "नमो शेतकरी महासन्मान निधी योजना",
+      PM_KMY: "प्रधानमंत्री किसान मान-धन योजना (PM-KMY)",
+      MAGEL_TYALA_SHET_TALE: "मागेल त्याला शेततळे योजना",
+      GOPINATH_MUNDE_VIMA: "गोपीनाथ मुंडे शेतकरी अपघात सुरक्षा सानुग्रह अनुदान योजना",
+      BHAUSAHEB_FUNDKAR: "भाऊसाहेब फुंडकर फळबाग लागवड योजना",
+      AIF: "कृषी पायाभूत सुविधा निधी (AIF)",
+      PMFME: "प्रधानमंत्री सूक्ष्म अन्न प्रक्रिया उद्योग योजना (PMFME)",
+      POKRA: "नानाजी देशमुख कृषी संजीवनी प्रकल्प (पोकरा - PoKRA)",
+      DR_AMBEDKAR_KRUSHI_SWAVALAMBAN: "डॉ. बाबासाहेब आंबेडकर कृषी स्वावलंबन योजना",
+      BIRSA_MUNDA_KRUSHI_KRANTI: "बिरसा मुंडा कृषी क्रांती योजना"
     },
 
     schemeDescriptions: {
@@ -390,7 +734,17 @@ export const TRANSLATIONS = {
       PMKSY: "पाण्याच्या कार्यक्षम वापरासाठी ठिबक व तुषार सिंचन संचासाठी अनुदान.",
       SOIL_HEALTH: "जमिनीची सुपीकता वाढवण्यासाठी मोफत माती तपासणी आणि खतांचे प्रमाण दर्शवणारे कार्ड.",
       PKVY: "सेंद्रिय खते, बियाणे व सेंद्रिय प्रमाणीकरणासाठी ३ वर्षांचे आर्थिक सहाय्य.",
-      SMAM: "आधुनिक शेती यंत्रांच्या खरेदीवर ५०% पर्यंत थेट अनुदान."
+      SMAM: "आधुनिक शेती यंत्रांच्या खरेदीवर ५०% पर्यंत थेट अनुदान.",
+      NAMO_SHETKARI: "महाराष्ट्रातील पीएम-किसान योजनेच्या पात्र लाभार्थी शेतकऱ्यांना राज्य शासनातर्फे दरवर्षी अतिरिक्त ₹६,००० चे थेट अर्थसहाय्य.",
+      PM_KMY: "लहान आणि अल्पभूधारक शेतकऱ्यांसाठी (१८-४० वर्षे) ऐच्छिक आणि अंशदायी पेन्शन योजना, ज्यामध्ये ६० वर्षांनंतर दरमहा ₹३,००० मिळतात.",
+      MAGEL_TYALA_SHET_TALE: "शेतकऱ्यांना शाश्वत सिंचन सुविधा उपलब्ध करून देण्यासाठी शेततळ्याच्या खोदाई आणि अस्तरीकरणासाठी महाराष्ट्र शासनाचे अनुदान.",
+      GOPINATH_MUNDE_VIMA: "अपघाती मृत्यू किंवा कायमचे अपंगत्व आल्यास महाराष्ट्रातील शेतकरी कुटुंबांना आर्थिक मदत देणारी योजना.",
+      BHAUSAHEB_FUNDKAR: "शेतकऱ्यांचे उत्पन्न वाढवण्यासाठी विशिष्ट फळबागांच्या लागवडीवर १००% अनुदान देणारी महाराष्ट्र राज्य योजना (३ वर्षात ५०:३०:२० प्रमाणे वितरित).",
+      AIF: "काढणीपश्चात व्यवस्थापन व गोदाम, कोल्ड स्टोरेजसारख्या पायाभूत सुविधांच्या उभारणीसाठी ₹२ कोटींपर्यंतच्या कर्जावर ३% व्याज सवलत देणारी मध्यवर्ती योजना.",
+      PMFME: "शेतमालावर प्रक्रिया करून मूल्यवर्धन करणाऱ्या सूक्ष्म अन्न प्रक्रिया उद्योगांना प्रोत्साहन देण्यासाठी ३५% (कमाल ₹१० लाख) भांडवली अनुदान.",
+      POKRA: "हवामान बदलास समर्थ ठरणाऱ्या शेती पद्धती, ठिबक/तुषार सिंचन आणि शेडनेट गृहांसाठी महाराष्ट्रातील निवडक गावांतील शेतकऱ्यांना भरीव आर्थिक सहाय्य.",
+      DR_AMBEDKAR_KRUSHI_SWAVALAMBAN: "महाराष्ट्रातील अनुसूचित जातीच्या शेतकऱ्यांचे उत्पन्न वाढवण्यासाठी नवीन विहीर, पाईपलाईन, सोलर पंप व तुषार/ठिबक सिंचनासाठी १००% सवलतीत शासकीय अनुदान.",
+      BIRSA_MUNDA_KRUSHI_KRANTI: "महाराष्ट्रातील अनुसूचित जमाती (ST) बांधवांच्या शाश्वत उत्पन्नासाठी नवीन विहीर, वीज/सौर पंप, शेततळे अस्तरीकरण व सूक्ष्म सिंचनासाठी १००% पर्यंत अनुदान."
     },
 
     schemeBenefits: {
@@ -401,7 +755,17 @@ export const TRANSLATIONS = {
       PMKSY: "ठिबक व तुषार सिंचन संचावर ५५% पर्यंत अनुदान",
       SOIL_HEALTH: "मोफत माती परीक्षण व खत वापराची वैज्ञानिक मार्गदर्शिका",
       PKVY: "सेंद्रिय शेतीसाठी दर हेक्टरी ₹५०,००० चे ३ वर्षांचे अर्थसहाय्य",
-      SMAM: "ट्रॅक्टर, रोटाव्हेटर व कृषी यंत्रांवर ४०% ते ५०% अनुदान"
+      SMAM: "ट्रॅक्टर, रोटाव्हेटर व कृषी यंत्रांवर ४०% ते ५०% अनुदान",
+      NAMO_SHETKARI: "दरवर्षी अतिरिक्त ₹६,००० (₹२,००० चे ३ हप्ते) महाराष्ट्र शासनातर्फे",
+      PM_KMY: "वयाची ६० वर्षे पूर्ण झाल्यानंतर दरमहा ₹३,००० निश्चित पेन्शन",
+      MAGEL_TYALA_SHET_TALE: "जलसंधारणासाठी शेततळे उभारणीकरिता ₹५०,००० पर्यंत थेट अनुदान",
+      GOPINATH_MUNDE_VIMA: "अपघाती मृत्यू किंवा कायमचे अपंगत्व आल्यास ₹२,००,००० पर्यंत सानुग्रह अनुदान",
+      BHAUSAHEB_FUNDKAR: "फळबाग लागवडीसाठी (आंबा, डाळिंब इ.) ३ वर्षांत १००% अनुदान",
+      AIF: "मका, धान्य साठवणूक व काढणीपश्चात पायाभूत सुविधांसाठी ₹२ कोटींपर्यंतच्या कर्जावर वार्षिक ३% व्याज परतावा",
+      PMFME: "अन्न प्रक्रिया उद्योग उभारणी/विस्तारासाठी पात्र प्रस्तावांवर ३५% (जास्तीत जास्त ₹१० लाख) क्रेडिट-लिंक्ड भांडवली अनुदान",
+      POKRA: "निवडक दुष्काळग्रस्त गावांमध्ये हवामान अनुकूल शेती, शेततळी व शेडनेटसाठी १००% पर्यंत (₹१,००,००० पर्यंत) अनुदान",
+      DR_AMBEDKAR_KRUSHI_SWAVALAMBAN: "अनुसूचित जातीच्या (SC) शेतकऱ्यांसाठी नवीन विहिरीकरिता ₹२,५०,००० पर्यंत आणि सौर पंप/सिंचनासाठी १००% पर्यंत अनुदान",
+      BIRSA_MUNDA_KRUSHI_KRANTI: "अनुसूचित जमातीच्या (ST) शेतकऱ्यांसाठी नवीन विहीर, शेततळे प्लास्टिक अस्तरीकरण व ठिबक सिंचनासाठी ₹२,५०,००० पर्यंत अनुदान"
     }
   },
 
@@ -417,20 +781,38 @@ export const TRANSLATIONS = {
     agriTitle: "कृषि एवं खेती",
     agriDesc: "पीएम-किसान, फसल बीमा, सोलर पंप सब्सिडी, किसान क्रेडिट कार्ड",
     step2Title: "२. प्रोफाइल एवं आय विवरण",
+    step2Subtitle: "मूल निवास, आय और भूमि विवरण सेट करें",
+    step2HeaderDesc: "मूल निवास राज्य, वार्षिक आय, जाति वर्ग और भूमि का आकार दर्ज करें",
     annualIncome: "वार्षिक आय (₹)",
     casteCategory: "जाति श्रेणी",
     domicileState: "मूल निवास राज्य",
     ageYears: "आयु (वर्ष)",
     agriSection: "कृषि विशिष्ट विवरण",
     landAcres: "भूमि जोत का आकार (एकड़)",
+    acresUnit: "एकड़",
+    smallFarmerMarker: "5 एकड़ (छोटे किसान)",
     farmingType: "किसान वर्ग / प्रकार",
     step3Title: "३. उपलब्ध दस्तावेज चेकलिस्ट",
+    step3Subtitle: "उपलब्ध मास्टर दस्तावेज चुनें",
     step3Desc: "दस्तावेजों की तैयारी एवं पुन: उपयोग की गणना के लिए उपलब्ध दस्तावेज चुनें।",
     nextStepDocs: "आगे: आवश्यक दस्तावेज",
     selectAll: "सभी चुनें",
     clearAll: "सभी हटाएं",
     calculateBtn: "पात्रता एवं योजना बंडल प्लान जांचें",
     evaluatingBtn: "योजनाओं एवं दस्तावेजों का मूल्यांकन जारी है...",
+    prevStep: "पिछला चरण",
+    selectedDocsMsg: "{count} मुख्य दस्तावेज चुने गए। अनुकूलित कृषि योजना बंडल तैयार करने के लिए तैयार!",
+
+    // State & Category Options
+    stateMaharashtra: "महाराष्ट्र",
+    stateKarnataka: "कर्नाटक",
+    stateGujarat: "गुजरात",
+    stateAll: "अखिल भारतीय / सभी राज्य",
+    catGeneral: "सामान्य (General)",
+    catOBC: "अन्य पिछड़ा वर्ग (OBC)",
+    catSC: "अनुसूचित जाति (SC)",
+    catST: "अनुसूचित जनजाति (ST)",
+    catEWS: "आर्थिक रूप से कमजोर (EWS)",
     // Authentication Modal
     authWelcome: "YojanaBundle में आपका स्वागत है",
     authWelcomeSubtitle: "सहेजी गई योजनाओं और व्यक्तिगत बंडल तक पहुंचें",
@@ -439,6 +821,7 @@ export const TRANSLATIONS = {
     authMissingName: "कृपया अपना पूरा नाम दर्ज करें",
     authLogin: "लॉग इन",
     authSignup: "साइन अप करें और प्रोफाइल सहेजें",
+    authLoginSignup: "लॉग इन / साइन अप",
     authEmailPassword: "ईमेल + पासवर्ड",
     authPhoneNumber: "मोबाइल नंबर",
     authComingSoon: "जल्द आ रहा है",
@@ -462,12 +845,28 @@ export const TRANSLATIONS = {
     authLoginFailed: "लॉगिन विफल हुआ",
     authSignupFailed: "साइन अप विफल हुआ",
     authAuthenticationFailed: "प्रमाणीकरण विफल हुआ। कृपया विवरण जांचें.",
+    accountSettings: "खाता सेटिंग्स",
+    openNavMenu: "नेविगेशन मेनू खोलें",
 
-    // Top User Bar
+    // Top User Bar & Welcome Screen
     welcomeBack: "वापसी पर स्वागत है,",
     profileRoleLabel: "प्रोफ़ाइल: किसान",
     storedAttributes: "सहेजे गए विवरण",
     logOut: "लॉग आउट",
+    guestUser: "अतिथि उपयोगकर्ता",
+    beneficiary: "किसान लाभार्थी",
+    portalInitializing: "पोर्टल प्रारंभ हो रहा है",
+    welcomeUserMsg: "आपका व्यक्तिगत योजना बंडलिंग पोर्टल और दस्तावेज तैयारी इंजन तैयार किया जा रहा है...",
+    loadingRules: "योजना नियम 2026 लोड हो रहे हैं...",
+    loginPromptDesc: "प्रोफाइल और योजनाएं सहेजने के लिए लॉग इन करें",
+    activeAccount: "सक्रिय खाता",
+    navigationLabel: "नेविगेशन",
+    engineActiveBanner: "कृषि एवं खेती योजना बंडलिंग इंजन सक्रिय",
+    resetProfileBtn: "प्रोफाइल फॉर्म रीसेट करें",
+    nameLabel: "नाम",
+    roleLabel: "भूमिका",
+    syncedAttributesNote: "* ये विवरण आपके फॉर्म इनपुट के साथ स्वचालित रूप से सिंक होते हैं ताकि आपको उन्हें बार-बार दर्ज न करना पड़े।",
+    savedInProfile: "उपयोगकर्ता प्रोफाइल में सहेजा गया",
 
     // Left Sidebar Navigation
     navPortalDashboard: "पोर्टल एवं डैशबोर्ड",
@@ -484,6 +883,9 @@ export const TRANSLATIONS = {
     cscLocatorNav: "सीएससी / ऑफलाइन मदद केंद्र",
     cscLocatorNavSub: "महा ई-सेवा केंद्र एवं मानचित्र",
     savedSchemesNav: "सहेजी गई योजनाएं",
+    verifiedBadge: "सत्यापित",
+    lockedBadge: "लॉक",
+    fillProfileToUnlock: "अनलॉक करने के लिए पहले प्रोफाइल भरें",
 
     // Dashboard & Metrics
     totalBenefitLabel: "कुल संभावित वित्तीय लाभ",
@@ -506,6 +908,8 @@ export const TRANSLATIONS = {
     readyToApply: "आवेदन के लिए तैयार",
     docReadinessLabel: "दस्तावेज तैयारी स्कोर",
     readiness: "तैयारी",
+    ready: "तैयार",
+    missing: "अपूर्ण",
 
     // Document Overlap & Conflicts
     overlapTitle: "दस्तावेज पुन: उपयोग एवं सरलीकरण",
@@ -519,25 +923,129 @@ export const TRANSLATIONS = {
     conflictDesc: "प्रति वर्ष केवल 1 योजना का दावा किया जा सकता है। हम अधिक लाभ वाली योजना की सिफारिश करते हैं:",
     recommendedClaim: "अनुशंसित प्राथमिक योजना",
     secondaryClaim: "वैकल्पिक योजना",
+    mutuallyExclusiveOption: "परस्पर अनन्य विकल्प",
 
-    // Action Plan
+    // Action Plan & Filters
     actionPlanTitle: 'प्राथमिकता क्रम "पहले आवेदन करें" कार्य योजना',
     actionPlanDesc: "वित्तीय लाभ + समय सीमा + दस्तावेज तैयारी के अनुसार व्यवस्थित",
     applyNow: "अभी आवेदन करें",
     closesInDays: "समय सीमा: {days} दिन शेष",
+    daysLeft: "दिन शेष",
     requiredDocs: "आवश्यक दस्तावेज",
-    missing: "अपूर्ण",
-    ready: "तैयार",
     helpful: "क्या यह सिफारिश उपयोगी थी?",
     yesHelpful: "उपयोगी",
     notRelevant: "उपयोगी नहीं",
+    needsImprovement: "सुधार की आवश्यकता",
     ineligibleTitle: "अपात्र योजनाएं एवं कारण",
     exportPlan: "📄 रिपोर्ट डाउनलोड",
+    searchEligiblePlaceholder: "पात्र योजनाओं में खोजें...",
+    allPriorities: "सभी प्राथमिकताएं",
+    docFilterPrefix: "दस्तावेज़ फ़िल्टर",
+    viewDetailsTitle: "विवरण देखें",
+    applicationProcedure: "आवेदन प्रक्रिया",
+    noEligibleTitle: "वर्तमान फ़िल्टर के लिए कोई पात्र योजना नहीं मिली",
+    noEligibleDesc: "चिंता न करें! आपके प्रोफ़ाइल मानदंड या सक्रिय फ़िल्टर परिणामों को सीमित कर रहे होंगे। इन युक्तियों को आज़माएं:",
+    tipDomicileTitle: "🌐 मूल निवास राज्य",
+    tipDomicileDesc: 'राष्ट्रीय योजनाओं को अनलॉक करने के लिए राज्य "अखिल भारतीय / सभी" पर सेट करें।',
+    tipIncomeTitle: "💰 वार्षिक आय",
+    tipIncomeDesc: "सुनिश्चित करें कि आय स्लाइडर सरकारी सीमा (उदा. ₹8.0 लाख) के भीतर है।",
+    tipDocsTitle: "📄 मुख्य दस्तावेज़",
+    tipDocsDesc: "आधार कार्ड या आय प्रमाण पत्र जैसे प्रमुख दस्तावेज चुनें।",
+    resetFiltersBtn: "सभी फ़िल्टर रीसेट करें और सभी योजनाएं देखें",
+    saveSchemeTitle: "प्रोफाइल में योजना सहेजें",
+    savedSchemeTitle: "प्रोफाइल बंडल में सहेजा गया",
 
     // Floating Action Bar
     floatingTotalBenefit: "कुल अनलॉक किया गया वित्तीय लाभ",
     floatingActionChecklist: "कार्य सूची",
     floatingExport: "निर्यात",
+
+    // Scheme Directory
+    directoryTag: "कृषि एवं किसान योजना निर्देशिका",
+    directoryTitle: "सभी कृषि कल्याण एवं अनुदान योजनाएं",
+    directorySub: "केंद्र व राज्य सरकार की कृषि योजनाओं, फसल बीमा और सोलर पंप सब्सिडी की जानकारी प्राप्त करें और तुलना करें।",
+    directorySearchPlaceholder: "कृषि योजना का नाम, लाभ या कीवर्ड खोजें...",
+    loadingSchemes: "योजनाएं लोड हो रही हैं...",
+    noSavedSchemesTitle: "अभी तक कोई योजना सहेजी नहीं गई",
+    noSavedSchemesDesc: "आपने अभी तक कोई योजना नहीं सहेजी है। किसी भी योजना कार्ड पर बुकमार्क आइकन पर क्लिक करें।",
+    noSchemesMatchTitle: '"{query}" से मेल खाने वाली कोई योजना नहीं मिली',
+    noSchemesFoundTitle: "कोई योजना नहीं मिली",
+    noSchemesFoundDesc: "आपके खोज या फ़िल्टर चयन से मेल खाने वाली कोई योजना नहीं मिली।",
+    trySearchingFor: "खोज कर देखें:",
+    showAllSchemes: "सभी योजनाएं दिखाएं",
+    clearSearchReset: "खोज साफ़ करें और सभी फ़िल्टर रीसेट करें",
+    compareTooltip: "आमने-सामने तुलना करें",
+    compareBtn: "तुलना करें",
+    comparingBtn: "तुलना जारी",
+    compareSelectedCount: "तुलना के लिए {count}/2 चुने गए",
+    compareReady: "आमने-सामने तुलना के लिए तैयार!",
+    compareSelectMore: "1 और योजना चुनें",
+    compareNowBtn: "अभी तुलना करें 📊",
+    windowLabel: "समय सीमा",
+    viewDeepDive: "विस्तृत विवरण देखें",
+    exploreAllSchemes: "सभी योजनाएं देखें",
+    browseAllSchemes: "सभी योजनाएं ब्राउज़ करें",
+    removeFromSaved: "सहेजे गए से हटाएं",
+    bookmarkedVaultTitle: "सहेजी गई योजनाओं का वॉल्ट",
+    yourSavedSchemes: "आपकी सहेजी गई योजनाएं",
+    savedSchemesDesc: "अपनी सहेजी गई कृषि और कल्याणकारी योजनाओं तक त्वरित पहुंच प्राप्त करें। लाभों की तुलना करें या विवरण देखें।",
+
+    // Scheme Comparison Modal
+    compareModalTag: "आमने-सामने योजना तुलना",
+    compareModalTitle: "सरकारी कल्याणकारी अनुदानों की तुलना",
+    sharedMasterDocsPrefix: "साझा मुख्य दस्तावेज़",
+    sharedMasterDocsSuffix: "एक साथ दोनों योजनाओं के लिए मान्य हैं!",
+    mandatoryDocsLabel: "अनिवार्य दस्तावेज़",
+    sharedTag: "साझा",
+    applyPortal1: "पोर्टल 1 पर आवेदन करें",
+    applyPortal2: "पोर्टल 2 पर आवेदन करें",
+
+    // Scheme Modal
+    modalTabOverview: "1. अवलोकन एवं लाभ",
+    modalTabDocs: "2. दस्तावेज",
+    modalTabDeadlines: "3. समय सीमा एवं समयरेखा",
+    modalTabSteps: "4. चरण-दर-चरण मार्गदर्शिका",
+    benefitStructureTitle: "वित्तीय लाभ संरचना",
+    benefitTypeLabel: "लाभ का प्रकार",
+    schemeObjectiveTitle: "योजना का उद्देश्य",
+    eligibleCategoriesTitle: "पात्र सामाजिक श्रेणियां",
+    adminQuotaTitle: "प्रशासनिक कोटा",
+    nodalDepartmentLabel: "नोडल विभाग:",
+    mandatoryDocsTitle: "अनिवार्य दस्तावेज़",
+    reusableAcrossSchemes: "⚡ पात्र योजनाओं में पुन: प्रयोज्य",
+    standardIdentityDoc: "प्रमाणित आधिकारिक पहचान दस्तावेज",
+    sharedMasterPrefix: "मुख्य साझा दस्तावेज़",
+    deadlineCountdownTitle: "आवेदन समय सीमा उलटी गिनती",
+    windowOpening: "आवेदन खिड़की प्रारंभ",
+    closingDateLabel: "अंतिम तिथि",
+    deadlineDisclaimer: "* अंतिम तिथि को रात 11:59 बजे पोर्टल सर्वर पर आवेदन बंद हो जाते हैं। सर्वर लोड से बचने के लिए जल्दी आवेदन करें।",
+    numberedGuideTitle: "क्रमबद्ध आवेदन गाइड",
+    applyOfficialPortal: "आधिकारिक पोर्टल पर आवेदन करें",
+
+    // Feedback Modal
+    feedbackModalTitle: "फीडबैक एवं रेटिंग",
+    feedbackModalSub: "किसानों के लिए योजना सिफारिशों को बेहतर बनाने में हमारी मदद करें।",
+    feedbackHelpful: "उपयोगी सिफारिश",
+    feedbackNotRelevant: "प्रासंगिक नहीं",
+    feedbackCommentsLabel: "वैकल्पिक टिप्पणियां",
+    feedbackCommentsPlaceholder: "सुधार का सुझाव दें या दस्तावेज़ आवेदन का अनुभव साझा करें...",
+    feedbackSubmitBtn: "फीडबैक भेजें",
+    feedbackThankYouTitle: "आपकी प्रतिक्रिया के लिए धन्यवाद!",
+    feedbackThankYouDesc: "आपकी रेटिंग योजनाबंडल के सिफारिश इंजन को अधिक सटीक बनाने में मदद करती है।",
+
+    // Export Report
+    exportBackBtn: "डैशबोर्ड पर वापस जाएं",
+    exportPrintBtn: "प्रिंट / पीडीएफ रिपोर्ट सहेजें",
+    exportDateGenerated: "निर्माण तिथि:",
+    exportSector: "लाभार्थी क्षेत्र: कृषि एवं खेती",
+    exportProfileSummary: "लाभार्थी प्रोफाइल सारांश",
+    tableNameHeader: "योजना का नाम",
+    tablePriorityHeader: "प्राथमिकता",
+    tableBenefitHeader: "लाभ राशि",
+    tableDeadlineHeader: "समय सीमा",
+    tableDocsHeader: "आवश्यक दस्तावेज",
+    exportMasterDocsTitle: "मास्टर दस्तावेज चेकलिस्ट (आवेदन के साथ संलग्न करें)",
+    exportFooterNotice: "योजनाबंडल स्मार्ट प्लानर द्वारा स्वचालित रूप से तैयार किया गया। कृपया अंतिम आवेदन से पहले आधिकारिक पोर्टल पर दिशानिर्देश सत्यापित करें।",
 
     // CSC Locator Module (Hindi)
     cscBannerTag: "ऑफ़लाइन सहायता और सत्यापन",
@@ -573,16 +1081,34 @@ export const TRANSLATIONS = {
     notifViewScheme: "योजना देखें",
     notifFooterCredit: "राष्ट्रीय पोर्टल सेवाओं से वास्तविक समय में अपडेट",
 
-    // Scheme Names Mapping (Hindi)
+    // System Errors & Connection
+    backendDisconnectedDesc: "बैकएंड कनेक्ट नहीं हो सका — ऑफ़लाइन डेमो डेटा दिखाया जा रहा है।",
+    errorDetails: "त्रुटि विवरण:",
+    retryConnection: "पुनः प्रयास करें",
+    firstTimeWelcomeTitle: "👋 स्वागत है, {name}! आइए आपके लिए उपयुक्त योजनाएं खोजें",
+    firstTimeWelcomeSub: "अपनी व्यक्तिगत कार्य योजना देखने के लिए नीचे दिए गए प्रोफाइल विवरण भरें। सबमिशन के बाद अन्य सभी अनुभाग तुरंत अनलॉक हो जाएंगे।",
+    footerCredit: "योजनाबंडल — स्मार्ट कृषि योजना बंडलिंग एवं दस्तावेज़ अनुकूलन प्लानर © 2026",
+
+    // Scheme Names Mapping (All 18 Schemes in Hindi)
     schemeNames: {
       PM_KISAN: "प्रधानमंत्री किसान सम्मान निधि (PM-KISAN)",
       PMFBY: "प्रधानमंत्री फसल बीमा योजना (PMFBY)",
       KCC: "किसान क्रेडिट कार्ड (KCC) रियायती ऋण",
-      PM_KUSUM: "पीएम-कुसुम सौर पंप सब्सिडी योजना",
+      PM_KUSUM: "पीएम-कुसुम सौर कृषि पंप सब्सिडी योजना",
       PMKSY: "प्रधानमंत्री कृषि सिंचाई योजना (प्रति बूंद अधिक फसल)",
       SOIL_HEALTH: "मृदा स्वास्थ्य कार्ड योजना (Soil Health Card)",
       PKVY: "परंपरागत कृषि विकास योजना (PKVY जैविक खेती)",
-      SMAM: "कृषि यांत्रिकीकरण उप-मिशन (SMAM उपकरण सब्सिडी)"
+      SMAM: "कृषि यांत्रिकीकरण उप-मिशन (SMAM उपकरण सब्सिडी)",
+      NAMO_SHETKARI: "नमो शेतकरी महासम्मान निधि योजना",
+      PM_KMY: "प्रधानमंत्री किसान मान-धन योजना (PM-KMY)",
+      MAGEL_TYALA_SHET_TALE: "मागेल त्याला शेततळे (खेत तालाब योजना)",
+      GOPINATH_MUNDE_VIMA: "गोपीनाथ मुंडे किसान दुर्घटना सुरक्षा सानुग्रह अनुदान योजना",
+      BHAUSAHEB_FUNDKAR: "भाऊसाहेब फुंडकर फलबाग रोपण योजना",
+      AIF: "कृषि अवसंरचना कोष (AIF)",
+      PMFME: "प्रधानमंत्री सूक्ष्म खाद्य प्रसंस्करण उद्यम औपचारिकीकरण (PMFME)",
+      POKRA: "नानाजी देशमुख कृषि संजीवनी परियोजना (पोकरा - PoKRA)",
+      DR_AMBEDKAR_KRUSHI_SWAVALAMBAN: "डॉ. बाबासाहेब आंबेडकर कृषि स्वावलंबन योजना",
+      BIRSA_MUNDA_KRUSHI_KRANTI: "बिरसा मुंडा कृषि क्रांति योजना"
     },
 
     schemeDescriptions: {
@@ -593,7 +1119,17 @@ export const TRANSLATIONS = {
       PMKSY: "खेतों में जल उपयोग दक्षता को अधिकतम करने के लिए सूक्ष्म सिंचाई तकनीकों (ड्रिप एवं स्प्रिंकलर सिस्टम) को बढ़ावा देना।",
       SOIL_HEALTH: "पैदावार बढ़ाने के लिए व्यक्तिगत खेत के भूखंडों के लिए पोषक तत्वों और उर्वरकों की आवश्यकता के अनुसार सलाह।",
       PKVY: "जैविक निविष्टियों, बीजों और जैविक प्रमाणन के लिए वित्तीय सहायता के साथ जैविक खेती समूहों को प्रोत्साहन।",
-      SMAM: "श्रम लागत को कम करने के लिए आधुनिक कृषि मशीनरी और उपकरण खरीदने में छोटे और सीमांत किसानों की सहायता।"
+      SMAM: "श्रम लागत को कम करने के लिए आधुनिक कृषि मशीनरी और उपकरण खरीदने में छोटे और सीमांत किसानों की सहायता।",
+      NAMO_SHETKARI: "महाराष्ट्र सरकार की वित्तीय सहायता योजना जो राज्य के पात्र पीएम-किसान लाभार्थियों को प्रति वर्ष अतिरिक्त ₹6,000 की नकद सहायता प्रदान करती है।",
+      PM_KMY: "छोटे और सीमांत किसानों (18-40 वर्ष) के लिए स्वैच्छिक एवं अंशदायी पेंशन योजना, जिसके तहत 60 वर्ष की आयु के बाद ₹3,000 मासिक पेंशन मिलती है।",
+      MAGEL_TYALA_SHET_TALE: "किसानों को स्थायी सुरक्षात्मक सिंचाई सुविधा प्रदान करने के लिए खेत तालाब की खुदाई और प्लास्टिक अस्तर के लिए सरकारी अनुदान योजना।",
+      GOPINATH_MUNDE_VIMA: "दुर्घटना में मृत्यु, आंशिक या स्थायी दिव्यांगता की स्थिति में महाराष्ट्र के किसान परिवारों को आर्थिक सहायता प्रदान करने वाली योजना।",
+      BHAUSAHEB_FUNDKAR: "किसानों की स्थायी आय बढ़ाने के लिए विशिष्ट फलबागों के रोपण पर 100% सरकारी सब्सिडी देने वाली योजना (3 वर्षों में 50:30:20 के अनुपात में देय)।",
+      AIF: "फसल कटाई बाद प्रबंधन बुनियादी ढांचे और सामुदायिक कृषि संपत्तियों में निवेश के लिए मध्यम-दीर्घकालिक ऋण सुविधा, जिसमें 3% ब्याज छूट मिलती है।",
+      PMFME: "कृषि उत्पादों पर प्रसंस्करण और मूल्यवर्धन को बढ़ावा देने के लिए सूक्ष्म खाद्य प्रसंस्करण उद्यमों को 35% पूंजीगत सब्सिडी (अधिकतम ₹10 लाख) प्रदान की जाती है।",
+      POKRA: "सूखा प्रवण क्षेत्रों में छोटे व सीमांत किसानों की जलवायु सहनशीलता बढ़ाने के लिए सूक्ष्म सिंचाई, शेडनेट और कृषि तकनीकों पर भारी सब्सिडी वाली योजना।",
+      DR_AMBEDKAR_KRUSHI_SWAVALAMBAN: "अनुसूचित जाति एवं नवबौद्ध किसानों को नया कुआं, इन-वेल बोरिंग, सौर पंप और सूक्ष्म सिंचाई के लिए 100% तक सरकारी अनुदान।",
+      BIRSA_MUNDA_KRUSHI_KRANTI: "अनुसूचित जनजाति (ST) के किसानों को स्थायी सिंचाई संपत्ति (नया कुआं, सौर/बिजली पंप, खेत तालाब प्लास्टिक अस्तर) सुरक्षित करने के लिए 100% तक अनुदान।"
     },
 
     schemeBenefits: {
@@ -604,59 +1140,217 @@ export const TRANSLATIONS = {
       PMKSY: "ड्रिप एवं स्प्रिंकलर सिस्टम पर छोटे/सीमांत किसानों के लिए 55% और अन्य के लिए 45% सब्सिडी",
       SOIL_HEALTH: "प्रत्येक 2 वर्ष में मुफ्त मिट्टी के नमूने की जांच और अनुकूलित फसल उर्वरक सलाह",
       PKVY: "जैविक निविष्टियों और प्रमाणन के लिए 3 वर्षों में ₹50,000 प्रति हेक्टेयर सहायता",
-      SMAM: "ट्रैक्टर, रोटावेटर और हार्वेस्टर पर 40% से 50% तक वित्तीय सब्सिडी"
+      SMAM: "ट्रैक्टर, रोटावेटर और हार्वेस्टर पर 40% से 50% तक वित्तीय सब्सिडी",
+      NAMO_SHETKARI: "महाराष्ट्र सरकार द्वारा प्रति वर्ष अतिरिक्त ₹6,000 (₹2,000 की 3 समान किस्तें)",
+      PM_KMY: "60 वर्ष की आयु पूर्ण होने पर ₹3,000 प्रति माह सुनिश्चित पेंशन",
+      MAGEL_TYALA_SHET_TALE: "जल संरक्षण एवं खेत तालाब निर्माण के लिए ₹50,000 तक प्रत्यक्ष अनुदान",
+      GOPINATH_MUNDE_VIMA: "दुर्घटना में मृत्यु या स्थायी दिव्यांगता की स्थिति में ₹2,00,000 तक सानुग्रह अनुदान",
+      BHAUSAHEB_FUNDKAR: "बागवानी एवं फलदार वृक्षारोपण (आम, अनार आदि) के लिए 3 वर्षों में 100% सब्सिडी",
+      AIF: "फसल कटाई उपरांत प्रबंधन और भंडारण बुनियादी ढांचे के लिए ₹2 करोड़ तक के ऋण पर 3% वार्षिक ब्याज छूट",
+      PMFME: "खाद्य प्रसंस्करण इकाई स्थापित या अपग्रेड करने के लिए ₹10,00,000 तक 35% क्रेडिट-लिंक्ड सब्सिडी",
+      POKRA: "जलवायु अनुकूल कृषि, शेडनेट और सूक्ष्म सिंचाई के लिए ₹1,00,000 तक (100% तक) वित्तीय सहायता",
+      DR_AMBEDKAR_KRUSHI_SWAVALAMBAN: "अनुसूचित जाति (SC) किसानों के लिए नए कुएं हेतु ₹2,50,000 तक और पंप/सिंचाई पर 100% तक सब्सिडी",
+      BIRSA_MUNDA_KRUSHI_KRANTI: "अनुसूचित जनजाति (ST) किसानों के लिए नए कुएं, पंप सेट और ड्रिप सिस्टम हेतु ₹2,50,000 तक अनुदान"
     }
   }
 };
 
-export function getSchemeName(scheme, lang) {
+const SCHEME_STEPS_TRANSLATIONS = {
+  hi: {
+    PM_KISAN: [
+      "आधिकारिक PM-KISAN पोर्टल या नजदीकी सामान्य सेवा केंद्र (CSC) पर जाएं।",
+      "भूमि स्वामित्व दस्तावेज (7/12 खतौनी) और आधार से जुड़ा बैंक खाता विवरण जमा करें।",
+      "आधार ओटीपी के माध्यम से ई-केवाईसी सत्यापन पूरा करें।"
+    ],
+    PMFBY: [
+      "राष्ट्रीय फसल बीमा पोर्टल या स्थानीय बैंक शाखा में ऑनलाइन पंजीकरण करें।",
+      "भूमि जोत रिकॉर्ड (7/12) और फसल बुवाई प्रमाण पत्र जमा करें।",
+      "निर्धारित किसान प्रीमियम का भुगतान करें (रबी 1.5%, खरीफ 2%, वाणिज्यिक 5%)।"
+    ],
+    KCC: [
+      "नजदीकी ग्रामीण या राष्ट्रीयकृत बैंक शाखा में जाएं।",
+      "आवेदन पत्र, 7/12 भूमि रिकॉर्ड और बैंक पासबुक जमा करें।",
+      "सत्यापन के बाद रियायती ब्याज दर (4%) पर किसान क्रेडिट कार्ड स्वीकृत होता है।"
+    ],
+    PM_KUSUM: [
+      "राज्य नोडल एजेंसी या महाऊर्जा (MEDA) पोर्टल पर ऑनलाइन आवेदन करें।",
+      "भूमि स्वामित्व दस्तावेज (7/12) और जल स्रोत उपलब्धता प्रमाण पत्र अपलोड करें।",
+      "10% किसान अंशदान का भुगतान करने पर 90% सब्सिडी के साथ सोलर पंप स्थापित किया जाता है।"
+    ],
+    PMKSY: [
+      "महाडीबीटी (MahaDBT) या राज्य कृषि पोर्टल पर सूक्ष्म सिंचाई के लिए पंजीकरण करें।",
+      "7/12 उतारा, अधिकृत डीलर का ड्रिप/स्प्रिंकलर कोटेशन और बिजली बिल अपलोड करें।",
+      "क्षेत्र सत्यापन के बाद 55% तक सब्सिडी सीधे बैंक खाते में जमा की जाती है।"
+    ],
+    SOIL_HEALTH: [
+      "स्थानीय कृषि सहायक या ग्राम पंचायत कृषि केंद्र से संपर्क करें।",
+      "खेत से मिट्टी का नमूना परीक्षण के लिए सरकारी प्रयोगशाला में जमा करें।",
+      "परीक्षण के बाद अनुकूलित उर्वरक सिफारिशों वाला मृदा स्वास्थ्य कार्ड प्राप्त करें।"
+    ],
+    PKVY: [
+      "20-50 किसानों के जैविक खेती समूह (क्लस्टर) का गठन करें।",
+      "कृषि विभाग के माध्यम से क्लस्टर पंजीकरण और जैविक प्रमाणन के लिए आवेदन करें।",
+      "जैविक खाद, बीज और प्रमाणन के लिए प्रति हेक्टेयर ₹50,000 की सहायता प्राप्त करें।"
+    ],
+    SMAM: [
+      "महाडीबीटी शेतकरी या केंद्रीय SMAM पोर्टल पर कृषि यंत्र सब्सिडी के लिए आवेदन करें।",
+      "7/12, आधार और अधिकृत डीलर का मशीनरी कोटेशन अपलोड करें।",
+      "लॉटरी चयन के बाद 40% से 50% तक वित्तीय सब्सिडी स्वीकृत की जाती है।"
+    ],
+    NAMO_SHETKARI: [
+      "पीएम-किसान पात्र किसानों का स्वचालित पंजीकरण होता है।",
+      "आधार ई-केवाईसी और बैंक खाता डीबीटी से सक्रिय होना सुनिश्चित करें।",
+      "₹2,000 की 3 समान किस्तों में प्रति वर्ष ₹6,000 सीधे बैंक खाते में प्राप्त होते हैं।"
+    ],
+    PM_KMY: [
+      "नजदीकी सीएससी (CSC) केंद्र पर आधार कार्ड और बैंक पासबुक के साथ जाएं।",
+      "आयु के अनुसार ₹55 से ₹200 प्रति माह अंशदान निर्धारित किया जाता है।",
+      "60 वर्ष की आयु के बाद ₹3,000 प्रति माह आजीवन पेंशन शुरू होती है।"
+    ],
+    MAGEL_TYALA_SHET_TALE: [
+      "महाडीबीटी शेतकरी पोर्टल पर 'मागेल त्याला शेततळे' घटक चुनें।",
+      "7/12, 8-अ उतारा और प्रस्तावित खेत तालाब का लेआउट नक्शा अपलोड करें।",
+      "खोदाई और प्लास्टिक अस्तर पूरा होने के बाद ₹50,000 तक प्रत्यक्ष अनुदान प्राप्त करें।"
+    ],
+    GOPINATH_MUNDE_VIMA: [
+      "दुर्घटना के 30 दिनों के भीतर तालुका कृषि अधिकारी कार्यालय में दावा प्रस्तुत करें।",
+      "एफआईआर (FIR), पंचनामा, मृत्यु प्रमाण पत्र या दिव्यांगता प्रमाण पत्र संलग्न करें।",
+      "जिला समिति की मंजूरी के बाद ₹2,00,000 तक की सहायता राशि वारिस के खाते में जमा की जाती है।"
+    ],
+    BHAUSAHEB_FUNDKAR: [
+      "महाडीबीटी पोर्टल पर फलोद्यान रोपण घटक के तहत आवेदन करें।",
+      "7/12 उतारा, जाति प्रमाण पत्र और चयनित फल किस्म का विवरण दें।",
+      "3 वर्षों में 50:30:20 के अनुपात में 100% पौधरोपण सब्सिडी प्राप्त करें।"
+    ],
+    AIF: [
+      "एग्री इन्फ्रा पोर्टल (agriinfra.dac.gov.in) पर उधारकर्ता के रूप में पंजीकरण करें।",
+      "विस्तृत परियोजना रिपोर्ट (DPR), भूमि दस्तावेज और केवाईसी अपलोड करें।",
+      "सहभागी बैंक का चयन कर ₹2 करोड़ तक के ऋण पर 3% ब्याज छूट का लाभ लें।"
+    ],
+    PMFME: [
+      "PMFME आधिकारिक पोर्टल (pmfme.mofpi.gov.in) पर ऑनलाइन आवेदन करें।",
+      "परियोजना प्रस्ताव और वित्तीय दस्तावेज जमा करें।",
+      "जिला संसाधन व्यक्ति (DRP) के सत्यापन के बाद 35% पूंजीगत सब्सिडी स्वीकृत की जाती है।"
+    ],
+    POKRA: [
+      "महापोकरा (PoKRA) ऐप या dbt.mahapokra.gov.in पोर्टल पर पंजीकरण करें।",
+      "शेततळे, ड्रिप या शेडनेट घटक चुनकर ऑनलाइन आवेदन करें।",
+      "ग्राम कृषि समिति (VCRMC) की मंजूरी के बाद अनुदान सीधे बैंक खाते में जमा किया जाता है।"
+    ],
+    DR_AMBEDKAR_KRUSHI_SWAVALAMBAN: [
+      "महाडीबीटी पोर्टल पर विशेष घटक योजना के तहत आवेदन करें।",
+      "सक्षम प्राधिकारी द्वारा जारी अनुसूचित जाति (SC) प्रमाण पत्र और 7/12 अपलोड करें।",
+      "नए कुएं हेतु ₹2.5 लाख तक और पंप/सिंचाई पर 100% सब्सिडी प्राप्त करें।"
+    ],
+    BIRSA_MUNDA_KRUSHI_KRANTI: [
+      "महाडीबीटी शेतकरी पोर्टल पर आदिवासी उपयोजना के तहत आवेदन करें।",
+      "अनुसूचित जनजाति (ST) प्रमाण पत्र और भूमि स्वामित्व अभिलेख अपलोड करें।",
+      "नए कुएं और सिंचाई परिसंपत्तियों के लिए ₹2.5 लाख तक शत-प्रतिशत अनुदान प्राप्त करें।"
+    ]
+  }
+};
+
+/**
+ * Universal translator function generator
+ * Provides dual access: t('key') and t.key
+ * Automatically falls back to English, then defaultText, then key itself.
+ */
+export function getTranslator(lang = 'en') {
+  const current = TRANSLATIONS[lang] || TRANSLATIONS.en;
+  const fallback = TRANSLATIONS.en;
+
+  const fn = (key, defaultText) => {
+    if (current && current[key] !== undefined) return current[key];
+    if (fallback && fallback[key] !== undefined) return fallback[key];
+    return defaultText !== undefined ? defaultText : key;
+  };
+
+  return new Proxy(fn, {
+    get(target, prop) {
+      if (prop in target) return target[prop];
+      if (current && current[prop] !== undefined) return current[prop];
+      if (fallback && fallback[prop] !== undefined) return fallback[prop];
+      return '';
+    }
+  });
+}
+
+/**
+ * Robust localized scheme name with clean English fallback
+ */
+export function getSchemeName(scheme, lang = 'en') {
   if (!scheme) return '';
-  const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
-  if (t.schemeNames && t.schemeNames[scheme.id]) {
-    return t.schemeNames[scheme.id];
+  const currentT = TRANSLATIONS[lang];
+  if (currentT && currentT.schemeNames && currentT.schemeNames[scheme.id]) {
+    return currentT.schemeNames[scheme.id];
   }
   if (lang === 'mr' && scheme.name_mr) return scheme.name_mr;
   if (lang === 'hi' && scheme.name_hi) return scheme.name_hi;
-  return scheme.name;
+  if (TRANSLATIONS.en.schemeNames && TRANSLATIONS.en.schemeNames[scheme.id]) {
+    return TRANSLATIONS.en.schemeNames[scheme.id];
+  }
+  return scheme.name || scheme.shortName || '';
 }
 
-export function getSchemeDescription(scheme, lang) {
+/**
+ * Robust localized scheme description with clean English fallback
+ */
+export function getSchemeDescription(scheme, lang = 'en') {
   if (!scheme) return '';
-  const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
-  if (lang === 'hi') {
-    if (scheme.description_hi) return scheme.description_hi;
-    if (t.schemeDescriptions && t.schemeDescriptions[scheme.id]) {
-      return t.schemeDescriptions[scheme.id];
-    }
+  const currentT = TRANSLATIONS[lang];
+  if (currentT && currentT.schemeDescriptions && currentT.schemeDescriptions[scheme.id]) {
+    return currentT.schemeDescriptions[scheme.id];
   }
-  if (lang === 'mr') {
-    if (scheme.description_mr) return scheme.description_mr;
-    if (t.schemeDescriptions && t.schemeDescriptions[scheme.id]) {
-      return t.schemeDescriptions[scheme.id];
-    }
+  if (lang === 'hi' && scheme.description_hi) return scheme.description_hi;
+  if (lang === 'mr' && scheme.description_mr) return scheme.description_mr;
+  if (TRANSLATIONS.en.schemeDescriptions && TRANSLATIONS.en.schemeDescriptions[scheme.id]) {
+    return TRANSLATIONS.en.schemeDescriptions[scheme.id];
   }
   return scheme.description || '';
 }
 
-export function getSchemeBenefit(scheme, lang) {
+/**
+ * Robust localized scheme benefit display with clean English fallback
+ */
+export function getSchemeBenefit(scheme, lang = 'en') {
   if (!scheme) return '';
-  const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
-  if (lang === 'hi') {
-    if (scheme.benefit_display_hi) return scheme.benefit_display_hi;
-    if (t.schemeBenefits && t.schemeBenefits[scheme.id]) {
-      return t.schemeBenefits[scheme.id];
-    }
+  const currentT = TRANSLATIONS[lang];
+  if (currentT && currentT.schemeBenefits && currentT.schemeBenefits[scheme.id]) {
+    return currentT.schemeBenefits[scheme.id];
   }
-  if (lang === 'mr') {
-    if (scheme.benefit_display_mr) return scheme.benefit_display_mr;
-    if (t.schemeBenefits && t.schemeBenefits[scheme.id]) {
-      return t.schemeBenefits[scheme.id];
-    }
+  if (lang === 'hi' && scheme.benefit_display_hi) return scheme.benefit_display_hi;
+  if (lang === 'mr' && scheme.benefit_display_mr) return scheme.benefit_display_mr;
+  if (TRANSLATIONS.en.schemeBenefits && TRANSLATIONS.en.schemeBenefits[scheme.id]) {
+    return TRANSLATIONS.en.schemeBenefits[scheme.id];
   }
   return scheme.benefit_display || '';
 }
 
-export function getPriorityTierLabel(tier, lang) {
+/**
+ * Localized application steps for SchemeModal and ActionPlan
+ */
+export function getSchemeApplicationSteps(scheme, lang = 'en') {
+  if (!scheme) return [];
+  if (lang === 'hi') {
+    if (SCHEME_STEPS_TRANSLATIONS.hi && SCHEME_STEPS_TRANSLATIONS.hi[scheme.id]) {
+      return SCHEME_STEPS_TRANSLATIONS.hi[scheme.id];
+    }
+    if (scheme.application_steps_hi && scheme.application_steps_hi.length > 0) {
+      return scheme.application_steps_hi;
+    }
+  }
+  if (lang === 'mr') {
+    if (scheme.application_steps_mr && scheme.application_steps_mr.length > 0) {
+      return scheme.application_steps_mr;
+    }
+  }
+  return scheme.application_steps || [];
+}
+
+/**
+ * Localized priority tier label
+ */
+export function getPriorityTierLabel(tier, lang = 'en') {
   const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
   if (tier === 'High Priority') return t.highPriorityBadge || t.highPriority || 'High Priority';
   if (tier === 'Medium Priority') return t.mediumPriorityBadge || t.mediumPriority || 'Medium Priority';
@@ -664,27 +1358,72 @@ export function getPriorityTierLabel(tier, lang) {
   return tier;
 }
 
-export function getLocalizedDocumentName(docName, lang) {
+/**
+ * Complete document names dictionary for all agricultural scheme master documents
+ */
+const DOCUMENT_DICTIONARY = {
+  'Aadhaar Card': { mr: 'आधार ओळखपत्र', hi: 'आधार पहचान पत्र' },
+  'Aadhaar Identity Card': { mr: 'आधार ओळखपत्र', hi: 'आधार पहचान पत्र' },
+  '7/12 Land Record Extract': { mr: 'जमीन मालकी पुरावा (७/१२ उतारा)', hi: 'भूमि स्वामित्व प्रमाण (7/12 खतौनी/खसरा)' },
+  'Land Ownership Proof (7/12 Extract)': { mr: 'जमीन मालकी पुरावा (७/१२ उतारा)', hi: 'भूमि स्वामित्व प्रमाण (7/12 खतौनी/खसरा)' },
+  'Income Certificate': { mr: 'उत्पन्न दाखला', hi: 'आय प्रमाण पत्र' },
+  'Caste Certificate': { mr: 'जातीचे प्रमाणपत्र', hi: 'जाति प्रमाण पत्र' },
+  'Domicile Certificate': { mr: 'अधिवास प्रमाणपत्र', hi: 'मूल निवास प्रमाण पत्र' },
+  'Bank Passbook': { mr: 'बँक खाते पासबुक', hi: 'बैंक खाता पासबुक' },
+  'Non-Creamy Layer Certificate': { mr: 'नॉन-क्रिमीलेअर प्रमाणपत्र', hi: 'नॉन-क्रीमी लेयर प्रमाण पत्र' },
+  'Sowing Certificate': { mr: 'पीक पेरणी स्वयंघोषणापत्र', hi: 'फसल बुवाई प्रमाण पत्र' },
+  'Water Source Availability Certificate': { mr: 'पाणी स्त्रोत उपलब्धता प्रमाणपत्र', hi: 'जल स्रोत उपलब्धता प्रमाण पत्र' },
+  'Disability Certificate (40%+)': { mr: 'दिव्यांग प्रमाणपत्र (४०%+)', hi: 'दिव्यांगता प्रमाण पत्र (40%+)' },
+  'Organic Cluster Membership Proof': { mr: 'सेंद्रिय शेती गट सदस्यत्व पुरावा', hi: 'जैविक खेती समूह सदस्यता प्रमाण' },
+  'Electricity Bill / NOC': { mr: 'वीज बिल / एनओसी (NOC)', hi: 'बिजली बिल / एनओसी (NOC)' },
+  'Soil Testing Sample Slip': { mr: 'माती परीक्षण नमुना पावती', hi: 'मृदा परीक्षण नमूना पर्ची' },
+  'Machinery Quotation / Invoice': { mr: 'कृषी यंत्रसामग्री कोटेशन / पावती', hi: 'कृषि मशीनरी कोटेशन / चालान' },
+  'Project Report / DPR': { mr: 'सविस्तर प्रकल्प अहवाल (DPR)', hi: 'विस्तृत परियोजना रिपोर्ट (DPR)' },
+  'Ration Card': { mr: 'रेशन कार्ड', hi: 'राशन कार्ड' }
+};
+
+export function getLocalizedDocumentName(docName, lang = 'en') {
   if (!docName) return '';
-  if (lang === 'mr') {
-    if (docName.includes('Aadhaar')) return 'आधार ओळखपत्र';
-    if (docName.includes('7/12') || docName.includes('Land')) return 'जमीन मालकी पुरावा (७/१२ उतारा)';
-    if (docName.includes('Bank') || docName.includes('Passbook')) return 'बँक खाते पासबुक';
-    if (docName.includes('Income')) return 'उत्पन्न दाखला';
-    if (docName.includes('Caste')) return 'जातीचे प्रमाणपत्र';
-    if (docName.includes('Ration')) return 'रेशन कार्ड';
-  } else if (lang === 'hi') {
-    if (docName.includes('Aadhaar')) return 'आधार पहचान पत्र';
-    if (docName.includes('7/12') || docName.includes('Land')) return 'भूमि स्वामित्व प्रमाण (7/12 खतौनी/खसरा)';
-    if (docName.includes('Bank') || docName.includes('Passbook')) return 'बैंक खाता पासबुक';
-    if (docName.includes('Income')) return 'आय प्रमाण पत्र';
-    if (docName.includes('Caste')) return 'जाति प्रमाण पत्र';
-    if (docName.includes('Ration')) return 'राशन कार्ड';
+  if (lang === 'en') return docName;
+
+  if (DOCUMENT_DICTIONARY[docName] && DOCUMENT_DICTIONARY[docName][lang]) {
+    return DOCUMENT_DICTIONARY[docName][lang];
   }
+
+  // Partial match fallback
+  const lower = docName.toLowerCase();
+  if (lang === 'mr') {
+    if (lower.includes('aadhaar')) return 'आधार ओळखपत्र';
+    if (lower.includes('7/12') || lower.includes('land')) return 'जमीन मालकी पुरावा (७/१२ उतारा)';
+    if (lower.includes('bank') || lower.includes('passbook')) return 'बँक खाते पासबुक';
+    if (lower.includes('income')) return 'उत्पन्न दाखला';
+    if (lower.includes('caste')) return 'जातीचे प्रमाणपत्र';
+    if (lower.includes('domicile')) return 'अधिवास प्रमाणपत्र';
+    if (lower.includes('sowing')) return 'पीक पेरणी स्वयंघोषणापत्र';
+    if (lower.includes('water')) return 'पाणी स्त्रोत उपलब्धता प्रमाणपत्र';
+    if (lower.includes('ration')) return 'रेशन कार्ड';
+    if (lower.includes('electricity')) return 'वीज बिल / एनओसी';
+    if (lower.includes('machinery')) return 'कृषी यंत्रसामग्री कोटेशन';
+    if (lower.includes('soil')) return 'माती परीक्षण पावती';
+  } else if (lang === 'hi') {
+    if (lower.includes('aadhaar')) return 'आधार पहचान पत्र';
+    if (lower.includes('7/12') || lower.includes('land')) return 'भूमि स्वामित्व प्रमाण (7/12 खतौनी/खसरा)';
+    if (lower.includes('bank') || lower.includes('passbook')) return 'बैंक खाता पासबुक';
+    if (lower.includes('income')) return 'आय प्रमाण पत्र';
+    if (lower.includes('caste')) return 'जाति प्रमाण पत्र';
+    if (lower.includes('domicile')) return 'मूल निवास प्रमाण पत्र';
+    if (lower.includes('sowing')) return 'फसल बुवाई प्रमाण पत्र';
+    if (lower.includes('water')) return 'जल स्रोत उपलब्धता प्रमाण पत्र';
+    if (lower.includes('ration')) return 'राशन कार्ड';
+    if (lower.includes('electricity')) return 'बिजली बिल / एनओसी';
+    if (lower.includes('machinery')) return 'कृषि मशीनरी कोटेशन';
+    if (lower.includes('soil')) return 'मृदा परीक्षण पर्ची';
+  }
+
   return docName;
 }
 
-export function getLocalizedEfficiencyTag(tag, lang) {
+export function getLocalizedEfficiencyTag(tag, lang = 'en') {
   if (!tag) return '';
   if (lang === 'mr') {
     if (tag.includes('Agri Master')) return '⚡ उच्च उपयुक्तता (शेती मुख्य कागदपत्र)';
@@ -700,27 +1439,42 @@ export function getLocalizedEfficiencyTag(tag, lang) {
   return tag;
 }
 
-export function getLocalizedSchemeTag(name, lang) {
+export function getLocalizedSchemeTag(name, lang = 'en') {
   if (!name) return '';
-  if (lang === 'mr') {
-    if (name.includes('PMFBY') || name.includes('Fasal Bima')) return 'पंतप्रधान पीक विमा';
-    if (name.includes('KCC') || name.includes('Kisan Credit')) return 'किसान क्रेडिट कार्ड';
-    if (name.includes('Soil Health')) return 'मृदा आरोग्य कार्ड';
-    if (name.includes('PM-KISAN')) return 'पीएम-किसान';
-    if (name.includes('PM-KUSUM')) return 'पीएम-कुसुम';
-    if (name.includes('SMAM')) return 'कृषी यांत्रिकीकरण';
-  } else if (lang === 'hi') {
-    if (name.includes('PMFBY') || name.includes('Fasal Bima')) return 'पीएम फसल बीमा';
-    if (name.includes('KCC') || name.includes('Kisan Credit')) return 'किसान क्रेडिट कार्ड';
-    if (name.includes('Soil Health')) return 'मृदा स्वास्थ्य कार्ड';
-    if (name.includes('PM-KISAN')) return 'पीएम-किसान';
-    if (name.includes('PM-KUSUM')) return 'पीएम-कुसुम';
-    if (name.includes('SMAM')) return 'कृषि यंत्रीकरण';
+  if (lang === 'en') return name;
+
+  const tagMap = {
+    'PM-KISAN': { mr: 'पीएम-किसान', hi: 'पीएम-किसान' },
+    'PMFBY': { mr: 'पंतप्रधान पीक विमा', hi: 'पीएम फसल बीमा' },
+    'Fasal Bima': { mr: 'पीक विमा', hi: 'फसल बीमा' },
+    'KCC': { mr: 'किसान क्रेडिट कार्ड', hi: 'किसान क्रेडिट कार्ड' },
+    'PM-KUSUM': { mr: 'पीएम-कुसुम', hi: 'पीएम-कुसुम' },
+    'PMKSY': { mr: 'कृषी सिंचन (PMKSY)', hi: 'कृषि सिंचाई (PMKSY)' },
+    'Soil Health': { mr: 'मृदा आरोग्य कार्ड', hi: 'मृदा स्वास्थ्य कार्ड' },
+    'PKVY': { mr: 'सेंद्रिय शेती (PKVY)', hi: 'जैविक खेती (PKVY)' },
+    'SMAM': { mr: 'कृषी यांत्रिकीकरण', hi: 'कृषि यंत्रीकरण' },
+    'Machinery': { mr: 'यंत्रसामग्री', hi: 'कृषि यंत्र' },
+    'NAMO_SHETKARI': { mr: 'नमो शेतकरी', hi: 'नमो शेतकरी' },
+    'PM_KMY': { mr: 'किसान मान-धन', hi: 'किसान मान-धन' },
+    'MAGEL_TYALA_SHET_TALE': { mr: 'मागेल त्याला शेततळे', hi: 'खेत तालाब योजना' },
+    'GOPINATH_MUNDE_VIMA': { mr: 'गोपीनाथ मुंडे अपघात विमा', hi: 'गोपीनाथ मुंडे दुर्घटना बीमा' },
+    'BHAUSAHEB_FUNDKAR': { mr: 'भाऊसाहेब फुंडकर फळबाग', hi: 'भाऊसाहेब फुंडकर फलबाग' },
+    'AIF': { mr: 'कृषी पायाभूत सुविधा', hi: 'कृषि अवसंरचना कोष' },
+    'PMFME': { mr: 'अन्न प्रक्रिया (PMFME)', hi: 'खाद्य प्रसंस्करण (PMFME)' },
+    'POKRA': { mr: 'पोकरा (PoKRA)', hi: 'पोकरा (PoKRA)' },
+    'DR_AMBEDKAR_KRUSHI_SWAVALAMBAN': { mr: 'डॉ. आंबेडकर स्वावलंबन', hi: 'डॉ. आंबेडकर स्वावलंबन' },
+    'BIRSA_MUNDA_KRUSHI_KRANTI': { mr: 'बिरसा मुंडा कृषी क्रांती', hi: 'बिरसा मुंडा कृषि क्रांति' }
+  };
+
+  for (const [key, val] of Object.entries(tagMap)) {
+    if (name.includes(key)) {
+      return val[lang] || name;
+    }
   }
   return name;
 }
 
-export function getLocalizedDistrict(district, lang) {
+export function getLocalizedDistrict(district, lang = 'en') {
   if (!district) return '';
   if (district === 'All') {
     return lang === 'mr' ? 'सर्व' : lang === 'hi' ? 'सभी' : 'All';
@@ -739,14 +1493,14 @@ export function getLocalizedDistrict(district, lang) {
   return district;
 }
 
-export function getLocalizedCscService(service, lang) {
+export function getLocalizedCscService(service, lang = 'en') {
   if (!service) return '';
   const serviceMap = {
     'PM-KISAN e-KYC': { mr: 'पीएम-किसान ई-केवायसी', hi: 'पीएम-किसान ई-केवाईसी' },
     '7/12 Online Extract': { mr: '७/१२ ऑनलाइन उतारा', hi: '7/12 ऑनलाइन प्रति' },
     'Income Certificate Verification': { mr: 'उत्पन्न दाखला पडताळणी', hi: 'आय प्रमाण पत्र सत्यापन' },
     'Farmer Scheme Registration': { mr: 'शेतकरी योजना नोंदणी', hi: 'किसान योजना पंजीकरण' },
-    'Crop Insurance (PMFBY)': { mr: 'पीक विमा नोंदणी', hi: 'फसल बीमा' },
+    'Crop Insurance (PMFBY)': { mr: 'पीक विमा नोंदणी', hi: 'फसल बीमा पंजीकरण' },
     'Aadhaar Linking': { mr: 'आधार लिंकिंग', hi: 'आधार लिंकिंग' },
     'Soil Health Card Data Entry': { mr: 'मृदा आरोग्य कार्ड नोंद', hi: 'मृदा स्वास्थ्य कार्ड प्रविष्टि' }
   };
@@ -756,7 +1510,7 @@ export function getLocalizedCscService(service, lang) {
   return service;
 }
 
-export function getLocalizedNotification(notif, lang) {
+export function getLocalizedNotification(notif, lang = 'en') {
   if (!notif) return notif;
   if (lang === 'en') return notif;
 
@@ -804,7 +1558,7 @@ export function getLocalizedNotification(notif, lang) {
       hi: {
         title: "⚡ नमो शेतकरी महासम्मान योजना सक्रिय",
         category: "राज्य अनुदान",
-        message: "महाराष्ट्र सरकार का ₹2,000 का अतिरिक्त लाभ पीएम-किसान पात्र खातों में जोड़ा गया।",
+        message: "महाराष्ट्र सरकार का ₹2,00,000 अतिरिक्त लाभ पीएम-किसान पात्र खातों में जोड़ा गया।",
         date: "2 दिन पहले",
         badge: "₹6,000 बोनस"
       }
@@ -836,4 +1590,63 @@ export function getLocalizedNotification(notif, lang) {
   return notif;
 }
 
+export function getLocalizedCategory(cat, lang = 'en') {
+  if (!cat) return '';
+  const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
+  if (cat === 'General') return t.catGeneral || 'General';
+  if (cat === 'OBC') return t.catOBC || 'OBC';
+  if (cat === 'SC') return t.catSC || 'SC';
+  if (cat === 'ST') return t.catST || 'ST';
+  if (cat === 'EWS') return t.catEWS || 'EWS';
+  return cat;
+}
 
+export function getLocalizedState(state, lang = 'en') {
+  if (!state) return '';
+  const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
+  if (state === 'Maharashtra') return t.stateMaharashtra || 'Maharashtra';
+  if (state === 'Karnataka') return t.stateKarnataka || 'Karnataka';
+  if (state === 'Gujarat') return t.stateGujarat || 'Gujarat';
+  if (state === 'All') return t.stateAll || 'Pan-India / All States';
+  return state;
+}
+
+export function getLocalizedConflictReason(conflict, lang = 'en') {
+  if (!conflict) return '';
+  if (lang === 'mr') return conflict.reason_mr || conflict.reason_en;
+  if (lang === 'hi') {
+    if (conflict.reason_hi) return conflict.reason_hi;
+    const ren = conflict.reason_en || '';
+    if (ren.includes('PM-KUSUM') && ren.includes('DR_AMBEDKAR')) {
+      return "पीएम-कुसुम और डॉ. आंबेडकर स्वावलंबन दोनों सौर पंप सब्सिडी प्रदान करते हैं। किसान प्रति वर्ष केवल 1 सौर पंप सब्सिडी का दावा कर सकते हैं।";
+    }
+    if (ren.includes('PM-KUSUM') && ren.includes('BIRSA_MUNDA')) {
+      return "पीएम-कुसुम और बिरसा मुंडा योजना दोनों सौर पंप सब्सिडी प्रदान करते हैं। प्रति वित्तीय वर्ष केवल 1 सब्सिडी की अनुमति है।";
+    }
+    if (ren.includes('exclusive')) {
+      return "परस्पर अनन्य योजनाएं: प्रति वर्ष केवल 1 योजना का लाभ लिया जा सकता है।";
+    }
+    return conflict.reason_en;
+  }
+  return conflict.reason_en || '';
+}
+
+export function getLocalizedCallout(calloutText, lang = 'en') {
+  if (!calloutText) return '';
+  if (lang === 'mr') {
+    if (calloutText.includes('Aadhaar')) {
+      return "🔥 महत्त्वाचे कागदपत्र: 'आधार ओळखपत्र' एकाच वेळी ४ कृषी योजनांचे दरवाजे उघडते!";
+    }
+    if (calloutText.includes('7/12') || calloutText.includes('Land')) {
+      return "🔥 महत्त्वाचे कागदपत्र: 'जमीन मालकी पुरावा (७/१२ उतारा)' एकाच वेळी ३ कृषी योजनांचे दरवाजे उघडते!";
+    }
+  } else if (lang === 'hi') {
+    if (calloutText.includes('Aadhaar')) {
+      return "🔥 प्रमुख दस्तावेज़: 'आधार पहचान पत्र' एक साथ 4 कृषि योजनाओं के लिए मान्य है!";
+    }
+    if (calloutText.includes('7/12') || calloutText.includes('Land')) {
+      return "🔥 प्रमुख दस्तावेज़: 'भूमि स्वामित्व प्रमाण (7/12 खतौनी/खसरा)' एक साथ 3 कृषि योजनाओं के लिए मान्य है!";
+    }
+  }
+  return calloutText;
+}

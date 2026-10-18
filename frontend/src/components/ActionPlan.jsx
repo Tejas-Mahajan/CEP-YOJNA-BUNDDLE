@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ExternalLink, Clock, FileCheck, AlertTriangle, ThumbsUp, ThumbsDown, Info, ChevronDown, ChevronUp, CheckCircle, Search, Sparkles, Bookmark, Filter, RefreshCw, Lightbulb } from 'lucide-react';
-import { TRANSLATIONS, getSchemeName, getPriorityTierLabel, getSchemeDescription, getSchemeBenefit } from '../data/translations';
+import { TRANSLATIONS, getSchemeName, getPriorityTierLabel, getSchemeDescription, getSchemeBenefit, getLocalizedDocumentName, getSchemeApplicationSteps, getLocalizedConflictReason } from '../data/translations';
 import { useAuth } from '../context/AuthContext';
 import { formatDeadlineText, daysUntilClose } from '../utils/validation';
 
@@ -90,7 +90,7 @@ export default function ActionPlan({ results, onOpenDetail, onOpenFeedback, onPr
             {conflicts_detected.map((c, idx) => (
               <div key={idx} className="bg-white/10 backdrop-blur-md border border-white/20 p-4 rounded-2xl text-xs space-y-1">
                 <div className="font-semibold text-amber-100">
-                  {lang === 'mr' ? c.reason_mr : c.reason_en}
+                  {getLocalizedConflictReason(c, lang)}
                 </div>
                 <div className="flex items-center space-x-4 pt-1 font-bold">
                   <span className="text-amber-200">🏆 {t.recommendedClaim}: {c.primary_scheme_name}</span>
