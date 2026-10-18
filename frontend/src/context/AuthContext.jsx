@@ -8,6 +8,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [savedSchemes, setSavedSchemes] = useState([]);
   const [isLoadingAuth, setIsLoadingAuth] = useState(true);
 
@@ -15,8 +16,12 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     setUser(null);
     setToken(null);
+    setSavedSchemes([]);
+    setIsProfileModalOpen(false);
     localStorage.removeItem('yojana_auth_token');
     localStorage.removeItem('yojana_user_profile');
+    localStorage.removeItem('yojana_saved_schemes');
+    setIsAuthModalOpen(true);
   };
 
   // Verify authentication token with backend on initial load
@@ -246,6 +251,8 @@ export const AuthProvider = ({ children }) => {
         isAuthenticated: !!token,
         isAuthModalOpen,
         setIsAuthModalOpen,
+        isProfileModalOpen,
+        setIsProfileModalOpen,
         savedSchemes,
         savedSchemesCount: savedSchemes.length,
         toggleSaveScheme,

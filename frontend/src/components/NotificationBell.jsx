@@ -56,7 +56,7 @@ export default function NotificationBell({ onSelectScheme, lang }) {
 
   return (
     <div className="relative">
-      
+
       {/* Header Notification Trigger Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
@@ -64,7 +64,7 @@ export default function NotificationBell({ onSelectScheme, lang }) {
         title="Scheme Updates & Deadline Alerts"
       >
         <Bell className="w-4 h-4 text-emerald-800" />
-        
+
         {/* Unread Red Pulsing Badge */}
         {unreadCount > 0 && (
           <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-red-600 text-white font-extrabold text-[10px] flex items-center justify-center ring-2 ring-white animate-pulse">
@@ -90,7 +90,7 @@ export default function NotificationBell({ onSelectScheme, lang }) {
               exit={{ opacity: 0, y: 10, scale: 0.95 }}
               className="absolute right-0 mt-3 w-80 sm:w-96 bg-white rounded-3xl border border-slate-200 shadow-2xl z-50 overflow-hidden"
             >
-              
+
               {/* Drawer Header */}
               <div className="bg-gradient-to-r from-emerald-950 via-emerald-900 to-teal-950 p-4 text-white flex items-center justify-between">
                 <div className="flex items-center space-x-2">
@@ -110,11 +110,10 @@ export default function NotificationBell({ onSelectScheme, lang }) {
                 {notifications.map((n) => (
                   <div
                     key={n.id}
-                    className={`p-3.5 rounded-2xl border transition-all space-y-2 cursor-pointer ${
-                      n.urgent
+                    className={`p-3.5 rounded-2xl border transition-all space-y-2 cursor-pointer ${n.urgent
                         ? 'bg-red-50/70 border-red-200/80 hover:border-red-300'
                         : 'bg-slate-50/70 border-slate-200/70 hover:bg-slate-100/70'
-                    }`}
+                      }`}
                   >
                     <div className="flex items-start justify-between">
                       <div className="flex items-center space-x-1.5">
@@ -125,9 +124,8 @@ export default function NotificationBell({ onSelectScheme, lang }) {
                         )}
                         <span className="text-2xs font-extrabold text-slate-500 uppercase">{n.category}</span>
                       </div>
-                      <span className={`px-2 py-0.5 rounded-md text-[10px] font-extrabold ${
-                        n.urgent ? 'bg-red-600 text-white' : 'bg-emerald-100 text-emerald-900'
-                      }`}>
+                      <span className={`px-2 py-0.5 rounded-md text-[10px] font-extrabold ${n.urgent ? 'bg-red-600 text-white' : 'bg-emerald-100 text-emerald-900'
+                        }`}>
                         {n.badge}
                       </span>
                     </div>
@@ -147,7 +145,7 @@ export default function NotificationBell({ onSelectScheme, lang }) {
 
               {/* Footer */}
               <div className="p-3 bg-slate-50 border-t border-slate-200 text-center text-2xs text-slate-500 font-semibold">
-                {t.notifFooterCredit || 'Updated in real-time from National Portal Services'}
+                {t.notifFooterCredit || 'Stay Updated'}
               </div>
 
             </motion.div>

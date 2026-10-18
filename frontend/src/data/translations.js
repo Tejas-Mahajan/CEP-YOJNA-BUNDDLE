@@ -20,11 +20,12 @@ export const TRANSLATIONS = {
     farmingType: "Farming Occupation Type",
     step3Title: "Owned Documents Checklist",
     step3Desc: "Select documents you currently possess to compute document readiness & overlap optimization.",
+    nextStepDocs: "Next: Document Checklist",
     selectAll: "Select All",
     clearAll: "Clear All",
     calculateBtn: "Calculate Agriculture Scheme Bundle Plan",
     evaluatingBtn: "Evaluating Schemes & Overlaps...",
-        // Authentication Modal
+    // Authentication Modal
     authWelcome: "Welcome to YojanaBundle",
     authWelcomeSubtitle: "Access saved schemes & personalized bundles",
     authCreateProfile: "Create Your Profile",
@@ -55,7 +56,7 @@ export const TRANSLATIONS = {
     authLoginFailed: "Login failed",
     authSignupFailed: "Signup failed",
     authAuthenticationFailed: "Authentication failed. Please check credentials.",
-    
+
     // Top User Bar
     welcomeBack: "Welcome back,",
     profileRoleLabel: "Profile: Farmer",
@@ -99,7 +100,7 @@ export const TRANSLATIONS = {
     readyToApply: "Ready to Apply",
     docReadinessLabel: "Document Readiness Score",
     readiness: "Readiness",
-    
+
     // Document Overlap & Conflicts
     overlapTitle: "Document Overlap & Reuse Optimization",
     overlapDesc: "Key documents that unlock multiple scheme applications simultaneously with zero duplicated effort.",
@@ -112,7 +113,7 @@ export const TRANSLATIONS = {
     conflictDesc: "Only 1 scheme can be claimed per year. We recommend the higher-yielding scheme below:",
     recommendedClaim: "Recommended Primary Claim",
     secondaryClaim: "Mutually Exclusive Alternative",
-    
+
     // Action Plan
     actionPlanTitle: 'Prioritized "Apply First" Action Plan',
     actionPlanDesc: "Sorted by Weighted Benefit + Urgency + Readiness",
@@ -164,7 +165,7 @@ export const TRANSLATIONS = {
     notifYesterday: "Yesterday",
     notifDaysAgo: "{days} days ago",
     notifViewScheme: "View Scheme",
-    notifFooterCredit: "Updated in real-time from National Portal Services",
+    notifFooterCredit: "Stay Updated",
 
     // Scheme Names Mapping
     schemeNames: {
@@ -222,11 +223,12 @@ export const TRANSLATIONS = {
     farmingType: "शेतकरी वर्ग / प्रकार",
     step3Title: "३. उपलब्ध कागदपत्रे चेकलिस्ट",
     step3Desc: "तुमच्याकडे सध्या असलेली कागदपत्रे निवडा.",
+    nextStepDocs: "पुढे: आवश्यक कागदपत्रे",
     selectAll: "सर्व निवडा",
     clearAll: "सर्व रद्द करा",
     calculateBtn: "पात्रता व योजना बंडल प्लॅन तपासा",
     evaluatingBtn: "योजना व कागदपत्रांचे मूल्यांकन सुरू आहे...",
-        // Authentication Modal
+    // Authentication Modal
     authWelcome: "YojanaBundle मध्ये आपले स्वागत आहे",
     authWelcomeSubtitle: "जतन केलेल्या योजना आणि वैयक्तिकृत बंडलमध्ये प्रवेश करा",
     authCreateProfile: "आपले प्रोफाइल तयार करा",
@@ -257,7 +259,7 @@ export const TRANSLATIONS = {
     authLoginFailed: "लॉगिन अयशस्वी झाले",
     authSignupFailed: "साइन अप अयशस्वी झाले",
     authAuthenticationFailed: "प्रमाणीकरण अयशस्वी झाले. कृपया तपशील तपासा.",
-    
+
     // Top User Bar
     welcomeBack: "पुन्हा स्वागत आहे,",
     profileRoleLabel: "प्रोफाइल: शेतकरी",
@@ -301,7 +303,7 @@ export const TRANSLATIONS = {
     readyToApply: "अर्जासाठी तयार",
     docReadinessLabel: "कागदपत्र सज्जता गुण",
     readiness: "सज्जता",
-    
+
     // Document Overlap & Conflicts
     overlapTitle: "कागदपत्र पुर्नवापर व सुलभता",
     overlapDesc: "एकाच कागदपत्राने अनेक योजनांचे दरवाजे उघडा.",
@@ -314,7 +316,7 @@ export const TRANSLATIONS = {
     conflictDesc: "एका वर्षात फक्त १ योजनेचा लाभ घेता येतो. आम्ही अधिक फायदेशीर योजनेची शिफारस करतो:",
     recommendedClaim: "शिफारस केलेली प्राथमिक योजना",
     secondaryClaim: "पर्यायी योजना",
-    
+
     // Action Plan
     actionPlanTitle: 'प्राधान्यक्रमानुसार "प्रथम अर्ज करा" कृती आराखडा',
     actionPlanDesc: "आर्थिक फायदा + मुदत + कागदपत्र सज्जतेनुसार क्रमवारी",
@@ -424,11 +426,12 @@ export const TRANSLATIONS = {
     farmingType: "किसान वर्ग / प्रकार",
     step3Title: "३. उपलब्ध दस्तावेज चेकलिस्ट",
     step3Desc: "दस्तावेजों की तैयारी एवं पुन: उपयोग की गणना के लिए उपलब्ध दस्तावेज चुनें।",
+    nextStepDocs: "आगे: आवश्यक दस्तावेज",
     selectAll: "सभी चुनें",
     clearAll: "सभी हटाएं",
     calculateBtn: "पात्रता एवं योजना बंडल प्लान जांचें",
     evaluatingBtn: "योजनाओं एवं दस्तावेजों का मूल्यांकन जारी है...",
-        // Authentication Modal
+    // Authentication Modal
     authWelcome: "YojanaBundle में आपका स्वागत है",
     authWelcomeSubtitle: "सहेजी गई योजनाओं और व्यक्तिगत बंडल तक पहुंचें",
     authCreateProfile: "अपना प्रोफाइल बनाएं",
@@ -459,7 +462,7 @@ export const TRANSLATIONS = {
     authLoginFailed: "लॉगिन विफल हुआ",
     authSignupFailed: "साइन अप विफल हुआ",
     authAuthenticationFailed: "प्रमाणीकरण विफल हुआ। कृपया विवरण जांचें.",
-    
+
     // Top User Bar
     welcomeBack: "वापसी पर स्वागत है,",
     profileRoleLabel: "प्रोफ़ाइल: किसान",
@@ -503,7 +506,7 @@ export const TRANSLATIONS = {
     readyToApply: "आवेदन के लिए तैयार",
     docReadinessLabel: "दस्तावेज तैयारी स्कोर",
     readiness: "तैयारी",
-    
+
     // Document Overlap & Conflicts
     overlapTitle: "दस्तावेज पुन: उपयोग एवं सरलीकरण",
     overlapDesc: "एक ही दस्तावेज से कई योजनाओं के लिए पात्रता अनलॉक करें।",
@@ -516,7 +519,7 @@ export const TRANSLATIONS = {
     conflictDesc: "प्रति वर्ष केवल 1 योजना का दावा किया जा सकता है। हम अधिक लाभ वाली योजना की सिफारिश करते हैं:",
     recommendedClaim: "अनुशंसित प्राथमिक योजना",
     secondaryClaim: "वैकल्पिक योजना",
-    
+
     // Action Plan
     actionPlanTitle: 'प्राथमिकता क्रम "पहले आवेदन करें" कार्य योजना',
     actionPlanDesc: "वित्तीय लाभ + समय सीमा + दस्तावेज तैयारी के अनुसार व्यवस्थित",

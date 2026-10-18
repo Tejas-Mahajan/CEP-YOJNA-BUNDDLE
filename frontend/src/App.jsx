@@ -14,6 +14,7 @@ import FeedbackModal from './components/FeedbackModal';
 import ExportReport from './components/ExportReport';
 import IntroAnimation from './components/IntroAnimation';
 import AuthModal from './components/AuthModal';
+import ProfileModal from './components/ProfileModal';
 import WelcomeScreen from './components/WelcomeScreen';
 import WelcomeBar from './components/WelcomeBar';
 import FloatingSummaryBar from './components/FloatingSummaryBar';
@@ -56,7 +57,7 @@ function MainAppContent() {
     owned_documents: []
   };
 
-  const { user, token, isAuthenticated, isAuthModalOpen, setIsAuthModalOpen, updateUserProfileAttributes, fetchUserProfile, savedSchemes: savedSchemeIds, toggleSaveScheme, isLoadingAuth } = useAuth();
+  const { user, token, isAuthenticated, isAuthModalOpen, setIsAuthModalOpen, isProfileModalOpen, setIsProfileModalOpen, updateUserProfileAttributes, fetchUserProfile, savedSchemes: savedSchemeIds, toggleSaveScheme, isLoadingAuth, logout } = useAuth();
 
   const [schemes, setSchemes] = useState([]);
   const [isHydrating, setIsHydrating] = useState(true);
@@ -186,6 +187,30 @@ function MainAppContent() {
       if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current);
     };
   }, [isAuthenticated, user?.id, isLoadingAuth]);
+
+  // Sync state cleanup when user logs out
+  const prevAuthRef = useRef(isAuthenticated);
+  useEffect(() => {
+    if (prevAuthRef.current && !isAuthenticated) {
+      setProfile(BLANK_PROFILE);
+      setResults(null);
+      setActiveNav('matcher');
+      setMatrixDocFilter(null);
+      setDetailScheme(null);
+      setComparePair(null);
+    }
+    prevAuthRef.current = isAuthenticated;
+  }, [isAuthenticated]);
+
+  const handleLogout = () => {
+    setProfile(BLANK_PROFILE);
+    setResults(null);
+    setActiveNav('matcher');
+    setMatrixDocFilter(null);
+    setDetailScheme(null);
+    setComparePair(null);
+    logout();
+  };
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -422,7 +447,7 @@ function MainAppContent() {
       />
 
       {/* Personalized Welcome Bar (When Logged In) */}
-      <WelcomeBar lang={lang} />
+      <WelcomeBar lang={lang} onLogout={handleLogout} />
 
       {/* Main Dashboard Layout */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -724,13 +749,22 @@ function MainAppContent() {
       />
 
 
-      {/* Explicit Auth Modal Trigger when user clicks login from dashboard */}
+      {/* Explicit Auth Modal Trigger when user clicks login from dashboard or after logout */}
       {isAuthModalOpen && (
         <AuthModal
           isOpen={isAuthModalOpen}
           onClose={() => setIsAuthModalOpen(false)}
           lang={lang}
           setLang={setLang}
+        />
+      )}
+
+      {/* Stored Profile Attributes Modal */}
+      {isProfileModalOpen && (
+        <ProfileModal
+          isOpen={isProfileModalOpen}
+          onClose={() => setIsProfileModalOpen(false)}
+          lang={lang}
         />
       )}
 
