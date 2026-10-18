@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { X, ThumbsUp, ThumbsDown, Send, Check } from 'lucide-react';
+import { TRANSLATIONS } from '../data/translations';
 
-export default function FeedbackModal({ schemeId, defaultRating, onClose, onSubmitFeedback }) {
+export default function FeedbackModal({ schemeId, defaultRating, onClose, onSubmitFeedback, lang = 'en' }) {
   const [rating, setRating] = useState(defaultRating || 'up');
   const [comment, setComment] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+
+  const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,14 +37,14 @@ export default function FeedbackModal({ schemeId, defaultRating, onClose, onSubm
             <div className="w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto">
               <Check className="w-6 h-6 stroke-[3]" />
             </div>
-            <h3 className="text-xl font-bold text-slate-900">Thank You for Your Feedback!</h3>
-            <p className="text-xs text-slate-500">Your rating helps optimize YojanaBundle's scheme recommendation engine.</p>
+            <h3 className="text-xl font-bold text-slate-900">{t.feedbackThankYouTitle || "Thank You for Your Feedback!"}</h3>
+            <p className="text-xs text-slate-500">{t.feedbackThankYouDesc || "Your rating helps optimize YojanaBundle's scheme recommendation engine."}</p>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <h3 className="text-xl font-extrabold text-slate-900">Feedback & Rating</h3>
-              <p className="text-xs text-slate-500 mt-1">Help us improve scheme bundling recommendations for farmers.</p>
+              <h3 className="text-xl font-extrabold text-slate-900">{t.feedbackModalTitle || "Feedback & Rating"}</h3>
+              <p className="text-xs text-slate-500 mt-1">{t.feedbackModalSub || "Help us improve scheme bundling recommendations for farmers."}</p>
             </div>
 
             <div className="flex items-center space-x-3">
@@ -55,7 +58,7 @@ export default function FeedbackModal({ schemeId, defaultRating, onClose, onSubm
                 }`}
               >
                 <ThumbsUp className="w-4 h-4 text-emerald-600" />
-                <span>Helpful Match</span>
+                <span>{t.feedbackHelpful || "Helpful Match"}</span>
               </button>
 
               <button
@@ -68,17 +71,17 @@ export default function FeedbackModal({ schemeId, defaultRating, onClose, onSubm
                 }`}
               >
                 <ThumbsDown className="w-4 h-4 text-red-500" />
-                <span>Not Relevant</span>
+                <span>{t.feedbackNotRelevant || "Not Relevant"}</span>
               </button>
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Optional Comments</label>
+              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">{t.feedbackCommentsLabel || "Optional Comments"}</label>
               <textarea
                 rows="3"
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
-                placeholder="Suggest improvements or share document application experience..."
+                placeholder={t.feedbackCommentsPlaceholder || "Suggest improvements or share document application experience..."}
                 className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-emerald-500 text-xs font-medium text-slate-900"
               ></textarea>
             </div>
@@ -89,7 +92,7 @@ export default function FeedbackModal({ schemeId, defaultRating, onClose, onSubm
               className="w-full py-3.5 px-6 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md transition-all flex items-center justify-center space-x-2"
             >
               <Send className="w-4 h-4" />
-              <span>Submit Feedback</span>
+              <span>{t.feedbackSubmitBtn || "Submit Feedback"}</span>
             </button>
           </form>
         )}

@@ -110,7 +110,7 @@ export default function ActionPlan({ results, onOpenDetail, onOpenFeedback, onPr
           <Search className="w-4 h-4 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
           <input
             type="text"
-            placeholder={lang === 'mr' ? "पात्र योजनांमध्ये शोधा..." : "Search eligible schemes..."}
+            placeholder={lang === 'mr' ? "पात्र योजनांमध्ये शोधा..." : lang === 'hi' ? "पात्र योजनाओं में खोजें..." : "Search eligible schemes..."}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-emerald-500 text-sm font-semibold text-slate-900 bg-slate-50/50"
@@ -123,7 +123,7 @@ export default function ActionPlan({ results, onOpenDetail, onOpenFeedback, onPr
           {matrixDocFilter && (
             <div className="px-3 py-1.5 rounded-xl bg-amber-100 text-amber-900 font-bold text-xs border border-amber-300 flex items-center space-x-1">
               <Filter className="w-3.5 h-3.5 text-amber-600" />
-              <span>Doc Filter: {matrixDocFilter}</span>
+              <span>{t.docFilterLabel || 'Doc Filter:'} {getLocalizedDocumentName(matrixDocFilter, lang)}</span>
             </div>
           )}
 
@@ -134,10 +134,10 @@ export default function ActionPlan({ results, onOpenDetail, onOpenFeedback, onPr
             onChange={(e) => setFilterTier(e.target.value)}
             className="px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs font-semibold text-slate-800"
           >
-            <option value="all">{lang === 'mr' ? "सर्व प्राधान्यक्रम" : "All Priorities"}</option>
-            <option value="High Priority">{lang === 'mr' ? "उच्च प्राधान्य" : "High Priority (Apply First)"}</option>
-            <option value="Medium Priority">{lang === 'mr' ? "मध्यम प्राधान्य" : "Medium Priority"}</option>
-            <option value="Low Priority">{lang === 'mr' ? "सामान्य प्राधान्य" : "Low Priority"}</option>
+            <option value="all">{t.allPriorities || (lang === 'mr' ? "सर्व प्राधान्यक्रम" : lang === 'hi' ? "सभी प्राथमिकताएं" : "All Priorities")}</option>
+            <option value="High Priority">{t.highPriorityOption || (lang === 'mr' ? "उच्च प्राधान्य" : lang === 'hi' ? "उच्च प्राथमिकता" : "High Priority (Apply First)")}</option>
+            <option value="Medium Priority">{t.mediumPriorityOption || (lang === 'mr' ? "मध्यम प्राधान्य" : lang === 'hi' ? "मध्यम प्राथमिकता" : "Medium Priority")}</option>
+            <option value="Low Priority">{t.lowPriorityOption || (lang === 'mr' ? "सामान्य प्राधान्य" : lang === 'hi' ? "कम प्राथमिकता" : "Low Priority")}</option>
           </select>
 
           <button
@@ -169,32 +169,32 @@ export default function ActionPlan({ results, onOpenDetail, onOpenFeedback, onPr
             </div>
 
             <div className="max-w-md mx-auto space-y-2">
-              <h4 className="text-xl font-bold text-slate-900">No Eligible Schemes Found for Current Filters</h4>
+              <h4 className="text-xl font-bold text-slate-900">{t.noEligibleSchemesTitle || t.noEligibleTitle || 'No Eligible Schemes Found for Current Filters'}</h4>
               <p className="text-xs text-slate-500">
-                Don't worry! Your profile criteria or active filters might be restricting results. Try these quick optimization tips:
+                {t.noEligibleSchemesSub || t.noEligibleDesc || "Don't worry! Your profile criteria or active filters might be restricting results. Try these quick optimization tips:"}
               </p>
             </div>
 
             <div className="max-w-lg mx-auto grid grid-cols-1 sm:grid-cols-2 gap-3 text-left">
               <div className="p-3 rounded-2xl bg-slate-50 border border-slate-200 text-xs text-slate-700 space-y-1">
                 <div className="font-bold text-slate-900 flex items-center space-x-1">
-                  <span>🌐 Domicile State</span>
+                  <span>{t.tipDomicileTitle || '🌐 Domicile State'}</span>
                 </div>
-                <div className="text-2xs text-slate-500">Set state to <strong>"Pan-India / All"</strong> to unlock national schemes.</div>
+                <div className="text-2xs text-slate-500">{t.tipDomicileDesc || 'Set state to "Pan-India / All" to unlock national schemes.'}</div>
               </div>
 
               <div className="p-3 rounded-2xl bg-slate-50 border border-slate-200 text-xs text-slate-700 space-y-1">
                 <div className="font-bold text-slate-900 flex items-center space-x-1">
-                  <span>💰 Annual Income</span>
+                  <span>{t.tipIncomeTitle || '💰 Annual Income'}</span>
                 </div>
-                <div className="text-2xs text-slate-500">Ensure income slider is within state scheme thresholds (e.g. ₹8.0 Lakh).</div>
+                <div className="text-2xs text-slate-500">{t.tipIncomeDesc || 'Ensure income slider is within state scheme thresholds (e.g. ₹8.0 Lakh).'}</div>
               </div>
 
               <div className="p-3 rounded-2xl bg-slate-50 border border-slate-200 text-xs text-slate-700 space-y-1">
                 <div className="font-bold text-slate-900 flex items-center space-x-1">
-                  <span>📄 Master Documents</span>
+                  <span>{t.tipDocsTitle || '📄 Master Documents'}</span>
                 </div>
-                <div className="text-2xs text-slate-500">Select key documents like <strong>Aadhaar Card</strong> or <strong>Income Certificate</strong>.</div>
+                <div className="text-2xs text-slate-500">{t.tipDocsDesc || 'Select key documents like Aadhaar Card or Income Certificate.'}</div>
               </div>
 
             </div>
@@ -209,7 +209,7 @@ export default function ActionPlan({ results, onOpenDetail, onOpenFeedback, onPr
                 className="px-6 py-2.5 rounded-2xl bg-emerald-800 hover:bg-emerald-700 text-white font-bold text-xs shadow-md shadow-emerald-800/20 inline-flex items-center space-x-2 transition-all"
               >
                 <RefreshCw className="w-4 h-4" />
-                <span>Reset All Filters & View All Schemes</span>
+                <span>{t.resetFiltersBtn || 'Reset All Filters & View All Schemes'}</span>
               </button>
             </div>
           </div>
@@ -376,7 +376,7 @@ export default function ActionPlan({ results, onOpenDetail, onOpenFeedback, onPr
                             const isOwned = !(item.missing_documents || []).includes(doc);
                             return (
                               <div key={dIdx} className="flex items-center justify-between text-xs p-2 rounded-lg bg-white border border-slate-200">
-                                <span>{doc}</span>
+                                <span>{getLocalizedDocumentName(doc, lang)}</span>
                                 {isOwned ? (
                                   <span className="text-emerald-600 font-bold flex items-center">
                                     <CheckCircle className="w-3.5 h-3.5 mr-1" /> {t.ready}
@@ -394,9 +394,9 @@ export default function ActionPlan({ results, onOpenDetail, onOpenFeedback, onPr
 
                       {/* Application Steps */}
                       <div>
-                        <h5 className="text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Application Procedure</h5>
+                        <h5 className="text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">{t.applicationProcedureTitle || 'Application Procedure'}</h5>
                         <ol className="space-y-2 text-xs text-slate-700 list-decimal list-inside">
-                          {((lang === 'mr' && s.application_steps_mr && s.application_steps_mr.length > 0) ? s.application_steps_mr : (s.application_steps || [])).map((step, stIdx) => (
+                          {getSchemeApplicationSteps(s, lang).map((step, stIdx) => (
                             <li key={stIdx} className="bg-white p-2.5 rounded-lg border border-slate-200 font-medium">
                               {step}
                             </li>
@@ -408,21 +408,21 @@ export default function ActionPlan({ results, onOpenDetail, onOpenFeedback, onPr
 
                     {/* Feedback Rating Section */}
                     <div className="flex items-center justify-between pt-4 border-t border-slate-200">
-                      <div className="text-xs text-slate-500 font-semibold">Was this scheme recommendation helpful?</div>
+                      <div className="text-xs text-slate-500 font-semibold">{t.feedbackHelpfulQuestion || 'Was this scheme recommendation helpful?'}</div>
                       <div className="flex items-center space-x-2">
                         <button
                           onClick={() => onOpenFeedback(s.id, 'up')}
                           className="px-3 py-1.5 rounded-lg bg-white border border-slate-200 hover:bg-emerald-50 hover:border-emerald-300 text-xs font-bold text-slate-700 flex items-center space-x-1"
                         >
                           <ThumbsUp className="w-3.5 h-3.5 text-emerald-600" />
-                          <span>Helpful</span>
+                          <span>{t.feedbackHelpfulBtn || 'Helpful'}</span>
                         </button>
                         <button
                           onClick={() => onOpenFeedback(s.id, 'down')}
                           className="px-3 py-1.5 rounded-lg bg-white border border-slate-200 hover:bg-red-50 hover:border-red-300 text-xs font-bold text-slate-700 flex items-center space-x-1"
                         >
                           <ThumbsDown className="w-3.5 h-3.5 text-red-500" />
-                          <span>Needs Improvement</span>
+                          <span>{t.feedbackNeedsImprovementBtn || 'Needs Improvement'}</span>
                         </button>
                       </div>
                     </div>

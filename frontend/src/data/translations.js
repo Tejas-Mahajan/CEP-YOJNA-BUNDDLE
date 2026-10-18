@@ -245,12 +245,36 @@ export const TRANSLATIONS = {
     reusableAcrossSchemes: "⚡ Reusable Across Matched Schemes",
     standardIdentityDoc: "Standard verified identity document",
     sharedMasterPrefix: "Shared Master",
+    unlocksSchemesCount: "Unlocks {count} Schemes",
     deadlineCountdownTitle: "Application Deadline Countdown",
+    yearRoundLabel: "Year-Round",
+    closedLabel: "Closed",
+    daysLeft: "Days Left",
     windowOpening: "Window Opening",
     closingDateLabel: "Closing Date",
+    yearRoundDeadlineText: "Year-Round / First Come First Served",
+    notSpecified: "Not specified",
+    yearRoundDisclaimer: "* This scheme accepts applications year-round on a first-come, first-served basis through MahaDBT or the official portal.",
     deadlineDisclaimer: "* Applications close automatically on portal servers at 11:59 PM IST on the deadline date. Apply early to avoid server load.",
     numberedGuideTitle: "Numbered Application Guide",
+    applicationProcedureTitle: "Application Procedure",
     applyOfficialPortal: "Apply on Official Portal",
+    saveSchemeTitle: "Add to My Saved Schemes",
+    savedSchemeTitle: "Saved in Profile Bundle",
+    saveBtn: "Save",
+    savedBtn: "Saved",
+    feedbackHelpfulQuestion: "Was this scheme recommendation helpful?",
+    feedbackHelpfulBtn: "Helpful",
+    feedbackNeedsImprovementBtn: "Needs Improvement",
+    docFilterLabel: "Doc Filter:",
+    allPriorities: "All Priorities",
+    highPriorityOption: "High Priority (Apply First)",
+    mediumPriorityOption: "Medium Priority",
+    lowPriorityOption: "Low Priority",
+    noEligibleSchemesTitle: "No Eligible Schemes Found for Current Filters",
+    noEligibleSchemesSub: "Don't worry! Your profile criteria or active filters might be restricting results. Try these quick optimization tips:",
+    resetFiltersBtn: "Reset All Filters & View All Schemes",
+    closeComparisonBtn: "Close Comparison",
 
     // Feedback Modal
     feedbackModalTitle: "Feedback & Rating",
@@ -288,8 +312,9 @@ export const TRANSLATIONS = {
     cscAllDistrict: "All",
     cscVerifiedBadge: "Verified CSC",
     cscDistrictSuffix: "District",
-    cscNodalLabel: "Nodal:",
-    cscServicesHeader: "KEY OFFLINE SERVICES",
+    cscOfficeAddressLabel: "Office Address",
+    cscNodalLabel: "Nodal Officer:",
+    cscServicesHeader: "Services Available",
     cscCallNodal: "Call Nodal",
     cscDirections: "Directions on Google Maps",
     cscNoResultsTitle: 'No CSC centers found for "{query}"',
@@ -616,26 +641,50 @@ export const TRANSLATIONS = {
     applyPortal2: "पोर्टल २ वर अर्ज करा",
 
     // Scheme Modal
-    modalTabOverview: "१. आढावा व फायदे",
-    modalTabDocs: "२. कागदपत्रे",
-    modalTabDeadlines: "३. मुदत व वेळापत्रक",
-    modalTabSteps: "४. अर्ज पायऱ्या",
-    benefitStructureTitle: "आर्थिक फायदा स्वरूप",
+    modalTabOverview: "१. विहंगावलोकन आणि लाभ",
+    modalTabDocs: "२. आवश्यक कागदपत्रे",
+    modalTabDeadlines: "३. मुदत आणि कालमर्यादा",
+    modalTabSteps: "४. टप्प्याटप्प्याने मार्गदर्शक",
+    benefitStructureTitle: "आर्थिक लाभ स्वरूप",
     benefitTypeLabel: "लाभाचा प्रकार",
     schemeObjectiveTitle: "योजनेचे उद्दिष्ट",
     eligibleCategoriesTitle: "पात्र सामाजिक प्रवर्ग",
     adminQuotaTitle: "प्रशासकीय कोटा",
     nodalDepartmentLabel: "नोडल विभाग:",
     mandatoryDocsTitle: "आवश्यक कागदपत्रे",
-    reusableAcrossSchemes: "⚡ पात्र योजनांमध्ये पुर्नवापरयोग्य",
+    reusableAcrossSchemes: "⚡ पात्र योजनांमध्ये पुनर्वापरयोग्य",
     standardIdentityDoc: "प्रमाणित अधिकृत ओळख दस्तऐवज",
     sharedMasterPrefix: "मुख्य सामायिक कागदपत्र",
-    deadlineCountdownTitle: "अर्ज मुदत काउंटडाउन",
-    windowOpening: "अर्ज विंडो सुरू",
+    unlocksSchemesCount: "{count} योजनांसाठी लागू",
+    deadlineCountdownTitle: "अर्ज मुदत कालमर्यादा",
+    yearRoundLabel: "वर्षभर सुरू",
+    closedLabel: "मुदत संपली",
+    daysLeft: "दिवस शिल्लक",
+    windowOpening: "अर्ज खिडकी प्रारंभ",
     closingDateLabel: "अंतिम तारीख",
+    yearRoundDeadlineText: "वर्षभर सुरू / प्रथम येणाऱ्यास प्राधान्य",
+    notSpecified: "अनिर्दिष्ट",
+    yearRoundDisclaimer: "* ही योजना महाडीबीटी किंवा अधिकृत पोर्टलद्वारे प्रथम येणाऱ्यास प्रथम प्राधान्य या तत्त्वावर वर्षभर अर्ज स्वीकारते.",
     deadlineDisclaimer: "* अंतिम तारखेला रात्री ११:५९ वाजता पोर्टल सर्व्हरवर अर्ज बंद होतात. गर्दी टाळण्यासाठी लवकर अर्ज करा.",
-    numberedGuideTitle: "तपशीलवार अर्ज मार्गदर्शिका",
+    numberedGuideTitle: "अर्ज करण्याची सविस्तर प्रक्रिया",
+    applicationProcedureTitle: "अर्ज करण्याची प्रक्रिया",
     applyOfficialPortal: "अधिकृत पोर्टलवर अर्ज करा",
+    saveSchemeTitle: "माझ्या जतन केलेल्या योजनांमध्ये जोडा",
+    savedSchemeTitle: "प्रोफाइल बंडलमध्ये जतन केले",
+    saveBtn: "जतन करा",
+    savedBtn: "जतन केले",
+    feedbackHelpfulQuestion: "ही योजना शिफारस आपल्यासाठी उपयुक्त ठरली का?",
+    feedbackHelpfulBtn: "उपयुक्त",
+    feedbackNeedsImprovementBtn: "सुधारणा आवश्यक",
+    docFilterLabel: "कागदपत्र फिल्टर:",
+    allPriorities: "सर्व प्राधान्यक्रम",
+    highPriorityOption: "उच्च प्राधान्य (प्रथम अर्ज करा)",
+    mediumPriorityOption: "मध्यम प्राधान्य",
+    lowPriorityOption: "सामान्य प्राधान्य",
+    noEligibleSchemesTitle: "सध्याच्या फिल्टरसाठी कोणतीही पात्र योजना आढळली नाही",
+    noEligibleSchemesSub: "काळजी करू नका! आपले प्रोफाइल निकष किंवा फिल्टर मर्यादित असू शकतात. या टिप्स वापरून पहा:",
+    resetFiltersBtn: "सर्व फिल्टर्स रीसेट करा व सर्व योजना पहा",
+    closeComparisonBtn: "तुलना बंद करा",
 
     // Feedback Modal
     feedbackModalTitle: "अभिप्राय आणि रेटिंग",
@@ -671,11 +720,12 @@ export const TRANSLATIONS = {
     cscSearchPlaceholder: "परिसर, केंद्राचे नाव शोधा...",
     cscDistrictLabel: "जिल्हा:",
     cscAllDistrict: "सर्व",
-    cscVerifiedBadge: "पडताळणीकृत केंद्र",
+    cscVerifiedBadge: "प्रमाणित केंद्र",
     cscDistrictSuffix: "जिल्हा",
+    cscOfficeAddressLabel: "कार्यालयाचा पत्ता",
     cscNodalLabel: "नोडल अधिकारी:",
-    cscServicesHeader: "उपलब्ध ऑफलाइन सेवा",
-    cscCallNodal: "संपर्क करा",
+    cscServicesHeader: "उपलब्ध सेवा",
+    cscCallNodal: "नोडल अधिकाऱ्यास कॉल करा",
     cscDirections: "गुगल मॅपवर दिशा दाखवा",
     cscNoResultsTitle: '"{query}" साठी कोणतेही सीएससी केंद्र सापडले नाही',
     cscNoResultsSub: "जिल्हा बदलून पहा किंवा शोध शब्द स्पष्ट करा.",
@@ -1001,26 +1051,50 @@ export const TRANSLATIONS = {
     applyPortal2: "पोर्टल 2 पर आवेदन करें",
 
     // Scheme Modal
-    modalTabOverview: "1. अवलोकन एवं लाभ",
-    modalTabDocs: "2. दस्तावेज",
-    modalTabDeadlines: "3. समय सीमा एवं समयरेखा",
-    modalTabSteps: "4. चरण-दर-चरण मार्गदर्शिका",
+    modalTabOverview: "१. अवलोकन और लाभ",
+    modalTabDocs: "२. आवश्यक दस्तावेज",
+    modalTabDeadlines: "३. समयसीमा और तिथियां",
+    modalTabSteps: "४. चरण-दर-चरण मार्गदर्शिका",
     benefitStructureTitle: "वित्तीय लाभ संरचना",
     benefitTypeLabel: "लाभ का प्रकार",
     schemeObjectiveTitle: "योजना का उद्देश्य",
     eligibleCategoriesTitle: "पात्र सामाजिक श्रेणियां",
     adminQuotaTitle: "प्रशासनिक कोटा",
     nodalDepartmentLabel: "नोडल विभाग:",
-    mandatoryDocsTitle: "अनिवार्य दस्तावेज़",
+    mandatoryDocsTitle: "आवश्यक दस्तावेज",
     reusableAcrossSchemes: "⚡ पात्र योजनाओं में पुन: प्रयोज्य",
     standardIdentityDoc: "प्रमाणित आधिकारिक पहचान दस्तावेज",
     sharedMasterPrefix: "मुख्य साझा दस्तावेज़",
-    deadlineCountdownTitle: "आवेदन समय सीमा उलटी गिनती",
+    unlocksSchemesCount: "{count} योजनाओं के लिए मान्य",
+    deadlineCountdownTitle: "आवेदन समयसीमा उलटी गिनती",
+    yearRoundLabel: "वर्षभर खुला",
+    closedLabel: "बंद",
+    daysLeft: "दिन शेष",
     windowOpening: "आवेदन खिड़की प्रारंभ",
     closingDateLabel: "अंतिम तिथि",
-    deadlineDisclaimer: "* अंतिम तिथि को रात 11:59 बजे पोर्टल सर्वर पर आवेदन बंद हो जाते हैं। सर्वर लोड से बचने के लिए जल्दी आवेदन करें।",
-    numberedGuideTitle: "क्रमबद्ध आवेदन गाइड",
+    yearRoundDeadlineText: "वर्षभर खुला / पहले आओ पहले पाओ",
+    notSpecified: "निर्दिष्ट नहीं",
+    yearRoundDisclaimer: "* यह योजना महाडीबीटी या आधिकारिक पोर्टल के माध्यम से पहले आओ पहले पाओ के आधार पर वर्षभर आवेदन स्वीकार करती है।",
+    deadlineDisclaimer: "* अंतिम तिथि को रात 11:59 बजे पोर्टल सर्वर पर आवेदन स्वतः बंद हो जाते हैं। सर्वर लोड से बचने के लिए समय पूर्व आवेदन करें।",
+    numberedGuideTitle: "आवेदन करने की विस्तृत प्रक्रिया",
+    applicationProcedureTitle: "आवेदन प्रक्रिया",
     applyOfficialPortal: "आधिकारिक पोर्टल पर आवेदन करें",
+    saveSchemeTitle: "मेरी सहेजी गई योजनाओं में जोड़ें",
+    savedSchemeTitle: "प्रोफ़ाइल बंडल में सहेजा गया",
+    saveBtn: "सहेजें",
+    savedBtn: "सहेजा गया",
+    feedbackHelpfulQuestion: "क्या यह योजना सिफारिश आपके लिए उपयोगी थी?",
+    feedbackHelpfulBtn: "उपयोगी",
+    feedbackNeedsImprovementBtn: "सुधार की आवश्यकता",
+    docFilterLabel: "दस्तावेज़ फ़िल्टर:",
+    allPriorities: "सभी प्राथमिकताएं",
+    highPriorityOption: "उच्च प्राथमिकता (पहले आवेदन करें)",
+    mediumPriorityOption: "मध्यम प्राथमिकता",
+    lowPriorityOption: "कम प्राथमिकता",
+    noEligibleSchemesTitle: "वर्तमान फ़िल्टर के लिए कोई पात्र योजना नहीं मिली",
+    noEligibleSchemesSub: "चिंता न करें! आपकी प्रोफ़ाइल मानदंड या सक्रिय फ़िल्टर परिणामों को सीमित कर रहे हैं। इन युक्तियों को आज़माएं:",
+    resetFiltersBtn: "सभी फ़िल्टर रीसेट करें और सभी योजनाएं देखें",
+    closeComparisonBtn: "तुलना बंद करें",
 
     // Feedback Modal
     feedbackModalTitle: "फीडबैक एवं रेटिंग",
@@ -1058,9 +1132,10 @@ export const TRANSLATIONS = {
     cscAllDistrict: "सभी",
     cscVerifiedBadge: "सत्यापित केंद्र",
     cscDistrictSuffix: "जिला",
-    cscNodalLabel: "नोडल प्रभारी:",
-    cscServicesHeader: "प्रमुख ऑफ़लाइन सेवाएं",
-    cscCallNodal: "कॉल करें",
+    cscOfficeAddressLabel: "कार्यालय का पता",
+    cscNodalLabel: "नोडल अधिकारी:",
+    cscServicesHeader: "उपलब्ध सेवाएं",
+    cscCallNodal: "नोडल अधिकारी को कॉल करें",
     cscDirections: "गूगल मैप पर रास्ता देखें",
     cscNoResultsTitle: '"{query}" के लिए कोई सीएससी केंद्र नहीं मिला',
     cscNoResultsSub: "जिला चयन बदलें या खोज शब्द साफ़ करें।",
@@ -1247,6 +1322,83 @@ const SCHEME_STEPS_TRANSLATIONS = {
       "अनुसूचित जनजाति (ST) प्रमाण पत्र और भूमि स्वामित्व अभिलेख अपलोड करें।",
       "नए कुएं और सिंचाई परिसंपत्तियों के लिए ₹2.5 लाख तक शत-प्रतिशत अनुदान प्राप्त करें।"
     ]
+  },
+  mr: {
+    PM_KISAN: [
+      "अधिकृत PM-KISAN पोर्टल किंवा जवळच्या सीएससी केंद्राला भेट द्या.",
+      "7/12 व 8अ उतारा आणि आधार संलग्न बँक खाते तपशील सादर करा.",
+      "आधार ओटीपी किंवा बायोमेट्रिक द्वारे अनिवार्य ई-केवायसी पूर्ण करा."
+    ],
+    PMFBY: [
+      "राष्ट्रीय पीक विमा पोर्टलवर (pmfby.gov.in), सीएससी केंद्रात किंवा बँकेत नोंदणी करा.",
+      "ई-पीक पाहणी नोंदवलेला 7/12 उतारा आणि पेरणी स्वयंघोषणापत्र सादर करा.",
+      "महाराष्ट्रात केवळ ₹१ नाममात्र शुल्क जमा करा (उर्वरित हप्ता राज्य शासन भरते)."
+    ],
+    PM_KUSUM: [
+      "महावितरण (मागेल त्याला सौर कृषी पंप) किंवा महाऊर्जा पीएम-कुसुम पोर्टलवर नोंदणी करा.",
+      "विहीर/कूपनलिका/शेततळे नोंद असलेला 7/12 उतारा अपलोड करा.",
+      "अर्ज मंजूर झाल्यावर १०% शेतकरी हिस्सा (SC/ST साठी ५%) ऑनलाईन जमा करा."
+    ],
+    PMKSY: [
+      "महाडीबीटी (MahaDBT) शेतकरी पोर्टलवर 'सिंचन साधने व सुविधा' अंतर्गत अर्ज करा.",
+      "पूर्वसंमती मिळाल्यानंतर अधिकृत विक्रेत्याकडून ठिबक/तुषार संच बसवून घ्या.",
+      "पक्के बिल अपलोड करा आणि कृषी सहाय्यकाकडून मोका तपासणी पूर्ण करून बँक खात्यात अनुदान मिळवा."
+    ],
+    SOIL_HEALTH: [
+      "स्थानिक कृषी सहाय्यक किंवा ग्रामपंचायत कृषी सेवा केंद्राशी संपर्क साधा.",
+      "शेतातील मातीचा नमुना घेऊन शासकीय प्रयोगशाळेत जमा करा.",
+      "परीक्षणानंतर पिकांच्या गरजेनुसार खत व्यवस्थापन मार्गदर्शन पत्रिका (मृदा आरोग्य कार्ड) मिळवा."
+    ],
+    PKVY: [
+      "२० ते ५० शेतकऱ्यांचा सेंद्रिय शेती गट (क्लस्टर) तयार करा.",
+      "कृषी विभागामार्फत क्लस्टर नोंदणी व सेंद्रिय प्रमाणीकरणासाठी प्रस्ताव सादर करा.",
+      "सेंद्रिय खते, बियाणे व प्रमाणीकरणासाठी ३ वर्षात प्रति हेक्टर ₹५०,००० अनुदान मिळवा."
+    ],
+    SMAM: [
+      "महाडीबीटी शेतकरी पोर्टलवर 'कृषी यांत्रिकीकरण' घटकांतर्गत ट्रॅक्टर किंवा अवजारांसाठी अर्ज करा.",
+      "7/12, आधार व अधिकृत विक्रेत्याचे दरपत्रक (Quotation) अपलोड करा.",
+      "लॉटरीमध्ये निवड झाल्यानंतर पूर्वसंमती घेऊन अवजार खरेदी करा व अनुदान थेट खात्यात मिळवा."
+    ],
+    NAMO_SHETKARI: [
+      "पीएम-किसान सन्मान निधीस पात्र असलेल्या सर्व शेतकऱ्यांना आपोआप नोंदणी मिळते.",
+      "बँक खाते आधार लिंक (DBT Enabled) व ई-केवायसी पूर्ण असल्याची खात्री करा.",
+      "दर ४ महिन्यांनी ₹२,००० याप्रमाणे वर्षाला ₹६,००० चे अनुदान थेट बँक खात्यात जमा होते."
+    ],
+    PM_KMY: [
+      "जवळच्या सीएससी केंद्रावर आधार कार्ड व बँक पासबुकसह भेट द्या.",
+      "वयानुसार दरमहा ₹५५ ते ₹२०० अंशदान जमा करा (एवढीच रक्कम केंद्र सरकार जमा करते).",
+      "वय ६० वर्षे पूर्ण झाल्यावर दरमहा ₹३,००० निश्चित आजीवन पेन्शन सुरू होते."
+    ],
+    MAGEL_TYALA_SHET_TALE: [
+      "महाडीबीटी पोर्टलवर 'मागेल त्याला शेततळे' या घटकांतर्गत ऑनलाइन अर्ज करा.",
+      "7/12, 8अ उतारा व शेततळ्याचा प्रस्तावित नकाशा सादर करा.",
+      "तळे खोदून प्लॅस्टिक अस्तरीकरण पूर्ण केल्यावर थेट बँक खात्यात ₹५०,००० पर्यंत अनुदान मिळवा."
+    ],
+    GOPINATH_MUNDE_VIMA: [
+      "अपघात घडल्यापासून ३० दिवसांच्या आत तालुका कृषी अधिकारी कार्यालयात दावा अर्ज सादर करा.",
+      "पोलीस पंचनामा, एफआयआर (FIR), मरणोत्तर तपासणी अहवाल किंवा अपंगत्व प्रमाणपत्र जोडा.",
+      "जिल्हा समितीच्या मंजुरीनंतर ₹२,००,००० पर्यंतचे सानुग्रह अनुदान वारसाच्या खात्यात जमा होते."
+    ],
+    BHAUSAHEB_FUNDKAR: [
+      "महाडीबीटी पोर्टलवर फळबाग लागवड घटकांतर्गत ऑनलाइन अर्ज नोंदवा.",
+      "7/12 उतारा, जातीचा दाखला व पसंतीची फळझाड जात निवडा.",
+      "३ वर्षांच्या टप्प्यात (५०:३०:२०) खड्डे खोदणे, रोपे खरेदी व कुंपणासाठी १००% अनुदान मिळवा."
+    ],
+    POKRA: [
+      "महापोक्रा (MahaPoKRA) ॲप किंवा dbt.mahapokra.gov.in पोर्टलवर नोंदणी करा.",
+      "हवामान अनुकूल शेती, शेततळे, ठिबक किंवा शेडनेट घटकासाठी ऑनलाइन अर्ज करा.",
+      "ग्राम कृषी विकास समिती (VCRMC) पडताळणीनंतर थेट खात्यात अर्थसहाय्य मिळवा."
+    ],
+    DR_AMBEDKAR_KRUSHI_SWAVALAMBAN: [
+      "महाडीबीटी शेतकरी पोर्टलवर अनुसूचित जाती (SC) विशेष घटक योजनेतून अर्ज करा.",
+      "सक्षम अधिकाऱ्याचे जात प्रमाणपत्र व 7/12 उतारा अपलोड करा.",
+      "नवीन विहिरीसाठी ₹२.५ लाख आणि सौर पंप, वीज जोडणी व ठिबकसाठी १००% अनुदान मिळवा."
+    ],
+    BIRSA_MUNDA_KRUSHI_KRANTI: [
+      "महाडीबीटी पोर्टलवर अनुसूचित जमाती (ST) आदिवासी उपयोजनेतून ऑनलाइन अर्ज करा.",
+      "सक्षम प्राधिकरणाचे अनुसूचित जमातीचे प्रमाणपत्र व जमिनीचा 7/12 उतारा सादर करा.",
+      "नवीन विहीर, इनवेल बोअरिंग व सिंचन साहित्यासाठी ₹२.५ लाखांपर्यंत १००% शासकीय अनुदान मिळवा."
+    ]
   }
 };
 
@@ -1332,19 +1484,206 @@ export function getSchemeBenefit(scheme, lang = 'en') {
 export function getSchemeApplicationSteps(scheme, lang = 'en') {
   if (!scheme) return [];
   if (lang === 'hi') {
-    if (SCHEME_STEPS_TRANSLATIONS.hi && SCHEME_STEPS_TRANSLATIONS.hi[scheme.id]) {
-      return SCHEME_STEPS_TRANSLATIONS.hi[scheme.id];
-    }
     if (scheme.application_steps_hi && scheme.application_steps_hi.length > 0) {
       return scheme.application_steps_hi;
+    }
+    if (scheme.guide_hi && scheme.guide_hi.length > 0) {
+      return scheme.guide_hi;
+    }
+    if (SCHEME_STEPS_TRANSLATIONS.hi && SCHEME_STEPS_TRANSLATIONS.hi[scheme.id]) {
+      return SCHEME_STEPS_TRANSLATIONS.hi[scheme.id];
     }
   }
   if (lang === 'mr') {
     if (scheme.application_steps_mr && scheme.application_steps_mr.length > 0) {
       return scheme.application_steps_mr;
     }
+    if (scheme.guide_mr && scheme.guide_mr.length > 0) {
+      return scheme.guide_mr;
+    }
+    if (SCHEME_STEPS_TRANSLATIONS.mr && SCHEME_STEPS_TRANSLATIONS.mr[scheme.id]) {
+      return SCHEME_STEPS_TRANSLATIONS.mr[scheme.id];
+    }
   }
-  return scheme.application_steps || [];
+  return scheme.application_steps || scheme.guide || [];
+}
+
+/**
+ * Localize CSC timing hours & working days: (Mon-Sat) / (Mon-Fri)
+ */
+export function getLocalizedTiming(timing, lang = 'en') {
+  if (!timing) return '';
+  if (lang === 'en') return timing;
+  if (lang === 'mr' || lang === 'hi') {
+    return timing
+      .replace(/\(Mon-Sat\)/g, '(सोम-शनि)')
+      .replace(/\(Mon-Fri\)/g, '(सोम-शुक्र)')
+      .replace(/Mon-Sat/g, 'सोम-शनि')
+      .replace(/Mon-Fri/g, 'सोम-शुक्र');
+  }
+  return timing;
+}
+
+const CSC_NAME_MAP = {
+  csc_pune_01: { mr: "महा ई-सेवा केंद्र — शिवाजीनगर सीएससी", hi: "महा ई-सेवा केंद्र — शिवाजी नगर सीएससी" },
+  csc_pune_02: { mr: "ग्राहक सेवा केंद्र — हडपसर डिजिटल सेवा", hi: "कॉमन सर्विस सेंटर — हडपसर डिजिटल सेवा" },
+  csc_mumbai_01: { mr: "आपले सरकार सेवा केंद्र — दादर पश्चिम", hi: "आपले सरकार सेवा केंद्र — दादर पश्चिम" },
+  csc_nashik_01: { mr: "जिल्हा सीएससी नोडल मदत कक्ष — नाशिक ग्रामीण", hi: "जिला सीएससी नोडल हेल्पडेस्क — नाशिक ग्रामीण" },
+  csc_nagpur_01: { mr: "महा ई-सेवा केंद्र — सिव्हिल लाइन्स नागपूर", hi: "महा ई-सेवा केंद्र — सिविल लाइन्स नागपुर" },
+  csc_sambhajinagar_01: { mr: "आपले सरकार सेवा केंद्र — क्रांती चौक", hi: "आपले सरकार सेवा केंद्र — क्रांति चौक" },
+  csc_kolhapur_01: { mr: "महा ई-सेवा केंद्र — ताराबाई पार्क कोल्हापूर", hi: "महा ई-सेवा केंद्र — ताराबाई पार्क कोल्हापुर" }
+};
+
+export function getLocalizedCscName(office, lang = 'en') {
+  if (!office) return '';
+  if (lang === 'en') return office.name || '';
+  if (CSC_NAME_MAP[office.id] && CSC_NAME_MAP[office.id][lang]) {
+    return CSC_NAME_MAP[office.id][lang];
+  }
+  return office.name || '';
+}
+
+const CSC_ADDRESS_MAP = {
+  csc_pune_01: {
+    mr: "प्लॉट १४, जिल्हाधिकारी कार्यालयाजवळ, जुना जिल्हा न्यायालय रस्ता, शिवाजीनगर, पुणे - ४११००५",
+    hi: "प्लॉट 14, कलेक्ट्रेट के पास, पुराना जिला अदालत रोड, शिवाजी नगर, पुणे - 411005"
+  },
+  csc_pune_02: {
+    mr: "दुकान क्र. ४, सोलापूर रस्ता, गाडीतळ बसस्थानकाजवळ, हडपसर, पुणे - ४११०२८",
+    hi: "दुकान 4, सोलापुर रोड, गाड़ीतल बस स्टैंड के पास, हडपसर, पुणे - 411028"
+  },
+  csc_mumbai_01: {
+    mr: "तळमजला, महानगरपालिका मार्केट इमारत, रानडे रोड, दादर पश्चिम, मुंबई - ४०००२८",
+    hi: "भू-तल, म्युनिसिपल मार्केट बिल्डिंग, रानडे रोड, दादर वेस्ट, मुंबई - 400028"
+  },
+  csc_nashik_01: {
+    mr: "तहसील कार्यालय परिसर, सीबीएस सर्कल, कॉलेज रोड, नाशिक - ४२२००२",
+    hi: "तहसील कार्यालय परिसर, सीबीएस सर्कल, कॉलेज रोड, नाशिक - 422002"
+  },
+  csc_nagpur_01: {
+    mr: "जिल्हा परिषद इमारतीसमोर, सिव्हिल लाइन्स, नागपूर - ४४०००१",
+    hi: "जिला परिषद भवन के सामने, सिविल लाइन्स, नागपुर - 440001"
+  },
+  csc_sambhajinagar_01: {
+    mr: "विभागीय आयुक्त कार्यालयाजवळ, जालना रोड, क्रांती चौक, छत्रपती संभाजीनगर - ४३१००१",
+    hi: "संभागीय आयुक्त कार्यालय के पास, जालना रोड, क्रांति चौक, छत्रपति संभाजीनगर - 431001"
+  },
+  csc_kolhapur_01: {
+    mr: "दुकान क्र. १२, ताराबाई पार्क कमर्शियल कॉम्प्लेक्स, कोल्हापूर - ४१६००३",
+    hi: "दुकान 12, ताराबाई पार्क कमर्शियल कॉम्प्लेक्स, कोल्हापुर - 416003"
+  }
+};
+
+export function getLocalizedCscAddress(office, lang = 'en') {
+  if (!office) return '';
+  if (lang === 'en') return office.address || '';
+  if (CSC_ADDRESS_MAP[office.id] && CSC_ADDRESS_MAP[office.id][lang]) {
+    return CSC_ADDRESS_MAP[office.id][lang];
+  }
+  return office.address || '';
+}
+
+export function getLocalizedDepartment(dept, lang = 'en', scheme = null) {
+  if (scheme) {
+    if (lang === 'mr' && scheme.department_mr) return scheme.department_mr;
+    if (lang === 'hi' && scheme.department_hi) return scheme.department_hi;
+  }
+  if (!dept) {
+    if (lang === 'mr') return 'कृषी आणि शेतकरी कल्याण मंत्रालय';
+    if (lang === 'hi') return 'कृषि एवं किसान कल्याण मंत्रालय';
+    return 'Ministry of Agriculture & Farmers Welfare';
+  }
+  if (lang === 'en') return dept;
+  const dLower = dept.toLowerCase();
+  if (lang === 'mr') {
+    if (dLower.includes('renewable') || dLower.includes('kusum') || dLower.includes('ऊर्जा')) {
+      return 'नवीन आणि नवीकरणीय ऊर्जा मंत्रालय';
+    }
+    if (dLower.includes('maharashtra') || dLower.includes('राज्य') || dLower.includes('शासकीय')) {
+      return 'कृषी विभाग, महाराष्ट्र शासन';
+    }
+    if (dLower.includes('food processing') || dLower.includes('pmfme')) {
+      return 'अन्न प्रक्रिया उद्योग मंत्रालय';
+    }
+    return 'कृषी आणि शेतकरी कल्याण मंत्रालय';
+  }
+  if (lang === 'hi') {
+    if (dLower.includes('renewable') || dLower.includes('kusum') || dLower.includes('ऊर्जा')) {
+      return 'नवीन और नवीकरणीय ऊर्जा मंत्रालय';
+    }
+    if (dLower.includes('maharashtra') || dLower.includes('राज्य') || dLower.includes('शासन')) {
+      return 'कृषि विभाग, महाराष्ट्र सरकार';
+    }
+    if (dLower.includes('food processing') || dLower.includes('pmfme')) {
+      return 'खाद्य प्रसंस्करण उद्योग मंत्रालय';
+    }
+    return 'कृषि एवं किसान कल्याण मंत्रालय';
+  }
+  return dept;
+}
+
+export function getLocalizedQuotaType(quota, lang = 'en', scheme = null) {
+  if (scheme) {
+    if (lang === 'mr' && scheme.quota_type_mr) return scheme.quota_type_mr;
+    if (lang === 'hi' && scheme.quota_type_hi) return scheme.quota_type_hi;
+  }
+  if (!quota) {
+    if (lang === 'mr') return 'केंद्रीय क्षेत्र योजना (१००% केंद्र निधी)';
+    if (lang === 'hi') return 'केंद्रीय क्षेत्र योजना (100% केंद्रीय निधि)';
+    return 'Central Sector Scheme (100% Central Fund)';
+  }
+  if (lang === 'en') return quota;
+  const qLower = quota.toLowerCase();
+  if (lang === 'mr') {
+    if (qLower.includes('central sector') || qLower.includes('100% central')) {
+      return 'केंद्रीय क्षेत्र योजना (१००% केंद्र निधी)';
+    }
+    if (qLower.includes('state scheme') || qLower.includes('100% state') || qLower.includes('100% maharashtra')) {
+      return 'राज्य पुरस्कृत योजना (१००% राज्य निधी)';
+    }
+    if (qLower.includes('sharing') || qLower.includes('sponsored') || qLower.includes('60:40') || qLower.includes('50:50')) {
+      return 'केंद्र व राज्य प्रायोजित योजना (सामायिक निधी)';
+    }
+    return 'केंद्रीय क्षेत्र योजना (१००% केंद्र निधी)';
+  }
+  if (lang === 'hi') {
+    if (qLower.includes('central sector') || qLower.includes('100% central')) {
+      return 'केंद्रीय क्षेत्र योजना (100% केंद्रीय निधि)';
+    }
+    if (qLower.includes('state scheme') || qLower.includes('100% state') || qLower.includes('100% maharashtra')) {
+      return 'राज्य प्रायोजित योजना (100% राज्य निधि)';
+    }
+    if (qLower.includes('sharing') || qLower.includes('sponsored') || qLower.includes('60:40') || qLower.includes('50:50')) {
+      return 'केंद्र एवं राज्य प्रायोजित योजना (साझा निधि)';
+    }
+    return 'केंद्रीय क्षेत्र योजना (100% केंद्रीय निधि)';
+  }
+  return quota;
+}
+
+export function getLocalizedBenefitType(type, lang = 'en') {
+  if (!type) return '';
+  if (lang === 'en') return type;
+  const tLower = type.toLowerCase();
+  if (lang === 'mr') {
+    if (tLower.includes('direct cash') || tLower.includes('dbt')) return 'थेट रोख हस्तांतरण (DBT)';
+    if (tLower.includes('insurance')) return 'विमा संरक्षण';
+    if (tLower.includes('subsidy')) return 'अनुदान / सबसिडी';
+    if (tLower.includes('free service') || tLower.includes('soil')) return 'मोफत सेवा व माती परीक्षण';
+    if (tLower.includes('pension')) return 'मासिक पेन्शन';
+    if (tLower.includes('interest') || tLower.includes('credit')) return 'व्याज सवलत व पत सहाय्य';
+    return type;
+  }
+  if (lang === 'hi') {
+    if (tLower.includes('direct cash') || tLower.includes('dbt')) return 'प्रत्यक्ष नकद अंतरण (DBT)';
+    if (tLower.includes('insurance')) return 'फसल बीमा सुरक्षा';
+    if (tLower.includes('subsidy')) return 'सब्सिडी / अनुदान';
+    if (tLower.includes('free service') || tLower.includes('soil')) return 'निःशुल्क सेवा व मृदा परीक्षण';
+    if (tLower.includes('pension')) return 'मासिक पेंशन';
+    if (tLower.includes('interest') || tLower.includes('credit')) return 'ब्याज छूट एवं ऋण सहायता';
+    return type;
+  }
+  return type;
 }
 
 /**

@@ -2,7 +2,18 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ExternalLink, ShieldCheck, Clock, FileText, CheckCircle2, Building2, Sparkles, Layers, ArrowRight, Bookmark, BookmarkCheck, Calendar, Check, AlertCircle } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import { TRANSLATIONS, getSchemeName, getSchemeDescription, getSchemeBenefit } from '../data/translations';
+import {
+  TRANSLATIONS,
+  getSchemeName,
+  getSchemeDescription,
+  getSchemeBenefit,
+  getSchemeApplicationSteps,
+  getLocalizedDocumentName,
+  getLocalizedCategory,
+  getLocalizedDepartment,
+  getLocalizedQuotaType,
+  getLocalizedBenefitType
+} from '../data/translations';
 import { daysUntilClose } from '../utils/validation';
 
 export default function SchemeModal({ scheme, onClose, allInsights = [], lang }) {
@@ -14,7 +25,7 @@ export default function SchemeModal({ scheme, onClose, allInsights = [], lang })
 
   const saved = isSchemeSaved(scheme.id);
   const reqDocs = scheme.documents_required || scheme.required_documents || [];
-  const appSteps = scheme.application_steps || [];
+  const appSteps = getSchemeApplicationSteps(scheme, lang);
   const department = scheme.department || 'Ministry of Agriculture & Farmers Welfare';
   const quotaType = scheme.quota_type || 'Central Sector Scheme (100% Central Fund)';
   
@@ -26,12 +37,12 @@ export default function SchemeModal({ scheme, onClose, allInsights = [], lang })
   // Human-readable closing date label
   let deadlineDateStr;
   if (isYearRound) {
-    deadlineDateStr = 'Year-Round / First Come First Served';
+    deadlineDateStr = t.yearRoundDeadlineText || (lang === 'mr' ? 'वर्षभर सुरू / प्रथम येणाऱ्यास प्राधान्य' : lang === 'hi' ? 'वर्षभर खुला / पहले आओ पहले पाओ' : 'Year-Round / First Come First Served');
   } else if (scheme.closing_date) {
     const [y, m, d] = scheme.closing_date.split('-').map(Number);
-    deadlineDateStr = new Date(y, m - 1, d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+    deadlineDateStr = new Date(y, m - 1, d).toLocaleDateString(lang === 'mr' ? 'mr-IN' : lang === 'hi' ? 'hi-IN' : 'en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
   } else {
-    deadlineDateStr = 'Not specified';
+    deadlineDateStr = t.notSpecified || (lang === 'mr' ? 'अनिर्दिष्ट' : lang === 'hi' ? 'निर्दिष्ट नहीं' : 'Not specified');
   }
 
   // Progress bar fill: 0% for year-round; 100% for expired; proportional up to 90 days
@@ -85,7 +96,7 @@ export default function SchemeModal({ scheme, onClose, allInsights = [], lang })
                 {t.agricultureCategory || 'AGRICULTURE'}
               </span>
               <span className="px-3 py-0.5 rounded-full text-[11px] font-bold bg-white/15 text-emerald-200 border border-white/20">
-                <Building2 className="w-3 h-3 inline mr-1" /> {department}
+                <Building2 className="w-3 h-3 inline mr-1" /> {getLocalizedDepartment(department, lang, scheme)}
               </span>
             </div>
 
@@ -93,17 +104,17 @@ export default function SchemeModal({ scheme, onClose, allInsights = [], lang })
               {getSchemeName(scheme, lang)}
             </h2>
             <p className="text-xs text-emerald-200 font-medium">
-              {quotaType}
+              {getLocalizedQuotaType(quotaType, lang, scheme)}
             </p>
           </div>
 
           {/* Modal Navigation Tabs */}
           <div className="bg-slate-100 px-6 py-2 border-b border-slate-200 flex space-x-2 overflow-x-auto custom-scrollbar">
             {[
-              { id: 'overview', label: '1. Overview & Benefit', icon: Sparkles },
-              { id: 'documents', label: `2. Documents (${reqDocs.length})`, icon: FileText },
-              { id: 'deadlines', label: '3. Deadlines & Timelines', icon: Clock },
-              { id: 'steps', label: '4. Step-by-Step Guide', icon: Layers }
+              { id: 'overview', label: t.modalTabOverview || '1. Overview & Benefit', icon: Sparkles },
+              { id: 'documents', label: `${t.modalTabDocs || '2. Documents'} (${reqDocs.length})`, icon: FileText },
+              { id: 'deadlines', label: t.modalTabDeadlines || '3. Deadlines & Timelines', icon: Clock },
+              { id: 'steps', label: t.modalTabSteps || '4. Step-by-Step Guide', icon: Layers }
             ].map(tab => {
               const Icon = tab.icon;
               const isActive = activeModalTab === tab.id;
@@ -139,21 +150,21 @@ export default function SchemeModal({ scheme, onClose, allInsights = [], lang })
                 <div className="p-5 rounded-3xl bg-gradient-to-r from-emerald-900 via-teal-900 to-slate-900 text-white shadow-lg flex flex-col sm:flex-row sm:items-center justify-between gap-4 border border-emerald-800/40">
                   <div>
                     <div className="text-2xs text-amber-400 font-bold uppercase tracking-wider mb-1 flex items-center">
-                      <Sparkles className="w-3.5 h-3.5 mr-1" /> Financial Benefit Structure
+                      <Sparkles className="w-3.5 h-3.5 mr-1" /> {t.benefitStructureTitle || 'Financial Benefit Structure'}
                     </div>
                     <div className="text-2xl font-black bg-gradient-to-r from-amber-300 via-emerald-200 to-white bg-clip-text text-transparent">
                       {getSchemeBenefit(scheme, lang)}
                     </div>
                   </div>
                   <div className="bg-white/10 backdrop-blur-md px-4 py-2 rounded-2xl border border-white/15 text-left sm:text-right">
-                    <div className="text-2xs text-emerald-200">Benefit Type</div>
-                    <div className="text-xs font-bold text-white">{scheme.benefit_type || "Direct Cash Transfer"}</div>
+                    <div className="text-2xs text-emerald-200">{t.benefitTypeLabel || 'Benefit Type'}</div>
+                    <div className="text-xs font-bold text-white">{getLocalizedBenefitType(scheme.benefit_type, lang) || scheme.benefit_type || "Direct Cash Transfer"}</div>
                   </div>
                 </div>
 
                 {/* Scheme Objective & Description */}
                 <div className="space-y-2">
-                  <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider">Scheme Objective</h4>
+                  <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider">{t.schemeObjectiveTitle || 'Scheme Objective'}</h4>
                   <p className="text-sm text-slate-600 leading-relaxed bg-slate-50 p-4 rounded-2xl border border-slate-200">
                     {getSchemeDescription(scheme, lang)}
                   </p>
@@ -162,23 +173,23 @@ export default function SchemeModal({ scheme, onClose, allInsights = [], lang })
                 {/* Target Categories & Eligibility Summary */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
-                    <div className="text-xs font-bold text-slate-700 uppercase tracking-wider">Eligible Social Categories</div>
+                    <div className="text-xs font-bold text-slate-700 uppercase tracking-wider">{t.eligibleCategoriesTitle || 'Eligible Social Categories'}</div>
                     <div className="flex flex-wrap gap-1.5">
                       {(scheme.category_target || ["General", "OBC", "SC", "ST", "EWS"]).map((cat, idx) => (
                         <span key={idx} className="px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-900 font-bold text-xs border border-emerald-300">
-                          {cat}
+                          {getLocalizedCategory(cat, lang)}
                         </span>
                       ))}
                     </div>
                   </div>
 
                   <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
-                    <div className="text-xs font-bold text-slate-700 uppercase tracking-wider">Administrative Quota</div>
+                    <div className="text-xs font-bold text-slate-700 uppercase tracking-wider">{t.adminQuotaTitle || 'Administrative Quota'}</div>
                     <div className="text-xs font-semibold text-slate-800">
-                      {quotaType}
+                      {getLocalizedQuotaType(quotaType, lang, scheme)}
                     </div>
                     <div className="text-2xs text-slate-500">
-                      Nodal Department: {department}
+                      {t.nodalDepartmentLabel || 'Nodal Department:'} {getLocalizedDepartment(department, lang, scheme)}
                     </div>
                   </div>
                 </div>
@@ -195,10 +206,10 @@ export default function SchemeModal({ scheme, onClose, allInsights = [], lang })
               >
                 <div className="flex items-center justify-between border-b border-slate-100 pb-2">
                   <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center">
-                    <FileText className="w-4 h-4 mr-1.5 text-emerald-600" /> Mandatory Documents ({reqDocs.length})
+                    <FileText className="w-4 h-4 mr-1.5 text-emerald-600" /> {t.mandatoryDocsTitle || 'Mandatory Documents'} ({reqDocs.length})
                   </h4>
                   <span className="text-2xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200">
-                    ⚡ Reusable Across Matched Schemes
+                    {t.reusableAcrossSchemes || '⚡ Reusable Across Matched Schemes'}
                   </span>
                 </div>
 
@@ -221,15 +232,15 @@ export default function SchemeModal({ scheme, onClose, allInsights = [], lang })
                             <CheckCircle2 className="w-4 h-4" />
                           </div>
                           <div>
-                            <div className="text-xs font-bold text-slate-900">{docName}</div>
-                            <div className="text-2xs text-slate-500 font-medium">Standard verified identity document</div>
+                            <div className="text-xs font-bold text-slate-900">{getLocalizedDocumentName(docName, lang)}</div>
+                            <div className="text-2xs text-slate-500 font-medium">{t.standardIdentityDoc || 'Standard verified identity document'}</div>
                           </div>
                         </div>
 
                         {isShared && (
                           <span className="inline-flex items-center px-3 py-1 rounded-xl text-2xs font-extrabold bg-amber-400 text-slate-950 shadow-2xs self-start sm:self-auto">
                             <Sparkles className="w-3 h-3 mr-1" />
-                            Shared Master (Unlocks {insight.unlocked_schemes_count} Schemes)
+                            {t.sharedMasterPrefix || 'Shared Master'} ({t.unlocksSchemesCount ? t.unlocksSchemesCount.replace('{count}', insight.unlocked_schemes_count) : `Unlocks ${insight.unlocked_schemes_count} Schemes`})
                           </span>
                         )}
                       </div>
@@ -251,22 +262,22 @@ export default function SchemeModal({ scheme, onClose, allInsights = [], lang })
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
                       <Clock className={`w-5 h-5 text-amber-400 ${!isYearRound && !isExpired ? 'animate-pulse' : ''}`} />
-                      <h4 className="text-sm font-bold">Application Deadline Countdown</h4>
+                      <h4 className="text-sm font-bold">{t.deadlineCountdownTitle || 'Application Deadline Countdown'}</h4>
                     </div>
                     <span className={`px-3 py-1 rounded-full text-xs font-extrabold ${
                       isExpired ? 'bg-red-600 text-white' :
                       isYearRound ? 'bg-emerald-500 text-slate-950' :
                       'bg-amber-500 text-slate-950'
                     }`}>
-                      {isYearRound ? 'Year-Round' : isExpired ? 'Closed' : `${daysRemaining} Days Left`}
+                      {isYearRound ? (t.yearRoundLabel || 'Year-Round') : isExpired ? (t.closedLabel || 'Closed') : `${daysRemaining} ${t.daysLeft || 'Days Left'}`}
                     </span>
                   </div>
 
                   {/* Progress Bar */}
                   <div className="space-y-1">
                     <div className="flex justify-between text-2xs text-slate-400 font-semibold">
-                      <span>Window Opening</span>
-                      <span>Closing Date: <strong>{deadlineDateStr}</strong></span>
+                      <span>{t.windowOpening || 'Window Opening'}</span>
+                      <span>{t.closingDateLabel || 'Closing Date'}: <strong>{deadlineDateStr}</strong></span>
                     </div>
                     <div className="h-3 bg-slate-800 rounded-full overflow-hidden p-0.5 border border-slate-700">
                       <div
@@ -282,8 +293,8 @@ export default function SchemeModal({ scheme, onClose, allInsights = [], lang })
 
                   <p className="text-2xs text-slate-400 italic">
                     {isYearRound
-                      ? '* This scheme accepts applications year-round on a first-come, first-served basis through MahaDBT or the official portal.'
-                      : '* Applications close automatically on portal servers at 11:59 PM IST on the deadline date. Apply early to avoid server load.'}
+                      ? (t.yearRoundDisclaimer || '* This scheme accepts applications year-round on a first-come, first-served basis through MahaDBT or the official portal.')
+                      : (t.deadlineDisclaimer || '* Applications close automatically on portal servers at 11:59 PM IST on the deadline date. Apply early to avoid server load.')}
                   </p>
                 </div>
               </motion.div>
@@ -296,7 +307,7 @@ export default function SchemeModal({ scheme, onClose, allInsights = [], lang })
                 animate={{ opacity: 1, y: 0 }}
                 className="space-y-4"
               >
-                <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider">Numbered Application Guide</h4>
+                <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider">{t.numberedGuideTitle || 'Numbered Application Guide'}</h4>
                 <div className="space-y-3">
                   {appSteps.map((stepText, idx) => (
                     <div key={idx} className="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex items-start space-x-3">
@@ -337,7 +348,7 @@ export default function SchemeModal({ scheme, onClose, allInsights = [], lang })
               rel="noopener noreferrer"
               className="px-6 py-3 rounded-2xl bg-emerald-800 hover:bg-emerald-700 text-white font-extrabold text-xs shadow-lg shadow-emerald-800/30 flex items-center space-x-2 transition-all transform hover:-translate-y-0.5"
             >
-              <span>Apply on Official Portal</span>
+              <span>{t.applyOfficialPortal || 'Apply on Official Portal'}</span>
               <ExternalLink className="w-4 h-4" />
             </a>
 

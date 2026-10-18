@@ -1,9 +1,19 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ExternalLink, Sparkles, CheckCircle2, Building2, Clock, FileText, ArrowRight, ShieldCheck } from 'lucide-react';
+import {
+  TRANSLATIONS,
+  getSchemeName,
+  getSchemeDescription,
+  getSchemeBenefit,
+  getLocalizedDocumentName,
+  getLocalizedDepartment
+} from '../data/translations';
 
-export default function SchemeComparisonModal({ scheme1, scheme2, onClose }) {
+export default function SchemeComparisonModal({ scheme1, scheme2, onClose, lang = 'en' }) {
   if (!scheme1 || !scheme2) return null;
+
+  const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
 
   const docs1 = scheme1.documents_required || scheme1.required_documents || [];
   const docs2 = scheme2.documents_required || scheme2.required_documents || [];
@@ -42,9 +52,9 @@ export default function SchemeComparisonModal({ scheme1, scheme2, onClose }) {
             </button>
 
             <div className="flex items-center space-x-2 text-amber-400 font-bold text-xs uppercase tracking-wider mb-1">
-              <Sparkles className="w-4 h-4" /> Side-by-Side Scheme Comparison
+              <Sparkles className="w-4 h-4" /> {t.compareModalTag || "Side-by-Side Scheme Comparison"}
             </div>
-            <h3 className="text-xl font-black text-white">Compare Government Welfare Grants</h3>
+            <h3 className="text-xl font-black text-white">{t.compareModalTitle || "Compare Government Welfare Grants"}</h3>
           </div>
 
           {/* Shared Master Document Highlight Callout */}
@@ -53,7 +63,8 @@ export default function SchemeComparisonModal({ scheme1, scheme2, onClose }) {
               <div className="flex items-center space-x-2">
                 <Sparkles className="w-4 h-4 text-amber-600 flex-shrink-0" />
                 <span>
-                  <strong>⚡ Shared Master Documents ({sharedDocs.length}):</strong> Uploading {sharedDocs.join(', ')} satisfies both schemes simultaneously!
+                  <strong>⚡ {t.sharedMasterDocsPrefix || "Shared Master Documents"} ({sharedDocs.length}):</strong>{' '}
+                  {sharedDocs.map(d => getLocalizedDocumentName(d, lang)).join(', ')} {t.sharedMasterDocsSuffix || "satisfies both schemes simultaneously!"}
                 </span>
               </div>
             </div>
@@ -69,24 +80,24 @@ export default function SchemeComparisonModal({ scheme1, scheme2, onClose }) {
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
                     <span className="px-3 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-100 text-emerald-900 uppercase">
-                      Agriculture
+                      {t.agricultureCategory || "Agriculture"}
                     </span>
-                    <span className="text-2xs font-bold text-slate-500">{scheme1.department || "Govt of India"}</span>
+                    <span className="text-2xs font-bold text-slate-500">{getLocalizedDepartment(scheme1.department, lang, scheme1) || "Govt of India"}</span>
                   </div>
 
-                  <h4 className="text-lg font-black text-slate-900 leading-snug">{scheme1.name}</h4>
+                  <h4 className="text-lg font-black text-slate-900 leading-snug">{getSchemeName(scheme1, lang)}</h4>
 
                   {/* Benefit */}
                   <div className="p-3 rounded-2xl bg-emerald-900 text-white space-y-0.5">
-                    <div className="text-[10px] text-emerald-300 font-semibold">Financial Benefit</div>
-                    <div className="text-base font-extrabold text-amber-300">{scheme1.benefit_display}</div>
+                    <div className="text-[10px] text-emerald-300 font-semibold">{t.benefitStructureTitle || "Financial Benefit"}</div>
+                    <div className="text-base font-extrabold text-amber-300">{getSchemeBenefit(scheme1, lang)}</div>
                   </div>
 
-                  <p className="text-xs text-slate-600 leading-relaxed font-medium">{scheme1.description}</p>
+                  <p className="text-xs text-slate-600 leading-relaxed font-medium">{getSchemeDescription(scheme1, lang)}</p>
 
                   {/* Documents Checklist */}
                   <div className="space-y-1.5 pt-2">
-                    <div className="text-2xs font-bold text-slate-400 uppercase">Mandatory Documents ({docs1.length})</div>
+                    <div className="text-2xs font-bold text-slate-400 uppercase">{t.mandatoryDocsLabel || "Mandatory Documents"} ({docs1.length})</div>
                     <div className="space-y-1">
                       {docs1.map((doc, idx) => {
                         const isShared = sharedDocs.some(sd => sd.toLowerCase() === doc.toLowerCase());
@@ -94,8 +105,8 @@ export default function SchemeComparisonModal({ scheme1, scheme2, onClose }) {
                           <div key={idx} className={`p-2 rounded-xl text-xs font-semibold flex items-center justify-between ${
                             isShared ? 'bg-amber-100/80 border border-amber-300 text-amber-950 font-bold' : 'bg-white border border-slate-200 text-slate-800'
                           }`}>
-                            <span>{doc}</span>
-                            {isShared && <span className="text-[10px] bg-amber-400 text-slate-950 px-1.5 py-0.5 rounded font-extrabold">Shared</span>}
+                            <span>{getLocalizedDocumentName(doc, lang)}</span>
+                            {isShared && <span className="text-[10px] bg-amber-400 text-slate-950 px-1.5 py-0.5 rounded font-extrabold">{t.sharedTag || "Shared"}</span>}
                           </div>
                         );
                       })}
@@ -110,7 +121,7 @@ export default function SchemeComparisonModal({ scheme1, scheme2, onClose }) {
                     rel="noopener noreferrer"
                     className="w-full py-2.5 rounded-xl bg-emerald-800 hover:bg-emerald-700 text-white font-bold text-xs shadow-md flex items-center justify-center space-x-1.5 transition-all"
                   >
-                    <span>Apply on Portal 1</span>
+                    <span>{t.applyPortal1 || "Apply on Portal 1"}</span>
                     <ExternalLink className="w-3.5 h-3.5" />
                   </a>
                 </div>
@@ -121,24 +132,24 @@ export default function SchemeComparisonModal({ scheme1, scheme2, onClose }) {
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
                     <span className="px-3 py-0.5 rounded-full text-[10px] font-extrabold bg-teal-100 text-teal-950 uppercase">
-                      Agriculture
+                      {t.agricultureCategory || "Agriculture"}
                     </span>
-                    <span className="text-2xs font-bold text-slate-500">{scheme2.department || "Govt of India"}</span>
+                    <span className="text-2xs font-bold text-slate-500">{getLocalizedDepartment(scheme2.department, lang, scheme2) || "Govt of India"}</span>
                   </div>
 
-                  <h4 className="text-lg font-black text-slate-900 leading-snug">{scheme2.name}</h4>
+                  <h4 className="text-lg font-black text-slate-900 leading-snug">{getSchemeName(scheme2, lang)}</h4>
 
                   {/* Benefit */}
                   <div className="p-3 rounded-2xl bg-teal-950 text-white space-y-0.5">
-                    <div className="text-[10px] text-teal-300 font-semibold">Financial Benefit</div>
-                    <div className="text-base font-extrabold text-amber-300">{scheme2.benefit_display}</div>
+                    <div className="text-[10px] text-teal-300 font-semibold">{t.benefitStructureTitle || "Financial Benefit"}</div>
+                    <div className="text-base font-extrabold text-amber-300">{getSchemeBenefit(scheme2, lang)}</div>
                   </div>
 
-                  <p className="text-xs text-slate-600 leading-relaxed font-medium">{scheme2.description}</p>
+                  <p className="text-xs text-slate-600 leading-relaxed font-medium">{getSchemeDescription(scheme2, lang)}</p>
 
                   {/* Documents Checklist */}
                   <div className="space-y-1.5 pt-2">
-                    <div className="text-2xs font-bold text-slate-400 uppercase">Mandatory Documents ({docs2.length})</div>
+                    <div className="text-2xs font-bold text-slate-400 uppercase">{t.mandatoryDocsLabel || "Mandatory Documents"} ({docs2.length})</div>
                     <div className="space-y-1">
                       {docs2.map((doc, idx) => {
                         const isShared = sharedDocs.some(sd => sd.toLowerCase() === doc.toLowerCase());
@@ -146,8 +157,8 @@ export default function SchemeComparisonModal({ scheme1, scheme2, onClose }) {
                           <div key={idx} className={`p-2 rounded-xl text-xs font-semibold flex items-center justify-between ${
                             isShared ? 'bg-amber-100/80 border border-amber-300 text-amber-950 font-bold' : 'bg-white border border-slate-200 text-slate-800'
                           }`}>
-                            <span>{doc}</span>
-                            {isShared && <span className="text-[10px] bg-amber-400 text-slate-950 px-1.5 py-0.5 rounded font-extrabold">Shared</span>}
+                            <span>{getLocalizedDocumentName(doc, lang)}</span>
+                            {isShared && <span className="text-[10px] bg-amber-400 text-slate-950 px-1.5 py-0.5 rounded font-extrabold">{t.sharedTag || "Shared"}</span>}
                           </div>
                         );
                       })}
@@ -162,7 +173,7 @@ export default function SchemeComparisonModal({ scheme1, scheme2, onClose }) {
                     rel="noopener noreferrer"
                     className="w-full py-2.5 rounded-xl bg-teal-950 hover:bg-teal-900 text-white font-bold text-xs shadow-md flex items-center justify-center space-x-1.5 transition-all"
                   >
-                    <span>Apply on Portal 2</span>
+                    <span>{t.applyPortal2 || "Apply on Portal 2"}</span>
                     <ExternalLink className="w-3.5 h-3.5" />
                   </a>
                 </div>
@@ -178,7 +189,7 @@ export default function SchemeComparisonModal({ scheme1, scheme2, onClose }) {
               onClick={onClose}
               className="px-6 py-2.5 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs transition-colors"
             >
-              Close Comparison
+              {t.closeComparisonBtn || "Close Comparison"}
             </button>
           </div>
 

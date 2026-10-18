@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { MapPin, Phone, Clock, Search, ExternalLink, ShieldCheck, Sparkles, Navigation, UserCheck, CheckCircle2 } from 'lucide-react';
 import { CSC_OFFICES } from '../data/csc_offices';
-import { TRANSLATIONS, getLocalizedDistrict, getLocalizedCscService } from '../data/translations';
+import { TRANSLATIONS, getLocalizedDistrict, getLocalizedCscService, getLocalizedTiming, getLocalizedCscName, getLocalizedCscAddress } from '../data/translations';
 
 export default function CscLocator({ lang }) {
   const [selectedDistrict, setSelectedDistrict] = useState('All');
@@ -106,7 +106,7 @@ export default function CscLocator({ lang }) {
                       <MapPin className="w-5 h-5" />
                     </div>
                     <div>
-                      <h4 className="text-base font-extrabold text-slate-900">{office.name}</h4>
+                      <h4 className="text-base font-extrabold text-slate-900">{getLocalizedCscName(office, lang)}</h4>
                       <div className="text-2xs font-bold text-emerald-700">{getLocalizedDistrict(office.district, lang)} {t.cscDistrictSuffix || 'District'}</div>
                     </div>
                   </div>
@@ -115,25 +115,28 @@ export default function CscLocator({ lang }) {
                   </span>
                 </div>
 
-                <p className="text-xs text-slate-600 font-medium leading-relaxed bg-slate-50 p-3 rounded-2xl border border-slate-200/60">
-                  {office.address}
-                </p>
+                <div className="space-y-1">
+                  <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{t.cscOfficeAddressLabel || 'Office Address'}</div>
+                  <p className="text-xs text-slate-600 font-medium leading-relaxed bg-slate-50 p-3 rounded-2xl border border-slate-200/60">
+                    {getLocalizedCscAddress(office, lang)}
+                  </p>
+                </div>
 
                 <div className="grid grid-cols-2 gap-2 text-xs">
                   <div className="flex items-center space-x-1.5 text-slate-700 font-semibold">
                     <UserCheck className="w-3.5 h-3.5 text-emerald-600" />
-                    <span>{t.cscNodalLabel || 'Nodal:'} <strong>{office.officerName}</strong></span>
+                    <span>{t.cscNodalLabel || 'Nodal Officer:'} <strong>{office.officerName}</strong></span>
                   </div>
 
                   <div className="flex items-center space-x-1.5 text-slate-700 font-semibold">
                     <Clock className="w-3.5 h-3.5 text-amber-500" />
-                    <span>{office.timing}</span>
+                    <span>{getLocalizedTiming(office.timing, lang)}</span>
                   </div>
                 </div>
 
                 {/* Services Pills */}
                 <div>
-                  <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">{t.cscServicesHeader || 'KEY OFFLINE SERVICES'}</div>
+                  <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">{t.cscServicesHeader || 'Services Available'}</div>
                   <div className="flex flex-wrap gap-1">
                     {office.servicesOffered.map((s, idx) => (
                       <span key={idx} className="px-2 py-0.5 rounded-lg bg-emerald-50 text-emerald-900 text-[10px] font-bold border border-emerald-200">

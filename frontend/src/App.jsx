@@ -784,6 +784,7 @@ function MainAppContent() {
           scheme1={comparePair.scheme1}
           scheme2={comparePair.scheme2}
           onClose={() => setComparePair(null)}
+          lang={lang}
         />
       )}
 
@@ -794,6 +795,7 @@ function MainAppContent() {
           defaultRating={feedbackState.defaultRating}
           onClose={() => setFeedbackState(null)}
           onSubmitFeedback={handleFeedbackSubmit}
+          lang={lang}
         />
       )}
 
