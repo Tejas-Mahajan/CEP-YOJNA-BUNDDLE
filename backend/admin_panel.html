@@ -597,6 +597,7 @@
       <button class="tab-btn active" id="tabBtnSchemes" onclick="switchTab('schemes')">📜 Schemes</button>
       <button class="tab-btn" id="tabBtnFeedback" onclick="switchTab('feedback')">💬 Feedback</button>
       <button class="tab-btn" id="tabBtnUsers" onclick="switchTab('users')">👥 Users</button>
+      <button class="tab-btn" id="tabBtnCsc" onclick="switchTab('csc')">🏢 CSC Offices</button>
     </div>
 
     <div id="globalAlert" style="display: none;"></div>
@@ -722,6 +723,45 @@
         <button id="uNextBtn" class="btn btn-outline" onclick="nextUsersPage()">Next</button>
       </div>
     </div>
+
+    <!-- CSC Offices Tab -->
+    <div id="tabCsc" class="card" style="display: none;">
+      <div class="toolbar">
+        <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+          <input
+            type="text"
+            id="cscSearchInput"
+            class="search-input"
+            placeholder="Search by center name, district, or address..."
+            oninput="filterCscTable()"
+          >
+          <span id="cscCountBadge" class="badge-counter">0 offices</span>
+        </div>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+          <button class="btn btn-outline" onclick="loadCscOffices()">🔄 Refresh</button>
+          <button class="btn btn-primary" onclick="openCscEditor(null)">+ New CSC Office</button>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Center Name</th>
+              <th>District</th>
+              <th>Address</th>
+              <th>Officer & Contact</th>
+              <th>Timing</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="cscTableBody">
+            <!-- Dynamically populated -->
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 
   <!-- Scheme Edit / Create Modal -->
@@ -837,6 +877,106 @@
       <div class="modal-footer">
         <button class="btn btn-outline" onclick="closeSchemeModal()">Cancel</button>
         <button id="saveSchemeBtn" class="btn btn-primary" onclick="submitSchemeForm()">Save Scheme</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CSC Office Edit / Create Modal -->
+  <div id="cscModal" class="modal-backdrop" style="display: none;">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="cscModalTitle">Edit CSC Office</h3>
+        <button class="btn btn-lock" onclick="closeCscModal()" style="padding: 6px 12px; font-size: 14px;">✕</button>
+      </div>
+      <div class="modal-body">
+        <div id="cscModalAlert" style="display: none;"></div>
+        <form id="cscForm" onsubmit="handleCscSubmit(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Office ID * <span style="font-size: 11px; color: var(--text-muted);">(e.g. csc_pune_04)</span></label>
+              <input type="text" id="cscIdInput" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label>District *</label>
+              <input type="text" id="cscDistrictInput" class="form-control" placeholder="e.g. Pune" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Center Name (English) *</label>
+            <input type="text" id="cscNameInput" class="form-control" required>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Center Name (Marathi)</label>
+              <input type="text" id="cscNameMrInput" class="form-control" placeholder="मराठी नाव">
+            </div>
+            <div class="form-group">
+              <label>Center Name (Hindi)</label>
+              <input type="text" id="cscNameHiInput" class="form-control" placeholder="हिंदी नाम">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Office Address (English) *</label>
+            <textarea id="cscAddressInput" class="form-control" rows="2" required></textarea>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Address (Marathi)</label>
+              <textarea id="cscAddressMrInput" class="form-control" rows="2" placeholder="मराठी पत्ता"></textarea>
+            </div>
+            <div class="form-group">
+              <label>Pincode</label>
+              <input type="text" id="cscPincodeInput" class="form-control" placeholder="411001">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Nodal Officer Name</label>
+              <input type="text" id="cscOfficerInput" class="form-control" placeholder="District Setu Nodal Desk">
+            </div>
+            <div class="form-group">
+              <label>Phone / Contact</label>
+              <input type="text" id="cscPhoneInput" class="form-control" placeholder="020-26114949">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Timing</label>
+              <input type="text" id="cscTimingInput" class="form-control" placeholder="10:00 AM - 05:45 PM (Mon-Sat)">
+            </div>
+            <div class="form-group">
+              <label>Google Maps Directions URL</label>
+              <input type="text" id="cscMapsUrlInput" class="form-control" placeholder="https://www.google.com/maps/dir/?api=1&destination=...">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Latitude</label>
+              <input type="number" step="any" id="cscLatInput" class="form-control" placeholder="18.5263">
+            </div>
+            <div class="form-group">
+              <label>Longitude</label>
+              <input type="number" step="any" id="cscLngInput" class="form-control" placeholder="73.8742">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Services Offered <span style="font-size: 11px; color: var(--text-muted);">(comma-separated)</span></label>
+            <input type="text" id="cscServicesInput" class="form-control" placeholder="PM-KISAN e-KYC, 7/12 Online Extract, Crop Insurance">
+          </div>
+
+          <div class="modal-footer" style="padding-top: 16px;">
+            <button type="button" class="btn btn-outline" onclick="closeCscModal()">Cancel</button>
+            <button type="submit" class="btn btn-primary" id="cscSaveBtn">Save CSC Office</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
@@ -1051,6 +1191,7 @@
       document.getElementById('tabSchemes').style.display = 'none';
       document.getElementById('tabFeedback').style.display = 'none';
       document.getElementById('tabUsers').style.display = 'none';
+      document.getElementById('tabCsc').style.display = 'none';
 
       if (tab === 'schemes') {
         document.getElementById('tabBtnSchemes').classList.add('active');
@@ -1064,6 +1205,10 @@
         document.getElementById('tabBtnUsers').classList.add('active');
         document.getElementById('tabUsers').style.display = 'block';
         loadUsers(0);
+      } else if (tab === 'csc') {
+        document.getElementById('tabBtnCsc').classList.add('active');
+        document.getElementById('tabCsc').style.display = 'block';
+        loadCscOffices();
       }
     }
 
@@ -1498,6 +1643,268 @@
     }
     function prevUsersPage() { loadUsers(usersOffset - USERS_LIMIT); }
     function nextUsersPage() { loadUsers(usersOffset + USERS_LIMIT); }
+
+    // --- CSC Offices Operations ---
+    let allCscData = [];
+    let isEditingCsc = false;
+    let editingCscId = null;
+
+    async function loadCscOffices() {
+      try {
+        const res = await adminFetch('/api/admin/csc-offices');
+        const data = await res.json();
+        allCscData = data.items || [];
+        renderCscTable(allCscData);
+      } catch (err) {
+        // Handled in adminFetch
+      }
+    }
+
+    function renderCscTable(offices) {
+      const tbody = document.getElementById('cscTableBody');
+      tbody.innerHTML = '';
+      document.getElementById('cscCountBadge').textContent = `${offices.length} offices`;
+
+      if (offices.length === 0) {
+        const tr = document.createElement('tr');
+        const td = document.createElement('td');
+        td.colSpan = 7;
+        td.style.textAlign = 'center';
+        td.style.color = '#64748b';
+        td.style.padding = '24px';
+        td.textContent = 'No CSC offices found.';
+        tr.appendChild(td);
+        tbody.appendChild(tr);
+        return;
+      }
+
+      offices.forEach(o => {
+        const tr = document.createElement('tr');
+
+        // ID
+        const tdId = document.createElement('td');
+        const cId = document.createElement('code');
+        cId.className = 'chip-id';
+        cId.textContent = o.id;
+        tdId.appendChild(cId);
+
+        // Center Name
+        const tdName = document.createElement('td');
+        tdName.style.fontWeight = '700';
+        tdName.textContent = o.name;
+        if (o.name_mr) {
+          const divMr = document.createElement('div');
+          divMr.style.fontSize = '11px';
+          divMr.style.color = '#64748b';
+          divMr.textContent = o.name_mr;
+          tdName.appendChild(divMr);
+        }
+
+        // District
+        const tdDist = document.createElement('td');
+        const badgeDist = document.createElement('span');
+        badgeDist.className = 'badge-status badge-level';
+        badgeDist.textContent = o.district || '-';
+        tdDist.appendChild(badgeDist);
+
+        // Address
+        const tdAddr = document.createElement('td');
+        tdAddr.style.maxWidth = '250px';
+        tdAddr.style.fontSize = '12px';
+        tdAddr.style.color = '#475569';
+        tdAddr.textContent = o.address || '-';
+        if (o.pincode) {
+          const pinSpan = document.createElement('span');
+          pinSpan.style.display = 'block';
+          pinSpan.style.fontSize = '11px';
+          pinSpan.style.color = '#047857';
+          pinSpan.style.fontWeight = '600';
+          pinSpan.textContent = `PIN: ${o.pincode}`;
+          tdAddr.appendChild(pinSpan);
+        }
+
+        // Officer & Contact
+        const tdContact = document.createElement('td');
+        tdContact.style.fontSize = '12px';
+        const offName = o.officerName || o.officer_name || '-';
+        const phone = o.phone || o.contactPhone || '';
+        tdContact.innerHTML = `<strong>${offName}</strong>${phone ? `<br><span style="color:#047857; font-family:var(--font-mono);">${phone}</span>` : ''}`;
+
+        // Timing
+        const tdTiming = document.createElement('td');
+        tdTiming.style.fontSize = '11px';
+        tdTiming.style.color = '#64748b';
+        tdTiming.textContent = o.timing || '-';
+
+        // Action
+        const tdAction = document.createElement('td');
+        tdAction.style.whiteSpace = 'nowrap';
+        const editBtn = document.createElement('button');
+        editBtn.className = 'btn btn-secondary';
+        editBtn.style.padding = '4px 8px';
+        editBtn.style.fontSize = '12px';
+        editBtn.textContent = '✏️ Edit';
+        editBtn.onclick = () => openCscEditor(o);
+
+        const delBtn = document.createElement('button');
+        delBtn.className = 'btn btn-danger';
+        delBtn.style.padding = '4px 8px';
+        delBtn.style.fontSize = '12px';
+        delBtn.style.marginLeft = '6px';
+        delBtn.textContent = '🗑️';
+        delBtn.onclick = () => deleteCscOffice(o.id, o.name);
+
+        tdAction.appendChild(editBtn);
+        tdAction.appendChild(delBtn);
+
+        tr.appendChild(tdId);
+        tr.appendChild(tdName);
+        tr.appendChild(tdDist);
+        tr.appendChild(tdAddr);
+        tr.appendChild(tdContact);
+        tr.appendChild(tdTiming);
+        tr.appendChild(tdAction);
+
+        tbody.appendChild(tr);
+      });
+    }
+
+    function filterCscTable() {
+      const q = (document.getElementById('cscSearchInput').value || '').trim().toLowerCase();
+      if (!q) {
+        renderCscTable(allCscData);
+        return;
+      }
+      const filtered = allCscData.filter(o =>
+        (o.id && o.id.toLowerCase().includes(q)) ||
+        (o.name && o.name.toLowerCase().includes(q)) ||
+        (o.name_mr && o.name_mr.includes(q)) ||
+        (o.district && o.district.toLowerCase().includes(q)) ||
+        (o.address && o.address.toLowerCase().includes(q)) ||
+        (o.pincode && o.pincode.includes(q)) ||
+        ((o.officerName || o.officer_name) && (o.officerName || o.officer_name).toLowerCase().includes(q))
+      );
+      renderCscTable(filtered);
+    }
+
+    function openCscEditor(office = null) {
+      isEditingCsc = !!office;
+      editingCscId = office ? office.id : null;
+
+      document.getElementById('cscModalTitle').textContent = isEditingCsc ? `Edit CSC: ${office.name}` : 'New CSC Office';
+      document.getElementById('cscModalAlert').style.display = 'none';
+
+      const idInput = document.getElementById('cscIdInput');
+      idInput.value = office ? office.id : '';
+      idInput.disabled = isEditingCsc;
+
+      document.getElementById('cscDistrictInput').value = office ? (office.district || '') : '';
+      document.getElementById('cscNameInput').value = office ? (office.name || '') : '';
+      document.getElementById('cscNameMrInput').value = office ? (office.name_mr || '') : '';
+      document.getElementById('cscNameHiInput').value = office ? (office.name_hi || '') : '';
+      document.getElementById('cscAddressInput').value = office ? (office.address || '') : '';
+      document.getElementById('cscAddressMrInput').value = office ? (office.address_mr || '') : '';
+      document.getElementById('cscPincodeInput').value = office ? (office.pincode || '') : '';
+      document.getElementById('cscOfficerInput').value = office ? (office.officerName || office.officer_name || '') : '';
+      document.getElementById('cscPhoneInput').value = office ? (office.phone || office.contactPhone || '') : '';
+      document.getElementById('cscTimingInput').value = office ? (office.timing || '') : '';
+      document.getElementById('cscMapsUrlInput').value = office ? (office.mapsUrl || office.maps_url || '') : '';
+      document.getElementById('cscLatInput').value = office ? (office.latitude || office.lat || '') : '';
+      document.getElementById('cscLngInput').value = office ? (office.longitude || office.lng || '') : '';
+
+      const services = office ? (office.servicesOffered || office.services_offered || []) : [];
+      document.getElementById('cscServicesInput').value = Array.isArray(services) ? services.join(', ') : services;
+
+      document.getElementById('cscModal').style.display = 'flex';
+    }
+
+    function closeCscModal() {
+      document.getElementById('cscModal').style.display = 'none';
+      editingCscId = null;
+      isEditingCsc = false;
+    }
+
+    async function handleCscSubmit(event) {
+      event.preventDefault();
+      const alertBox = document.getElementById('cscModalAlert');
+      alertBox.style.display = 'none';
+
+      const officeId = document.getElementById('cscIdInput').value.trim();
+      const district = document.getElementById('cscDistrictInput').value.trim();
+      const name = document.getElementById('cscNameInput').value.trim();
+
+      if (!officeId || !district || !name) {
+        alertBox.className = 'alert alert-error';
+        alertBox.textContent = 'Please fill all required fields (ID, District, Center Name).';
+        alertBox.style.display = 'block';
+        return;
+      }
+
+      const servicesRaw = document.getElementById('cscServicesInput').value.trim();
+      const services = servicesRaw ? servicesRaw.split(',').map(s => s.trim()).filter(Boolean) : [];
+
+      const payload = {
+        id: officeId,
+        district: district,
+        name: name,
+        name_mr: document.getElementById('cscNameMrInput').value.trim() || null,
+        name_hi: document.getElementById('cscNameHiInput').value.trim() || null,
+        address: document.getElementById('cscAddressInput').value.trim(),
+        address_mr: document.getElementById('cscAddressMrInput').value.trim() || null,
+        pincode: document.getElementById('cscPincodeInput').value.trim() || null,
+        officerName: document.getElementById('cscOfficerInput').value.trim() || null,
+        phone: document.getElementById('cscPhoneInput').value.trim() || null,
+        timing: document.getElementById('cscTimingInput').value.trim() || null,
+        mapsUrl: document.getElementById('cscMapsUrlInput').value.trim() || null,
+        latitude: document.getElementById('cscLatInput').value ? parseFloat(document.getElementById('cscLatInput').value) : null,
+        longitude: document.getElementById('cscLngInput').value ? parseFloat(document.getElementById('cscLngInput').value) : null,
+        servicesOffered: services
+      };
+
+      try {
+        const url = isEditingCsc ? `/api/admin/csc-offices/${editingCscId}` : '/api/admin/csc-offices';
+        const method = isEditingCsc ? 'PUT' : 'POST';
+
+        const res = await adminFetch(url, {
+          method: method,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (res.ok) {
+          closeCscModal();
+          showGlobalAlert(isEditingCsc ? 'CSC office updated successfully!' : 'CSC office created successfully!', 'success');
+          loadCscOffices();
+        } else {
+          const errData = await res.json().catch(() => ({}));
+          alertBox.className = 'alert alert-error';
+          alertBox.textContent = errData.detail || `Error saving office (HTTP ${res.status})`;
+          alertBox.style.display = 'block';
+        }
+      } catch (err) {
+        alertBox.className = 'alert alert-error';
+        alertBox.textContent = 'Network or server error. Please try again.';
+        alertBox.style.display = 'block';
+      }
+    }
+
+    async function deleteCscOffice(id, name) {
+      if (!confirm(`Are you sure you want to delete CSC office "${name}" (${id})? This cannot be undone.`)) {
+        return;
+      }
+      try {
+        const res = await adminFetch(`/api/admin/csc-offices/${id}`, { method: 'DELETE' });
+        if (res.ok) {
+          showGlobalAlert(`Deleted CSC office "${id}" successfully.`, 'success');
+          loadCscOffices();
+        } else {
+          const errData = await res.json().catch(() => ({}));
+          showGlobalAlert(errData.detail || `Failed to delete office (HTTP ${res.status})`, 'error');
+        }
+      } catch (err) {
+        showGlobalAlert('Network or server error while deleting.', 'error');
+      }
+    }
 
     // Init check on load
     window.addEventListener('DOMContentLoaded', checkAuthStatus);
