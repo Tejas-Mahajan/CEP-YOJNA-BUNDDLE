@@ -18,7 +18,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy import or_
 
 from db import get_db
-from models_db import Scheme, Feedback, User
+from models_db import Scheme, Feedback, User, CscOffice
 
 logger = logging.getLogger("admin_security")
 
@@ -797,6 +797,208 @@ def get_admin_users(
         "offset": offset,
         "items": items
     }
+
+
+# ---------------------------------------------------------------------------
+# CSC Offices Endpoints
+# ---------------------------------------------------------------------------
+
+@router.get("/api/admin/csc-offices")
+def get_admin_csc_offices(
+    district: Optional[str] = None,
+    q: Optional[str] = None,
+    limit: int = 100,
+    offset: int = 0,
+    db: Session = Depends(get_db),
+    session: Dict[str, Any] = Depends(require_admin_session)
+):
+    """List CSC offices with pagination, district filter, and search."""
+    limit = max(1, min(limit, 200))
+    offset = max(0, offset)
+
+    query = db.query(CscOffice)
+    if district and district.strip() and district.strip().lower() != "all":
+        query = query.filter(CscOffice.district.ilike(f"%{district.strip()}%"))
+
+    if q and q.strip():
+        search_term = f"%{q.strip()}%"
+        query = query.filter(
+            or_(
+                CscOffice.name.ilike(search_term),
+                CscOffice.district.ilike(search_term),
+                CscOffice.address.ilike(search_term),
+                CscOffice.officer_name.ilike(search_term),
+                CscOffice.pincode.ilike(search_term),
+            )
+        )
+
+    total = query.count()
+    items = query.order_by(CscOffice.district.asc(), CscOffice.name.asc()).offset(offset).limit(limit).all()
+
+    return {
+        "total": total,
+        "limit": limit,
+        "offset": offset,
+        "items": [item.to_dict() for item in items]
+    }
+
+
+@router.post("/api/admin/csc-offices", status_code=status.HTTP_201_CREATED)
+def create_admin_csc_office(
+    payload: Dict[str, Any],
+    db: Session = Depends(get_db),
+    session: Dict[str, Any] = Depends(require_admin_session)
+):
+    """Create a new CSC office."""
+    if not isinstance(payload, dict):
+        raise HTTPException(status_code=422, detail="Request payload must be a JSON object.")
+
+    office_id = payload.get("id")
+    if not office_id or not isinstance(office_id, str) or not office_id.strip():
+        raise HTTPException(status_code=422, detail="Field 'id' is required.")
+
+    office_id = office_id.strip()
+    existing = db.get(CscOffice, office_id)
+    if existing:
+        raise HTTPException(status_code=409, detail=f"CSC office with ID '{office_id}' already exists.")
+
+    name = str(payload.get("name", "")).strip()
+    if not name:
+        raise HTTPException(status_code=422, detail="Field 'name' is required.")
+
+    district = str(payload.get("district", "")).strip()
+    if not district:
+        raise HTTPException(status_code=422, detail="Field 'district' is required.")
+
+    services = payload.get("servicesOffered") or payload.get("services_offered", [])
+    if isinstance(services, str):
+        services = [s.strip() for s in services.split(",") if s.strip()]
+
+    new_office = CscOffice(
+        id=office_id,
+        name=name,
+        name_mr=payload.get("name_mr"),
+        name_hi=payload.get("name_hi"),
+        district=district,
+        district_en=payload.get("district_en") or f"{district} District",
+        district_mr=payload.get("district_mr"),
+        district_hi=payload.get("district_hi"),
+        address=str(payload.get("address", "")).strip(),
+        address_mr=payload.get("address_mr"),
+        address_hi=payload.get("address_hi"),
+        exact_address=payload.get("exactAddress") or payload.get("address"),
+        pincode=str(payload.get("pincode", "")).strip() or None,
+        officer_name=payload.get("officerName") or payload.get("officer_name"),
+        officer_name_mr=payload.get("officerName_mr") or payload.get("officer_name_mr"),
+        officer_name_hi=payload.get("officerName_hi") or payload.get("officer_name_hi"),
+        phone=payload.get("phone"),
+        contact_phone=payload.get("contactPhone") or payload.get("phone"),
+        timing=payload.get("timing"),
+        timing_mr=payload.get("timing_mr"),
+        timing_hi=payload.get("timing_hi"),
+        latitude=float(payload.get("latitude") or payload.get("lat") or 0.0) if (payload.get("latitude") or payload.get("lat")) else None,
+        longitude=float(payload.get("longitude") or payload.get("lng") or 0.0) if (payload.get("longitude") or payload.get("lng")) else None,
+        maps_url=payload.get("mapsUrl") or payload.get("maps_url"),
+        services_offered=services,
+        created_at=datetime.utcnow(),
+        updated_at=datetime.utcnow()
+    )
+
+    db.add(new_office)
+    db.commit()
+    db.refresh(new_office)
+
+    return {"status": "success", "office": new_office.to_dict()}
+
+
+@router.put("/api/admin/csc-offices/{office_id}")
+def update_admin_csc_office(
+    office_id: str,
+    payload: Dict[str, Any],
+    db: Session = Depends(get_db),
+    session: Dict[str, Any] = Depends(require_admin_session)
+):
+    """Update an existing CSC office."""
+    office = db.get(CscOffice, office_id)
+    if not office:
+        raise HTTPException(status_code=404, detail=f"CSC office '{office_id}' not found.")
+
+    if "name" in payload and payload["name"]:
+        office.name = str(payload["name"]).strip()
+    if "name_mr" in payload:
+        office.name_mr = payload["name_mr"]
+    if "name_hi" in payload:
+        office.name_hi = payload["name_hi"]
+    if "district" in payload and payload["district"]:
+        office.district = str(payload["district"]).strip()
+    if "district_en" in payload:
+        office.district_en = payload["district_en"]
+    if "district_mr" in payload:
+        office.district_mr = payload["district_mr"]
+    if "district_hi" in payload:
+        office.district_hi = payload["district_hi"]
+    if "address" in payload and payload["address"]:
+        office.address = str(payload["address"]).strip()
+    if "address_mr" in payload:
+        office.address_mr = payload["address_mr"]
+    if "address_hi" in payload:
+        office.address_hi = payload["address_hi"]
+    if "exactAddress" in payload:
+        office.exact_address = payload["exactAddress"]
+    if "pincode" in payload:
+        office.pincode = str(payload["pincode"]).strip() if payload["pincode"] else None
+    if "officerName" in payload or "officer_name" in payload:
+        office.officer_name = payload.get("officerName") or payload.get("officer_name")
+    if "officerName_mr" in payload:
+        office.officer_name_mr = payload["officerName_mr"]
+    if "officerName_hi" in payload:
+        office.officer_name_hi = payload["officerName_hi"]
+    if "phone" in payload:
+        office.phone = payload["phone"]
+    if "contactPhone" in payload:
+        office.contact_phone = payload["contactPhone"]
+    if "timing" in payload:
+        office.timing = payload["timing"]
+    if "timing_mr" in payload:
+        office.timing_mr = payload["timing_mr"]
+    if "timing_hi" in payload:
+        office.timing_hi = payload["timing_hi"]
+    if "latitude" in payload or "lat" in payload:
+        lat_val = payload.get("latitude") if "latitude" in payload else payload.get("lat")
+        office.latitude = float(lat_val) if lat_val is not None else None
+    if "longitude" in payload or "lng" in payload:
+        lng_val = payload.get("longitude") if "longitude" in payload else payload.get("lng")
+        office.longitude = float(lng_val) if lng_val is not None else None
+    if "mapsUrl" in payload or "maps_url" in payload:
+        office.maps_url = payload.get("mapsUrl") or payload.get("maps_url")
+    if "servicesOffered" in payload or "services_offered" in payload:
+        services = payload.get("servicesOffered") or payload.get("services_offered", [])
+        if isinstance(services, str):
+            services = [s.strip() for s in services.split(",") if s.strip()]
+        office.services_offered = services
+
+    office.updated_at = datetime.utcnow()
+    db.commit()
+    db.refresh(office)
+
+    return {"status": "success", "office": office.to_dict()}
+
+
+@router.delete("/api/admin/csc-offices/{office_id}")
+def delete_admin_csc_office(
+    office_id: str,
+    db: Session = Depends(get_db),
+    session: Dict[str, Any] = Depends(require_admin_session)
+):
+    """Delete a CSC office."""
+    office = db.get(CscOffice, office_id)
+    if not office:
+        raise HTTPException(status_code=404, detail=f"CSC office '{office_id}' not found.")
+
+    db.delete(office)
+    db.commit()
+
+    return {"status": "success", "deleted_id": office_id}
 
 
 # ---------------------------------------------------------------------------
