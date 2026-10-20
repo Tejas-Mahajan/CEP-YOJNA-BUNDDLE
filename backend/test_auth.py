@@ -3,8 +3,11 @@ import sys
 import io
 
 # Set stdout to UTF-8 for Windows console output
-if hasattr(sys.stdout, 'buffer'):
-    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+if hasattr(sys.stdout, "reconfigure"):
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
 
 from fastapi.testclient import TestClient
 

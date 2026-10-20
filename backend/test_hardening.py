@@ -5,7 +5,11 @@ import os
 from unittest.mock import patch
 
 # Set stdout to UTF-8 for Windows console printing
-sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
+if hasattr(sys.stdout, "reconfigure"):
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
 
 from main import evaluate_profile
 from models import UserProfile

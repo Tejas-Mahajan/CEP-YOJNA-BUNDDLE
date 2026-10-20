@@ -48,6 +48,8 @@ class DocumentOverlapInsight(BaseModel):
     scheme_names: List[str]
     is_owned: bool
     efficiency_tag: str
+    final_weight: Optional[float] = 0.0
+    base_weight: Optional[float] = 0.0
 
 class SchemeConflict(BaseModel):
     primary_scheme_id: str

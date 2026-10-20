@@ -327,26 +327,71 @@ function MainAppContent() {
       }, { direct: 0.0, credit: 0.0, insurance: 0.0 });
 
     const userDocs = p.owned_documents || [];
+    // 3-Tier Hybrid base weights (matches backend overlap.py)
+    // Tier 1 (Universal Core): 3.0 | Tier 2 (Socio-Economic): 2.0 | Tier 3 (Specialized): 1.5
     const coreWeights = {
+      // Tier 1
       "Aadhaar Card": 3.0,
       "7/12 Land Record Extract": 3.0,
       "Bank Passbook": 3.0,
-      "Caste Certificate": 3.0,
+      "Mobile Number (Aadhaar-linked)": 3.0,
+      // Tier 2
       "Income Certificate": 2.0,
-      "Domicile Certificate": 2.0,
+      "Caste Certificate": 2.0,
+      "Ration Card": 2.0,
       "Non-Creamy Layer Certificate": 2.0,
-      "Disability Certificate": 2.0,
+      "Domicile Certificate": 2.0,
+      "Passport-size Photograph": 2.0,
+      // Tier 3 (all others default to 1.5)
       "Sowing Certificate": 1.5,
-      "Water Source Availability Certificate": 1.5,
-      "Organic Cluster Membership Proof": 1.5,
-      "Electricity Bill": 1.5
+      "Water Source / Well / Borewell Certificate": 1.5,
+      "Organic Farming Group Membership Proof": 1.5,
+      "Electricity Bill / Agricultural Pump Connection Proof": 1.5,
+      "Tractor RC": 1.5,
+      "FIR / Police Spot Panchnama / Inquest Panchnama": 1.5,
+      "Death Certificate / Post-Mortem Report": 1.5,
+      "Disability Certificate": 1.5,
+      "Gram Sabha Recommendation": 1.5,
+      "Gram Panchayat NOC / Self Declaration Certificate": 1.5,
+      "Quotation / GST Invoice for Machinery or Equipment": 1.5,
+      "Active PM-KISAN Registration ID": 1.5,
     };
-    const reqDocsList = mockRanked.flatMap(r => r.scheme.required_documents || []);
-    const totalW = reqDocsList.reduce((acc, d) => acc + (coreWeights[d] || 1.0), 0);
-    const ownedW = reqDocsList.reduce((acc, d) => {
-      const isOwned = userDocs.some(u => d.toLowerCase().includes(u.toLowerCase()) || u.toLowerCase().includes(d.toLowerCase()));
-      return acc + (isOwned ? (coreWeights[d] || 1.0) : 0);
-    }, 0);
+    // Helper: canonicalize a raw doc name into a tier-mapped key
+    const canonicalize = (doc) => {
+      const dl = (doc || '').toLowerCase();
+      if (dl.includes('aadhaar')) return 'Aadhaar Card';
+      if (dl.includes('7/12') || dl.includes('land record') || dl.includes('8a') || dl.includes('8-a')) return '7/12 Land Record Extract';
+      if (dl.includes('passbook') || dl.includes('savings bank') || dl.includes('bank account')) return 'Bank Passbook';
+      if (dl.includes('mobile') || dl.includes('phone')) return 'Mobile Number (Aadhaar-linked)';
+      if (dl.includes('income')) return 'Income Certificate';
+      if (dl.includes('caste') || dl.includes('sc /') || dl.includes('neo-buddhist') || dl.includes('scheduled tribe')) return 'Caste Certificate';
+      if (dl.includes('ration')) return 'Ration Card';
+      if (dl.includes('non-creamy')) return 'Non-Creamy Layer Certificate';
+      if (dl.includes('domicile')) return 'Domicile Certificate';
+      if (dl.includes('sowing') || dl.includes('pik pahani')) return 'Sowing Certificate';
+      if (dl.includes('tractor') && dl.includes('rc')) return 'Tractor RC';
+      if (dl.includes('fir') || dl.includes('panchnama')) return 'FIR / Police Spot Panchnama / Inquest Panchnama';
+      if (dl.includes('post-mortem') || dl.includes('death')) return 'Death Certificate / Post-Mortem Report';
+      if (dl.includes('disability')) return 'Disability Certificate';
+      if (dl.includes('organic') || dl.includes('cluster')) return 'Organic Farming Group Membership Proof';
+      if (dl.includes('electricity') || dl.includes('pump connect')) return 'Electricity Bill / Agricultural Pump Connection Proof';
+      if (dl.includes('water source') || dl.includes('groundwater') || dl.includes('borewell') || dl.includes('well')) return 'Water Source / Well / Borewell Certificate';
+      if (dl.includes('gst invoice') || dl.includes('quotation') || dl.includes('invoice') || dl.includes('drip irrigation install')) return 'Quotation / GST Invoice for Machinery or Equipment';
+      if (dl.includes('gram sabha') || dl.includes('vcrmc') || dl.includes('gram panchayat')) return 'Gram Sabha Recommendation';
+      if (dl.includes('self-declaration') || dl.includes('undertaking')) return 'Gram Panchayat NOC / Self Declaration Certificate';
+      if (dl.includes('pm-kisan registration') || dl.includes('pm kisan registration')) return 'Active PM-KISAN Registration ID';
+      return doc || '';
+    };
+    const getWeight = (doc) => coreWeights[canonicalize(doc)] || 1.5; // Default Tier 3 = 1.5
+    const isDocOwned = (doc) => userDocs.some(u => {
+      const dl = (doc || '').toLowerCase(); const ul = (u || '').toLowerCase();
+      return canonicalize(doc) === canonicalize(u) || dl.includes(ul) || ul.includes(dl);
+    });
+    // Deduplicated canonical readiness score across fallback mock schemes
+    const allCanonicals = [...new Set(mockRanked.flatMap(r => (r.scheme.required_documents || []).map(canonicalize)))];
+    const totalW = allCanonicals.reduce((acc, c) => acc + (coreWeights[c] || 1.5), 0);
+    const ownedCanonicals = new Set(userDocs.map(canonicalize));
+    const ownedW = allCanonicals.reduce((acc, c) => acc + (ownedCanonicals.has(c) ? (coreWeights[c] || 1.5) : 0), 0);
     const docReadiness = totalW > 0 ? Math.round((ownedW / totalW) * 1000) / 10 : 100.0;
 
     setResults({
@@ -360,25 +405,39 @@ function MainAppContent() {
       conflicts_detected: conflicts,
       document_insights: [
         {
-          document_name: "Aadhaar Identity Card",
-          canonical_group: "Aadhaar Identity Card",
+          document_name: "Aadhaar Card",
+          canonical_group: "Aadhaar Card",
           unlocked_schemes_count: 4,
-          scheme_names: ["PM-KISAN", "PMFBY", "PM-KUSUM", "SMAM"],
-          is_owned: (p.owned_documents || []).includes("Aadhaar Card"),
-          efficiency_tag: "⚡ High Leverage (Key Master Document)"
+          scheme_names: ["PM-KISAN", "PMFBY", "PM-KUSUM", "SMAM Machinery"],
+          is_owned: isDocOwned("Aadhaar Card"),
+          efficiency_tag: "⚡ High Leverage (Key Master Document)",
+          final_weight: 3.0 + (4 * 0.5),
+          base_weight: 3.0
         },
         {
           document_name: "7/12 Land Record Extract",
           canonical_group: "7/12 Land Record Extract",
-          unlocked_schemes_count: 3,
-          scheme_names: ["PM-KISAN", "PMFBY", "SMAM Machinery"],
-          is_owned: (p.owned_documents || []).includes("7/12 Land Record Extract"),
-          efficiency_tag: "⚡ High Leverage (Agri Master Document)"
+          unlocked_schemes_count: 2,
+          scheme_names: ["PM-KISAN", "PMFBY"],
+          is_owned: isDocOwned("7/12 Land Record Extract"),
+          efficiency_tag: "✨ Medium Leverage (Shared Document)",
+          final_weight: 3.0 + (2 * 0.5),
+          base_weight: 3.0
+        },
+        {
+          document_name: "Bank Passbook",
+          canonical_group: "Bank Passbook",
+          unlocked_schemes_count: 2,
+          scheme_names: ["PM-KISAN", "PMFBY"],
+          is_owned: isDocOwned("Bank Passbook"),
+          efficiency_tag: "✨ Medium Leverage (Shared Document)",
+          final_weight: 3.0 + (2 * 0.5),
+          base_weight: 3.0
         }
       ],
       high_leverage_callouts: [
-        "🔥 Key Document Highlight: 'Aadhaar Identity Card' unlocks 4 agriculture schemes at once!",
-        "🔥 Key Document Highlight: 'Land Ownership Proof (7/12 Extract)' unlocks 3 agriculture schemes!"
+        "🔥 Key Document Highlight: 'Aadhaar Card' unlocks 4 agriculture schemes at once! (PM-KISAN, PMFBY, PM-KUSUM, SMAM)",
+        "🔥 Key Document Highlight: '7/12 Land Record Extract' unlocks 2 schemes simultaneously!"
       ],
       action_checklist: mockRanked.map((r, i) => ({
         step: i + 1,

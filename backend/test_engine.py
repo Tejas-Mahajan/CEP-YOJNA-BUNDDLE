@@ -4,7 +4,11 @@ import json
 import os
 
 # Set stdout to UTF-8 for Windows console printing
-sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
+if hasattr(sys.stdout, "reconfigure"):
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
 
 from models import UserProfile
 from services.evaluator import evaluate_scheme_eligibility
