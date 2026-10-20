@@ -13,24 +13,40 @@ export default function ProfileForm({ profile, setProfile, onSubmit, isEvaluatin
 
   // Track user interaction with the required criteria (Annual Income and Land Holding)
   const [incomeInteracted, setIncomeInteracted] = useState(
-    () => Boolean(profile?.annual_income && profile.annual_income >= 50000)
+    () => Boolean(profile?.annual_income && profile.annual_income >= 10000)
   );
   const [landInteracted, setLandInteracted] = useState(
-    () => Boolean(profile?.land_acres && profile.land_acres > 0)
+    () => Boolean(profile?.land_acres !== undefined && profile?.land_acres !== null && profile?.land_acres !== '')
   );
 
-  const hasIncomeInteracted = incomeInteracted || (profile?.annual_income !== undefined && profile.annual_income >= 50000);
-  const hasLandInteracted = landInteracted || (profile?.land_acres !== undefined && profile.land_acres > 0);
+  const isIncomeValid = Boolean(
+    profile?.annual_income !== undefined &&
+    profile?.annual_income !== null &&
+    profile?.annual_income !== '' &&
+    !isNaN(profile.annual_income) &&
+    Number(profile.annual_income) >= 10000 &&
+    Number(profile.annual_income) <= 5000000
+  );
+
+  const isLandValid = Boolean(
+    profile?.land_acres !== undefined &&
+    profile?.land_acres !== null &&
+    profile?.land_acres !== '' &&
+    !isNaN(profile.land_acres) &&
+    Number(profile.land_acres) >= 0 &&
+    Number(profile.land_acres) <= 100
+  );
+
   const isStep1Valid = Boolean(
-    hasIncomeInteracted &&
-    hasLandInteracted &&
+    isIncomeValid &&
+    isLandValid &&
     !validationErrors.annual_income &&
     !validationErrors.land_acres &&
     !validationErrors.age
   );
 
   const formatIncomeDisplay = (income) => {
-    if (income === undefined || income === null || income === 0) {
+    if (income === undefined || income === null || income === '' || income === 0) {
       return '₹0';
     }
     if (income >= 1000000) {
@@ -40,7 +56,10 @@ export default function ProfileForm({ profile, setProfile, onSubmit, isEvaluatin
   };
 
   const formatLandDisplay = (acres) => {
-    const val = Number(acres) || 0;
+    if (acres === '' || acres === undefined || acres === null) {
+      return `0 ${t.acresUnit || 'Acres'}`;
+    }
+    const val = Number(acres);
     const unit = t.acresUnit || 'Acres';
     if (val >= 25) {
       return `25+ ${unit}`;
@@ -88,6 +107,13 @@ export default function ProfileForm({ profile, setProfile, onSubmit, isEvaluatin
     const validation = validateProfile(profile, lang);
     if (!validation.isValid) {
       setValidationErrors(validation.errors);
+      return;
+    }
+    if (Number(profile.annual_income) < 10000) {
+      setValidationErrors(prev => ({
+        ...prev,
+        annual_income: t.annualIncomeMinWarning || (lang === 'mr' ? "वार्षिक उत्पन्न किमान ₹10,000 असणे आवश्यक आहे" : "Annual income must be at least ₹10,000")
+      }));
       return;
     }
     onSubmit(e);
@@ -183,7 +209,7 @@ export default function ProfileForm({ profile, setProfile, onSubmit, isEvaluatin
                     onChange={(e) => handleInputChange('state', e.target.value)}
                     className="w-full px-4 py-3 rounded-2xl border border-slate-200 bg-slate-50/50 text-sm font-semibold text-slate-900 focus:ring-2 focus:ring-emerald-500 outline-none"
                   >
-                    <option value="Maharashtra">{t.stateMaharashtra || 'Maharashtra'} (महाराष्ट्र)</option>
+                    <option value="Maharashtra">{lang === 'mr' ? 'महाराष्ट्र' : (lang === 'hi' ? 'महाराष्ट्र' : 'Maharashtra (महाराष्ट्र)')}</option>
                     <option value="Karnataka">{t.stateKarnataka || 'Karnataka'}</option>
                     <option value="Gujarat">{t.stateGujarat || 'Gujarat'}</option>
                     <option value="All">{t.stateAll || 'Pan-India / All States'}</option>
@@ -226,29 +252,49 @@ export default function ProfileForm({ profile, setProfile, onSubmit, isEvaluatin
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-slate-100">
                 {/* Annual Income */}
-                <div className="space-y-2 p-5 rounded-2xl bg-slate-50/60 border border-slate-200">
+                <div className="space-y-3 p-5 rounded-2xl bg-slate-50/60 border border-slate-200">
                   <div className="flex justify-between items-center">
                     <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">{t.annualIncome || "Annual Income (₹)"}</label>
                     <span className="text-sm font-black text-emerald-800 bg-emerald-100 px-3 py-1 rounded-xl border border-emerald-300">
                       {formatIncomeDisplay(profile.annual_income)}
                     </span>
                   </div>
+
+                  <input
+                    type="number"
+                    min="10000"
+                    max="5000000"
+                    step="5000"
+                    placeholder={t.incomePlaceholder || (lang === 'mr' ? "उदा. 60,000" : (lang === 'hi' ? "उदा. 60,000" : "e.g., 60000"))}
+                    value={profile.annual_income === '' || profile.annual_income === undefined || profile.annual_income === null ? '' : (profile.annual_income === 0 && !incomeInteracted ? '' : profile.annual_income)}
+                    onChange={(e) => {
+                      setIncomeInteracted(true);
+                      const raw = e.target.value;
+                      handleInputChange('annual_income', raw === '' ? '' : Number(raw));
+                    }}
+                    className={`w-full px-4 py-2.5 rounded-xl border text-sm font-semibold text-slate-900 focus:ring-2 outline-none transition-all ${
+                      validationErrors.annual_income
+                        ? 'border-red-400 bg-red-50/50 focus:ring-red-500'
+                        : 'border-slate-200 bg-white focus:ring-emerald-500'
+                    }`}
+                  />
+
                   <input
                     type="range"
-                    min="50000"
+                    min="10000"
                     max="1000000"
-                    step="25000"
-                    value={profile.annual_income && profile.annual_income >= 50000 ? profile.annual_income : 50000}
+                    step="10000"
+                    value={profile.annual_income && Number(profile.annual_income) >= 10000 ? Math.min(1000000, Number(profile.annual_income)) : 10000}
                     onPointerDown={() => {
                       setIncomeInteracted(true);
-                      if (!profile.annual_income || profile.annual_income < 50000) {
-                        handleInputChange('annual_income', 50000);
+                      if (!profile.annual_income || Number(profile.annual_income) < 10000) {
+                        handleInputChange('annual_income', 10000);
                       }
                     }}
                     onTouchStart={() => {
                       setIncomeInteracted(true);
-                      if (!profile.annual_income || profile.annual_income < 50000) {
-                        handleInputChange('annual_income', 50000);
+                      if (!profile.annual_income || Number(profile.annual_income) < 10000) {
+                        handleInputChange('annual_income', 10000);
                       }
                     }}
                     onChange={(e) => {
@@ -257,31 +303,56 @@ export default function ProfileForm({ profile, setProfile, onSubmit, isEvaluatin
                     }}
                     className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-emerald-600"
                   />
-                  <div className="flex justify-between text-[10px] text-slate-500 font-medium pt-1">
-                    <span>₹50,000</span>
+                  <div className="flex justify-between text-[10px] text-slate-500 font-medium pt-0.5">
+                    <span>₹10,000</span>
+                    <span>₹5,00,000</span>
                     <span>₹10,00,000+</span>
                   </div>
                   {validationErrors.annual_income && (
                     <div className="text-red-600 text-2xs font-bold mt-1 flex items-center">
-                      <AlertCircle className="w-3 h-3 mr-1" /> {validationErrors.annual_income}
+                      <AlertCircle className="w-3.5 h-3.5 mr-1 flex-shrink-0" /> {validationErrors.annual_income}
                     </div>
                   )}
                 </div>
 
                 {/* Land Holding for Farmers */}
-                <div className="space-y-2 p-5 rounded-2xl bg-emerald-50/40 border border-emerald-200">
+                <div className="space-y-3 p-5 rounded-2xl bg-emerald-50/40 border border-emerald-200">
                   <div className="flex justify-between items-center">
-                    <label className="text-xs font-bold text-emerald-950 uppercase tracking-wider">{t.landAcres || "Land Holding (Acres)"}</label>
+                    <label className="text-xs font-bold text-emerald-950 uppercase tracking-wider">{t.landAcres || "Land Holding Size (Acres)"}</label>
                     <span className="text-sm font-black text-emerald-900 bg-white px-3 py-1 rounded-xl border border-emerald-300">
                       {formatLandDisplay(profile.land_acres)}
                     </span>
                   </div>
+
+                  <input
+                    type="number"
+                    min="0"
+                    max="100"
+                    step="0.1"
+                    placeholder={t.landPlaceholder || (lang === 'mr' ? "उदा. 0 किंवा 2.5" : (lang === 'hi' ? "उदा. 0 या 2.5" : "e.g., 0 or 2.5"))}
+                    value={profile.land_acres === '' || profile.land_acres === undefined || profile.land_acres === null ? '' : (profile.land_acres === 0 && !landInteracted ? '' : profile.land_acres)}
+                    onChange={(e) => {
+                      setLandInteracted(true);
+                      const raw = e.target.value;
+                      handleInputChange('land_acres', raw === '' ? '' : Number(raw));
+                    }}
+                    className={`w-full px-4 py-2.5 rounded-xl border text-sm font-semibold text-slate-900 focus:ring-2 outline-none transition-all ${
+                      validationErrors.land_acres
+                        ? 'border-red-400 bg-red-50/50 focus:ring-red-500'
+                        : 'border-emerald-200 bg-white focus:ring-emerald-500'
+                    }`}
+                  />
+
+                  <div className="text-[11px] text-emerald-800 font-medium leading-tight">
+                    {t.landZeroHelper || "(भूमिहीन शेतकऱ्यांसाठी 0 प्रविष्ट करा / Enter 0 for landless farmers)"}
+                  </div>
+
                   <input
                     type="range"
                     min="0"
                     max="25"
                     step="0.5"
-                    value={profile.land_acres ?? 0}
+                    value={profile.land_acres !== '' && profile.land_acres !== undefined && profile.land_acres !== null ? Math.min(25, Math.max(0, Number(profile.land_acres))) : 0}
                     onPointerDown={() => setLandInteracted(true)}
                     onTouchStart={() => setLandInteracted(true)}
                     onChange={(e) => {
@@ -290,14 +361,14 @@ export default function ProfileForm({ profile, setProfile, onSubmit, isEvaluatin
                     }}
                     className="w-full h-2 bg-emerald-200 rounded-lg appearance-none cursor-pointer accent-emerald-600"
                   />
-                  <div className="flex justify-between text-[10px] text-emerald-700 font-medium pt-1">
+                  <div className="flex justify-between text-[10px] text-emerald-700 font-medium pt-0.5">
                     <span>0 {t.acresUnit || 'Acres'}</span>
                     <span>10 {t.acresUnit || 'Acres'}</span>
                     <span>25+ {t.acresUnit || 'Acres'}</span>
                   </div>
                   {validationErrors.land_acres && (
                     <div className="text-red-600 text-2xs font-bold mt-1 flex items-center">
-                      <AlertCircle className="w-3 h-3 mr-1" /> {validationErrors.land_acres}
+                      <AlertCircle className="w-3.5 h-3.5 mr-1 flex-shrink-0" /> {validationErrors.land_acres}
                     </div>
                   )}
                 </div>
@@ -416,7 +487,7 @@ export default function ProfileForm({ profile, setProfile, onSubmit, isEvaluatin
           {currentStep === 2 && (
             <button
               type="submit"
-              disabled={isEvaluating || Object.keys(validationErrors).length > 0}
+              disabled={isEvaluating || Object.keys(validationErrors).length > 0 || !isIncomeValid || !isLandValid}
               className="px-8 py-3.5 rounded-2xl bg-gradient-to-r from-emerald-800 via-emerald-700 to-teal-700 hover:from-emerald-900 hover:to-teal-800 text-white font-black text-sm shadow-xl shadow-emerald-800/30 flex items-center space-x-2 transition-all transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
             >
               {isEvaluating ? (

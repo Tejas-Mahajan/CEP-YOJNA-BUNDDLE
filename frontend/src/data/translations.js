@@ -11,14 +11,18 @@ export const TRANSLATIONS = {
     agriTitle: "Agriculture & Farming",
     agriDesc: "PM-KISAN, Fasal Bima, Solar Pump Subsidies, Kisan Credit Card",
     step2Title: "Profile & Income Attributes",
-    step2Subtitle: "Set Domicile, Income & LandHolding",
+    step2Subtitle: "Provide domicile, income, category, and landholding size",
     step2HeaderDesc: "Provide domicile, income, category, and landholding size",
     annualIncome: "Annual Income (₹)",
+    incomePlaceholder: "e.g., 60000",
+    annualIncomeMinWarning: "Annual income must be at least ₹10,000",
     casteCategory: "Caste Category",
     domicileState: "Domicile State",
     ageYears: "Age (Years)",
     agriSection: "Agriculture Attributes",
     landAcres: "Land Holding Size (Acres)",
+    landPlaceholder: "e.g., 0 or 2.5",
+    landZeroHelper: "(Enter 0 for landless farmers / भूमिहीन शेतकऱ्यांसाठी 0 प्रविष्ट करा)",
     acresUnit: "Acres",
     smallFarmerMarker: "5 Acres (Small Farmer)",
     farmingType: "Farming Occupation Type",
@@ -32,6 +36,27 @@ export const TRANSLATIONS = {
     evaluatingBtn: "Evaluating Schemes & Overlaps...",
     prevStep: "Previous Step",
     selectedDocsMsg: "Selected {count} master documents. Ready to generate optimized agriculture scheme bundle!",
+
+    // Scheme Directory
+    directoryBannerTag: "AGRICULTURE & FARMING SCHEMES DIRECTORY",
+    directoryBannerTitle: "All Agriculture Welfare & Grant Schemes",
+    directoryBannerDesc: "Browse, filter, and compare central and state government agricultural schemes, crop insurance, and solar pump subsidies.",
+    searchSchemesPlaceholder: "Search agriculture scheme name, benefit or keywords...",
+    showingSchemesCount: "Showing {count} of {total} schemes",
+    govFilterLabel: "Government:",
+    allGovSchemes: "All Schemes",
+    centralGov: "Central Government",
+    maharashtraGov: "Maharashtra Government",
+    compareBtn: "Compare",
+    comparingBtn: "Comparing",
+    compareSelectedCount: "Selected {count}/2 for Comparison",
+    readyToCompareSide: "Ready to compare side-by-side!",
+    select1MoreScheme: "Select 1 more scheme",
+    compareNowBtn: "Compare Now 📊",
+    financialBenefitLabel: "Financial Benefit",
+    windowLabel: "Window",
+    viewDeepDiveDetails: "View Deep-Dive Details",
+    standardDocumentTag: "Standard Document",
 
     // State & Category Options
     stateMaharashtra: "Maharashtra",
@@ -315,8 +340,8 @@ export const TRANSLATIONS = {
     cscOfficeAddressLabel: "Office Address",
     cscNodalLabel: "Nodal Officer:",
     cscServicesHeader: "Services Available",
-    cscCallNodal: "Call Nodal",
-    cscDirections: "Directions on Google Maps",
+    cscCallNodal: "Contact",
+    cscDirections: "Show on Google Maps",
     cscNoResultsTitle: 'No CSC centers found for "{query}"',
     cscNoResultsSub: "Try changing district selection or clear search terms.",
 
@@ -420,15 +445,19 @@ export const TRANSLATIONS = {
     step1Title: "१. वैयक्तिक तपशील",
     agriTitle: "शेती व कृषी योजना",
     agriDesc: "पीएम-किसान, पीक विमा, सोलर पंप अनुदान, किसान क्रेडिट कार्ड",
-    step2Title: "१. वैयक्तिक व आर्थिक तपशील",
-    step2Subtitle: "अधिवास, उत्पन्न आणि जमीन तपशील सेट करा",
-    step2HeaderDesc: "अधिवास राज्य, वार्षिक उत्पन्न, जात प्रवर्ग आणि शेती आकार प्रविष्ट करा",
+    step2Title: "वैयक्तिक व उत्पन्न तपशील",
+    step2Subtitle: "अधिवास, वार्षिक उत्पन्न, जात प्रवर्ग आणि जमिनीचा तपशील भरा",
+    step2HeaderDesc: "अधिवास, वार्षिक उत्पन्न, जात प्रवर्ग आणि जमिनीचा तपशील भरा",
     annualIncome: "वार्षिक उत्पन्न (₹)",
-    casteCategory: "प्रवर्ग / जात",
-    domicileState: "अधिवास राज्य (State)",
+    incomePlaceholder: "उदा. 60,000",
+    annualIncomeMinWarning: "वार्षिक उत्पन्न किमान ₹10,000 असणे आवश्यक आहे",
+    casteCategory: "जात प्रवर्ग",
+    domicileState: "अधिवास राज्य",
     ageYears: "वय (वर्षे)",
     agriSection: "कृषी विशेष तपशील",
-    landAcres: "जमीन धारणा (एकरामध्ये)",
+    landAcres: "जमीन धारणा क्षेत्र (एकर)",
+    landPlaceholder: "उदा. 0 किंवा 2.5",
+    landZeroHelper: "(भूमिहीन शेतकऱ्यांसाठी 0 प्रविष्ट करा / Enter 0 for landless farmers)",
     acresUnit: "एकर",
     smallFarmerMarker: "५ एकर (लहान शेतकरी)",
     farmingType: "शेतकरी वर्ग / प्रकार",
@@ -442,6 +471,27 @@ export const TRANSLATIONS = {
     evaluatingBtn: "योजना व कागदपत्रांचे मूल्यांकन सुरू आहे...",
     prevStep: "मागील पायरी",
     selectedDocsMsg: "{count} मुख्य कागदपत्रे निवडली. ऑप्टिमाइझ कृषी योजना बंडल तयार करण्यासाठी सज्ज!",
+
+    // Scheme Directory
+    directoryBannerTag: "कृषी व शेतकरी कल्याण योजना सूची",
+    directoryBannerTitle: "सर्व कृषी कल्याण व अनुदान योजना",
+    directoryBannerDesc: "केंद्र व राज्य शासनाच्या कृषी कल्याण योजना, पीक विमा आणि सौर कृषी पंप अनुदानाची माहिती मिळवा, फिल्टर करा आणि तुलना करा.",
+    searchSchemesPlaceholder: "कृषी योजनेचे नाव, लाभ किंवा कीवर्ड शोधा...",
+    showingSchemesCount: "{total} पैकी {count} योजना दर्शवित आहे",
+    govFilterLabel: "शासकीय स्तर:",
+    allGovSchemes: "सर्व योजना",
+    centralGov: "केंद्र शासन",
+    maharashtraGov: "महाराष्ट्र शासन",
+    compareBtn: "तुलना करा",
+    comparingBtn: "तुलना सुरू आहे",
+    compareSelectedCount: "तुलनेसाठी {count}/२ निवडले",
+    readyToCompareSide: "समोरासमोर तुलना करण्यासाठी सज्ज!",
+    select1MoreScheme: "आणखी १ योजना निवडा",
+    compareNowBtn: "आता तुलना करा 📊",
+    financialBenefitLabel: "आर्थिक लाभ",
+    windowLabel: "मुदत",
+    viewDeepDiveDetails: "सविस्तर तपशील पहा",
+    standardDocumentTag: "प्रमाणित कागदपत्र",
 
     // State & Category Options
     stateMaharashtra: "महाराष्ट्र",
@@ -725,7 +775,7 @@ export const TRANSLATIONS = {
     cscOfficeAddressLabel: "कार्यालयाचा पत्ता",
     cscNodalLabel: "नोडल अधिकारी:",
     cscServicesHeader: "उपलब्ध सेवा",
-    cscCallNodal: "नोडल अधिकाऱ्यास कॉल करा",
+    cscCallNodal: "संपर्क करा",
     cscDirections: "गुगल मॅपवर दिशा दाखवा",
     cscNoResultsTitle: '"{query}" साठी कोणतेही सीएससी केंद्र सापडले नाही',
     cscNoResultsSub: "जिल्हा बदलून पहा किंवा शोध शब्द स्पष्ट करा.",
@@ -830,15 +880,19 @@ export const TRANSLATIONS = {
     step1Title: "१. व्यक्तिगत विवरण",
     agriTitle: "कृषि एवं खेती",
     agriDesc: "पीएम-किसान, फसल बीमा, सोलर पंप सब्सिडी, किसान क्रेडिट कार्ड",
-    step2Title: "१. प्रोफाइल एवं आय विवरण",
-    step2Subtitle: "मूल निवास, आय और भूमि विवरण सेट करें",
-    step2HeaderDesc: "मूल निवास राज्य, वार्षिक आय, जाति वर्ग और भूमि का आकार दर्ज करें",
+    step2Title: "व्यक्तिगत एवं आय विवरण",
+    step2Subtitle: "अधिवास, वार्षिक आय, जाति वर्ग और भूमि का विवरण भरें",
+    step2HeaderDesc: "अधिवास, वार्षिक आय, जाति वर्ग और भूमि का विवरण भरें",
     annualIncome: "वार्षिक आय (₹)",
-    casteCategory: "जाति श्रेणी",
-    domicileState: "मूल निवास राज्य",
+    incomePlaceholder: "उदा. 60,000",
+    annualIncomeMinWarning: "वार्षिक आय कम से कम ₹10,000 होनी चाहिए",
+    casteCategory: "जाति वर्ग",
+    domicileState: "अधिवास राज्य",
     ageYears: "आयु (वर्ष)",
     agriSection: "कृषि विशिष्ट विवरण",
-    landAcres: "भूमि जोत का आकार (एकड़)",
+    landAcres: "भूमि जोत (एकड़)",
+    landPlaceholder: "उदा. 0 या 2.5",
+    landZeroHelper: "(भूमिहीन किसानों के लिए 0 दर्ज करें / Enter 0 for landless farmers)",
     acresUnit: "एकड़",
     smallFarmerMarker: "5 एकड़ (छोटे किसान)",
     farmingType: "किसान वर्ग / प्रकार",
@@ -852,6 +906,27 @@ export const TRANSLATIONS = {
     evaluatingBtn: "योजनाओं एवं दस्तावेजों का मूल्यांकन जारी है...",
     prevStep: "पिछला चरण",
     selectedDocsMsg: "{count} मुख्य दस्तावेज चुने गए। अनुकूलित कृषि योजना बंडल तैयार करने के लिए तैयार!",
+
+    // Scheme Directory
+    directoryBannerTag: "कृषि एवं किसान कल्याण योजना सूची",
+    directoryBannerTitle: "सभी कृषि कल्याण एवं अनुदान योजनाएं",
+    directoryBannerDesc: "केंद्र एवं राज्य सरकार की कृषि कल्याण योजनाओं, फसल बीमा और सौर पंप सब्सिडी की जानकारी प्राप्त करें, फ़िल्टर करें और तुलना करें।",
+    searchSchemesPlaceholder: "कृषि योजना का नाम, लाभ या कीवर्ड खोजें...",
+    showingSchemesCount: "{total} में से {count} योजनाएं दिख रही हैं",
+    govFilterLabel: "शासन स्तर:",
+    allGovSchemes: "सभी योजनाएं",
+    centralGov: "केंद्र सरकार",
+    maharashtraGov: "महाराष्ट्र शासन",
+    compareBtn: "तुलना करें",
+    comparingBtn: "तुलना हो रही है",
+    compareSelectedCount: "तुलना के लिए {count}/2 चयनित",
+    readyToCompareSide: "आमने-सामने तुलना करने के लिए तैयार!",
+    select1MoreScheme: "1 और योजना चुनें",
+    compareNowBtn: "अब तुलना करें 📊",
+    financialBenefitLabel: "वित्तीय लाभ",
+    windowLabel: "समय सीमा",
+    viewDeepDiveDetails: "विस्तृत विवरण देखें",
+    standardDocumentTag: "मानक दस्तावेज",
 
     // State & Category Options
     stateMaharashtra: "महाराष्ट्र",
@@ -1135,7 +1210,7 @@ export const TRANSLATIONS = {
     cscOfficeAddressLabel: "कार्यालय का पता",
     cscNodalLabel: "नोडल अधिकारी:",
     cscServicesHeader: "उपलब्ध सेवाएं",
-    cscCallNodal: "नोडल अधिकारी को कॉल करें",
+    cscCallNodal: "संपर्क करें",
     cscDirections: "गूगल मैप पर रास्ता देखें",
     cscNoResultsTitle: '"{query}" के लिए कोई सीएससी केंद्र नहीं मिला',
     cscNoResultsSub: "जिला चयन बदलें या खोज शब्द साफ़ करें।",
@@ -1511,7 +1586,12 @@ export function getSchemeApplicationSteps(scheme, lang = 'en') {
 /**
  * Localize CSC timing hours & working days: (Mon-Sat) / (Mon-Fri)
  */
-export function getLocalizedTiming(timing, lang = 'en') {
+export function getLocalizedTiming(timing, lang = 'en', office = null) {
+  if (office) {
+    if (lang === 'mr' && office.timing_mr) return office.timing_mr;
+    if (lang === 'hi' && office.timing_hi) return office.timing_hi;
+    if (lang === 'en' && office.timing) return office.timing;
+  }
   if (!timing) return '';
   if (lang === 'en') return timing;
   if (lang === 'mr' || lang === 'hi') {
@@ -1525,62 +1605,105 @@ export function getLocalizedTiming(timing, lang = 'en') {
 }
 
 const CSC_NAME_MAP = {
-  csc_pune_01: { mr: "महा ई-सेवा केंद्र — शिवाजीनगर सीएससी", hi: "महा ई-सेवा केंद्र — शिवाजी नगर सीएससी" },
-  csc_pune_02: { mr: "ग्राहक सेवा केंद्र — हडपसर डिजिटल सेवा", hi: "कॉमन सर्विस सेंटर — हडपसर डिजिटल सेवा" },
-  csc_mumbai_01: { mr: "आपले सरकार सेवा केंद्र — दादर पश्चिम", hi: "आपले सरकार सेवा केंद्र — दादर पश्चिम" },
-  csc_nashik_01: { mr: "जिल्हा सीएससी नोडल मदत कक्ष — नाशिक ग्रामीण", hi: "जिला सीएससी नोडल हेल्पडेस्क — नाशिक ग्रामीण" },
-  csc_nagpur_01: { mr: "महा ई-सेवा केंद्र — सिव्हिल लाइन्स नागपूर", hi: "महा ई-सेवा केंद्र — सिविल लाइन्स नागपुर" },
-  csc_sambhajinagar_01: { mr: "आपले सरकार सेवा केंद्र — क्रांती चौक", hi: "आपले सरकार सेवा केंद्र — क्रांति चौक" },
-  csc_kolhapur_01: { mr: "महा ई-सेवा केंद्र — ताराबाई पार्क कोल्हापूर", hi: "महा ई-सेवा केंद्र — ताराबाई पार्क कोल्हापुर" }
+  csc_pune_01: {
+    mr: "जिल्हाधिकारी कार्यालय सेतू आणि महा ई-सेवा केंद्र, पुणे",
+    hi: "जिलाधिकारी कार्यालय सेतु एवं महा ई-सेवा केंद्र, पुणे"
+  },
+  csc_pune_02: {
+    mr: "कृषी भवन शेतकरी सुविधा आणि सीएससी केंद्र, शिवाजीनगर",
+    hi: "कृषि भवन किसान सुविधा एवं सीएससी केंद्र, शिवाजीनगर"
+  },
+  csc_pune_03: {
+    mr: "तहसील कार्यालय महा ई-सेवा आणि सेतू केंद्र, बारामती",
+    hi: "तहसील कार्यालय महा ई-सेवा एवं सेतु केंद्र, बारामती"
+  },
+  csc_mumbai_01: {
+    mr: "आपले सरकार सेवा केंद्र — जिल्हाधिकारी कार्यालय, मुंबई",
+    hi: "आपले सरकार सेवा केंद्र — जिलाधिकारी कार्यालय, मुंबई"
+  },
+  csc_nashik_01: {
+    mr: "जिल्हाधिकारी कार्यालय सेतू सुविधा केंद्र, नाशिक",
+    hi: "जिलाधिकारी कार्यालय सेतु सुविधा केंद्र, नासिक"
+  },
+  csc_sambhajinagar_01: {
+    mr: "जिल्हाधिकारी कार्यालय सेतू सुविधा केंद्र, छत्रपती संभाजीनगर",
+    hi: "जिलाधिकारी कार्यालय सेतु सुविधा केंद्र, छत्रपति संभाजीनगर"
+  },
+  csc_nagpur_01: {
+    mr: "जिल्हाधिकारी कार्यालय सेतू आणि शेतकरी सुविधा केंद्र, नागपूर",
+    hi: "जिलाधिकारी कार्यालय सेतु एवं किसान सुविधा केंद्र, नागपुर"
+  },
+  csc_kolhapur_01: {
+    mr: "जिल्हाधिकारी कार्यालय महा ई-सेवा आणि सेतू केंद्र, कोल्हापूर",
+    hi: "जिलाधिकारी कार्यालय महा ई-सेवा एवं सेतु केंद्र, कोल्हापुर"
+  }
 };
 
 export function getLocalizedCscName(office, lang = 'en') {
   if (!office) return '';
-  if (lang === 'en') return office.name || '';
-  if (CSC_NAME_MAP[office.id] && CSC_NAME_MAP[office.id][lang]) {
-    return CSC_NAME_MAP[office.id][lang];
-  }
+  if (lang === 'mr') return office.name_mr || CSC_NAME_MAP[office.id]?.mr || office.name || '';
+  if (lang === 'hi') return office.name_hi || CSC_NAME_MAP[office.id]?.hi || office.name || '';
   return office.name || '';
 }
 
 const CSC_ADDRESS_MAP = {
   csc_pune_01: {
-    mr: "प्लॉट १४, जिल्हाधिकारी कार्यालयाजवळ, जुना जिल्हा न्यायालय रस्ता, शिवाजीनगर, पुणे - ४११००५",
-    hi: "प्लॉट 14, कलेक्ट्रेट के पास, पुराना जिला अदालत रोड, शिवाजी नगर, पुणे - 411005"
+    mr: "जिल्हाधिकारी कार्यालय आवार, ससून हॉस्पिटल समोर, आगरकर नगर, पुणे - ४११००१",
+    hi: "जिलाधिकारी कार्यालय परिसर, ससून अस्पताल के सामने, आगरकर नगर, पुणे - 411001"
   },
   csc_pune_02: {
-    mr: "दुकान क्र. ४, सोलापूर रस्ता, गाडीतळ बसस्थानकाजवळ, हडपसर, पुणे - ४११०२८",
-    hi: "दुकान 4, सोलापुर रोड, गाड़ीतल बस स्टैंड के पास, हडपसर, पुणे - 411028"
+    mr: "कृषी आयुक्तालय, कृषी भवन, नरवीर तानाजी वाडी, शिवाजीनगर, पुणे - ४११००५",
+    hi: "कृषि आयुक्तालय, कृषि भवन, नरवीर तानाजी वाडी, शिवाजीनगर, पुणे - 411005"
+  },
+  csc_pune_03: {
+    mr: "प्रशासकीय भवन, तहसील कार्यालय आवार, भिगवण रोड, बारामती, जि. पुणे - ४१३१०२",
+    hi: "प्रशासकीय भवन, तहसील कार्यालय परिसर, भिगवण रोड, बारामती, पुणे - 413102"
   },
   csc_mumbai_01: {
-    mr: "तळमजला, महानगरपालिका मार्केट इमारत, रानडे रोड, दादर पश्चिम, मुंबई - ४०००२८",
-    hi: "भू-तल, म्युनिसिपल मार्केट बिल्डिंग, रानडे रोड, दादर वेस्ट, मुंबई - 400028"
+    mr: "तळमजला, मुंबई शहर जिल्हाधिकारी कार्यालय, जुने कस्टम हाऊस, फोर्ट, मुंबई - ४००००१",
+    hi: "भूतल, मुंबई शहर जिलाधिकारी कार्यालय, ओल्ड कस्टम हाउस, फोर्ट, मुंबई - 400001"
   },
   csc_nashik_01: {
-    mr: "तहसील कार्यालय परिसर, सीबीएस सर्कल, कॉलेज रोड, नाशिक - ४२२००२",
-    hi: "तहसील कार्यालय परिसर, सीबीएस सर्कल, कॉलेज रोड, नाशिक - 422002"
-  },
-  csc_nagpur_01: {
-    mr: "जिल्हा परिषद इमारतीसमोर, सिव्हिल लाइन्स, नागपूर - ४४०००१",
-    hi: "जिला परिषद भवन के सामने, सिविल लाइन्स, नागपुर - 440001"
+    mr: "जिल्हाधिकारी कार्यालय आवार, जुना आग्रा रोड, सीबीएस सर्कल, नाशिक - ४२२००२",
+    hi: "जिलाधिकारी कार्यालय परिसर, ओल्ड आगरा रोड, सीबीएस सर्कल, नासिक - 422002"
   },
   csc_sambhajinagar_01: {
-    mr: "विभागीय आयुक्त कार्यालयाजवळ, जालना रोड, क्रांती चौक, छत्रपती संभाजीनगर - ४३१००१",
-    hi: "संभागीय आयुक्त कार्यालय के पास, जालना रोड, क्रांति चौक, छत्रपति संभाजीनगर - 431001"
+    mr: "जिल्हाधिकारी कार्यालय परिसर, व्हीआयपी रोड, दिल्ली गेट जवळ, छत्रपती संभाजीनगर - ४३१००१",
+    hi: "जिलाधिकारी कार्यालय परिसर, वीआईपी रोड, दिल्ली गेट के पास, छत्रपति संभाजीनगर - 431001"
+  },
+  csc_nagpur_01: {
+    mr: "जिल्हाधिकारी कार्यालय इमारत, रवींद्रनाथ टागोर मार्ग, सिव्हिल लाईन्स, नागपूर - ४४०००१",
+    hi: "कलेक्ट्रेट भवन, रवींद्रनाथ टैगोर मार्ग, सिविल लाइन्स, नागपुर - 440001"
   },
   csc_kolhapur_01: {
-    mr: "दुकान क्र. १२, ताराबाई पार्क कमर्शियल कॉम्प्लेक्स, कोल्हापूर - ४१६००३",
-    hi: "दुकान 12, ताराबाई पार्क कमर्शियल कॉम्प्लेक्स, कोल्हापुर - 416003"
+    mr: "जिल्हाधिकारी कार्यालय, असेंब्ली रोड, नागाळा पार्क, कोल्हापूर - ४१६००३",
+    hi: "जिलाधिकारी कार्यालय, असेंबली रोड, नागाला पार्क, कोल्हापुर - 416003"
   }
 };
 
 export function getLocalizedCscAddress(office, lang = 'en') {
   if (!office) return '';
-  if (lang === 'en') return office.address || '';
-  if (CSC_ADDRESS_MAP[office.id] && CSC_ADDRESS_MAP[office.id][lang]) {
-    return CSC_ADDRESS_MAP[office.id][lang];
-  }
+  if (lang === 'mr') return office.address_mr || CSC_ADDRESS_MAP[office.id]?.mr || office.address || '';
+  if (lang === 'hi') return office.address_hi || CSC_ADDRESS_MAP[office.id]?.hi || office.address || '';
   return office.address || '';
+}
+
+export function getLocalizedCscOfficer(office, lang = 'en') {
+  if (!office) return '';
+  if (lang === 'mr') {
+    return office.officerName_mr || office.officer_mr || "जिल्हा सेतू नोडल कक्ष (VLE)";
+  }
+  if (lang === 'hi') {
+    return office.officerName_hi || office.officer_hi || "जिला सेतु नोडल कक्ष (VLE)";
+  }
+  return office.officerName || office.officer || "District Setu Nodal Desk (VLE)";
+}
+
+export function getLocalizedCscDistrict(office, lang = 'en') {
+  if (!office) return '';
+  if (lang === 'mr') return office.district_mr || (getLocalizedDistrict(office.district, 'mr') + ' जिल्हा');
+  if (lang === 'hi') return office.district_hi || (getLocalizedDistrict(office.district, 'hi') + ' जिला');
+  return office.district_en || (office.district + ' District');
 }
 
 export function getLocalizedDepartment(dept, lang = 'en', scheme = null) {
@@ -1712,13 +1835,60 @@ const DOCUMENT_DICTIONARY = {
   'Non-Creamy Layer Certificate': { mr: 'नॉन-क्रिमीलेअर प्रमाणपत्र', hi: 'नॉन-क्रीमी लेयर प्रमाण पत्र' },
   'Sowing Certificate': { mr: 'पीक पेरणी स्वयंघोषणापत्र', hi: 'फसल बुवाई प्रमाण पत्र' },
   'Water Source Availability Certificate': { mr: 'पाणी स्त्रोत उपलब्धता प्रमाणपत्र', hi: 'जल स्रोत उपलब्धता प्रमाण पत्र' },
-  'Disability Certificate (40%+)': { mr: 'दिव्यांग प्रमाणपत्र (४०%+)', hi: 'दिव्यांगता प्रमाण पत्र (40%+)' },
-  'Organic Cluster Membership Proof': { mr: 'सेंद्रिय शेती गट सदस्यत्व पुरावा', hi: 'जैविक खेती समूह सदस्यता प्रमाण' },
+  'Disability Certificate': { mr: 'दिव्यांगत्व प्रमाणपत्र', hi: 'दिव्यांगता प्रमाण पत्र' },
+  'Disability Certificate (40%+)': { mr: 'दिव्यांगत्व प्रमाणपत्र', hi: 'दिव्यांगता प्रमाण पत्र' },
+  'Organic Cluster Membership Proof': { mr: 'सेंद्रिय शेती गट सदस्यत्व पुरावा', hi: 'सेंद्रिय शेती गट सदस्यत्व पुरावा' },
+  'Organic Farming Group Membership': { mr: 'सेंद्रिय शेती गट सदस्यत्व पुरावा', hi: 'सेंद्रिय शेती गट सदस्यत्व पुरावा' },
+  'सेंद्रिय शेती गट सदस्यत्व पुरावा': { mr: 'सेंद्रिय शेती गट सदस्यत्व पुरावा', hi: 'सेंद्रिय शेती गट सदस्यत्व पुरावा' },
+  'Organic Cluster Membership Consent': { mr: 'सेंद्रिय शेती गट सदस्यत्व संमतीपत्र', hi: 'जैविक क्लस्टर सदस्यता सहमति पत्र' },
+  'Tractor RC (if applying for tractor-driven implements)': { mr: 'ट्रॅक्टर आरसी (ट्रॅक्टर उपकरणांसाठी लागू असल्यास)', hi: 'ट्रैक्टर आरसी (ट्रैक्टर उपकरणों के लिए)' },
+  'Tractor RC': { mr: 'ट्रॅक्टर आरसी (ट्रॅक्टर उपकरणांसाठी लागू असल्यास)', hi: 'ट्रैक्टर आरसी (ट्रैक्टर उपकरणों के लिए)' },
+  'FIR / Police Spot Panchnama / Inquest Panchnama': { mr: 'एफआयआर / घटनास्थळ पंचनामा / मरणोत्तर पंचनामा', hi: 'एफआईआर / घटनास्थल पंचनामा' },
   'Electricity Bill / NOC': { mr: 'वीज बिल / एनओसी (NOC)', hi: 'बिजली बिल / एनओसी (NOC)' },
+  'Electricity Bill': { mr: 'वीज बिल / एनओसी', hi: 'बिजली बिल / एनओसी' },
   'Soil Testing Sample Slip': { mr: 'माती परीक्षण नमुना पावती', hi: 'मृदा परीक्षण नमूना पर्ची' },
   'Machinery Quotation / Invoice': { mr: 'कृषी यंत्रसामग्री कोटेशन / पावती', hi: 'कृषि मशीनरी कोटेशन / चालान' },
   'Project Report / DPR': { mr: 'सविस्तर प्रकल्प अहवाल (DPR)', hi: 'विस्तृत परियोजना रिपोर्ट (DPR)' },
-  'Ration Card': { mr: 'रेशन कार्ड', hi: 'राशन कार्ड' }
+  'Ration Card': { mr: 'रेशन कार्ड', hi: 'राशन कार्ड' },
+
+  // Newly added required documents from schemes.json & user requirements
+  'Soil Health Card / Soil Testing Report': { mr: 'मृदा आरोग्य पत्रिका / माती परीक्षण अहवाल', hi: 'मृदा स्वास्थ्य कार्ड / मिट्टी परीक्षण रिपोर्ट' },
+  'Electricity Bill / Agricultural Pump Connection Proof': { mr: 'वीज बिल / कृषी पंप वीज जोडणी पुरावा', hi: 'बिजली बिल / कृषि पंप कनेक्शन प्रमाण' },
+  'Electricity Bill or Water Source Proof': { mr: 'वीज बिल किंवा पाणी स्त्रोत पुरावा', hi: 'बिजली बिल अथवा जल स्रोत प्रमाण' },
+  'Caste Validity Certificate': { mr: 'जात पडताळणी प्रमाणपत्र', hi: 'जाति वैधता प्रमाण पत्र' },
+  'Gram Panchayat NOC / Self Declaration Certificate': { mr: 'ग्रामपंचायत ना-हरकत / स्वयंघोषणापत्र', hi: 'ग्राम पंचायत अनापत्ति (NOC) / स्व-घोषणा पत्र' },
+  'Death Certificate (for accident/insurance schemes)': { mr: 'मृत्यू दाखला (अपघात/विमा योजनांसाठी)', hi: 'मृत्यु प्रमाण पत्र (दुर्घटना/बीमा योजनाओं हेतु)' },
+  'Post-Mortem Report / Death or Disability Certificate': { mr: 'शवविच्छेदन अहवाल / मृत्यू किंवा अपंगत्व प्रमाणपत्र', hi: 'पोस्टमॉर्टम रिपोर्ट / मृत्यु या दिव्यांगता प्रमाण पत्र' },
+  'Water Source / Well / Borewell Certificate': { mr: 'पाणी स्त्रोत / विहीर / बोअरवेल प्रमाणपत्र', hi: 'जल स्रोत / कुआं / बोरवेल प्रमाण पत्र' },
+  'Quotation / Invoice for Machinery/Equipment': { mr: 'कृषी अवजारे / यंत्रसामग्री कोटेशन व पावती', hi: 'कृषि उपकरण / मशीनरी कोटेशन एवं बिल' },
+  'GST Invoice from Registered Micro-Irrigation Dealer': { mr: 'नोंदणीकृत सूक्ष्म सिंचन विक्रेत्याचे जीएसटी बिल', hi: 'पंजीकृत सूक्ष्म सिंचाई डीलर का जीएसटी बिल' },
+  'Active PM-KISAN Registration ID': { mr: 'सक्रिय पीएम-किसान नोंदणी क्रमांक', hi: 'सक्रिय पीएम-किसान पंजीकरण आईडी' },
+  'Mobile Number linked with Aadhaar': { mr: 'आधार संलग्न मोबाईल नंबर', hi: 'आधार से जुड़ा मोबाइल नंबर' },
+  'Mobile Number': { mr: 'मोबाईल नंबर', hi: 'मोबाइल नंबर' },
+  'Gram Sabha Recommendation': { mr: 'ग्रामसभा शिफारस पत्र', hi: 'ग्राम सभा अनुशंसा पत्र' },
+  'Gram Sabha / VCRMC Resolution in PoKRA project village': { mr: 'पोकरा प्रकल्प गावातील ग्रामसभा / व्हीसीआरएमसी ठराव', hi: 'पोकरा परियोजना गांव का ग्राम सभा / वीसीआरएमसी प्रस्ताव' },
+  'Gram Sabha Recommendation & Groundwater Availability Certificate (for new well)': { mr: 'ग्रामसभा शिफारस व भूजल उपलब्धता प्रमाणपत्र', hi: 'ग्राम सभा अनुशंसा एवं भूजल उपलब्धता प्रमाण पत्र' },
+  'Drip Irrigation Installation Proof (mandatory for fruit orchard)': { mr: 'ठिबक सिंचन बसविल्याचा पुरावा', hi: 'टपक सिंचाई स्थापना प्रमाण' },
+  'Self-Declaration / Undertaking of not having availed prior farm pond subsidy': { mr: 'पूर्वी शेततळे अनुदान न घेतल्याचे हमीपत्र', hi: 'पूर्व में खेत तालाब अनुदान न लेने का स्व-घोषणा पत्र' },
+  'No-Objection Certificate (if joint ownership)': { mr: 'सामायिक मालकी असल्यास ना-हरकत प्रमाणपत्र (NOC)', hi: 'संयुक्त स्वामित्व होने पर अनापत्ति प्रमाण पत्र (NOC)' },
+  'Aadhaar Card & Age Proof of Deceased/Injured': { mr: 'मृत/जखमी व्यक्तीचे आधार कार्ड व वयाचा पुरावा', hi: 'मृतक/घायल का आधार कार्ड एवं आयु प्रमाण' },
+  'Heir\'s Aadhaar-linked Bank Passbook': { mr: 'वारसदाराचे आधार संलग्न बँक पासबुक', hi: 'उत्तराधिकारी का आधार से जुड़ा बैंक खाता पासबुक' },
+  'Savings Bank Passbook / PM-KISAN Account': { mr: 'बचत बँक पासबुक / पीएम-किसान खाते', hi: 'बचत बैंक पासबुक / पीएम-किसान खाता' },
+  'Bank Passbook (Aadhaar-seeded & DBT enabled)': { mr: 'बँक पासबुक (आधार व डीबीटी संलग्न)', hi: 'बैंक पासबुक (आधार एवं डीबीटी सक्षम)' },
+  'Bank Passbook (Aadhaar-seeded)': { mr: 'आधार संलग्न बँक पासबुक', hi: 'आधार से जुड़ा बैंक पासबुक' },
+  '7/12 and 8A Land Record Extract': { mr: 'जमीन मालकी पुरावा (७/१२ आणि ८-अ उतारा)', hi: 'भूमि स्वामित्व प्रमाण (7/12 और 8-ए खतौनी)' },
+  '7/12 Land Record Extract (showing water source entry)': { mr: '७/१२ उतारा (पाणी नोंदीसह)', hi: '7/12 खतौनी (जल स्रोत प्रविष्टि सहित)' },
+  '7/12 Land Record Extract (with e-Pik Pahani entry)': { mr: '७/१२ उतारा (ई-पीक पाहणी नोंदीसह)', hi: '7/12 खतौनी (ई-पीक पाहणी प्रविष्टि सहित)' },
+  '7/12 and 8A Extract (and Ferfar / Mutation Entry)': { mr: '७/१२, ८-अ आणि फेरफार उतारा', hi: '7/12, 8-ए एवं दाखिल-खारिज नकल' },
+  '7/12 and 8A Land Record Extract (Minimum 0.60 Hectare / 1.5 Acres)': { mr: '७/१२ आणि ८-अ उतारा (किमान ०.६० हेक्टर / १.५ एकर)', hi: '7/12 और 8-ए खतौनी (न्यूनतम 0.60 हेक्टेयर / 1.5 एकड़)' },
+  '7/12 & 8A Land Record Extract (Min 1 acre / 0.40 Ha for new well; 0.20 Ha for other components, max 6 Ha)': { mr: '७/१२ आणि ८-अ उतारा (विहिरीसाठी किमान १ एकर / ०.४० हेक्टर)', hi: '7/12 और 8-ए खतौनी (नए कुएं हेतु न्यूनतम 1 एकड़ / 0.40 हेक्टेयर)' },
+  '7/12 & 8A Land Record Extract (Up to 5 Hectares / 12.5 Acres)': { mr: '७/१२ आणि ८-अ उतारा (कमाल ५ हेक्टर / १२.५ एकरपर्यंत)', hi: '7/12 और 8-ए खतौनी (अधिकतम 5 हेक्टेयर / 12.5 एकड़ तक)' },
+  '7/12 & 8A Land Record Extract (or Forest Rights Act / FRA land patta; 0.40 Ha to 6 Ha for new well)': { mr: '७/१२ आणि ८-अ उतारा (किंवा वनहक्क कायदा पट्टा)', hi: '7/12 और 8-ए खतौनी (अथवा वनाधिकार पट्टा)' },
+  'Caste Certificate (SC / Neo-Buddhist)': { mr: 'जातीचा दाखला (अनुसूचित जाती / नवबौद्ध)', hi: 'जाति प्रमाण पत्र (अनुसूचित जाति / नवबौद्ध)' },
+  'Caste Certificate (Scheduled Tribe - ST)': { mr: 'जातीचा दाखला (अनुसूचित जमाती - ST)', hi: 'जाति प्रमाण पत्र (अनुसूचित जनजाति - ST)' },
+  'Caste Certificate (for 95% SC/ST subsidy)': { mr: 'जातीचा दाखला (९५% अनुदानासाठी)', hi: 'जाति प्रमाण पत्र (95% सब्सिडी हेतु)' },
+  'Caste Certificate (if applying under SC/ST category)': { mr: 'जातीचा दाखला (SC/ST प्रवर्गासाठी)', hi: 'जाति प्रमाण पत्र (SC/ST वर्ग हेतु)' },
+  'Sowing Certificate (पेरणी प्रमाणपत्र)': { mr: 'पीक पेरणी स्वयंघोषणापत्र (पेरणी प्रमाणपत्र)', hi: 'फसल बुवाई प्रमाण पत्र' }
 };
 
 export function getLocalizedDocumentName(docName, lang = 'en') {
@@ -1732,31 +1902,53 @@ export function getLocalizedDocumentName(docName, lang = 'en') {
   // Partial match fallback
   const lower = docName.toLowerCase();
   if (lang === 'mr') {
+    if (lower.includes('tractor')) return 'ट्रॅक्टर आरसी (ट्रॅक्टर उपकरणांसाठी लागू असल्यास)';
+    if (lower.includes('panchnama') || lower.includes('fir') || lower.includes('inquest')) return 'एफआयआर / घटनास्थळ पंचनामा / मरणोत्तर पंचनामा';
+    if (lower.includes('post-mortem') || lower.includes('death')) return 'मृत्यू दाखला (अपघात/विमा योजनांसाठी)';
+    if (lower.includes('disability')) return 'दिव्यांगत्व प्रमाणपत्र';
+    if (lower.includes('organic')) return 'सेंद्रिय शेती गट सदस्यत्व पुरावा';
+    if (lower.includes('soil')) return 'मृदा आरोग्य पत्रिका / माती परीक्षण अहवाल';
+    if (lower.includes('electricity') || lower.includes('pump connection')) return 'वीज बिल / कृषी पंप वीज जोडणी पुरावा';
+    if (lower.includes('caste validity')) return 'जात पडताळणी प्रमाणपत्र';
+    if (lower.includes('caste')) return 'जातीचे प्रमाणपत्र';
+    if (lower.includes('gram sabha') || lower.includes('vcrmc')) return 'ग्रामसभा शिफारस / ठराव';
+    if (lower.includes('gram panchayat') || lower.includes('noc')) return 'ग्रामपंचायत ना-हरकत / स्वयंघोषणापत्र';
+    if (lower.includes('well') || lower.includes('borewell') || lower.includes('water source')) return 'पाणी स्त्रोत / विहीर / बोअरवेल प्रमाणपत्र';
+    if (lower.includes('quotation') || lower.includes('invoice')) return 'कृषी अवजारे / यंत्रसामग्री कोटेशन व पावती';
+    if (lower.includes('ration')) return 'रेशन कार्ड';
     if (lower.includes('aadhaar')) return 'आधार ओळखपत्र';
     if (lower.includes('7/12') || lower.includes('land')) return 'जमीन मालकी पुरावा (७/१२ उतारा)';
     if (lower.includes('bank') || lower.includes('passbook')) return 'बँक खाते पासबुक';
     if (lower.includes('income')) return 'उत्पन्न दाखला';
-    if (lower.includes('caste')) return 'जातीचे प्रमाणपत्र';
     if (lower.includes('domicile')) return 'अधिवास प्रमाणपत्र';
     if (lower.includes('sowing')) return 'पीक पेरणी स्वयंघोषणापत्र';
-    if (lower.includes('water')) return 'पाणी स्त्रोत उपलब्धता प्रमाणपत्र';
-    if (lower.includes('ration')) return 'रेशन कार्ड';
-    if (lower.includes('electricity')) return 'वीज बिल / एनओसी';
-    if (lower.includes('machinery')) return 'कृषी यंत्रसामग्री कोटेशन';
-    if (lower.includes('soil')) return 'माती परीक्षण पावती';
+    if (lower.includes('mobile')) return 'आधार संलग्न मोबाईल नंबर';
+    if (lower.includes('drip')) return 'ठिबक सिंचन बसविल्याचा पुरावा';
+    if (lower.includes('farm pond')) return 'पूर्वी शेततळे अनुदान न घेतल्याचे हमीपत्र';
   } else if (lang === 'hi') {
+    if (lower.includes('tractor')) return 'ट्रैक्टर आरसी (ट्रैक्टर उपकरणों के लिए)';
+    if (lower.includes('panchnama') || lower.includes('fir') || lower.includes('inquest')) return 'एफआईआर / घटनास्थल पंचनामा';
+    if (lower.includes('post-mortem') || lower.includes('death')) return 'मृत्यु प्रमाण पत्र (दुर्घटना/बीमा योजनाओं हेतु)';
+    if (lower.includes('disability')) return 'दिव्यांगता प्रमाण पत्र';
+    if (lower.includes('organic')) return 'सेंद्रिय शेती गट सदस्यत्व पुरावा';
+    if (lower.includes('soil')) return 'मृदा स्वास्थ्य कार्ड / मिट्टी परीक्षण रिपोर्ट';
+    if (lower.includes('electricity') || lower.includes('pump connection')) return 'बिजली बिल / कृषि पंप कनेक्शन प्रमाण';
+    if (lower.includes('caste validity')) return 'जाति वैधता प्रमाण पत्र';
+    if (lower.includes('caste')) return 'जाति प्रमाण पत्र';
+    if (lower.includes('gram sabha') || lower.includes('vcrmc')) return 'ग्राम सभा अनुशंसा / प्रस्ताव';
+    if (lower.includes('gram panchayat') || lower.includes('noc')) return 'ग्राम पंचायत अनापत्ति (NOC) / स्व-घोषणा पत्र';
+    if (lower.includes('well') || lower.includes('borewell') || lower.includes('water source')) return 'जल स्रोत / कुआं / बोरवेल प्रमाण पत्र';
+    if (lower.includes('quotation') || lower.includes('invoice')) return 'कृषि उपकरण / मशीनरी कोटेशन एवं बिल';
+    if (lower.includes('ration')) return 'राशन कार्ड';
     if (lower.includes('aadhaar')) return 'आधार पहचान पत्र';
     if (lower.includes('7/12') || lower.includes('land')) return 'भूमि स्वामित्व प्रमाण (7/12 खतौनी/खसरा)';
     if (lower.includes('bank') || lower.includes('passbook')) return 'बैंक खाता पासबुक';
     if (lower.includes('income')) return 'आय प्रमाण पत्र';
-    if (lower.includes('caste')) return 'जाति प्रमाण पत्र';
     if (lower.includes('domicile')) return 'मूल निवास प्रमाण पत्र';
     if (lower.includes('sowing')) return 'फसल बुवाई प्रमाण पत्र';
-    if (lower.includes('water')) return 'जल स्रोत उपलब्धता प्रमाण पत्र';
-    if (lower.includes('ration')) return 'राशन कार्ड';
-    if (lower.includes('electricity')) return 'बिजली बिल / एनओसी';
-    if (lower.includes('machinery')) return 'कृषि मशीनरी कोटेशन';
-    if (lower.includes('soil')) return 'मृदा परीक्षण पर्ची';
+    if (lower.includes('mobile')) return 'आधार से जुड़ा मोबाइल नंबर';
+    if (lower.includes('drip')) return 'टपक सिंचाई स्थापना प्रमाण';
+    if (lower.includes('farm pond')) return 'पूर्व में खेत तालाब अनुदान न लेने का स्व-घोषणा पत्र';
   }
 
   return docName;
@@ -1765,15 +1957,17 @@ export function getLocalizedDocumentName(docName, lang = 'en') {
 export function getLocalizedEfficiencyTag(tag, lang = 'en') {
   if (!tag) return '';
   if (lang === 'mr') {
+    if (tag.includes('Standard Document') || tag.includes('Standard')) return 'प्रमाणित कागदपत्र';
     if (tag.includes('Agri Master')) return '⚡ उच्च उपयुक्तता (शेती मुख्य कागदपत्र)';
     if (tag.includes('Key Master')) return '⚡ उच्च उपयुक्तता (महत्त्वाचे मुख्य कागदपत्र)';
     if (tag.includes('Medium Leverage') || tag.includes('Shared')) return '⚡ मध्यम उपयुक्तता (सामायिक कागदपत्र)';
-    return tag.replace('High Leverage', 'उच्च उपयुक्तता').replace('Medium Leverage', 'मध्यम उपयुक्तता');
+    return tag.replace('High Leverage', 'उच्च उपयुक्तता').replace('Medium Leverage', 'मध्यम उपयुक्तता').replace('Standard Document', 'प्रमाणित कागदपत्र');
   } else if (lang === 'hi') {
+    if (tag.includes('Standard Document') || tag.includes('Standard')) return 'मानक दस्तावेज';
     if (tag.includes('Agri Master')) return '⚡ उच्च उपयोगिता (कृषि मुख्य दस्तावेज़)';
     if (tag.includes('Key Master')) return '⚡ उच्च उपयोगिता (प्रमुख मुख्य दस्तावेज़)';
     if (tag.includes('Medium Leverage') || tag.includes('Shared')) return '⚡ मध्यम उपयोगिता (साझा दस्तावेज़)';
-    return tag.replace('High Leverage', 'उच्च उपयोगिता').replace('Medium Leverage', 'मध्यम उपयोगिता');
+    return tag.replace('High Leverage', 'उच्च उपयोगिता').replace('Medium Leverage', 'मध्यम उपयोगिता').replace('Standard Document', 'मानक दस्तावेज');
   }
   return tag;
 }
@@ -1783,30 +1977,41 @@ export function getLocalizedSchemeTag(name, lang = 'en') {
   if (lang === 'en') return name;
 
   const tagMap = {
+    'Farmer Accident Insurance': { mr: 'शेतकरी अपघात विमा', hi: 'किसान दुर्घटना बीमा' },
+    'Shet Tale': { mr: 'शेततळे योजना', hi: 'खेत तालाब योजना' },
+    'Namo Shetkari': { mr: 'नमो शेतकरी योजना', hi: 'नमो शेतकरी योजना' },
     'PM-KISAN': { mr: 'पीएम-किसान', hi: 'पीएम-किसान' },
     'PMFBY': { mr: 'पंतप्रधान पीक विमा', hi: 'पीएम फसल बीमा' },
+    'PM Fasal Bima': { mr: 'पंतप्रधान पीक विमा', hi: 'पीएम फसल बीमा' },
     'Fasal Bima': { mr: 'पीक विमा', hi: 'फसल बीमा' },
     'KCC': { mr: 'किसान क्रेडिट कार्ड', hi: 'किसान क्रेडिट कार्ड' },
-    'PM-KUSUM': { mr: 'पीएम-कुसुम', hi: 'पीएम-कुसुम' },
+    'PM-KUSUM': { mr: 'पीएम-कुसुम सोलर', hi: 'पीएम-कुसुम सोलर' },
+    'PM Krishi Sinchayee': { mr: 'कृषी सिंचन (PMKSY)', hi: 'कृषि सिंचाई (PMKSY)' },
     'PMKSY': { mr: 'कृषी सिंचन (PMKSY)', hi: 'कृषि सिंचाई (PMKSY)' },
     'Soil Health': { mr: 'मृदा आरोग्य कार्ड', hi: 'मृदा स्वास्थ्य कार्ड' },
     'PKVY': { mr: 'सेंद्रिय शेती (PKVY)', hi: 'जैविक खेती (PKVY)' },
     'SMAM': { mr: 'कृषी यांत्रिकीकरण', hi: 'कृषि यंत्रीकरण' },
     'Machinery': { mr: 'यंत्रसामग्री', hi: 'कृषि यंत्र' },
-    'NAMO_SHETKARI': { mr: 'नमो शेतकरी', hi: 'नमो शेतकरी' },
+    'NAMO_SHETKARI': { mr: 'नमो शेतकरी योजना', hi: 'नमो शेतकरी योजना' },
     'PM_KMY': { mr: 'किसान मान-धन', hi: 'किसान मान-धन' },
-    'MAGEL_TYALA_SHET_TALE': { mr: 'मागेल त्याला शेततळे', hi: 'खेत तालाब योजना' },
-    'GOPINATH_MUNDE_VIMA': { mr: 'गोपीनाथ मुंडे अपघात विमा', hi: 'गोपीनाथ मुंडे दुर्घटना बीमा' },
+    'PM-KMY': { mr: 'किसान मान-धन', hi: 'किसान मान-धन' },
+    'MAGEL_TYALA_SHET_TALE': { mr: 'शेततळे योजना', hi: 'खेत तालाब योजना' },
+    'GOPINATH_MUNDE_VIMA': { mr: 'शेतकरी अपघात विमा', hi: 'किसान दुर्घटना बीमा' },
+    'Phalbag Lagvad': { mr: 'भाऊसाहेब फुंडकर फळबाग', hi: 'भाऊसाहेब फुंडकर फलबाग' },
     'BHAUSAHEB_FUNDKAR': { mr: 'भाऊसाहेब फुंडकर फळबाग', hi: 'भाऊसाहेब फुंडकर फलबाग' },
     'AIF': { mr: 'कृषी पायाभूत सुविधा', hi: 'कृषि अवसंरचना कोष' },
     'PMFME': { mr: 'अन्न प्रक्रिया (PMFME)', hi: 'खाद्य प्रसंस्करण (PMFME)' },
     'POKRA': { mr: 'पोकरा (PoKRA)', hi: 'पोकरा (PoKRA)' },
+    'PoKRA': { mr: 'पोकरा (PoKRA)', hi: 'पोकरा (PoKRA)' },
+    'Ambedkar Krushi Swavalamban': { mr: 'डॉ. आंबेडकर स्वावलंबन', hi: 'डॉ. आंबेडकर स्वावलंबन' },
     'DR_AMBEDKAR_KRUSHI_SWAVALAMBAN': { mr: 'डॉ. आंबेडकर स्वावलंबन', hi: 'डॉ. आंबेडकर स्वावलंबन' },
+    'Birsa Munda Krushi': { mr: 'बिरसा मुंडा कृषी क्रांती', hi: 'बिरसा मुंडा कृषि क्रांति' },
     'BIRSA_MUNDA_KRUSHI_KRANTI': { mr: 'बिरसा मुंडा कृषी क्रांती', hi: 'बिरसा मुंडा कृषि क्रांति' }
   };
 
+  const nameLower = name.toLowerCase();
   for (const [key, val] of Object.entries(tagMap)) {
-    if (name.includes(key)) {
+    if (nameLower.includes(key.toLowerCase())) {
       return val[lang] || name;
     }
   }
@@ -1821,7 +2026,7 @@ export function getLocalizedDistrict(district, lang = 'en') {
   const districtMap = {
     'Pune': { mr: 'पुणे', hi: 'पुणे' },
     'Mumbai': { mr: 'मुंबई', hi: 'मुंबई' },
-    'Nashik': { mr: 'नाशिक', hi: 'नाशिक' },
+    'Nashik': { mr: 'नाशिक', hi: 'नासिक' },
     'Nagpur': { mr: 'नागपूर', hi: 'नागपुर' },
     'Chhatrapati Sambhajinagar': { mr: 'छत्रपती संभाजीनगर', hi: 'छत्रपति संभाजीनगर' },
     'Kolhapur': { mr: 'कोल्हापूर', hi: 'कोल्हापुर' }
@@ -1841,7 +2046,26 @@ export function getLocalizedCscService(service, lang = 'en') {
     'Farmer Scheme Registration': { mr: 'शेतकरी योजना नोंदणी', hi: 'किसान योजना पंजीकरण' },
     'Crop Insurance (PMFBY)': { mr: 'पीक विमा नोंदणी', hi: 'फसल बीमा पंजीकरण' },
     'Aadhaar Linking': { mr: 'आधार लिंकिंग', hi: 'आधार लिंकिंग' },
-    'Soil Health Card Data Entry': { mr: 'मृदा आरोग्य कार्ड नोंद', hi: 'मृदा स्वास्थ्य कार्ड प्रविष्टि' }
+    'Soil Health Card Data Entry': { mr: 'मृदा आरोग्य कार्ड नोंद', hi: 'मृदा स्वास्थ्य कार्ड प्रविष्टि' },
+    'MahaDBT Farmer Schemes': { mr: 'महाडीबीटी शेतकरी योजना', hi: 'महाडीबीटी किसान योजना' },
+    'Kisan Credit Card Verification': { mr: 'किसान क्रेडिट कार्ड पडताळणी', hi: 'किसान क्रेडिट कार्ड सत्यापन' },
+    '7/12 Mutation Extracts': { mr: '७/१२ फेरफार उतारा', hi: '7/12 दाखिल खारिज प्रति' },
+    'PM-KISAN Biometric e-KYC': { mr: 'पीएम-किसान बायोमेट्रिक ई-केवायसी', hi: 'पीएम-किसान बायोमेट्रिक ई-केवाईसी' },
+    'Farmer Scheme Helpdesk': { mr: 'शेतकरी योजना मदत कक्ष', hi: 'किसान योजना सहायता केंद्र' },
+    'Domicile Certificate Portal': { mr: 'अधिवास दाखला पोर्टल', hi: 'मूल निवास प्रमाण पत्र पोर्टल' },
+    'Maha e-Seva Verification': { mr: 'महा ई-सेवा पडताळणी', hi: 'महा ई-सेवा सत्यापन' },
+    '7/12 Land Record Mutation': { mr: '७/१२ भू-अभिलेख फेरफार', hi: '7/12 भू-अभिलेख दाखिल खारिज' },
+    'SMAM Agriculture Machinery Subsidy': { mr: 'कृषी यांत्रिकीकरण अनुदान (SMAM)', hi: 'कृषि यंत्रीकरण अनुदान (SMAM)' },
+    'PM-KISAN Registration': { mr: 'पीएम-किसान नोंदणी', hi: 'पीएम-किसान पंजीकरण' },
+    'Cotton/Soybean Subsidy Direct Transfer': { mr: 'कापूस/सोयाबीन थेट अनुदान', hi: 'कपास/सोयाबीन प्रत्यक्ष अनुदान' },
+    'Ration Card Verification': { mr: 'रेशन कार्ड पडताळणी', hi: 'राशन कार्ड सत्यापन' },
+    'DBT Portal Support': { mr: 'डीबीटी पोर्टल सहाय्य', hi: 'डीबीटी पोर्टल सहायता' },
+    'PM-KUSUM Solar Pump Help': { mr: 'कुसुम सौर पंप मदत', hi: 'कुसुम सौर पंप सहायता' },
+    'PMKSY Drip Irrigation Help': { mr: 'ठिबक सिंचन योजना मदत', hi: 'टपक सिंचाई योजना सहायता' },
+    'Caste & Income Certificate Assistance': { mr: 'जात व उत्पन्न दाखला सहाय्य', hi: 'जाति एवं आय प्रमाण पत्र सहायता' },
+    'Sugarcane Farmer Subsidy': { mr: 'ऊस शेतकरी अनुदान', hi: 'गन्ना किसान अनुदान' },
+    'Organic Farming Certification': { mr: 'सेंद्रिय शेती प्रमाणीकरण', hi: 'जैविक खेती प्रमाणीकरण' },
+    'PMFBY Enrollment': { mr: 'पीक विमा नोंदणी', hi: 'फसल बीमा पंजीकरण' }
   };
   if (serviceMap[service] && serviceMap[service][lang]) {
     return serviceMap[service][lang];

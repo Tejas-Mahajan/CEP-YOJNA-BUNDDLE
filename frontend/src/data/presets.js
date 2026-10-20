@@ -39,16 +39,39 @@ export const PRESET_PROFILES = [
 ];
 
 export const AVAILABLE_DOCUMENTS = [
+  // Core Identity & Land Records
   'Aadhaar Card',
   '7/12 Land Record Extract',
+  'Bank Passbook',
   'Income Certificate',
   'Caste Certificate',
+  'Caste Validity Certificate',
   'Domicile Certificate',
-  'Bank Passbook',
   'Non-Creamy Layer Certificate',
   'Sowing Certificate',
-  'Water Source Availability Certificate',
-  'Disability Certificate (40%+)',
-  'Organic Cluster Membership Proof',
-  'Electricity Bill / NOC'
+  'Mobile Number linked with Aadhaar',
+
+  // Water, Energy & Equipment Documents
+  'Water Source / Well / Borewell Certificate',
+  'Electricity Bill / Agricultural Pump Connection Proof',
+  'Soil Health Card / Soil Testing Report',
+  'Organic Farming Group Membership Proof',
+  'Tractor RC (if applying for tractor-driven implements)',
+  'Quotation / Invoice for Machinery/Equipment',
+  'GST Invoice from Registered Micro-Irrigation Dealer',
+  'Drip Irrigation Installation Proof (mandatory for fruit orchard)',
+
+  // Scheme Clearances & Approvals
+  'Active PM-KISAN Registration ID',
+  'Gram Panchayat NOC / Self Declaration Certificate',
+  'Gram Sabha Recommendation',
+  'Gram Sabha / VCRMC Resolution in PoKRA project village',
+  'Self-Declaration / Undertaking of not having availed prior farm pond subsidy',
+  'No-Objection Certificate (if joint ownership)',
+
+  // Welfare, Disability & Insurance Claims
+  'Disability Certificate',
+  'Death Certificate (for accident/insurance schemes)',
+  'FIR / Police Spot Panchnama / Inquest Panchnama',
+  'Post-Mortem Report / Death or Disability Certificate'
 ];

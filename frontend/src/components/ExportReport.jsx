@@ -1,6 +1,15 @@
 import React from 'react';
 import { Printer, ArrowLeft } from 'lucide-react';
-import { TRANSLATIONS } from '../data/translations';
+import {
+  TRANSLATIONS,
+  getLocalizedDocumentName,
+  getSchemeName,
+  getSchemeBenefit,
+  getPriorityTierLabel,
+  getLocalizedCategory,
+  getLocalizedState,
+  getLocalizedConflictReason
+} from '../data/translations';
 import { formatDeadlineText } from '../utils/validation';
 
 export default function ExportReport({ results, profile, onBack, lang }) {
@@ -21,7 +30,7 @@ export default function ExportReport({ results, profile, onBack, lang }) {
           className="px-4 py-2 rounded-xl border border-slate-200 text-xs font-bold text-slate-700 hover:bg-slate-100 flex items-center space-x-2"
         >
           <ArrowLeft className="w-4 h-4" />
-          <span>Back to Dashboard</span>
+          <span>{t.exportBackBtn || "Back to Dashboard"}</span>
         </button>
 
         <div className="flex items-center space-x-2">
@@ -30,7 +39,7 @@ export default function ExportReport({ results, profile, onBack, lang }) {
             className="px-5 py-2.5 rounded-xl bg-emerald-600 text-white font-bold text-xs hover:bg-emerald-700 shadow-md flex items-center space-x-2"
           >
             <Printer className="w-4 h-4" />
-            <span>Print / Save PDF Report</span>
+            <span>{t.exportPrintBtn || "Print / Save PDF Report"}</span>
           </button>
         </div>
       </div>
@@ -45,19 +54,19 @@ export default function ExportReport({ results, profile, onBack, lang }) {
             <p className="text-xs text-slate-600 font-semibold mt-1">{t.appSubtitle}</p>
           </div>
           <div className="text-right text-xs text-slate-500 font-medium">
-            <div>Date Generated: {new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</div>
-            <div>Beneficiary Sector: <span className="font-bold uppercase">AGRICULTURE & FARMING</span></div>
+            <div>{t.exportDateGenerated || "Date Generated:"} {new Date().toLocaleDateString(lang === 'mr' ? 'mr-IN' : (lang === 'hi' ? 'hi-IN' : 'en-IN'), { day: 'numeric', month: 'short', year: 'numeric' })}</div>
+            <div>{t.exportSector || "Beneficiary Sector: AGRICULTURE & FARMING"}</div>
           </div>
         </div>
 
         {/* Profile Snapshot Box */}
         <div className="bg-slate-50 rounded-2xl p-5 border border-slate-200 space-y-3">
-          <h3 className="text-xs font-extrabold text-slate-800 uppercase tracking-wider">Beneficiary Profile Summary</h3>
+          <h3 className="text-xs font-extrabold text-slate-800 uppercase tracking-wider">{t.exportProfileSummary || "Beneficiary Profile Summary"}</h3>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
-            <div><span className="text-slate-500">Annual Income:</span> <strong className="text-slate-900">₹{profile.annual_income?.toLocaleString('en-IN')}</strong></div>
-            <div><span className="text-slate-500">Category:</span> <strong className="text-slate-900">{profile.category}</strong></div>
-            <div><span className="text-slate-500">State:</span> <strong className="text-slate-900">{profile.state}</strong></div>
-            <div><span className="text-slate-500">Age:</span> <strong className="text-slate-900">{profile.age} Years</strong></div>
+            <div><span className="text-slate-500">{t.annualIncome || "Annual Income"}:</span> <strong className="text-slate-900">₹{profile.annual_income?.toLocaleString(lang === 'mr' ? 'mr-IN' : 'en-IN')}</strong></div>
+            <div><span className="text-slate-500">{t.casteCategory || "Category"}:</span> <strong className="text-slate-900">{getLocalizedCategory(profile.category, lang)}</strong></div>
+            <div><span className="text-slate-500">{t.domicileState || "State"}:</span> <strong className="text-slate-900">{getLocalizedState(profile.state, lang)}</strong></div>
+            <div><span className="text-slate-500">{t.ageYears || "Age"}:</span> <strong className="text-slate-900">{profile.age} {lang === 'mr' ? 'वर्षे' : (lang === 'hi' ? 'वर्ष' : 'Years')}</strong></div>
           </div>
         </div>
 
@@ -69,16 +78,28 @@ export default function ExportReport({ results, profile, onBack, lang }) {
             {results.total_benefits && (results.total_benefits.credit > 0 || results.total_benefits.insurance > 0) && (
               <div className="mt-1.5 space-y-0.5 text-xs text-emerald-200 font-medium">
                 {results.total_benefits.credit > 0 && (
-                  <div>+ ₹{results.total_benefits.credit.toLocaleString('en-IN')} Accessible Credit & Loans</div>
+                  <div>
+                    {lang === 'mr'
+                      ? `+ ₹${results.total_benefits.credit.toLocaleString('mr-IN')} उपलब्ध कृषी कर्ज व पतपुरवठा`
+                      : (lang === 'hi'
+                        ? `+ ₹${results.total_benefits.credit.toLocaleString('en-IN')} उपलब्ध कृषि ऋण एवं साख`
+                        : `+ ₹${results.total_benefits.credit.toLocaleString('en-IN')} Accessible Credit & Loans`)}
+                  </div>
                 )}
                 {results.total_benefits.insurance > 0 && (
-                  <div>+ ₹{results.total_benefits.insurance.toLocaleString('en-IN')} Risk Protection Cover</div>
+                  <div>
+                    {lang === 'mr'
+                      ? `+ ₹${results.total_benefits.insurance.toLocaleString('mr-IN')} जोखीम संरक्षण कवच`
+                      : (lang === 'hi'
+                        ? `+ ₹${results.total_benefits.insurance.toLocaleString('en-IN')} जोखिम सुरक्षा कवर`
+                        : `+ ₹${results.total_benefits.insurance.toLocaleString('en-IN')} Risk Protection Cover`)}
+                  </div>
                 )}
               </div>
             )}
           </div>
           <div className="text-right text-xs">
-            <div><strong className="text-lg">{results.total_eligible_schemes}</strong> Eligible Schemes</div>
+            <div><strong className="text-lg">{results.total_eligible_schemes}</strong> {t.schemesMatchedUnit || t.schemesUnit || "Eligible Schemes"}</div>
             <div className="text-emerald-200">{t.docReadinessLabel}: {results.document_readiness_pct}%</div>
           </div>
         </div>
@@ -89,7 +110,7 @@ export default function ExportReport({ results, profile, onBack, lang }) {
             <div className="font-bold text-amber-900">⚡ {t.conflictTitle}</div>
             {results.conflicts_detected.map((c, i) => (
               <div key={i} className="text-amber-800 font-medium">
-                • {c.reason_en}
+                • {getLocalizedConflictReason(c, lang)}
               </div>
             ))}
           </div>
@@ -103,11 +124,11 @@ export default function ExportReport({ results, profile, onBack, lang }) {
             <thead>
               <tr className="border-b-2 border-slate-300 bg-slate-100 text-slate-700">
                 <th className="py-2.5 px-3">#</th>
-                <th className="py-2.5 px-3">Scheme Name</th>
-                <th className="py-2.5 px-3">Priority</th>
-                <th className="py-2.5 px-3">Benefit Amount</th>
-                <th className="py-2.5 px-3">Deadline</th>
-                <th className="py-2.5 px-3">Required Documents</th>
+                <th className="py-2.5 px-3">{t.tableNameHeader || "Scheme Name"}</th>
+                <th className="py-2.5 px-3">{t.tablePriorityHeader || "Priority"}</th>
+                <th className="py-2.5 px-3">{t.tableBenefitHeader || "Benefit Amount"}</th>
+                <th className="py-2.5 px-3">{t.tableDeadlineHeader || "Deadline"}</th>
+                <th className="py-2.5 px-3">{t.tableDocsHeader || "Required Documents"}</th>
               </tr>
             </thead>
             <tbody>
@@ -115,19 +136,19 @@ export default function ExportReport({ results, profile, onBack, lang }) {
                 <tr key={i} className={`border-b border-slate-200 ${r.is_mutually_exclusive_secondary ? 'bg-amber-50/40' : ''}`}>
                   <td className="py-3 px-3 font-bold">{i + 1}</td>
                   <td className="py-3 px-3 font-bold text-slate-900">
-                    {r.scheme.shortName}
-                    {r.is_mutually_exclusive_secondary && <span className="block text-[10px] text-amber-700 font-semibold">(Mutually Exclusive Alt)</span>}
+                    {getSchemeName(r.scheme, lang)}
+                    {r.is_mutually_exclusive_secondary && <span className="block text-[10px] text-amber-700 font-semibold">({t.mutuallyExclusiveOption || "Mutually Exclusive Alt"})</span>}
                   </td>
                   <td className="py-3 px-3">
                     <span className={`px-2 py-0.5 rounded font-bold ${
                       r.priority_tier === 'High Priority' ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-100 text-slate-800'
                     }`}>
-                      {r.priority_tier}
+                      {getPriorityTierLabel(r.priority_tier, lang)}
                     </span>
                   </td>
-                  <td className="py-3 px-3 font-semibold text-emerald-800">{r.scheme.benefit_display}</td>
-                  <td className="py-3 px-3">{formatDeadlineText(r.scheme.closing_date)}</td>
-                  <td className="py-3 px-3 text-[11px]">{r.scheme.required_documents.join(', ')}</td>
+                  <td className="py-3 px-3 font-semibold text-emerald-800">{getSchemeBenefit(r.scheme, lang)}</td>
+                  <td className="py-3 px-3">{formatDeadlineText(r.scheme.closing_date, lang)}</td>
+                  <td className="py-3 px-3 text-[11px]">{r.scheme.required_documents.map(d => getLocalizedDocumentName(d, lang)).join(', ')}</td>
                 </tr>
               ))}
             </tbody>
@@ -136,13 +157,15 @@ export default function ExportReport({ results, profile, onBack, lang }) {
 
         {/* Master Document Checklist */}
         <div className="space-y-3 pt-4 border-t border-slate-200">
-          <h3 className="text-sm font-extrabold text-slate-900 uppercase tracking-wider">Master Document Checklist (Attach with Applications)</h3>
+          <h3 className="text-sm font-extrabold text-slate-900 uppercase tracking-wider">{t.exportMasterDocsTitle || "Master Document Checklist (Attach with Applications)"}</h3>
           <div className="grid grid-cols-2 gap-3 text-xs">
             {results.document_insights.map((doc, idx) => (
               <div key={idx} className="p-3 rounded-xl border border-slate-200 flex items-center justify-between">
                 <div>
-                  <div className="font-bold text-slate-900">{doc.document_name}</div>
-                  <div className="text-[10px] text-slate-500">Required for {doc.unlocked_schemes_count} schemes</div>
+                  <div className="font-bold text-slate-900">{getLocalizedDocumentName(doc.document_name, lang)}</div>
+                  <div className="text-[10px] text-slate-500">
+                    {lang === 'mr' ? `${doc.unlocked_schemes_count} योजनांसाठी आवश्यक` : (lang === 'hi' ? `${doc.unlocked_schemes_count} योजनाओं के लिए आवश्यक` : `Required for ${doc.unlocked_schemes_count} schemes`)}
+                  </div>
                 </div>
                 <div className="w-5 h-5 border-2 border-slate-400 rounded"></div>
               </div>
@@ -152,7 +175,7 @@ export default function ExportReport({ results, profile, onBack, lang }) {
 
         {/* Footer Note */}
         <div className="pt-6 border-t border-slate-200 text-[10px] text-slate-500 text-center">
-          Generated automatically by YojanaBundle Smart Planner. Please verify guidelines on official portals before final submission.
+          {t.exportFooterNotice || "Generated automatically by YojanaBundle Smart Planner. Please verify guidelines on official portals before final submission."}
         </div>
 
       </div>

@@ -12,6 +12,7 @@ export function validateProfile(profile, lang = 'en') {
   const errorMessages = {
     en: {
       incomeRequired: "Annual Income is required",
+      incomeMin: "Annual income must be at least ₹10,000",
       incomeNegative: "Annual Income cannot be negative",
       incomeMax: "Annual Income exceeds maximum limit of ₹50,00,000",
       ageRequired: "Age is required",
@@ -22,6 +23,7 @@ export function validateProfile(profile, lang = 'en') {
     },
     mr: {
       incomeRequired: "वार्षिक उत्पन्न आवश्यक आहे",
+      incomeMin: "वार्षिक उत्पन्न किमान ₹10,000 असणे आवश्यक आहे",
       incomeNegative: "वार्षिक उत्पन्न ऋण असू शकत नाही",
       incomeMax: "वार्षिक उत्पन्न कमाल मर्यादा ₹५०,००,००० पेक्षा जास्त आहे",
       ageRequired: "वय आवश्यक आहे",
@@ -32,6 +34,7 @@ export function validateProfile(profile, lang = 'en') {
     },
     hi: {
       incomeRequired: "वार्षिक आय आवश्यक है",
+      incomeMin: "वार्षिक आय कम से कम ₹10,000 होनी चाहिए",
       incomeNegative: "वार्षिक आय नकारात्मक नहीं हो सकती",
       incomeMax: "वार्षिक आय अधिकतम सीमा ₹50,00,000 से अधिक है",
       ageRequired: "आयु आवश्यक है",
@@ -44,28 +47,28 @@ export function validateProfile(profile, lang = 'en') {
 
   const msgs = errorMessages[lang] || errorMessages.en;
 
-  // 1. Annual Income Validation
-  if (profile.annual_income === undefined || profile.annual_income === null || isNaN(profile.annual_income)) {
+  // 1. Annual Income Validation - Minimum Limit ₹10,000
+  if (profile.annual_income === undefined || profile.annual_income === null || profile.annual_income === '' || isNaN(profile.annual_income)) {
     errors.annual_income = msgs.incomeRequired;
-  } else if (profile.annual_income < 0) {
-    errors.annual_income = msgs.incomeNegative;
-  } else if (profile.annual_income > 5000000) {
+  } else if (Number(profile.annual_income) < 10000) {
+    errors.annual_income = msgs.incomeMin;
+  } else if (Number(profile.annual_income) > 5000000) {
     errors.annual_income = msgs.incomeMax;
   }
 
   // 2. Age Validation
-  if (profile.age === undefined || profile.age === null || isNaN(profile.age)) {
+  if (profile.age === undefined || profile.age === null || profile.age === '' || isNaN(profile.age)) {
     errors.age = msgs.ageRequired;
-  } else if (profile.age < 14 || profile.age > 100) {
+  } else if (Number(profile.age) < 14 || Number(profile.age) > 100) {
     errors.age = msgs.ageRange;
   }
 
-  // 3. Land Acres Validation
-  if (profile.land_acres === undefined || profile.land_acres === null || isNaN(profile.land_acres)) {
+  // 3. Land Acres Validation - 0 Acres is explicitly allowed for landless farmers / agricultural laborers
+  if (profile.land_acres === undefined || profile.land_acres === null || profile.land_acres === '' || isNaN(profile.land_acres)) {
     errors.land_acres = msgs.landRequired;
-  } else if (profile.land_acres < 0) {
+  } else if (Number(profile.land_acres) < 0) {
     errors.land_acres = msgs.landNegative;
-  } else if (profile.land_acres > 100) {
+  } else if (Number(profile.land_acres) > 100) {
     errors.land_acres = msgs.landMax;
   }
 

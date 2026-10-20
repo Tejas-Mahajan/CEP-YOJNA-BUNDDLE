@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { MapPin, Phone, Clock, Search, ExternalLink, ShieldCheck, Sparkles, Navigation, UserCheck, CheckCircle2 } from 'lucide-react';
 import { CSC_OFFICES } from '../data/csc_offices';
-import { TRANSLATIONS, getLocalizedDistrict, getLocalizedCscService, getLocalizedTiming, getLocalizedCscName, getLocalizedCscAddress } from '../data/translations';
+import { TRANSLATIONS, getLocalizedDistrict, getLocalizedCscService, getLocalizedTiming, getLocalizedCscName, getLocalizedCscAddress, getLocalizedCscOfficer, getLocalizedCscDistrict } from '../data/translations';
 
 export default function CscLocator({ lang }) {
   const [selectedDistrict, setSelectedDistrict] = useState('All');
@@ -13,10 +13,15 @@ export default function CscLocator({ lang }) {
 
   const filteredOffices = CSC_OFFICES.filter(office => {
     const matchesDistrict = selectedDistrict === 'All' || office.district === selectedDistrict;
+    const q = searchQuery.toLowerCase();
     const matchesQuery = searchQuery === '' || 
-      office.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-      office.address.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      office.pincode.includes(searchQuery);
+      office.name.toLowerCase().includes(q) || 
+      (office.name_mr && office.name_mr.includes(searchQuery)) ||
+      (office.name_hi && office.name_hi.includes(searchQuery)) ||
+      office.address.toLowerCase().includes(q) ||
+      (office.address_mr && office.address_mr.includes(searchQuery)) ||
+      (office.address_hi && office.address_hi.includes(searchQuery)) ||
+      (office.pincode && office.pincode.includes(searchQuery));
     return matchesDistrict && matchesQuery;
   });
 
@@ -93,83 +98,86 @@ export default function CscLocator({ lang }) {
             <div className="text-xs text-slate-400">{t.cscNoResultsSub || 'Try changing district selection or clear search terms.'}</div>
           </div>
         ) : (
-          filteredOffices.map((office) => (
-            <motion.div
-              key={office.id}
-              whileHover={{ y: -2 }}
-              className="bg-white rounded-3xl border border-slate-200/80 shadow-md p-6 space-y-4 flex flex-col justify-between"
-            >
-              <div className="space-y-3">
-                <div className="flex items-start justify-between">
-                  <div className="flex items-center space-x-2">
-                    <div className="w-9 h-9 rounded-2xl bg-emerald-100 text-emerald-900 flex items-center justify-center font-bold">
-                      <MapPin className="w-5 h-5" />
+          filteredOffices.map((office) => {
+            const center = office;
+            return (
+              <motion.div
+                key={center.id}
+                whileHover={{ y: -2 }}
+                className="bg-white rounded-3xl border border-slate-200/80 shadow-md p-6 space-y-4 flex flex-col justify-between"
+              >
+                <div className="space-y-3">
+                  <div className="flex items-start justify-between">
+                    <div className="flex items-center space-x-2">
+                      <div className="w-9 h-9 rounded-2xl bg-emerald-100 text-emerald-900 flex items-center justify-center font-bold">
+                        <MapPin className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <h4 className="text-base font-extrabold text-slate-900">{getLocalizedCscName(center, lang)}</h4>
+                        <div className="text-2xs font-bold text-emerald-700">{getLocalizedCscDistrict(center, lang)}</div>
+                      </div>
                     </div>
-                    <div>
-                      <h4 className="text-base font-extrabold text-slate-900">{getLocalizedCscName(office, lang)}</h4>
-                      <div className="text-2xs font-bold text-emerald-700">{getLocalizedDistrict(office.district, lang)} {t.cscDistrictSuffix || 'District'}</div>
+                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-900 border border-emerald-300">
+                      {t.cscVerifiedBadge || 'Verified CSC'}
+                    </span>
+                  </div>
+
+                  <div className="space-y-1">
+                    <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{t.cscOfficeAddressLabel || 'Office Address'}</div>
+                    <p className="text-xs text-slate-600 font-medium leading-relaxed bg-slate-50 p-3 rounded-2xl border border-slate-200/60">
+                      {getLocalizedCscAddress(center, lang)}
+                    </p>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-2 text-xs">
+                    <div className="flex items-center space-x-1.5 text-slate-700 font-semibold">
+                      <UserCheck className="w-3.5 h-3.5 text-emerald-600" />
+                      <span>{t.cscNodalLabel || 'Nodal Officer:'} <strong>{getLocalizedCscOfficer(center, lang)}</strong></span>
+                    </div>
+
+                    <div className="flex items-center space-x-1.5 text-slate-700 font-semibold">
+                      <Clock className="w-3.5 h-3.5 text-amber-500" />
+                      <span>{getLocalizedTiming(center.timing, lang, center)}</span>
                     </div>
                   </div>
-                  <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-900 border border-emerald-300">
-                    {t.cscVerifiedBadge || 'Verified CSC'}
-                  </span>
-                </div>
 
-                <div className="space-y-1">
-                  <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{t.cscOfficeAddressLabel || 'Office Address'}</div>
-                  <p className="text-xs text-slate-600 font-medium leading-relaxed bg-slate-50 p-3 rounded-2xl border border-slate-200/60">
-                    {getLocalizedCscAddress(office, lang)}
-                  </p>
-                </div>
-
-                <div className="grid grid-cols-2 gap-2 text-xs">
-                  <div className="flex items-center space-x-1.5 text-slate-700 font-semibold">
-                    <UserCheck className="w-3.5 h-3.5 text-emerald-600" />
-                    <span>{t.cscNodalLabel || 'Nodal Officer:'} <strong>{office.officerName}</strong></span>
-                  </div>
-
-                  <div className="flex items-center space-x-1.5 text-slate-700 font-semibold">
-                    <Clock className="w-3.5 h-3.5 text-amber-500" />
-                    <span>{getLocalizedTiming(office.timing, lang)}</span>
+                  {/* Services Pills */}
+                  <div>
+                    <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">{t.cscServicesHeader || 'Services Available'}</div>
+                    <div className="flex flex-wrap gap-1">
+                      {center.servicesOffered.map((s, idx) => (
+                        <span key={idx} className="px-2 py-0.5 rounded-lg bg-emerald-50 text-emerald-900 text-[10px] font-bold border border-emerald-200">
+                          ✓ {getLocalizedCscService(s, lang)}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </div>
 
-                {/* Services Pills */}
-                <div>
-                  <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">{t.cscServicesHeader || 'Services Available'}</div>
-                  <div className="flex flex-wrap gap-1">
-                    {office.servicesOffered.map((s, idx) => (
-                      <span key={idx} className="px-2 py-0.5 rounded-lg bg-emerald-50 text-emerald-900 text-[10px] font-bold border border-emerald-200">
-                        ✓ {getLocalizedCscService(s, lang)}
-                      </span>
-                    ))}
-                  </div>
+                {/* Action Buttons */}
+                <div className="pt-4 border-t border-slate-100 flex items-center justify-between gap-2">
+                  <a
+                    href={`tel:${center.phone}`}
+                    className="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold flex items-center space-x-1 transition-all"
+                  >
+                    <Phone className="w-3.5 h-3.5 text-emerald-700" />
+                    <span>{t.cscCallNodal || 'Contact'}</span>
+                  </a>
+
+                  <a
+                    href={`https://www.google.com/maps/dir/?api=1&destination=${center.latitude},${center.longitude}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-4 py-2 rounded-xl bg-emerald-800 hover:bg-emerald-700 text-white text-xs font-extrabold shadow-md shadow-emerald-800/20 flex items-center space-x-1.5 transition-all"
+                  >
+                    <span>{t.cscDirections || 'Show on Google Maps'}</span>
+                    <Navigation className="w-3.5 h-3.5" />
+                  </a>
                 </div>
-              </div>
 
-              {/* Action Buttons */}
-              <div className="pt-4 border-t border-slate-100 flex items-center justify-between gap-2">
-                <a
-                  href={`tel:${office.contactPhone}`}
-                  className="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold flex items-center space-x-1 transition-all"
-                >
-                  <Phone className="w-3.5 h-3.5 text-emerald-700" />
-                  <span>{t.cscCallNodal || 'Call Nodal'}</span>
-                </a>
-
-                <a
-                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(office.name + ' ' + office.address)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-4 py-2 rounded-xl bg-emerald-800 hover:bg-emerald-700 text-white text-xs font-extrabold shadow-md shadow-emerald-800/20 flex items-center space-x-1.5 transition-all"
-                >
-                  <span>{t.cscDirections || 'Directions on Google Maps'}</span>
-                  <Navigation className="w-3.5 h-3.5" />
-                </a>
-              </div>
-
-            </motion.div>
-          ))
+              </motion.div>
+            );
+          })
         )}
       </div>
 

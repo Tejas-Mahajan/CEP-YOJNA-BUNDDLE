@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Search, Filter, ExternalLink, Sparkles, Clock, FileText, Building2, CheckCircle2, Bookmark, RefreshCw, Lightbulb, Scale, AlertTriangle } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { formatDeadlineText, daysUntilClose } from '../utils/validation';
-import { TRANSLATIONS, getSchemeName, getSchemeDescription, getSchemeBenefit, formatNumberByLang } from '../data/translations';
+import { TRANSLATIONS, getSchemeName, getSchemeDescription, getSchemeBenefit, formatNumberByLang, getLocalizedDepartment } from '../data/translations';
 import { API_BASE } from '../config';
 
 export default function SchemeDirectory({ onOpenDetail, onOpenCompare, lang }) {
@@ -149,13 +149,13 @@ export default function SchemeDirectory({ onOpenDetail, onOpenCompare, lang }) {
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10">
           <div>
             <div className="flex items-center space-x-2 text-amber-400 font-semibold text-xs uppercase tracking-wider mb-1">
-              <Sparkles className="w-4 h-4" /> {t.directoryTag || (lang === 'mr' ? 'कृषी व शेतकरी योजना निर्देशिका' : lang === 'hi' ? 'कृषि एवं किसान योजना निर्देशिका' : 'Agriculture & Farming Schemes Directory')}
+              <Sparkles className="w-4 h-4" /> {t.directoryBannerTag || t.directoryTag || (lang === 'mr' ? 'कृषी व शेतकरी योजना निर्देशिका' : lang === 'hi' ? 'कृषि एवं किसान योजना निर्देशिका' : 'Agriculture & Farming Schemes Directory')}
             </div>
             <h2 className="text-2xl font-black">
-              {t.directoryTitle || (lang === 'mr' ? 'सर्व कृषी कल्याण व अनुदान योजना' : lang === 'hi' ? 'सभी कृषि कल्याण एवं अनुदान योजनाएं' : 'All Agriculture Welfare & Grant Schemes')} ({formatNumberByLang(schemes.length, lang)})
+              {t.directoryBannerTitle || t.directoryTitle || (lang === 'mr' ? 'सर्व कृषी कल्याण व अनुदान योजना' : lang === 'hi' ? 'सभी कृषि कल्याण एवं अनुदान योजनाएं' : 'All Agriculture Welfare & Grant Schemes')} ({formatNumberByLang(schemes.length, lang)})
             </h2>
             <p className="text-xs text-emerald-200 mt-1 max-w-xl">
-              {t.directorySub || (lang === 'mr' ? 'केंद्र व राज्य शासनाच्या कृषी योजना, पीक विमा आणि सोलर पंप अनुदानाची माहिती मिळवा व तुलना करा.' : lang === 'hi' ? 'केंद्र व राज्य सरकार की कृषि योजनाओं, फसल बीमा और सोलर पंप सब्सिडी की जानकारी प्राप्त करें और तुलना करें।' : 'Browse, filter, and compare central and state government agricultural schemes, crop insurance, and solar pump subsidies.')}
+              {t.directoryBannerDesc || t.directorySub || (lang === 'mr' ? 'केंद्र व राज्य शासनाच्या कृषी योजना, पीक विमा आणि सोलर पंप अनुदानाची माहिती मिळवा व तुलना करा.' : lang === 'hi' ? 'केंद्र व राज्य सरकार की कृषि योजनाओं, फसल बीमा और सोलर पंप सब्सिडी की जानकारी प्राप्त करें और तुलना करें।' : 'Browse, filter, and compare central and state government agricultural schemes, crop insurance, and solar pump subsidies.')}
             </p>
           </div>
 
@@ -171,8 +171,8 @@ export default function SchemeDirectory({ onOpenDetail, onOpenCompare, lang }) {
                 </div>
                 <div className="text-2xs font-bold text-slate-800">
                   {compareIds.length === 2
-                    ? (t.compareReady || 'Ready to compare side-by-side!')
-                    : (t.compareSelectMore || (lang === 'mr' ? 'आणखी १ योजना निवडा' : lang === 'hi' ? '1 और योजना चुनें' : 'Select 1 more scheme'))}
+                    ? (t.compareReady || t.readyToCompareSide || 'Ready to compare side-by-side!')
+                    : (t.compareSelectMore || t.select1MoreScheme || (lang === 'mr' ? 'आणखी १ योजना निवडा' : lang === 'hi' ? '1 और योजना चुनें' : 'Select 1 more scheme'))}
                 </div>
               </div>
               {compareIds.length === 2 && (
@@ -197,7 +197,7 @@ export default function SchemeDirectory({ onOpenDetail, onOpenCompare, lang }) {
             <Search className="w-4 h-4 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
             <input
               type="text"
-              placeholder={t.directorySearchPlaceholder || (lang === 'mr' ? 'कृषी योजनेचे नाव, फायदा किंवा कीवर्ड शोधा...' : lang === 'hi' ? 'कृषि योजना का नाम, लाभ या कीवर्ड खोजें...' : 'Search agriculture scheme name, benefit or keywords...')}
+              placeholder={t.searchSchemesPlaceholder || t.directorySearchPlaceholder || (lang === 'mr' ? 'कृषी योजनेचे नाव, फायदा किंवा कीवर्ड शोधा...' : lang === 'hi' ? 'कृषि योजना का नाम, लाभ या कीवर्ड खोजें...' : 'Search agriculture scheme name, benefit or keywords...')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-10 pr-4 py-2.5 rounded-2xl border border-slate-200 focus:ring-2 focus:ring-emerald-500 text-sm font-semibold text-slate-900 bg-slate-50/50 outline-none"
@@ -225,7 +225,7 @@ export default function SchemeDirectory({ onOpenDetail, onOpenCompare, lang }) {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 border-t border-slate-100">
           <div className="flex flex-wrap items-center gap-2">
             <span className="text-xs font-bold text-slate-500 flex items-center mr-1">
-              <Filter className="w-3.5 h-3.5 mr-1 text-slate-400" /> {lang === 'mr' ? 'शासन / सरकार:' : lang === 'hi' ? 'सरकार:' : 'Government:'}
+              <Filter className="w-3.5 h-3.5 mr-1 text-slate-400" /> {t.govFilterLabel || (lang === 'mr' ? 'शासन / सरकार:' : lang === 'hi' ? 'सरकार:' : 'Government:')}
             </span>
             <div className="inline-flex p-1 bg-slate-100/90 rounded-2xl border border-slate-200/80">
               <button
@@ -237,7 +237,7 @@ export default function SchemeDirectory({ onOpenDetail, onOpenCompare, lang }) {
                     : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
                 }`}
               >
-                {lang === 'mr' ? 'सर्व योजना' : lang === 'hi' ? 'सभी योजनाएं' : 'All Schemes'}
+                {t.allGovSchemes || (lang === 'mr' ? 'सर्व योजना' : lang === 'hi' ? 'सभी योजनाएं' : 'All Schemes')}
               </button>
               <button
                 type="button"
@@ -248,7 +248,7 @@ export default function SchemeDirectory({ onOpenDetail, onOpenCompare, lang }) {
                     : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
                 }`}
               >
-                {lang === 'mr' ? 'केंद्र शासन' : lang === 'hi' ? 'केंद्र सरकार' : 'Central Government'}
+                {t.centralGov || (lang === 'mr' ? 'केंद्र शासन' : lang === 'hi' ? 'केंद्र सरकार' : 'Central Government')}
               </button>
               <button
                 type="button"
@@ -259,7 +259,7 @@ export default function SchemeDirectory({ onOpenDetail, onOpenCompare, lang }) {
                     : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
                 }`}
               >
-                {lang === 'mr' ? 'महाराष्ट्र शासन' : lang === 'hi' ? 'महाराष्ट्र सरकार' : 'Maharashtra Government'}
+                {t.maharashtraGov || (lang === 'mr' ? 'महाराष्ट्र शासन' : lang === 'hi' ? 'महाराष्ट्र सरकार' : 'Maharashtra Government')}
               </button>
             </div>
           </div>
@@ -371,8 +371,8 @@ export default function SchemeDirectory({ onOpenDetail, onOpenCompare, lang }) {
                           : 'bg-blue-100 text-blue-900 border border-blue-200'
                       }`}>
                         {s.level === 'State' || (s.government && s.government.includes('Maharashtra'))
-                          ? (lang === 'mr' ? 'महाराष्ट्र शासन' : 'Maharashtra State')
-                          : (lang === 'mr' ? 'केंद्र शासन' : 'Central Govt')}
+                          ? (lang === 'mr' ? 'महाराष्ट्र शासन' : (lang === 'hi' ? 'महाराष्ट्र शासन' : 'Maharashtra State'))
+                          : (lang === 'mr' ? 'केंद्र शासन' : (lang === 'hi' ? 'केंद्र सरकार' : 'Central Govt'))}
                       </span>
                       {isUrgent && (
                         <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-red-600 text-white animate-pulse flex items-center">
@@ -390,7 +390,7 @@ export default function SchemeDirectory({ onOpenDetail, onOpenCompare, lang }) {
                             ? 'bg-amber-400 text-slate-950 border-amber-500 shadow-2xs'
                             : 'bg-slate-100 text-slate-600 hover:bg-slate-200 border-slate-200'
                         }`}
-                        title={t.compareTooltip || "Compare Side-by-Side"}
+                        title={isCompared ? (t.comparingBtn || (lang === 'mr' ? 'तुलना सुरू' : lang === 'hi' ? 'तुलना जारी' : 'Comparing')) : (t.compareBtn || (lang === 'mr' ? 'तुलना करा' : lang === 'hi' ? 'तुलना करें' : 'Compare'))}
                       >
                         <Scale className="w-3 h-3" />
                         <span>{isCompared ? (t.comparingBtn || (lang === 'mr' ? 'तुलना सुरू' : lang === 'hi' ? 'तुलना जारी' : 'Comparing')) : (t.compareBtn || (lang === 'mr' ? 'तुलना करा' : lang === 'hi' ? 'तुलना करें' : 'Compare'))}</span>
@@ -413,7 +413,7 @@ export default function SchemeDirectory({ onOpenDetail, onOpenCompare, lang }) {
 
                   <div className="text-2xs text-slate-500 font-semibold flex items-center space-x-1">
                     <Building2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                    <span className="truncate">{(lang === 'mr' && s.government_mr) ? s.government_mr : (s.government || s.department || "Government of India")}</span>
+                    <span className="truncate">{getLocalizedDepartment(s.department || s.government, lang, s)}</span>
                   </div>
 
                   <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed font-medium">
@@ -424,7 +424,7 @@ export default function SchemeDirectory({ onOpenDetail, onOpenCompare, lang }) {
                 <div className="pt-3 border-t border-slate-100 space-y-3">
                   <div className="flex items-center justify-between">
                     <div>
-                      <div className="text-[10px] text-slate-400 font-medium">{lang === 'mr' ? 'आर्थिक लाभ' : lang === 'hi' ? 'वित्तीय लाभ' : 'Financial Benefit'}</div>
+                      <div className="text-[10px] text-slate-400 font-medium">{t.financialBenefitLabel || (lang === 'mr' ? 'आर्थिक लाभ' : lang === 'hi' ? 'वित्तीय लाभ' : 'Financial Benefit')}</div>
                       <div className="text-sm font-black text-emerald-800">{getSchemeBenefit(s, lang)}</div>
                     </div>
 
@@ -440,7 +440,7 @@ export default function SchemeDirectory({ onOpenDetail, onOpenCompare, lang }) {
                     onClick={() => onOpenDetail(s)}
                     className="w-full py-2.5 rounded-xl bg-slate-900 hover:bg-emerald-800 text-white font-bold text-xs shadow-sm flex items-center justify-center space-x-1 transition-all cursor-pointer"
                   >
-                    <span>{t.viewDeepDive || (lang === 'mr' ? 'सविस्तर तपशील पहा' : lang === 'hi' ? 'विस्तृत विवरण देखें' : 'View Deep-Dive Details')}</span>
+                    <span>{t.viewDeepDiveDetails || t.viewDeepDive || (lang === 'mr' ? 'सविस्तर तपशील पहा' : lang === 'hi' ? 'विस्तृत विवरण देखें' : 'View Deep-Dive Details')}</span>
                     <ExternalLink className="w-3.5 h-3.5" />
                   </button>
                 </div>

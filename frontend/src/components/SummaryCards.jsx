@@ -63,12 +63,20 @@ export default function SummaryCards({ results, lang }) {
           </div>
           {creditBenefit > 0 && (
             <div className="text-sm mt-1 text-emerald-100 font-medium leading-snug">
-              + ₹{creditBenefit.toLocaleString('en-IN')} Accessible Credit & Loans
+              {lang === 'mr'
+                ? `+ ₹${creditBenefit.toLocaleString('mr-IN')} उपलब्ध कृषी कर्ज व पतपुरवठा`
+                : (lang === 'hi'
+                  ? `+ ₹${creditBenefit.toLocaleString('en-IN')} उपलब्ध कृषि ऋण एवं साख`
+                  : `+ ₹${creditBenefit.toLocaleString('en-IN')} Accessible Credit & Loans`)}
             </div>
           )}
           {insuranceBenefit > 0 && (
             <div className="text-sm text-emerald-100 font-medium leading-snug">
-              + ₹{insuranceBenefit.toLocaleString('en-IN')} Risk Protection Cover
+              {lang === 'mr'
+                ? `+ ₹${insuranceBenefit.toLocaleString('mr-IN')} जोखीम संरक्षण कवच`
+                : (lang === 'hi'
+                  ? `+ ₹${insuranceBenefit.toLocaleString('en-IN')} जोखिम सुरक्षा कवर`
+                  : `+ ₹${insuranceBenefit.toLocaleString('en-IN')} Risk Protection Cover`)}
             </div>
           )}
         </div>
