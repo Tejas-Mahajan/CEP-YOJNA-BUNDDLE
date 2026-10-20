@@ -606,6 +606,7 @@ function MainAppContent() {
                         isEvaluating={isEvaluating}
                         matrixDocFilter={matrixDocFilter}
                         onResetFilters={() => setMatrixDocFilter(null)}
+                        onClearDocFilter={() => setMatrixDocFilter(null)}
                       />
                     </ErrorBoundary>
                   </>

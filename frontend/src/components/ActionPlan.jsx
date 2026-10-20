@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ExternalLink, Clock, FileCheck, AlertTriangle, ThumbsUp, ThumbsDown, Info, ChevronDown, ChevronUp, CheckCircle, Search, Sparkles, Bookmark, Filter, RefreshCw, Lightbulb } from 'lucide-react';
+import { ExternalLink, Clock, FileCheck, AlertTriangle, ThumbsUp, ThumbsDown, Info, ChevronDown, ChevronUp, CheckCircle, Search, Sparkles, Bookmark, Filter, RefreshCw, Lightbulb, X } from 'lucide-react';
 import { TRANSLATIONS, getSchemeName, getPriorityTierLabel, getSchemeDescription, getSchemeBenefit, getLocalizedDocumentName, getSchemeApplicationSteps, getLocalizedConflictReason, formatNumberByLang } from '../data/translations';
 import { useAuth } from '../context/AuthContext';
 import { formatDeadlineText, daysUntilClose } from '../utils/validation';
@@ -27,13 +27,39 @@ export function ActionPlanSkeleton() {
   );
 }
 
-export default function ActionPlan({ results, onOpenDetail, onOpenFeedback, onPrintReport, lang, isEvaluating, matrixDocFilter, onResetFilters }) {
+export default function ActionPlan({
+  results,
+  onOpenDetail,
+  onOpenFeedback,
+  onPrintReport,
+  lang,
+  isEvaluating,
+  matrixDocFilter,
+  onResetFilters,
+  onClearDocFilter,
+  selectedDocFilter,
+  docFilter,
+  setSelectedDocFilter,
+}) {
   const [filterTier, setFilterTier] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [expandedId, setExpandedId] = useState(null);
 
   const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
   const { toggleSaveScheme, isSchemeSaved, isAuthenticated, setIsAuthModalOpen } = useAuth();
+
+  const activeDocFilter = matrixDocFilter || selectedDocFilter || docFilter;
+
+  const handleClearDocFilter = (e) => {
+    if (e) e.stopPropagation();
+    if (onClearDocFilter) {
+      onClearDocFilter();
+    } else if (onResetFilters) {
+      onResetFilters();
+    } else if (setSelectedDocFilter) {
+      setSelectedDocFilter(null);
+    }
+  };
 
   if (isEvaluating) {
     return <ActionPlanSkeleton />;
@@ -53,7 +79,7 @@ export default function ActionPlan({ results, onOpenDetail, onOpenFeedback, onPr
       (s.shortName && s.shortName.toLowerCase().includes(searchQuery.toLowerCase()));
     
     // Matrix document filter
-    const matchesMatrixDoc = !matrixDocFilter || (s.required_documents && s.required_documents.includes(matrixDocFilter));
+    const matchesMatrixDoc = !activeDocFilter || (s.required_documents && s.required_documents.includes(activeDocFilter));
 
     return matchesTier && matchesQuery && matchesMatrixDoc;
   });
@@ -120,10 +146,23 @@ export default function ActionPlan({ results, onOpenDetail, onOpenFeedback, onPr
         {/* Filters */}
         <div className="flex flex-wrap items-center gap-3">
           
-          {matrixDocFilter && (
-            <div className="px-3 py-1.5 rounded-xl bg-amber-100 text-amber-900 font-bold text-xs border border-amber-300 flex items-center space-x-1">
+          {activeDocFilter && (
+            <div
+              onClick={handleClearDocFilter}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  handleClearDocFilter(e);
+                }
+              }}
+              title="Click to clear filter"
+              className="px-3 py-1.5 rounded-xl bg-amber-100 hover:bg-amber-200/80 transition-colors cursor-pointer text-amber-900 font-bold text-xs border border-amber-300 flex items-center space-x-1"
+            >
               <Filter className="w-3.5 h-3.5 text-amber-600" />
-              <span>{t.docFilterLabel || 'Doc Filter:'} {getLocalizedDocumentName(matrixDocFilter, lang)}</span>
+              <span>{t.docFilterLabel || 'Doc Filter:'} {getLocalizedDocumentName(activeDocFilter, lang)}</span>
+              <X className="w-3.5 h-3.5 ml-1.5" />
             </div>
           )}
 
