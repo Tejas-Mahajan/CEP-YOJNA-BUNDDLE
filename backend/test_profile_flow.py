@@ -23,7 +23,8 @@ def test_profile_end_to_end_flow():
     init_db()
 
     # 1. Signup New User (Blank profileAttributes)
-    test_email = f"profile.test.{int(os.times().system * 1000)}@example.com"
+    import uuid
+    test_email = f"profile.test.{uuid.uuid4().hex[:8]}@example.com"
     test_password = "CustomPassword123!"
 
     res_signup = client.post("/api/auth/signup", json={

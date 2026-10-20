@@ -24,7 +24,8 @@ def test_auth_pipeline():
     init_db()
 
     # 1. Test Signup with New Email (Expect 200 OK + Real Token)
-    test_email = f"test.farmer.{int(os.times().system * 1000)}@example.com"
+    import uuid
+    test_email = f"test.farmer.{uuid.uuid4().hex[:8]}@example.com"
     test_password = "SecurePassword123!"
 
     signup_payload = {

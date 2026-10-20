@@ -18,7 +18,7 @@ from sqlalchemy.orm import Session
 import urllib.parse
 
 from models import UserProfile, EvaluationResponse, FeedbackRequest, LoginRequest, SignupRequest, AuthResponse, ProfileUpdateRequest
-from models_db import User, Feedback, Scheme
+from models_db import User, Feedback, Scheme, CscOffice
 from db import get_db, init_db, SessionLocal
 from auth_utils import hash_password, verify_password, generate_jwt_token, decode_jwt_token
 from services.evaluator import evaluate_scheme_eligibility
@@ -217,6 +217,34 @@ def health_check():
 def get_all_schemes(db: Session = Depends(get_db)):
     schemes = load_schemes(db=db)
     return {"total": len(schemes), "schemes": schemes}
+
+@app.get("/api/csc-offices")
+def get_csc_offices(
+    district: Optional[str] = None,
+    search: Optional[str] = None,
+    db: Session = Depends(get_db)
+):
+    query = db.query(CscOffice)
+    if district and district.strip() and district.strip().lower() != "all":
+        query = query.filter(CscOffice.district.ilike(f"%{district.strip()}%"))
+
+    offices = query.all()
+    results = [office.to_dict() for office in offices]
+
+    if search and search.strip():
+        q = search.strip().lower()
+        results = [
+            o for o in results
+            if q in o["name"].lower()
+            or (o.get("name_mr") and q in o["name_mr"])
+            or (o.get("name_hi") and q in o["name_hi"])
+            or q in o["address"].lower()
+            or (o.get("address_mr") and q in o["address_mr"])
+            or (o.get("address_hi") and q in o["address_hi"])
+            or (o.get("pincode") and q in str(o["pincode"]))
+        ]
+
+    return {"total": len(results), "offices": results}
 
 @app.post("/api/auth/login", response_model=AuthResponse)
 def auth_login(req: LoginRequest, db: Session = Depends(get_db)):

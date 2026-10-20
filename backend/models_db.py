@@ -121,3 +121,67 @@ class Scheme(Base):
             "application_steps_mr": self.application_steps_mr or [],
             "official_url": self.official_url,
         }
+
+
+class CscOffice(Base):
+    __tablename__ = "csc_offices"
+
+    id = Column(String, primary_key=True)
+    name = Column(Text, nullable=False)
+    name_mr = Column(Text, nullable=True)
+    name_hi = Column(Text, nullable=True)
+    district = Column(String, nullable=False, index=True)
+    district_en = Column(String, nullable=True)
+    district_mr = Column(String, nullable=True)
+    district_hi = Column(String, nullable=True)
+    address = Column(Text, nullable=False)
+    address_mr = Column(Text, nullable=True)
+    address_hi = Column(Text, nullable=True)
+    exact_address = Column(Text, nullable=True)
+    pincode = Column(String, nullable=True, index=True)
+    officer_name = Column(Text, nullable=True)
+    officer_name_mr = Column(Text, nullable=True)
+    officer_name_hi = Column(Text, nullable=True)
+    phone = Column(String, nullable=True)
+    contact_phone = Column(String, nullable=True)
+    timing = Column(Text, nullable=True)
+    timing_mr = Column(Text, nullable=True)
+    timing_hi = Column(Text, nullable=True)
+    latitude = Column(Float, nullable=True)
+    longitude = Column(Float, nullable=True)
+    maps_url = Column(Text, nullable=True)
+    services_offered = Column(JSON().with_variant(JSONB(), "postgresql"), nullable=False, default=list)
+
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "name_mr": self.name_mr,
+            "name_hi": self.name_hi,
+            "district": self.district,
+            "district_en": self.district_en or f"{self.district} District",
+            "district_mr": self.district_mr,
+            "district_hi": self.district_hi,
+            "address": self.address,
+            "address_mr": self.address_mr,
+            "address_hi": self.address_hi,
+            "exactAddress": self.exact_address or self.address,
+            "pincode": self.pincode,
+            "officerName": self.officer_name,
+            "officerName_mr": self.officer_name_mr,
+            "officerName_hi": self.officer_name_hi,
+            "phone": self.phone,
+            "contactPhone": self.contact_phone or self.phone,
+            "timing": self.timing,
+            "timing_mr": self.timing_mr,
+            "timing_hi": self.timing_hi,
+            "latitude": self.latitude,
+            "longitude": self.longitude,
+            "lat": self.latitude,
+            "lng": self.longitude,
+            "mapsUrl": self.maps_url,
+            "servicesOffered": self.services_offered or [],
+        }
