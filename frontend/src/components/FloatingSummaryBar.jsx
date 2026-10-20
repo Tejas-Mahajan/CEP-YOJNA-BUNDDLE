@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, ArrowDown, Download, CheckCircle2, IndianRupee } from 'lucide-react';
-import { TRANSLATIONS } from '../data/translations';
+import { TRANSLATIONS, formatNumberByLang } from '../data/translations';
 
 export default function FloatingSummaryBar({ results, onScrollToPlan, onExportReport, lang }) {
   if (!results) return null;
@@ -35,7 +35,7 @@ export default function FloatingSummaryBar({ results, onScrollToPlan, onExportRe
                   {t.floatingTotalBenefit || "Total Financial Benefit Unlocked"}
                 </div>
                 <div className="text-lg sm:text-xl font-black bg-gradient-to-r from-amber-300 via-emerald-200 to-teal-200 bg-clip-text text-transparent">
-                  {benefitFormatted}
+                  {formatNumberByLang(benefitFormatted, lang)}
                 </div>
               </div>
             </div>
@@ -46,10 +46,10 @@ export default function FloatingSummaryBar({ results, onScrollToPlan, onExportRe
             <div className="hidden xs:flex items-center space-x-2">
               <span className="px-3 py-1.5 rounded-2xl bg-emerald-950 border border-emerald-600/50 text-emerald-300 text-xs font-extrabold flex items-center space-x-1">
                 <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-                <span>{totalSchemes} {t.schemesMatchedUnit || "Schemes Matched"}</span>
+                <span>{formatNumberByLang(totalSchemes, lang)} {t.schemesMatchedUnit || "Schemes Matched"}</span>
               </span>
               <span className="px-2.5 py-1 rounded-xl bg-slate-800 text-slate-300 text-2xs font-semibold border border-slate-700">
-                {readinessPct}% {t.readiness || "Ready"}
+                {formatNumberByLang(readinessPct, lang)}% {t.readiness || "Ready"}
               </span>
             </div>
 

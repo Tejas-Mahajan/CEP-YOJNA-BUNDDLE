@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ExternalLink, Clock, FileCheck, AlertTriangle, ThumbsUp, ThumbsDown, Info, ChevronDown, ChevronUp, CheckCircle, Search, Sparkles, Bookmark, Filter, RefreshCw, Lightbulb } from 'lucide-react';
-import { TRANSLATIONS, getSchemeName, getPriorityTierLabel, getSchemeDescription, getSchemeBenefit, getLocalizedDocumentName, getSchemeApplicationSteps, getLocalizedConflictReason } from '../data/translations';
+import { TRANSLATIONS, getSchemeName, getPriorityTierLabel, getSchemeDescription, getSchemeBenefit, getLocalizedDocumentName, getSchemeApplicationSteps, getLocalizedConflictReason, formatNumberByLang } from '../data/translations';
 import { useAuth } from '../context/AuthContext';
 import { formatDeadlineText, daysUntilClose } from '../utils/validation';
 
@@ -154,7 +154,7 @@ export default function ActionPlan({ results, onOpenDetail, onOpenFeedback, onPr
       <div className="space-y-4">
         <div className="flex items-center justify-between px-2">
           <h3 className="text-xl font-extrabold text-slate-900">
-            {t.actionPlanTitle} ({filteredRanked.length})
+            {t.actionPlanTitle} ({formatNumberByLang(filteredRanked.length, lang)})
           </h3>
           <span className="text-xs text-slate-500 font-semibold hidden sm:inline">
             {t.actionPlanDesc}
@@ -250,7 +250,7 @@ export default function ActionPlan({ results, onOpenDetail, onOpenFeedback, onPr
                         ? 'bg-amber-500 text-white'
                         : 'bg-slate-200 text-slate-700'
                     }`}>
-                      #{index + 1}
+                      #{formatNumberByLang(index + 1, lang)}
                     </div>
 
                     <div className="space-y-1.5 min-w-0 flex-1">
@@ -273,7 +273,7 @@ export default function ActionPlan({ results, onOpenDetail, onOpenFeedback, onPr
                         </span>
 
                         <span className="text-[11px] font-semibold text-slate-500">
-                          {t.scoreLabel || 'Score:'} <span className="text-emerald-800 font-extrabold">{item.composite_score}/100</span>
+                          {t.scoreLabel || 'Score:'} <span className="text-emerald-800 font-extrabold">{formatNumberByLang(item.composite_score, lang)}/{formatNumberByLang(100, lang)}</span>
                         </span>
                       </div>
 
@@ -369,7 +369,7 @@ export default function ActionPlan({ results, onOpenDetail, onOpenFeedback, onPr
                       {/* Document Readiness Breakdown */}
                       <div>
                         <h5 className="text-xs font-bold text-slate-700 uppercase tracking-wider mb-2 flex items-center">
-                          <FileCheck className="w-4 h-4 mr-1.5 text-emerald-600" /> {t.requiredDocs} ({item.owned_documents_count}/{item.total_documents_count} {t.ready})
+                          <FileCheck className="w-4 h-4 mr-1.5 text-emerald-600" /> {t.requiredDocs} ({formatNumberByLang(item.owned_documents_count, lang)}/{formatNumberByLang(item.total_documents_count, lang)} {t.ready})
                         </h5>
                         <div className="space-y-1.5">
                           {(s.required_documents || []).map((doc, dIdx) => {

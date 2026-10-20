@@ -8,7 +8,8 @@ import {
   getPriorityTierLabel,
   getLocalizedCategory,
   getLocalizedState,
-  getLocalizedConflictReason
+  getLocalizedConflictReason,
+  formatNumberByLang
 } from '../data/translations';
 import { formatDeadlineText } from '../utils/validation';
 
@@ -74,24 +75,24 @@ export default function ExportReport({ results, profile, onBack, lang }) {
         <div className="p-6 rounded-2xl bg-emerald-900 text-white flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <div className="text-xs font-semibold text-emerald-300">{t.totalBenefitLabel}</div>
-            <div className="text-3xl font-extrabold text-amber-400">{results.formatted_potential_benefit || `₹${(results.total_benefits?.direct || results.total_potential_benefit || 0).toLocaleString('en-IN')}`}</div>
+            <div className="text-3xl font-extrabold text-amber-400">{formatNumberByLang(results.formatted_potential_benefit || `₹${(results.total_benefits?.direct || results.total_potential_benefit || 0).toLocaleString('en-IN')}`, lang)}</div>
             {results.total_benefits && (results.total_benefits.credit > 0 || results.total_benefits.insurance > 0) && (
               <div className="mt-1.5 space-y-0.5 text-xs text-emerald-200 font-medium">
                 {results.total_benefits.credit > 0 && (
                   <div>
                     {lang === 'mr'
-                      ? `+ ₹${results.total_benefits.credit.toLocaleString('mr-IN')} उपलब्ध कृषी कर्ज व पतपुरवठा`
+                      ? `+ ₹${formatNumberByLang(results.total_benefits.credit.toLocaleString('en-IN'), lang)} उपलब्ध कृषी कर्ज व पतपुरवठा`
                       : (lang === 'hi'
-                        ? `+ ₹${results.total_benefits.credit.toLocaleString('en-IN')} उपलब्ध कृषि ऋण एवं साख`
+                        ? `+ ₹${formatNumberByLang(results.total_benefits.credit.toLocaleString('en-IN'), lang)} उपलब्ध कृषि ऋण एवं साख`
                         : `+ ₹${results.total_benefits.credit.toLocaleString('en-IN')} Accessible Credit & Loans`)}
                   </div>
                 )}
                 {results.total_benefits.insurance > 0 && (
                   <div>
                     {lang === 'mr'
-                      ? `+ ₹${results.total_benefits.insurance.toLocaleString('mr-IN')} जोखीम संरक्षण कवच`
+                      ? `+ ₹${formatNumberByLang(results.total_benefits.insurance.toLocaleString('en-IN'), lang)} जोखीम संरक्षण कवच`
                       : (lang === 'hi'
-                        ? `+ ₹${results.total_benefits.insurance.toLocaleString('en-IN')} जोखिम सुरक्षा कवर`
+                        ? `+ ₹${formatNumberByLang(results.total_benefits.insurance.toLocaleString('en-IN'), lang)} जोखिम सुरक्षा कवर`
                         : `+ ₹${results.total_benefits.insurance.toLocaleString('en-IN')} Risk Protection Cover`)}
                   </div>
                 )}
@@ -99,8 +100,8 @@ export default function ExportReport({ results, profile, onBack, lang }) {
             )}
           </div>
           <div className="text-right text-xs">
-            <div><strong className="text-lg">{results.total_eligible_schemes}</strong> {t.schemesMatchedUnit || t.schemesUnit || "Eligible Schemes"}</div>
-            <div className="text-emerald-200">{t.docReadinessLabel}: {results.document_readiness_pct}%</div>
+            <div><strong className="text-lg">{formatNumberByLang(results.total_eligible_schemes, lang)}</strong> {t.schemesMatchedUnit || t.schemesUnit || "Eligible Schemes"}</div>
+            <div className="text-emerald-200">{t.docReadinessLabel}: {formatNumberByLang(results.document_readiness_pct, lang)}%</div>
           </div>
         </div>
 

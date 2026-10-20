@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Bookmark, LogOut, ChevronDown, X } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import { TRANSLATIONS } from '../data/translations';
+import { TRANSLATIONS, formatNumberByLang } from '../data/translations';
 
 export default function WelcomeBar({ onSelectScheme, allSchemes = [], lang, onLogout }) {
   const { user, logout, savedSchemes, savedSchemesCount, isAuthenticated, setIsProfileModalOpen } = useAuth();
@@ -55,7 +55,7 @@ export default function WelcomeBar({ onSelectScheme, allSchemes = [], lang, onLo
               className="inline-flex items-center space-x-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-400/40 transition-all cursor-pointer"
             >
               <Bookmark className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-              <span>{t.savedSchemesNav || 'Saved Schemes'}: <strong>{savedSchemesCount}</strong></span>
+              <span>{t.savedSchemesNav || 'Saved Schemes'}: <strong>{formatNumberByLang(savedSchemesCount, lang)}</strong></span>
             </button>
           </div>
 
@@ -94,7 +94,7 @@ export default function WelcomeBar({ onSelectScheme, allSchemes = [], lang, onLo
               <div className="flex items-center justify-between border-b border-slate-100 pb-4 mb-4">
                 <div className="flex items-center space-x-2">
                   <Bookmark className="w-5 h-5 text-amber-500 fill-amber-400" />
-                  <h3 className="text-lg font-bold text-slate-900">{t.savedSchemesNav || 'Saved Schemes'} ({savedSchemesCount})</h3>
+                  <h3 className="text-lg font-bold text-slate-900">{t.savedSchemesNav || 'Saved Schemes'} ({formatNumberByLang(savedSchemesCount, lang)})</h3>
                 </div>
                 <button
                   onClick={() => setShowSavedModal(false)}

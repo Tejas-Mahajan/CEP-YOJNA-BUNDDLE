@@ -1,8 +1,6 @@
-/**
- * Frontend Validation Module for YojanaBundle Profile Data
- * Scoped to Agriculture and Farming Profile Inputs
- * Supports Multi-Language Localization (en, mr, hi)
- */
+import { formatNumberByLang } from '../data/translations';
+
+
 
 export function validateProfile(profile, lang = 'en') {
   if (!profile) return { isValid: true, errors: {} };
@@ -123,7 +121,7 @@ export function formatDeadlineText(closingDateStr, lang = 'en') {
   }
 
   // > 0 → active countdown
-  if (lang === 'mr') return `मुदत: ${days} दिवस`;
-  if (lang === 'hi') return `समय सीमा: ${days} दिन`;
+  if (lang === 'mr') return `मुदत: ${formatNumberByLang(days, lang)} दिवस`;
+  if (lang === 'hi') return `समय सीमा: ${formatNumberByLang(days, lang)} दिन`;
   return `Closes in ${days} Days`;
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import { IndianRupee, Award, FileCheck2, TrendingUp } from 'lucide-react';
-import { TRANSLATIONS } from '../data/translations';
+import { TRANSLATIONS, formatNumberByLang } from '../data/translations';
 
 export default function SummaryCards({ results, lang }) {
   if (!results) return null;
@@ -59,23 +59,23 @@ export default function SummaryCards({ results, lang }) {
         </div>
         <div className="mt-4">
           <div className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white drop-shadow-sm">
-            ₹{directBenefit.toLocaleString('en-IN')}
+            ₹{formatNumberByLang(directBenefit.toLocaleString('en-IN'), lang)}
           </div>
           {creditBenefit > 0 && (
             <div className="text-sm mt-1 text-emerald-100 font-medium leading-snug">
               {lang === 'mr'
-                ? `+ ₹${creditBenefit.toLocaleString('mr-IN')} उपलब्ध कृषी कर्ज व पतपुरवठा`
+                ? `+ ₹${formatNumberByLang(creditBenefit.toLocaleString('en-IN'), lang)} उपलब्ध कृषी कर्ज व पतपुरवठा`
                 : (lang === 'hi'
-                  ? `+ ₹${creditBenefit.toLocaleString('en-IN')} उपलब्ध कृषि ऋण एवं साख`
+                  ? `+ ₹${formatNumberByLang(creditBenefit.toLocaleString('en-IN'), lang)} उपलब्ध कृषि ऋण एवं साख`
                   : `+ ₹${creditBenefit.toLocaleString('en-IN')} Accessible Credit & Loans`)}
             </div>
           )}
           {insuranceBenefit > 0 && (
             <div className="text-sm text-emerald-100 font-medium leading-snug">
               {lang === 'mr'
-                ? `+ ₹${insuranceBenefit.toLocaleString('mr-IN')} जोखीम संरक्षण कवच`
+                ? `+ ₹${formatNumberByLang(insuranceBenefit.toLocaleString('en-IN'), lang)} जोखीम संरक्षण कवच`
                 : (lang === 'hi'
-                  ? `+ ₹${insuranceBenefit.toLocaleString('en-IN')} जोखिम सुरक्षा कवर`
+                  ? `+ ₹${formatNumberByLang(insuranceBenefit.toLocaleString('en-IN'), lang)} जोखिम सुरक्षा कवर`
                   : `+ ₹${insuranceBenefit.toLocaleString('en-IN')} Risk Protection Cover`)}
             </div>
           )}
@@ -92,11 +92,11 @@ export default function SummaryCards({ results, lang }) {
         </div>
         <div className="mt-4">
           <div className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
-            {total_eligible_schemes} <span className="text-lg font-semibold text-slate-500">{t.schemesUnit || 'Schemes'}</span>
+            {formatNumberByLang(total_eligible_schemes, lang)} <span className="text-lg font-semibold text-slate-500">{t.schemesUnit || 'Schemes'}</span>
           </div>
           <div className="flex items-center space-x-2 text-xs font-semibold mt-2">
             <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200">
-              ⚡ {highPriorityCount} {t.highPriority}
+              ⚡ {formatNumberByLang(highPriorityCount, lang)} {t.highPriority}
             </span>
             <span className="text-slate-500">{t.readyToApply}</span>
           </div>
@@ -113,7 +113,7 @@ export default function SummaryCards({ results, lang }) {
         </div>
         <div className="mt-4">
           <div className="flex items-baseline space-x-2">
-            <span className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">{document_readiness_pct}%</span>
+            <span className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">{formatNumberByLang(document_readiness_pct, lang)}%</span>
             <span className="text-xs font-bold text-emerald-600">{t.readiness}</span>
           </div>
           
